@@ -1,0 +1,15 @@
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\Diabetia.API.exe
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\appsettings.Development.json
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\appsettings.json
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\Diabetia.API.dll
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\Diabetia.API.deps.json
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\Diabetia.API.runtimeconfig.json
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\Diabetia.API.pdb
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\Microsoft.OpenApi.dll
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\Diabetia.Application.dll
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\Diabetia.Domain.dll
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\Diabetia.Application.pdb
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\out\Diabetia.Domain.pdb

@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "Diabetia.Application/1.0.0": {
+        "dependencies": {
+          "Diabetia.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Diabetia.Application.dll": {}
+        }
+      },
+      "Diabetia.Domain/1.0.0": {
+        "runtime": {
+          "Diabetia.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Diabetia.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Diabetia.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "StlclRy+NTWlGmtMLYoN3iEixYMowianrsGhs+mXUavE4JQ6DwbHnkHN7c/+/rpNdS9Yy1Z9Q7ZXK2YLa0MDwA==",
+  "success": false,
+  "projectFilePath": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Test\\Diabetia.Test.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1301",
+      "level": "Error",
+      "message": "No se puede cargar el índice de servicio para el origen https://api.nuget.org/v3/index.json.",
+      "libraryId": "NUnit.Analyzers"
+    },
+    {
+      "code": "NU1301",
+      "level": "Error",
+      "message": "No se puede cargar el índice de servicio para el origen https://api.nuget.org/v3/index.json.",
+      "libraryId": "NUnit"
+    }
+  ]
+}
