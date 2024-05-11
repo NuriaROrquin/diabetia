@@ -6109,19 +6109,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Nuri\\.nuget\\packages\\": {}
+    "C:\\Users\\Leafnoise\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Test\\Diabetia.Test.csproj",
+      "projectUniqueName": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Test\\Diabetia.Test.csproj",
       "projectName": "Diabetia.Test",
-      "projectPath": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Test\\Diabetia.Test.csproj",
-      "packagesPath": "C:\\Users\\Nuri\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Test\\obj\\",
+      "projectPath": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Test\\Diabetia.Test.csproj",
+      "packagesPath": "C:\\Users\\Leafnoise\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Test\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Nuri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Leafnoise\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6184,7 +6184,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }

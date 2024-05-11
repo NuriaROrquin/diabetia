@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.API\\Diabetia.API.csproj": {}
+    "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.API\\Diabetia.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.API\\Diabetia.API.csproj": {
+    "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.API\\Diabetia.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.API\\Diabetia.API.csproj",
+        "projectUniqueName": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.API\\Diabetia.API.csproj",
         "projectName": "Diabetia.API",
-        "projectPath": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.API\\Diabetia.API.csproj",
-        "packagesPath": "C:\\Users\\Nuri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.API\\obj\\",
+        "projectPath": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.API\\Diabetia.API.csproj",
+        "packagesPath": "C:\\Users\\Leafnoise\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Nuri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Leafnoise\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +28,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Application\\Diabetia.Application.csproj": {
-                "projectPath": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Application\\Diabetia.Application.csproj"
+              "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Application\\Diabetia.Application.csproj": {
+                "projectPath": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Application\\Diabetia.Application.csproj"
               }
             }
           }
@@ -72,21 +72,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Application\\Diabetia.Application.csproj": {
+    "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Application\\Diabetia.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Application\\Diabetia.Application.csproj",
+        "projectUniqueName": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Application\\Diabetia.Application.csproj",
         "projectName": "Diabetia.Application",
-        "projectPath": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Application\\Diabetia.Application.csproj",
-        "packagesPath": "C:\\Users\\Nuri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Application\\obj\\",
+        "projectPath": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Application\\Diabetia.Application.csproj",
+        "packagesPath": "C:\\Users\\Leafnoise\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Nuri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Leafnoise\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -100,8 +100,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Domain\\Diabetia.Domain.csproj": {
-                "projectPath": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Domain\\Diabetia.Domain.csproj"
+              "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Domain\\Diabetia.Domain.csproj": {
+                "projectPath": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Domain\\Diabetia.Domain.csproj"
               }
             }
           }
@@ -131,21 +131,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Domain\\Diabetia.Domain.csproj": {
+    "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Domain\\Diabetia.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Domain\\Diabetia.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Domain\\Diabetia.Domain.csproj",
         "projectName": "Diabetia.Domain",
-        "projectPath": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Domain\\Diabetia.Domain.csproj",
-        "packagesPath": "C:\\Users\\Nuri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Domain\\obj\\",
+        "projectPath": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Domain\\Diabetia.Domain.csproj",
+        "packagesPath": "C:\\Users\\Leafnoise\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Nuri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Leafnoise\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -186,7 +186,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

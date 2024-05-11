@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "P28el0xqIX1+n6+xv/gK5P/DO9mIKvpuLKFL4Q43MVe9CcUPpXc81AAVDPOOJWopXm7EzbWwueuUGN4ZAry81g==",
+  "dgSpecHash": "KaqAInWAxy4y+IDvrdOMZcJVH4JjrL59fvo79/rLBdk7lH4KLy8GRO8k6b0uoCeUmc9E1vshtANzRtYetrqMAQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Nuri\\Git\\diabetia\\backend\\Diabetia\\Diabetia.Infrastructure\\Diabetia.Infrastructure.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Infrastructure\\Diabetia.Infrastructure.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Leafnoise\\.nuget\\packages\\amazon.extensions.cognitoauthentication\\2.5.4\\amazon.extensions.cognitoauthentication.2.5.4.nupkg.sha512",
+    "C:\\Users\\Leafnoise\\.nuget\\packages\\awssdk.cognitoidentity\\3.7.300.74\\awssdk.cognitoidentity.3.7.300.74.nupkg.sha512",
+    "C:\\Users\\Leafnoise\\.nuget\\packages\\awssdk.cognitoidentityprovider\\3.7.305.2\\awssdk.cognitoidentityprovider.3.7.305.2.nupkg.sha512",
+    "C:\\Users\\Leafnoise\\.nuget\\packages\\awssdk.core\\3.7.303.29\\awssdk.core.3.7.303.29.nupkg.sha512",
+    "C:\\Users\\Leafnoise\\.nuget\\packages\\awssdk.securitytoken\\3.7.300.75\\awssdk.securitytoken.3.7.300.75.nupkg.sha512"
+  ],
   "logs": []
 }
