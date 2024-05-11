@@ -1,48 +1,57 @@
 ﻿using Amazon;
 using Amazon.CognitoIdentityProvider;
-using Amazon.Extensions.CognitoAuthentication;
-using System;
-using System.Collections.Generic;
+using Amazon.CognitoIdentityProvider.Model;
+using System.Configuration;
 
-namespace Diabetia.Infrastructure.Providers
+namespace Infraestructura.Provider
 {
-    class Program
+    public class Cognito
     {
-        static async Task Main(string[] args)
+        private readonly AmazonCognitoIdentityProviderClient _cognitoClient;
+        private readonly string _poolId = "us-east-2_jec9xbm7c";
+        private readonly string _clientId = "182096272230";
+        private readonly RegionEndpoint _region = RegionEndpoint.USEast2;
+        private string awsAccessKey = ConfigurationManager.AppSettings["AWSAccessKey"];
+        private string awsSecretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
+
+        public Cognito(string poolId, string clientId, RegionEndpoint region)
         {
-            // Credenciales de tu aplicación Cognito
-            string UserPoolId = "us-east-2_jec9xbm7c";
-            string ClientId = "182096272230";
+            _poolId = poolId;
+            _clientId = clientId;
+            _region = region;
 
-            // Configuración de la región de AWS
-            var region = RegionEndpoint.USWest2; // Cambia esto a tu región específica
+            _cognitoClient = new AmazonCognitoIdentityProviderClient(region);
+        }
 
-            // Datos de inicio de sesión del usuario
-            string username = "FacuFagnano";
-            string password = "diabetiaDEV1";
-
-            // Configurar el proveedor de identidad de Cognito
-            var provider = new AmazonCognitoIdentityProviderClient(region);
-
-            // Configurar el objeto de autenticación de Cognito
-            var userPool = new CognitoUserPool(UserPoolId, ClientId, provider);
-
-            // Iniciar sesión con el nombre de usuario y la contraseña
-            var user = new CognitoUser(username, ClientId, userPool, provider);
-            var authRequest = new InitiateSrpAuthRequest()
+        // Este metodo autentica usuarios
+        public async Task<string> AuthenticateUserAsync(string username, string password)
+        {
+            var request = new InitiateAuthRequest
             {
-                Password = password
+                AuthFlow = AuthFlowType.USER_PASSWORD_AUTH,
+                AuthParameters = new Dictionary<string, string>
+                {
+                    { "USERNAME", username },
+                    { "PASSWORD", password }
+                },
+                ClientId = _clientId
             };
 
             try
             {
-                var authResponse = await user.StartWithSrpAuthAsync(authRequest).ConfigureAwait(false);
-                Console.WriteLine("Inicio de sesión exitoso.");
+                var response = await _cognitoClient.InitiateAuthAsync(request);
+                return response.AuthenticationResult.AccessToken;
+            }
+            catch (NotAuthorizedException e)
+            {
+                throw new Exception("La autenticación ha fallado. Mensaje de error: " + e.Message);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al iniciar sesión: {ex.Message}");
+                throw new Exception("Error al autenticar al usuario: " + ex.Message);
             }
         }
+
+        // Este metodo registra usuario usuario
     }
 }
