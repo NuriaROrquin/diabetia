@@ -12,6 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Amazon.Extensions.CognitoAuthentication" Version="2.5.4" />
+    <PackageReference Include="AWSSDK.CognitoIdentityProvider" Version="3.7.305.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Diabetia.Domain\Diabetia.Domain.csproj" />
   </ItemGroup>
 

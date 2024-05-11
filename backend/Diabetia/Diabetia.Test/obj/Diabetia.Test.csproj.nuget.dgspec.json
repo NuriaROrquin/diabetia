@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Test\\Diabetia.Test.csproj": {}
+    "C:\\Users\\admin\\Documents\\tpi\\diabetia\\backend\\Diabetia\\Diabetia.Test\\Diabetia.Test.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Test\\Diabetia.Test.csproj": {
+    "C:\\Users\\admin\\Documents\\tpi\\diabetia\\backend\\Diabetia\\Diabetia.Test\\Diabetia.Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Test\\Diabetia.Test.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Documents\\tpi\\diabetia\\backend\\Diabetia\\Diabetia.Test\\Diabetia.Test.csproj",
         "projectName": "Diabetia.Test",
-        "projectPath": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Test\\Diabetia.Test.csproj",
-        "packagesPath": "C:\\Users\\Leafnoise\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Leafnoise\\Desktop\\UNLaM\\TPI\\diabetia\\backend\\Diabetia\\Diabetia.Test\\obj\\",
+        "projectPath": "C:\\Users\\admin\\Documents\\tpi\\diabetia\\backend\\Diabetia\\Diabetia.Test\\Diabetia.Test.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\admin\\Documents\\tpi\\diabetia\\backend\\Diabetia\\Diabetia.Test\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Leafnoise\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -77,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }
