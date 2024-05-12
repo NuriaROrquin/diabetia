@@ -10,8 +10,10 @@ module.exports = {
       colors: {
         "blue-primary": "#648ECA",
         "blue-secondary": "#5D89C8",
+        "blue-focus": "#80a8e1",
         "orange-primary": "#E6B663",
         "orange-secondary": "#dc961b",
+        "orange-focus": "#e89f23",
         "gray-primary": "#333",
         "gray-secondary": "#c6c6c6",
       },
@@ -23,12 +25,16 @@ module.exports = {
       backgroundColor: {
         "blue-primary": "#648ECA",
         "blue-secondary": "#5D89C8",
+        "blue-focus": "#80a8e1",
+        "orange-primary": "#E6B663",
+        "orange-secondary": "#dc961b",
         "gray-primary": "#333",
         "gray-secondary": "#c6c6c6",
       },
       textColor: {
         "blue-primary": "#648ECA",
         "blue-secondary": "#5D89C8",
+        "blue-focus": "#80a8e1",
         "orange-primary": "#E6B663",
         "orange-secondary": "#dc961b",
         "gray-primary": "#333",
