@@ -42,7 +42,10 @@ namespace Diabetia.API.Controllers
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Expires = DateTime.UtcNow.AddHours(1)
+                Expires = DateTime.UtcNow.AddDays(7),
+                SameSite = SameSiteMode.None,
+                Secure = true,
+                Path = "/"
             };
 
             Response.Cookies.Append("jwt", jwt, cookieOptions);

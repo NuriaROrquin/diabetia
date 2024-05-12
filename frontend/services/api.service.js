@@ -1,16 +1,11 @@
 import axios from "axios";
+import {redirect} from "next/navigation";
 
 export const login = (email, password) => {
-    axios
+    return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-            {email, password},
-            {withCredentials: true}
-        )
-        .then(({data}) => {
-            console.log(data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            { email, password },
+            { withCredentials: true }
+        );
 }

@@ -4,13 +4,23 @@ import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
 import {ButtonBlue} from "../../../components/button";
 import {CustomLink} from "../../../components/link";
 import {login} from "../../../services/api.service";
+import {useRouter} from "next/router";
 
 export const Login = () => {
+
+    const router = useRouter();
 
     const onHandleClick = () => {
         const email = document.getElementById("email").value;
         const password = document.getElementById("contrasena").value;
-        login(email, password);
+        login(email, password)
+            .then(() => {
+                console.log("Login exitoso");
+                router.push(`/dashboard`)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     return (
