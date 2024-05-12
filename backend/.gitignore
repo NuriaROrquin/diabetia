@@ -1,6 +1,6 @@
-backend\Diabetia\Diabetia.API\bin\*
-backend\Diabetia\Diabetia.API\obj\*
-backend\Diabetia\.vs\*
+Diabetia\Diabetia.API\bin\*
+Diabetia\Diabetia.API\obj\*
+Diabetia\.vs\*
 
 Debug/
 Release/
