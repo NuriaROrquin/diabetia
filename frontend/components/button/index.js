@@ -1,6 +1,6 @@
-export const ButtonBlue = ({label, width, onClick}) => {
+export const ButtonBlue = ({label, width, onClick, className}) => {
     return (
-        <div className={`flex justify-center ${width}`}>
+        <div className={`flex justify-center ${width} ${className}`}>
             <button
                 onClick={onClick}
                 className="bg-blue-primary hover:bg-blue-focus transition-all text-white py-2 px-8 rounded-full w-full"

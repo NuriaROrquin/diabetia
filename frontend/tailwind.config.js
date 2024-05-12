@@ -15,7 +15,7 @@ module.exports = {
         "orange-secondary": "#dc961b",
         "orange-focus": "#e89f23",
         "gray-primary": "#333",
-        "gray-secondary": "#c6c6c6",
+        "gray-secondary": "#b1b1b1",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -29,7 +29,7 @@ module.exports = {
         "orange-primary": "#E6B663",
         "orange-secondary": "#dc961b",
         "gray-primary": "#333",
-        "gray-secondary": "#c6c6c6",
+        "gray-secondary": "#b1b1b1",
       },
       textColor: {
         "blue-primary": "#648ECA",
@@ -38,7 +38,7 @@ module.exports = {
         "orange-primary": "#E6B663",
         "orange-secondary": "#dc961b",
         "gray-primary": "#333",
-        "gray-secondary": "#c6c6c6",
+        "gray-secondary": "#b1b1b1",
       },
       minHeight: {
         "80": "80vh"
