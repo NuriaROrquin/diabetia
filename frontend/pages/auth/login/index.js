@@ -3,11 +3,14 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
 import {ButtonBlue} from "../../../components/button";
 import {CustomLink} from "../../../components/link";
+import {login} from "../../../services/api.service";
 
 export const Login = () => {
 
     const onHandleClick = () => {
-        console.log("onHandleClick");
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("contrasena").value;
+        login(email, password);
     }
 
     return (
