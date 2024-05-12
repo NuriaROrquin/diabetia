@@ -1,6 +1,6 @@
-/Diabetia.API/bin/
-/Diabetia.API/obj/
-/Diabetia/.vs/
+/Diabetia.API/bin
+/Diabetia.API/obj
+/Diabetia/.vs
 
 Debug/
 Release/
