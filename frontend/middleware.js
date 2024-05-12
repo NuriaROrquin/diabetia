@@ -17,7 +17,7 @@ export function middleware(request){
     }
 
     //Si entra a una ruta autenticada y tiene usuario, redirije al dashboard y sino, lo deja pasar
-    if (authRoutes.startsWith(request.nextUrl.pathname)) {
+    if (authRoutes.includes(request.nextUrl.pathname)) {
         return currentUser
             ? NextResponse.redirect(new URL('/dashboard', request.url))
             : NextResponse.next();
