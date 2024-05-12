@@ -1,5 +1,5 @@
-backend/Diabetia/Diabetia.API/bin/*
-backend/Diabetia/Diabetia.API/obj/*
+backend\Diabetia\Diabetia.API\bin\*
+backend\Diabetia\Diabetia.API\obj\*
 backend\Diabetia\.vs\*
 
 Debug/
