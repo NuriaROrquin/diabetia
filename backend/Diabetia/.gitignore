@@ -1,6 +1,12 @@
 # Carpeta de resultados de compilación
-bin/
-obj/
+Diabetia.API/bin
+Diabetia.API/obj
+Diabetia.Application/bin
+Diabetia.Application/obj
+Diabetia.Infrastructure/bin
+Diabetia.Infrastructure/obj
+Diabetia.Domain/bin
+Diabetia.Domain/obj
 
 # Carpetas de artefactos de compilación
 Debug/
