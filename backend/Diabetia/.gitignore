@@ -1,7 +1,8 @@
-/Diabetia.API/bin
-/Diabetia.API/obj
-/Diabetia/.vs
+# Carpeta de resultados de compilación
+bin/
+obj/
 
+# Carpetas de artefactos de compilación
 Debug/
 Release/
 
