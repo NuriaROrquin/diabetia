@@ -1,8 +1,8 @@
 export const Home = () => {
     return (
-        <div>
+        <section className="w-full min-h-screen">
             <h1>Dashboard</h1>
-        </div>
+        </section>
     )
 }
 
