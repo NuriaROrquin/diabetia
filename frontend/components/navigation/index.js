@@ -1,9 +1,26 @@
 import Link from "next/link";
 import Image from "next/image";
+import {useEffect, useState} from "react";
 
 export const Navigation = () => {
+
+    const [scrolling, setScrolling] = useState(false);
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const handleScroll = () => {
+        if (window.scrollY > 20) {
+            setScrolling(true);
+        } else {
+            setScrolling(false);
+        }
+    };
+
     return (
-        <nav id="header" className="fixed w-full z-30 top-0 text-white">
+        <nav id="header" className={`fixed w-full z-30 top-0 text-white transition-all ${scrolling && 'bg-blue-primary'} `}>
             <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
                 <div className="pl-4 flex items-center">
                     <Link className="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
