@@ -57,7 +57,7 @@ export const Navigation = () => {
 
                         <div className={`${openUserMenu ? 'text-opacity-100' : 'opacity-0'} absolute top-10 transition-all delay-0 ease-in-out`}>
                             {openUserMenu &&
-                                <div className={`rounded-2xl p-4 bg-white`}>
+                                <div className={`rounded-2xl p-4 bg-white shadow-2xl`}>
                                     <ul className={`flex flex-col`}>
                                         <li className="mb-6 text-sm text-blue-secondary">
                                             <Link href="/profile">Mi perfil</Link>

@@ -51,3 +51,8 @@ body {
 
   border-bottom: 5px solid black;
 }
+
+.container {
+  max-width: 80%;
+  margin: 0 auto;
+}
