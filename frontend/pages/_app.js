@@ -6,7 +6,6 @@ import {Footer} from "../components/footer";
 
 export default function App({ Component, pageProps }) {
     const router = useRouter();
-    console.log(router.route)
 
     const isLogged = !router.route.startsWith('/auth');
     return(
