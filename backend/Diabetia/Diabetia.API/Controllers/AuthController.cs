@@ -42,9 +42,9 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var res = _loginUseCase.Register(request.userName, request.email, request.password);
+            var res = await _loginUseCase.Register(request.userName, request.email, request.password);
 
             return Ok(res);
         }

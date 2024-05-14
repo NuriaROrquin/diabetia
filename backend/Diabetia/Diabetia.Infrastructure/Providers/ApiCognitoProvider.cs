@@ -40,7 +40,6 @@ namespace Infraestructura.Provider
         public async Task<string> RegisterUserAsync(string username, string password, string email)
         {
             
-
             var userAttributes = new Dictionary<string, string> {
                     { "email", email }
                 };
