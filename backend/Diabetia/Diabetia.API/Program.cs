@@ -1,5 +1,6 @@
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Services;
+using Diabetia.Infrastructure.Providers;
 using Infraestructura.Provider;
 
 var builder = WebApplication.CreateBuilder(args);
