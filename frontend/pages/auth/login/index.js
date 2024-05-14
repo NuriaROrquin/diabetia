@@ -1,6 +1,6 @@
 import {Input} from "../../../components/input";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
+import {EmailOutlined} from "@mui/icons-material";
 import {ButtonBlue} from "../../../components/button";
 import {CustomLink} from "../../../components/link";
 import {login} from "../../../services/api.service";
@@ -33,7 +33,7 @@ export const Login = () => {
                 </div>
 
                 <div className="flex flex-col w-1/2 mb-6">
-                    <Input type="text" placeholder="Email" id="email" width="w-full" icon={<EmailOutlinedIcon/>}/>
+                    <Input type="text" placeholder="Email" id="email" width="w-full" icon={<EmailOutlined/>}/>
                     <Input type="password" placeholder="Contraseña" id="contrasena" width="w-full"
                            icon={<KeyOutlinedIcon/>}/>
                 </div>
