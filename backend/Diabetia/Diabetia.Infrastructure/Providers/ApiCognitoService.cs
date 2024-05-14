@@ -22,8 +22,6 @@ namespace Infraestructura.Provider
         public ApiCognitoService(RegionEndpoint region)
         {
             _region = region;
-
-
             _cognitoClient = new AmazonCognitoIdentityProviderClient(region);
 
             _cognitoUserPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient);

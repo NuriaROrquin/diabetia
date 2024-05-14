@@ -6,3 +6,5 @@ namespace Diabetia.API
         public string password { get; set; }    
     }
 }
+
+// Cambiar esto a recibir un email. 
