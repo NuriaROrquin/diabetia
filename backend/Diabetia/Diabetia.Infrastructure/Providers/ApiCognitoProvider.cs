@@ -2,35 +2,44 @@
 using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using Amazon.Extensions.CognitoAuthentication;
-using System.Collections.Generic;
+using Diabetia.Domain.Services;
 using System.Configuration;
 using System.Net;
 
 namespace Infraestructura.Provider
 {
-    public class ApiCognitoService
+    public class ApiCognitoProvider : IApiCognitoProvider
     {
         private readonly AmazonCognitoIdentityProviderClient _cognitoClient;
         private readonly string _userPoolId = "us-east-2_jec9xbm7c";
         private readonly string _clientId = "7amuqfrhahhpgnfar29o1fk0u9";
+        private readonly string _clientSecret = "71mbrja4bf4oveoa2cgl7bhtpnjp5p2e6h7gtu99ubeiohskks3";
         private readonly RegionEndpoint _region = RegionEndpoint.USEast2;
         private CognitoUserPool _cognitoUserPool;
-        //private string awsAccessKey = ConfigurationManager.AppSettings["AWSAccessKey"];
-        //private string awsSecretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
+        private string awsAccessKey = ConfigurationManager.AppSettings["AWSAccessKey"];
+        private string awsSecretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
 
         // Constructor
-        public ApiCognitoService(RegionEndpoint region)
+        public ApiCognitoProvider()
         {
-            _region = region;
-            _cognitoClient = new AmazonCognitoIdentityProviderClient(region);
 
-            _cognitoUserPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient);
+            var credentials = new Amazon.Runtime.BasicAWSCredentials(awsAccessKey, awsSecretKey);
+
+            AmazonCognitoIdentityProviderConfig clientConfig = new AmazonCognitoIdentityProviderConfig();
+
+            clientConfig.RegionEndpoint = _region;
+
+            _cognitoClient = new AmazonCognitoIdentityProviderClient(credentials, clientConfig);
+
+            _cognitoUserPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient, _clientSecret); 
+
 
         }
 
 
-        public async Task RegisterUserAsync(string username, string password, string email)
+        public async Task<string> RegisterUserAsync(string username, string password, string email)
         {
+            
 
             var userAttributes = new Dictionary<string, string> {
                     { "email", email }
@@ -39,6 +48,7 @@ namespace Infraestructura.Provider
             try
             {
                 await _cognitoUserPool.SignUpAsync(username, password, userAttributes,  null);
+                return "success";
             }
             catch (Exception ex)
             {

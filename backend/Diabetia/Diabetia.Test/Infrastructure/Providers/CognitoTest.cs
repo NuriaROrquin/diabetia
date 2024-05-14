@@ -16,7 +16,7 @@ namespace Diabetia.Test.Infrastructure.ProvidersTest
         {
             //preparar
             var region = Amazon.RegionEndpoint.USEast2;
-            var service = new ApiCognitoService(region);
+            var service = new ApiCognitoProvider(region);
             var username = "testuser";
             var password = "testpassword";
             var email = "test@example.com";
