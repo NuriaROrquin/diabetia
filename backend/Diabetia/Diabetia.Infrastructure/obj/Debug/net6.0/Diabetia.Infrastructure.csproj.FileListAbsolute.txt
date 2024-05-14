@@ -13,3 +13,4 @@ C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\obj\Debug\ne
 C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\obj\Debug\net6.0\refint\Diabetia.Infrastructure.dll
 C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\obj\Debug\net6.0\Diabetia.Infrastructure.pdb
 C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\obj\Debug\net6.0\ref\Diabetia.Infrastructure.dll
+C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\bin\Debug\net6.0\Diabetia.Infrastructure.dll.config
