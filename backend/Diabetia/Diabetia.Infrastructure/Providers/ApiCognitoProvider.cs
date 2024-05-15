@@ -24,15 +24,11 @@ namespace Infraestructura.Provider
         {
 
             var credentials = new Amazon.Runtime.BasicAWSCredentials(awsAccessKey, awsSecretKey);
-
             AmazonCognitoIdentityProviderConfig clientConfig = new AmazonCognitoIdentityProviderConfig();
-
             clientConfig.RegionEndpoint = _region;
 
             _cognitoClient = new AmazonCognitoIdentityProviderClient(credentials, clientConfig);
-
             _cognitoUserPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient, _clientSecret); 
-
 
         }
 
@@ -76,8 +72,8 @@ namespace Infraestructura.Provider
             }
         }
 
-        // Este metodo autentica usuarios
-        public async Task<string> AuthenticateUserAsync(string username, string password)
+        // Este metodo loguea usuarios
+        public async Task<string> LoginUserAsync(string username, string password)
         {
             var request = new InitiateAuthRequest
             {
@@ -104,5 +100,31 @@ namespace Infraestructura.Provider
                 throw new Exception("Error al autenticar al usuario: " + ex.Message);
             }
         }
+
+        // Este metodo recupera la contraseña del usuario
+        public async Task<string> ResetPasswordAsync(string username)
+        {
+            try
+            {
+                
+                var userPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient, _clientSecret);
+                var user = new CognitoUser(username, _clientId, userPool, _cognitoClient);
+
+                var request = new ForgotPasswordRequest
+                {
+                    Username = username
+                };
+
+                var response = await user.ForgotPasswordAsync(request);
+
+                return response.HttpStatusCode.ToString(); // Retorna el código de estado HTTP para verificar si la solicitud fue exitosa
+            }
+            catch (Exception ex)
+            {
+                return ex.Message; // Manejo de errores
+            }
+        }
+
+
     }
 }

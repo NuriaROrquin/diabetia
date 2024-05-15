@@ -1297,6 +1297,8 @@
       "Diabetia.API/1.0.0": {
         "dependencies": {
           "Diabetia.Application": "1.0.0",
+          "Diabetia.Domain": "1.0.0",
+          "Diabetia.Infrastructure": "1.0.0",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.19.4",
           "Swashbuckle.AspNetCore": "6.5.0"
         },
