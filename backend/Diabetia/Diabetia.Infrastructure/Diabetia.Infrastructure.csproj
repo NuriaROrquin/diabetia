@@ -4,16 +4,17 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>5c4333cd-dc59-404a-962d-1528cadfc286</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Repositories\" />
-    <Folder Include="Providers\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Amazon.Extensions.CognitoAuthentication" Version="2.5.4" />
-    <PackageReference Include="AWSSDK.CognitoIdentityProvider" Version="3.7.305.4" />
+    <PackageReference Include="AWSSDK.CognitoIdentityProvider" Version="3.7.305.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
   </ItemGroup>
 
