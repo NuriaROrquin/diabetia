@@ -3,6 +3,7 @@ using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using Amazon.Extensions.CognitoAuthentication;
 using Diabetia.Domain.Services;
+using Microsoft.Extensions.Configuration;
 using System.Configuration;
 using System.Net;
 
@@ -15,18 +16,14 @@ namespace Infrastructure.Provider
         private readonly string _clientId = "7amuqfrhahhpgnfar29o1fk0u9";
         private readonly string _clientSecret = "71mbrja4bf4oveoa2cgl7bhtpnjp5p2e6h7gtu99ubeiohskks3";
         private readonly RegionEndpoint _region = RegionEndpoint.USEast2;
-        private CognitoUserPool _cognitoUserPool;
-
-        private string awsAccessKey = ConfigurationManager.AppSettings["AWSAccessKey"];
-        private string awsSecretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
-
-        //var builder = new ConfigurationBuilder().AddUserSecrets<Startup>();
-        //var configuration = builder.Build();
+        private readonly IConfiguration _configuration;
 
         // Constructor
-        public ApiCognitoProvider()
+        public ApiCognitoProvider(IConfiguration configuration)
         {
-
+            _configuration = configuration;
+            string awsAccessKey = _configuration["awsAccessKey"];
+            string awsSecretKey = _configuration["awsSecretKey"];
             var credentials = new Amazon.Runtime.BasicAWSCredentials(awsAccessKey, awsSecretKey);
             AmazonCognitoIdentityProviderConfig clientConfig = new AmazonCognitoIdentityProviderConfig();
             clientConfig.RegionEndpoint = _region;

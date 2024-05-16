@@ -2,6 +2,7 @@ using Diabetia.Application.UseCases;
 using Diabetia.Domain.Services;
 using Diabetia.Infrastructure.Providers;
 using Infrastructure.Provider;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,9 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<LoginUseCase>();
+builder.Services.AddScoped<RegisterUseCase>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
-
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckles

@@ -14,11 +14,13 @@ namespace Diabetia.API.Controllers
         private readonly ILogger<AuthController> _logger;
 
         private readonly LoginUseCase _loginUseCase;
+        private readonly RegisterUseCase _registerUseCase;
 
-        public AuthController(ILogger<AuthController> logger, LoginUseCase loginUseCase)
+        public AuthController(ILogger<AuthController> logger, LoginUseCase loginUseCase, RegisterUseCase registerUseCase)
         {
             _logger = logger;
             _loginUseCase = loginUseCase;
+            _registerUseCase = registerUseCase;
         }
 
 
@@ -44,7 +46,7 @@ namespace Diabetia.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var res = await _loginUseCase.Register(request.userName, request.email, request.password);
+            var res = await _registerUseCase.Register(request.userName, request.email, request.password);
 
             return Ok(res);
         }

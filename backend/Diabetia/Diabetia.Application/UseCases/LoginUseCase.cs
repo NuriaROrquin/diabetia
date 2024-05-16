@@ -28,11 +28,6 @@ namespace Diabetia.Application.UseCases
             return "";
         }
 
-        public async Task<string> Register(string username, string email, string password)
-        {
-            string res = await _apiCognitoProvider.RegisterUserAsync(username, password, email);
-
-            return res;
-        }
+        
     }
 }
