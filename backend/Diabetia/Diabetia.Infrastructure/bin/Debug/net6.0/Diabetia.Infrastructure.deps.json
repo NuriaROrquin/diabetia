@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "Diabetia.Infrastructure/1.0.0": {
         "dependencies": {
-          "AWSSDK.CognitoIdentityProvider": "3.7.305.2",
+          "AWSSDK.CognitoIdentityProvider": "3.7.305.4",
           "Amazon.Extensions.CognitoAuthentication": "2.5.4",
           "Diabetia.Domain": "1.0.0",
           "System.Configuration.ConfigurationManager": "8.0.0"
@@ -20,7 +20,7 @@
       "Amazon.Extensions.CognitoAuthentication/2.5.4": {
         "dependencies": {
           "AWSSDK.CognitoIdentity": "3.7.300.74",
-          "AWSSDK.CognitoIdentityProvider": "3.7.305.2"
+          "AWSSDK.CognitoIdentityProvider": "3.7.305.4"
         },
         "runtime": {
           "lib/netstandard2.0/Amazon.Extensions.CognitoAuthentication.dll": {
@@ -31,7 +31,7 @@
       },
       "AWSSDK.CognitoIdentity/3.7.300.74": {
         "dependencies": {
-          "AWSSDK.Core": "3.7.303.29",
+          "AWSSDK.Core": "3.7.304.1",
           "AWSSDK.SecurityToken": "3.7.300.75"
         },
         "runtime": {
@@ -41,28 +41,28 @@
           }
         }
       },
-      "AWSSDK.CognitoIdentityProvider/3.7.305.2": {
+      "AWSSDK.CognitoIdentityProvider/3.7.305.4": {
         "dependencies": {
-          "AWSSDK.Core": "3.7.303.29"
+          "AWSSDK.Core": "3.7.304.1"
         },
         "runtime": {
           "lib/netcoreapp3.1/AWSSDK.CognitoIdentityProvider.dll": {
             "assemblyVersion": "3.3.0.0",
-            "fileVersion": "3.7.305.2"
+            "fileVersion": "3.7.305.4"
           }
         }
       },
-      "AWSSDK.Core/3.7.303.29": {
+      "AWSSDK.Core/3.7.304.1": {
         "runtime": {
           "lib/netcoreapp3.1/AWSSDK.Core.dll": {
             "assemblyVersion": "3.3.0.0",
-            "fileVersion": "3.7.303.29"
+            "fileVersion": "3.7.304.1"
           }
         }
       },
       "AWSSDK.SecurityToken/3.7.300.75": {
         "dependencies": {
-          "AWSSDK.Core": "3.7.303.29"
+          "AWSSDK.Core": "3.7.304.1"
         },
         "runtime": {
           "lib/netcoreapp3.1/AWSSDK.SecurityToken.dll": {
@@ -173,19 +173,19 @@
       "path": "awssdk.cognitoidentity/3.7.300.74",
       "hashPath": "awssdk.cognitoidentity.3.7.300.74.nupkg.sha512"
     },
-    "AWSSDK.CognitoIdentityProvider/3.7.305.2": {
+    "AWSSDK.CognitoIdentityProvider/3.7.305.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-QV4kqqEhOlV6P/KHJsffWpP/Of/SvClLQ71ap1I8jAECIMfc+tHTZE2H6syZ8jUJADPqx5F89SS3ry1msJgEJw==",
-      "path": "awssdk.cognitoidentityprovider/3.7.305.2",
-      "hashPath": "awssdk.cognitoidentityprovider.3.7.305.2.nupkg.sha512"
+      "sha512": "sha512-8ZeCWcnCayE9f4q5oSm+KjIi3HAShd28in7KtZM5AQR3bv2T9XgZQwZZoKJ5mTgGgW6N50hCgR7CTN+zXWPomg==",
+      "path": "awssdk.cognitoidentityprovider/3.7.305.4",
+      "hashPath": "awssdk.cognitoidentityprovider.3.7.305.4.nupkg.sha512"
     },
-    "AWSSDK.Core/3.7.303.29": {
+    "AWSSDK.Core/3.7.304.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-YjSPjAxJBorMNmYfuDfCbnrqjwLubQUaSyZi5v5iLv7B1u5wZY24SYdccbYNS8r+errGhqYESvlI/6MoFlE3gA==",
-      "path": "awssdk.core/3.7.303.29",
-      "hashPath": "awssdk.core.3.7.303.29.nupkg.sha512"
+      "sha512": "sha512-O/gyE5ptF5zEc3QDk3JI3+AOgBfRfmg6eLH5z3x7hUPmV1Wxu0V4Fm86FSyT6czRviMmQGY0q0SVMbWRbP4vDA==",
+      "path": "awssdk.core/3.7.304.1",
+      "hashPath": "awssdk.core.3.7.304.1.nupkg.sha512"
     },
     "AWSSDK.SecurityToken/3.7.300.75": {
       "type": "package",

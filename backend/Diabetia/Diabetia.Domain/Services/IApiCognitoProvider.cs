@@ -13,7 +13,7 @@ namespace Diabetia.Domain.Services
 
         public Task<bool> ConfirmEmailVerificationAsync(string username, string confirmationCode);
 
-        public Task<string> AuthenticateUserAsync(string username, string password);
+        public Task<string> LoginUserAsync(string username, string password);
 
 
     }

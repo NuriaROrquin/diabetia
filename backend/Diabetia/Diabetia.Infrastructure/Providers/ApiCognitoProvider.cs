@@ -102,7 +102,7 @@ namespace Infrastructure.Provider
         }
 
         // Este metodo recupera la contraseña del usuario
-        public async Task<string> ResetPasswordAsync(string username)
+        public async Task<string> ForgotPasswordAsync(string username)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace Infrastructure.Provider
                     Username = username
                 };
 
-                var response = await user.ForgotPasswordAsync(request);
+                var response = await _cognitoClient.ForgotPasswordAsync(request);
 
                 return response.HttpStatusCode.ToString(); // Retorna el código de estado HTTP para verificar si la solicitud fue exitosa
             }

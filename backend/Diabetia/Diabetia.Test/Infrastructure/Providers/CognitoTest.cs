@@ -1,6 +1,5 @@
 ﻿using System;
 using Xunit;
-using Infraestructura.Provider;
 using Amazon.CognitoIdentityProvider.Model;
 using System.Net;
 using Amazon.CognitoIdentityProvider;
