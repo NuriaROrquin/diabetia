@@ -77,7 +77,7 @@ namespace Infrastructure.Provider
         }
 
         // Este metodo loguea usuarios
-        public async Task<string> AuthenticateUserAsync(string username, string password)
+        public async Task<string> LoginUserAsync(string username, string password)
         {
             var request = new InitiateAuthRequest
             {
