@@ -103,52 +103,7 @@ namespace Infrastructure.Provider
             }
         }
 
-        // Este metodo recupera la contraseña del usuario
-        public async Task<string> ForgotPasswordAsync(string username)
-        {
-            try
-            {
-
-                var userPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient, _clientSecret);
-
-                var request = new ForgotPasswordRequest
-                {
-                    Username = username
-                };
-
-                var response = await _cognitoClient.ForgotPasswordAsync(request);
-
-                return response.HttpStatusCode.ToString();
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-        }
-
-        // Este confirma el codigo y la password nueva
-        public async Task<string> ConfirmPasswordAsync(string username, string password, string confirmationCode)
-        {
-            try
-            {
-                var userPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient, _clientSecret);
-                var request = new ConfirmForgotPasswordRequest
-                {
-                    Username = username,
-                    ClientId = _clientId,
-                    Password = password,
-                    ConfirmationCode = confirmationCode
-                };
-
-                var response = await _cognitoClient.ConfirmForgotPasswordAsync(request);
-                return response.HttpStatusCode.ToString();
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-        }
-
+        
 
     }
 }
