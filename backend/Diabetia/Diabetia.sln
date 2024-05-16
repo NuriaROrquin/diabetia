@@ -26,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diabetia.Infrastructure", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{04343AAF-7116-4D40-BF88-800A07F00425}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diabetia.Test", "Diabetia.Test\Diabetia.Test.csproj", "{FC7080C4-9CF4-40F3-982A-A68F8B87958A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diabetia.Test", "Diabetia.Test\Diabetia.Test.csproj", "{FC7080C4-9CF4-40F3-982A-A68F8B87958A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
