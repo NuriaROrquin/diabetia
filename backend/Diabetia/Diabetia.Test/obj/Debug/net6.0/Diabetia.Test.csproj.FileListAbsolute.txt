@@ -262,3 +262,4 @@ C:\Users\Leafnoise\Desktop\UNLaM\TPI\diabetia\backend\Diabetia\Diabetia.Test\obj
 C:\Users\Leafnoise\Desktop\UNLaM\TPI\diabetia\backend\Diabetia\Diabetia.Test\obj\Debug\net6.0\Diabetia.Test.pdb
 C:\Users\Leafnoise\Desktop\UNLaM\TPI\diabetia\backend\Diabetia\Diabetia.Test\obj\Debug\net6.0\Diabetia.Test.genruntimeconfig.cache
 C:\Users\Leafnoise\Desktop\UNLaM\TPI\diabetia\backend\Diabetia\Diabetia.Test\obj\Debug\net6.0\ref\Diabetia.Test.dll
+C:\Users\Leafnoise\Desktop\UNLaM\TPI\diabetia\backend\Diabetia\Diabetia.Test\bin\Debug\net6.0\Microsoft.Extensions.Configuration.UserSecrets.dll

@@ -16,8 +16,12 @@ namespace Infraestructura.Provider
         private readonly string _clientSecret = "71mbrja4bf4oveoa2cgl7bhtpnjp5p2e6h7gtu99ubeiohskks3";
         private readonly RegionEndpoint _region = RegionEndpoint.USEast2;
         private CognitoUserPool _cognitoUserPool;
+
         private string awsAccessKey = ConfigurationManager.AppSettings["AWSAccessKey"];
         private string awsSecretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
+
+        //var builder = new ConfigurationBuilder().AddUserSecrets<Startup>();
+        //var configuration = builder.Build();
 
         // Constructor
         public ApiCognitoProvider()
@@ -73,7 +77,7 @@ namespace Infraestructura.Provider
         }
 
         // Este metodo loguea usuarios
-        public async Task<string> LoginUserAsync(string username, string password)
+        public async Task<string> AuthenticateUserAsync(string username, string password)
         {
             var request = new InitiateAuthRequest
             {
@@ -102,26 +106,48 @@ namespace Infraestructura.Provider
         }
 
         // Este metodo recupera la contraseña del usuario
-        public async Task<string> ResetPasswordAsync(string username)
+        public async Task<string> ForgotPasswordAsync(string username)
         {
             try
             {
                 
                 var userPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient, _clientSecret);
-                var user = new CognitoUser(username, _clientId, userPool, _cognitoClient);
 
                 var request = new ForgotPasswordRequest
                 {
                     Username = username
                 };
 
-                var response = await user.ForgotPasswordAsync(request);
+                var response = await _cognitoClient.ForgotPasswordAsync(request);
 
-                return response.HttpStatusCode.ToString(); // Retorna el código de estado HTTP para verificar si la solicitud fue exitosa
+                return response.HttpStatusCode.ToString();
             }
             catch (Exception ex)
             {
-                return ex.Message; // Manejo de errores
+                return ex.Message;
+            }
+        }
+
+        // Este confirma el codigo y la password nueva
+        public async Task<string> ConfirmPasswordAsync(string username, string password, string confirmationCode)
+        {
+            try
+            {
+                var userPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient, _clientSecret);
+                var request = new ConfirmForgotPasswordRequest
+                {
+                    Username = username,
+                    ClientId = _clientId,
+                    Password = password,
+                    ConfirmationCode = confirmationCode
+                };
+
+                var response = await _cognitoClient.ConfirmForgotPasswordAsync(request);
+                return response.HttpStatusCode.ToString();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
         }
 
