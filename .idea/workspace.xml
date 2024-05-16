@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a6989b4-1656-4a5b-81a6-1f6cc7e866bb" name="Changes" comment="merge commit branch cognito">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Diabetia/Diabetia.Infrastructure/Diabetia.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Diabetia/Diabetia.Infrastructure/Diabetia.Infrastructure.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Diabetia/Diabetia.Infrastructure/obj/Debug/net6.0/Diabetia.Infrastructure.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Diabetia/Diabetia.Infrastructure/obj/Debug/net6.0/Diabetia.Infrastructure.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Diabetia/Diabetia.Test/obj/Debug/net6.0/Diabetia.Test.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Diabetia/Diabetia.Test/obj/Debug/net6.0/Diabetia.Test.csproj.AssemblyReference.cache" afterDir="false" />
-    </list>
+    <list default="true" id="1a6989b4-1656-4a5b-81a6-1f6cc7e866bb" name="Changes" comment="merge commit branch cognito" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,7 +26,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "dev",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -49,7 +44,7 @@
       <option name="presentableId" value="Default" />
       <updated>1715823486073</updated>
       <workItem from="1715823487100" duration="739000" />
-      <workItem from="1715824471914" duration="637000" />
+      <workItem from="1715824471914" duration="1228000" />
     </task>
     <task id="LOCAL-00001" summary="merge commit branch cognito">
       <created>1715823599095</created>
