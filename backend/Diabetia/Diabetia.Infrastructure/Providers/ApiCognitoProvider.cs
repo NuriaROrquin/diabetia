@@ -17,6 +17,7 @@ namespace Infrastructure.Provider
         private readonly string _clientSecret = "71mbrja4bf4oveoa2cgl7bhtpnjp5p2e6h7gtu99ubeiohskks3";
         private readonly RegionEndpoint _region = RegionEndpoint.USEast2;
         private readonly IConfiguration _configuration;
+        private CognitoUserPool _cognitoUserPool;
 
         // Constructor
         public ApiCognitoProvider(IConfiguration configuration)
