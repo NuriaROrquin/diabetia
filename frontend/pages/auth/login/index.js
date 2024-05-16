@@ -33,7 +33,9 @@ export const Login = () => {
                 </div>
 
                 <div className="flex flex-col w-1/2 mb-6">
-                    <Input type="text" placeholder="Email" id="email" width="w-full" icon={<EmailOutlined/>}/>
+
+                    <Input type="text" placeholder="Email" id="email" width="w-full" icon={<KeyOutlinedIcon/>}/>
+
                     <Input type="password" placeholder="Contraseña" id="contrasena" width="w-full"
                            icon={<KeyOutlinedIcon/>}/>
                 </div>
