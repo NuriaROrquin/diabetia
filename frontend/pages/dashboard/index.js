@@ -1,5 +1,4 @@
 import {Card} from "../../components/card";
-import {ButtonOrange} from "../../components/button";
 import {Selector} from "../../components/selector";
 import Link from "next/link";
 
@@ -16,7 +15,7 @@ export const Home = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-wrap justify-between mt-12 gap-x-1 gap-y-8">
+                <div className="flex flex-wrap justify-around mt-12 gap-x-1 gap-y-8">
                     <Card color="green" number={115} textIndicator="Glucemia" title="Promedio de medidas" description="Cuando midas tu glucosa en sangre, tu promedio se verá afectado." />
                     <Card color="green" number={0} textIndicator="Hiperglucemias" title="En total" description="Nivel de glucosa en sangre demasiado alta." />
                     <Card color="red" number={1} textIndicator="Hipoglucemias" title="En total" description="Nivel de glucosa en sangre demasiado baja." />

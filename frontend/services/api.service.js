@@ -9,3 +9,11 @@ export const login = (email, password) => {
             { withCredentials: true }
         );
 }
+
+export const logout = (email, password) => {
+    return axios
+        .post(
+            `/api/logout`,
+            { withCredentials: true }
+        );
+}

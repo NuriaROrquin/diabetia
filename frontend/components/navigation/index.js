@@ -2,13 +2,17 @@ import Link from "next/link";
 import Image from "next/image";
 import {useEffect, useState} from "react";
 import {NavLink} from "../link";
-import {Person, PersonOutline, VerifiedUser} from "@mui/icons-material";
-import {Button} from "@mui/material";
+import {PersonOutline} from "@mui/icons-material";
+import {useRouter} from "next/router";
+import {useCookies} from "react-cookie";
+import {logout} from "../../services/api.service";
 
 export const Navigation = () => {
 
     const [scrolling, setScrolling] = useState(false);
     const [openUserMenu, setOpenUserMenu] = useState(false)
+    const router = useRouter();
+    const [_cookies, _setCookie, removeCookie] = useCookies(['cookie-name']);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -25,6 +29,16 @@ export const Navigation = () => {
 
     const onHandleUserClick = (e) => {
         setOpenUserMenu(!openUserMenu)
+    }
+
+    const handleOnLogout = () =>{
+        logout().then((res) => {
+            console.log(res)
+            setOpenUserMenu(false);
+            return router.push("/auth/login")
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
     return (
@@ -66,7 +80,9 @@ export const Navigation = () => {
                                             <Link href="/reminders">Recordatorios</Link>
                                         </li>
                                         <li className="text-sm text-blue-secondary">
-                                            <Link href="/logout">Cerrar sesión</Link>
+                                            <button onClick={() => handleOnLogout()} className="text-blue-secondary">Cerrar
+                                                sesión
+                                            </button>
                                         </li>
                                     </ul>
                                 </div>
