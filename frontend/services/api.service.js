@@ -10,7 +10,7 @@ export const login = (email, password) => {
         );
 }
 
-export const logout = (email, password) => {
+export const logout = () => {
     return axios
         .post(
             `/api/logout`,
