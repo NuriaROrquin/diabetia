@@ -49,7 +49,7 @@ export const Home = () => {
                 <SubtitleSection>Acá encontrarás todos los registros cargados en el día actual</SubtitleSection>
             </ContainerTitles>
             <div className="flex justify-center">
-            <Timeline events={DASHBOARD_TIMELINE_EVENTS} />
+                <Timeline events={DASHBOARD_TIMELINE_EVENTS} />
             </div>
         </section>
         </>
