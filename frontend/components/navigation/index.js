@@ -33,7 +33,6 @@ export const Navigation = () => {
 
     const handleOnLogout = () =>{
         logout().then((res) => {
-            console.log(res)
             setOpenUserMenu(false);
             return router.push("/auth/login")
         }).catch((error) => {

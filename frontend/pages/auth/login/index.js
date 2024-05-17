@@ -15,7 +15,6 @@ export const Login = () => {
         const password = document.getElementById("contrasena").value;
         login(email, password)
             .then(() => {
-                console.log("Login exitoso");
                 router.push(`/dashboard`)
             })
             .catch((error) => {
