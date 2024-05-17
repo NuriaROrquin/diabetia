@@ -1,6 +1,8 @@
 using Diabetia.Application.UseCases;
+using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Infrastructure.Providers;
+using Diabetia.Infrastructure.Repositories;
 using Infrastructure.Provider;
 using System.Configuration;
 
@@ -14,6 +16,7 @@ builder.Services.AddScoped<RegisterUseCase>();
 builder.Services.AddScoped<ConfirmUserEmailUseCase>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckles

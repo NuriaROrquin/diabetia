@@ -46,18 +46,13 @@ namespace Infrastructure.Provider
             var userAttributes = new Dictionary<string, string> {
                     { "email", email }
                 };
-
-            
-            //string message = username + _clientId;
-            //byte[] secretBytes = Encoding.UTF8.GetBytes(_clientSecret);
-            //var hmac = new HMACSHA256(secretBytes);
-            //byte[] hashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(message));
-            //string secretHash = Convert.ToBase64String(hashBytes);
             string secretHash = CalculateSecretHash(_clientId, _clientSecret, username);
+
             try
             {
                 await _cognitoUserPool.SignUpAsync(username, password, userAttributes,  null);
-                return "success";
+
+                return secretHash;
             }
             catch (Exception ex)
             {
