@@ -1,8 +1,13 @@
+import {Section} from "../../components/section";
+import {EventCard} from "../../components/card";
+
 export const EventsGrid = () => {
     return (
-        <div>
-            <h1>Events</h1>
-        </div>
+        <Section>
+            <div className="container">
+                <EventCard />
+            </div>
+        </Section>
     )
 }
 
