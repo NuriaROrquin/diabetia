@@ -2,16 +2,22 @@ import {Card} from "../../components/card";
 import {Selector} from "../../components/selector";
 import Link from "next/link";
 import {useState} from "react";
-import {DASHBOARD_OPTIONS_FILTER_DAYS, DASHBOARD_INDICATORS} from "../../constants";
+import {DASHBOARD_OPTIONS_FILTER_DAYS, DASHBOARD_INDICATORS, DASHBOARD_TIMELINE_EVENTS} from "../../constants";
+import {CircleRounded} from "@mui/icons-material";
+import {ContainerTitles, SubtitleSection, TitleSection} from "../../components/titles";
+import {Timeline} from "../../components/timeline";
 
 export const Home = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(DASHBOARD_OPTIONS_FILTER_DAYS[0]);
+    const [selectedOption, setSelectedOption] = useState(DASHBOARD_OPTIONS_FILTER_DAYS[0])
+
     const handleOptionClick = (option) => {
         setSelectedOption(option);
         setIsOpen(false);
     };
+
     return (
+        <>
         <section className="w-full min-h-screen">
             <div className="container pt-12">
                 <div className="grid grid-cols-3 w-full items-center">
@@ -37,6 +43,16 @@ export const Home = () => {
                 </div>
             </div>
         </section>
+        <section className="w-full min-h-screen bg-white flex flex-col">
+            <ContainerTitles>
+                <TitleSection>Registros de hoy</TitleSection>
+                <SubtitleSection>Acá encontrarás todos los registros cargados en el día actual</SubtitleSection>
+            </ContainerTitles>
+            <div className="flex justify-center">
+            <Timeline events={DASHBOARD_TIMELINE_EVENTS} />
+            </div>
+        </section>
+        </>
     )
 }
 

@@ -47,3 +47,38 @@ export const DASHBOARD_INDICATORS = [
         "description": "La recomendación son 30 min de ejercicio diario"
     }
 ]
+
+export const DASHBOARD_TIMELINE_EVENTS = [
+    {
+        "time": "19:00",
+        "title": "Desayuno - Registro de alimentos"
+    },
+    {
+        "time": "18:00",
+        "title": "Deporte running 25 min"
+    },
+    {
+        "time": "17:21",
+        "title": "Hipogucemia"
+    },
+    {
+        "time": "15:30",
+        "title": "Carga merienda"
+    },
+    {
+        "time": "14:02",
+        "title": "Carga almuerzo"
+    },
+    {
+        "time": "13:30",
+        "title": "Medida de glucemia"
+    },
+    {
+        "time": "12:26",
+        "title": "Medida de glucemia"
+    },
+    {
+        "time": "09:39",
+        "title": "Carga desayuno"
+    }
+]
