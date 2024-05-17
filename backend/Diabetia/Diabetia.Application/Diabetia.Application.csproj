@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Diabetia.Domain\Diabetia.Domain.csproj" />
+    <ProjectReference Include="..\Diabetia.Infrastructure\Diabetia.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

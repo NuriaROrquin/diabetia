@@ -8,5 +8,6 @@ namespace Diabetia.Domain.Repositories
 {
     public interface IAuthRepository
     {
+        public Task SaveUserHashAsync(string username, string email, string hashCode);
     }
 }

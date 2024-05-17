@@ -48,9 +48,15 @@ namespace Diabetia.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var res = await _registerUseCase.Register(request.userName, request.email, request.password);
-
-            return Ok(res);
+            try
+            {
+                await _registerUseCase.Register(request.userName, request.email, request.password);
+                return Ok("Usuario registrado exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al registrar usuario: {ex.Message}");
+            }
         }
 
         // Cambiar nombre del method post
