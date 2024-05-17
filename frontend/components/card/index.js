@@ -1,4 +1,6 @@
 import {CircleRounded} from "@mui/icons-material";
+import Link from "next/link";
+import Image from "next/image";
 
 export const MetricCard = ({number, textIndicator, title, description, unit, color="blue"}) => {
 
@@ -26,11 +28,23 @@ export const MetricCard = ({number, textIndicator, title, description, unit, col
 }
 
 
-export const EventCard = () => {
-
+export const EventCard = ({events}) => {
     return (
-        <div className="min-w-80 w-1/4 bg-actividad-fisica p-8 rounded-2xl backdrop-blur bg-cover min-h-64 flex justify-center items-center">
-            <h4 className="font-medium text-3xl">Actividad física</h4>
-        </div>
+        <>
+            {events.map((event) => {
+                return (
+                    <div key={event.title} className="relative w-1/5 h-52 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:-translate-y-2">
+                        <Link href={event.link || ""}>
+                            <Image src={event.image} alt="Actividad Física" width={500} height={500}
+                                 className="w-full h-full object-cover object-bottom"/>
+                            <div
+                                className="absolute top-0 h-full w-full p-2 bg-blue-primary bg-opacity-45 text-white text-center text-5xl font-bold flex justify-center items-center">
+                                <span>{event.title}</span>
+                            </div>
+                        </Link>
+                    </div>
+                )
+            })}
+        </>
     )
 }

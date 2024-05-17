@@ -82,3 +82,46 @@ export const DASHBOARD_TIMELINE_EVENTS = [
         "title": "Carga desayuno"
     }
 ]
+
+export const TYPE_EVENTS = [
+    {
+        "title": "ACTIVIDAD FÍSICA",
+        "image": "/actividad-fisica.jpg",
+        "link": "/event/exercise"
+    },
+    {
+        "title": "GLUCEMIA",
+        "image": "/glucemia.jpg",
+        "link": "/event/glycemia"
+    },
+    {
+        "title": "COMIDA",
+        "image": "/comida.jpg",
+        "link": "/event/food"
+    },
+    {
+        "title": "INSULINA",
+        "image": "/insulina.jpg",
+        "link": "/event/insulin"
+    },
+    {
+        "title": "EVENTO DE SALUD",
+        "image": "/salud.jpg",
+        "link": "/event/health-event"
+    },
+    {
+        "title": "VISITA MÉDICA",
+        "image": "/visita-medico.jpg",
+        "link": "/event/medical-visit"
+    },
+    {
+        "title": "ESTUDIOS",
+        "image": "/examenes.jpg",
+        "link": "/event/studies"
+    },
+    {
+        "title": "NOTA LIBRE",
+        "image": "/nota-libre.jpg",
+        "link": "/event/free-note"
+    }
+];
