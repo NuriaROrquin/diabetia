@@ -17,3 +17,12 @@ export const logout = () => {
             { withCredentials: true }
         );
 }
+
+export const register = (username, email, password) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
+            { username, email, password },
+            { withCredentials: true }
+        );
+}
