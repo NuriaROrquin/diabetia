@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,10 +6,6 @@
     <Nullable>enable</Nullable>
     <UserSecretsId>5c4333cd-dc59-404a-962d-1528cadfc286</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Amazon.Extensions.CognitoAuthentication" Version="2.5.4" />
