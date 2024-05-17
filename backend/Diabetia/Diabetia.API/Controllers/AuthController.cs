@@ -15,12 +15,14 @@ namespace Diabetia.API.Controllers
 
         private readonly LoginUseCase _loginUseCase;
         private readonly RegisterUseCase _registerUseCase;
+        private readonly ConfirmUserEmailUseCase _confirmUserEmailUseCase;
 
-        public AuthController(ILogger<AuthController> logger, LoginUseCase loginUseCase, RegisterUseCase registerUseCase)
+        public AuthController(ILogger<AuthController> logger, LoginUseCase loginUseCase, RegisterUseCase registerUseCase, ConfirmUserEmailUseCase confirmUserEmailUseCase)
         {
             _logger = logger;
             _loginUseCase = loginUseCase;
             _registerUseCase = registerUseCase;
+            _confirmUserEmailUseCase = confirmUserEmailUseCase;
         }
 
 
@@ -46,9 +48,31 @@ namespace Diabetia.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var res = await _registerUseCase.Register(request.userName, request.email, request.password);
+            try
+            {
+                await _registerUseCase.Register(request.userName, request.email, request.password);
+                return Ok("Usuario registrado exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al registrar usuario: {ex.Message}");
+            }
+        }
 
-            return Ok(res);
+        // Cambiar nombre del method post
+        [HttpPost("confirmEmailVerification")]
+        public async Task<IActionResult> ConfirmEmailVerification([FromBody] string username, string confirmationCode)
+        {
+            bool isSuccess = await _confirmUserEmailUseCase.ConfirmEmailVerification(username, confirmationCode);
+
+            if (isSuccess)
+            {
+                return Ok(new { Message = "Se ha verificado el Email correctamente. Ya puede ingresar al sitio." });
+            }
+            else
+            {
+                return BadRequest(new { Message = "Ocurrió un error al querer validar el email, intentelo nuevamente." });
+            }
         }
     }
 }

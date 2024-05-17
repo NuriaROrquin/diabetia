@@ -41,7 +41,7 @@ module.exports = {
         "blue-focus": "#80a8e1",
         "orange-primary": "#E6B663",
         "orange-secondary": "#dc961b",
-        "gray-primary": "#333",
+        "gray-primary": "#4D4D4D",
         "gray-secondary": "#b1b1b1",
         "green-primary": "#4CAF50",
         "red-primary": "#BE0A1F"

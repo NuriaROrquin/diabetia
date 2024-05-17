@@ -1,4 +1,6 @@
+using Diabetia.API;
 using Diabetia.Application.UseCases;
+using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Infrastructure.Providers;
 using Diabetia.Infrastructure.Repositories;
@@ -9,11 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-
+builder.Services.AddDbContext<diabetiaContext>();
 builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddScoped<RegisterUseCase>();
+builder.Services.AddScoped<ConfirmUserEmailUseCase>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 

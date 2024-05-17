@@ -1,26 +1,21 @@
-﻿using Diabetia.Domain.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Diabetia.Domain.Repositories;
+using Diabetia.Domain.Services;
 
 namespace Diabetia.Application.UseCases
 {
     public class RegisterUseCase
     {
-        private readonly IAuthService _authService;
+        private readonly IAuthRepository _authRepository;
         private readonly IApiCognitoProvider _apiCognitoProvider;
-        public RegisterUseCase(IAuthService authService, IApiCognitoProvider apiCognitoProvider)
+        public RegisterUseCase(IApiCognitoProvider apiCognitoProvider, IAuthRepository authRepository)
         {
-            _authService = authService;
             _apiCognitoProvider = apiCognitoProvider;
+            _authRepository = authRepository;
         }
-        public async Task<string> Register(string username, string email, string password)
+        public async Task Register(string username, string email, string password)
         {
-            string res = await _apiCognitoProvider.RegisterUserAsync(username, password, email);
-
-            return res;
+            string hashCode = await _apiCognitoProvider.RegisterUserAsync(username, password, email);
+            await _authRepository.SaveUserHashAsync(username,email,hashCode);
         }
     }
 }

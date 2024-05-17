@@ -15,7 +15,6 @@ export const Login = () => {
         const password = document.getElementById("contrasena").value;
         login(email, password)
             .then(() => {
-                console.log("Login exitoso");
                 router.push(`/dashboard`)
             })
             .catch((error) => {
@@ -34,15 +33,15 @@ export const Login = () => {
 
                 <div className="flex flex-col w-1/2 mb-6">
 
-                    <Input type="text" placeholder="Email" id="email" width="w-full" icon={<KeyOutlinedIcon/>}/>
+                    <Input type="email" placeholder="Email" id="email" width="w-full" icon={<KeyOutlinedIcon/>}/>
 
                     <Input type="password" placeholder="Contraseña" id="contrasena" width="w-full"
-                           icon={<KeyOutlinedIcon/>}/>
+                           icon={<KeyOutlinedIcon/>} withForgotPassword/>
                 </div>
 
-                <ButtonBlue label="Ingresar" width="w-1/2" onClick={onHandleClick} className="mb-3"/>
+                <ButtonBlue label="Ingresar" width="w-1/2" onClick={onHandleClick} className="mb-3" />
 
-                <CustomLink text="No estoy registrado" href="/"/>
+                <CustomLink text="No estoy registrado" href="/auth/register"/>
             </div>
 
         </section>

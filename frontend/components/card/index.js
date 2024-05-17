@@ -7,7 +7,7 @@ export const Card = ({number, textIndicator, title, description, unit, color="bl
     }
 
     return (
-        <section className="w-1/4 bg-white p-8 rounded-2xl">
+        <section className="min-w-80 w-full sm:w-1/3 lg:w-1/4 bg-white p-8 rounded-2xl">
             <div className="w-full flex justify-center flex-col items-center mb-4">
                 <div className="flex items-end">
                     <h3 className={`${getTextColor()} text-6xl font-bold`}>{number}</h3>

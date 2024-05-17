@@ -9,3 +9,20 @@ export const login = (email, password) => {
             { withCredentials: true }
         );
 }
+
+export const logout = () => {
+    return axios
+        .post(
+            `/api/logout`,
+            { withCredentials: true }
+        );
+}
+
+export const register = (username, email, password) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
+            { username, email, password },
+            { withCredentials: true }
+        );
+}

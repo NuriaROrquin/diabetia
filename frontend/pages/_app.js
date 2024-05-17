@@ -11,12 +11,12 @@ export default function App({ Component, pageProps }) {
     return(
         <>
             {isLogged &&
-                <Navigation path={router.route} />
-            }
-            {isLogged &&
-                <MainContainer>
-                    <Component {...pageProps} />
-                </MainContainer>
+                <>
+                    <Navigation path={router.route} />
+                    <MainContainer>
+                        <Component {...pageProps} />
+                    </MainContainer>
+                </>
             }
             {!isLogged && <Component {...pageProps} />}
             {isLogged &&
