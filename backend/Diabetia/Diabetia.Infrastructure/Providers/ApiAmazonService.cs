@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.Net;
 using Diabetia.Domain.Services;
+using Diabetia.Domain.Entities;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Transfer;
@@ -26,7 +27,7 @@ namespace Diabetia.Infrastructure.Providers
             _configuration = configuration;
         }
 
-        public async Task<string> GetChFromDocument(ImageTextract ocrRequest)
+        public async Task<string> GetChFromDocument(string ocrRequest)
         {
             string awsAccessKey = _configuration["awsAccessKey"];
             string awsSecretKey = _configuration["awsSecretKey"];
@@ -37,14 +38,14 @@ namespace Diabetia.Infrastructure.Providers
 
             DetectDocumentTextResponse result = await ProcessingTextract(awsAccessKey, awsSecretKey, region, uniqueId);
 
-            TextractResul textractResult = new TextractResult();
+            NutritionTag textractResult = new NutritionTag();
 
-            texttractResult.PresciptionText = string.Join(" ", result.Blocks.Where(b => b.BlocType == BlockType.LINE).Select(b => b.Text));
+            textractResult.CarbohydratesText = string.Join(" ", result.Blocks.Where(b => b.BlockType == BlockType.LINE).Select(b => b.Text));
 
-            IEnumerable<float> confidenceValues = results.Blocks.Select(b => b.Confidence);
-            textractResult.ConfidenceValues = confidenceValues.Average();
+            IEnumerable<float> confidenceValues = result.Blocks.Select(b => b.Confidence);
+            textractResult.Confidece = confidenceValues.Average();
 
-            return textractResult;
+            return textractResult.CarbohydratesText;
 
         }
 
@@ -70,7 +71,7 @@ namespace Diabetia.Infrastructure.Providers
             return response;
         }
 
-        private async Task<bool> CreateObjectS3Async(string awsAccesKey, string awsSecretKey, RegionEndpoint region, ImageTextract imageTextract, string uniqueId)
+        private async Task<bool> CreateObjectS3Async(string awsAccesKey, string awsSecretKey, RegionEndpoint region, string ocrRequest, string uniqueId)
         {
             var bucketName = "textract-console-us-east-2-7a438fab-112f-422b-98ba-cbc0d7f642e8";
             var objectKey = $"Textract/{uniqueId}.jpg";
@@ -79,8 +80,7 @@ namespace Diabetia.Infrastructure.Providers
 
             var trasnferUtility = new TransferUtility(client);
 
-            var file = imageTextract.ImageBase64;
-            byte[] imageData = Convert.FromBase64String(file);
+            byte[] imageData = Convert.FromBase64String(ocrRequest);
             Stream imageStream = new MemoryStream(imageData);
 
             PutObjectRequest request = new PutObjectRequest

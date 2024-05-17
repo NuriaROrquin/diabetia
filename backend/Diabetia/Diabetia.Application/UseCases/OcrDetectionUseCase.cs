@@ -21,7 +21,7 @@ namespace Diabetia.Application.UseCases
 
         public async Task<string> GetOcrResponseFromDocument(string ocrRequest)
         {
-            return "éxito";
+            return await _apiAmazonService.GetChFromDocument(ocrRequest);             
         }
     }
 }

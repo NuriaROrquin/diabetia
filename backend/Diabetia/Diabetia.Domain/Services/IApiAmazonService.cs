@@ -8,7 +8,7 @@ namespace Diabetia.Domain.Services
 {
     public interface IApiAmazonService
     {
-        Task<OcrRequest> GetChFromDocument(ImageTextract imageTextract);
-        public Task<TextractResult> GetTextFromDocument(ImageTextract imageTextract);
+        public Task<string> GetChFromDocument(string ocrRequest);
+        
     }
 }

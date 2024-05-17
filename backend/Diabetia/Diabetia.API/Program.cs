@@ -11,8 +11,10 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddScoped<RegisterUseCase>();
+builder.Services.AddScoped<OcrDetectionUseCase>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
+builder.Services.AddScoped<IApiAmazonService, ApiAmazonService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckles

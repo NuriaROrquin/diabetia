@@ -2,8 +2,10 @@
 {
     public class OcrResponse
     {
-        public string CarbohydratesText { get; set; }
+        public float CarbohydratesText { get; set; }
 
         public float Confidece { get; set; }
+
+        public float TotalCarbohydrates { get; set; }
     }
 }
