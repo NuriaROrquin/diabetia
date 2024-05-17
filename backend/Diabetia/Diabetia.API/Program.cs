@@ -1,3 +1,4 @@
+using Diabetia.API;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
@@ -10,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-
+builder.Services.AddDbContext<diabetiaContext>();
 builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddScoped<RegisterUseCase>();
 builder.Services.AddScoped<ConfirmUserEmailUseCase>();
