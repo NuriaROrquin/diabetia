@@ -39,7 +39,6 @@ namespace Infrastructure.Provider
 
         }
 
-
         public async Task<string> RegisterUserAsync(string username, string password, string email)
         {
             
@@ -79,14 +78,14 @@ namespace Infrastructure.Provider
 
 
         // Este metodo verifica el codigo dentro del correo del usuario
-        public async Task<bool> ConfirmEmailVerificationAsync(string username, string confirmationCode)
+        public async Task<bool> ConfirmEmailVerificationAsync(string username, string hashCode, string confirmationCode)
         {
             var request = new ConfirmSignUpRequest
             {
                 ClientId = _clientId,
                 Username = username,
                 ConfirmationCode = confirmationCode,
-                SecretHash = "8G/Ce23WTwSz4VZZ+CfnExiHHLsAdIy3lNobbaHc6w4="
+                SecretHash = hashCode
             };
 
             try

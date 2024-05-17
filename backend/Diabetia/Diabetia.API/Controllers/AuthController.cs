@@ -59,11 +59,10 @@ namespace Diabetia.API.Controllers
             }
         }
 
-        // Cambiar nombre del method post
         [HttpPost("confirmEmailVerification")]
-        public async Task<IActionResult> ConfirmEmailVerification([FromBody] string username, string confirmationCode)
+        public async Task<IActionResult> ConfirmEmailVerification([FromBody] string username, string email, string confirmationCode)
         {
-            bool isSuccess = await _confirmUserEmailUseCase.ConfirmEmailVerification(username, confirmationCode);
+            bool isSuccess = await _confirmUserEmailUseCase.ConfirmEmailVerification(username, email, confirmationCode);
 
             if (isSuccess)
             {
