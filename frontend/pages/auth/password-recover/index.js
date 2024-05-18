@@ -5,9 +5,11 @@ import {CustomLink} from "../../../components/link";
 import {useRouter} from "next/router";
 import {passwordRecover} from "../../../services/api.service";
 import {Input} from "../../../components/input";
+import {useState} from "react";
 
 export const PasswordRecover = () => {
     const router = useRouter();
+    const [error, setError] = useState(false);
 
     const onHandleClick = () => {
         const username = document.getElementById("username").value;
@@ -16,7 +18,7 @@ export const PasswordRecover = () => {
                 router.push(`/auth/password-recover/code?username=${username}`);
             })
             .catch((error) => {
-                console.log(error);
+                setError(error.response.data)
             });
     }
 
@@ -33,6 +35,8 @@ export const PasswordRecover = () => {
                     <Input type="text" placeholder="Nombre de Usuario" id="username" width="w-full"
                            icon={<PersonOutline/>}/>
                 </div>
+
+                {error && <span className="text-red-500 mb-3">{error}</span>}
 
                 <ButtonBlue label="Recuperar contraseña" width="w-1/2" onClick={onHandleClick} className="mb-3"/>
 

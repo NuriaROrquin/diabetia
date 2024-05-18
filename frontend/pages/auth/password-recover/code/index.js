@@ -3,11 +3,14 @@ import {ButtonBlue} from "../../../../components/button";
 import {CustomLink} from "../../../../components/link";
 import {useRouter} from "next/router";
 import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
-import {CodeOffOutlined} from "@mui/icons-material";
+import {LockOutlined} from "@mui/icons-material";
 import {passwordRecoverCode} from "../../../../services/api.service";
+import {useState} from "react";
 
 export const PasswordRecoverCode = () => {
     const router = useRouter();
+    const [error, setError] = useState(false);
+
     const { username } = router.query;
 
     const onHandleClick = () => {
@@ -18,7 +21,7 @@ export const PasswordRecoverCode = () => {
                 router.push(`/auth/login`);
             })
             .catch((error) => {
-                console.log(error);
+                setError(error.response.data)
             });
     }
 
@@ -35,8 +38,10 @@ export const PasswordRecoverCode = () => {
                     <Input type="password" placeholder="Nueva contraseña" id="password" width="w-full"
                            icon={<KeyOutlinedIcon />}/>
                     <Input type="text" placeholder="Codigo" id="confirmationCode" width="w-full"
-                           icon={<CodeOffOutlined />}/>
+                           icon={<LockOutlined />}/>
                 </div>
+
+                {error && <span className="text-red-500 mb-3">{error}</span>}
 
                 <ButtonBlue label="Recuperar contraseña" width="w-1/2" onClick={onHandleClick} className="mb-3"/>
 

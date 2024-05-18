@@ -5,11 +5,13 @@ import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
 import {ButtonBlue} from "../../../components/button";
 import {CustomLink} from "../../../components/link";
 import {EmailOutlined, PersonOutline} from "@mui/icons-material";
+import {useState} from "react";
 
 export const Register = () => {
   const router = useRouter();
+    const [error, setError] = useState(false);
 
-  const onHandleClick = () => {
+    const onHandleClick = () => {
     const username = document.getElementById("username").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("contrasena").value;
@@ -18,7 +20,7 @@ export const Register = () => {
           router.push(`/auth/verify-email?username=${username}&email=${email}`);
         })
         .catch((error) => {
-          console.log(error);
+            setError(error.response.data)
         });
   }
 
@@ -38,6 +40,8 @@ export const Register = () => {
 
               <Input type="password" placeholder="Contraseña" id="contrasena" width="w-full" icon={<KeyOutlinedIcon/>}/>
           </div>
+
+            {error && <span className="text-red-500 mb-3">{error}</span>}
 
           <ButtonBlue label="Registrarme" width="w-1/2" onClick={onHandleClick} className="mb-3"/>
 

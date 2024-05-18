@@ -5,8 +5,10 @@ import {ButtonBlue} from "../../../components/button";
 import {CustomLink} from "../../../components/link";
 import {login} from "../../../services/api.service";
 import {useRouter} from "next/router";
+import {useState} from "react";
 
 export const Login = () => {
+    const [error, setError] = useState(false);
 
     const router = useRouter();
 
@@ -18,7 +20,7 @@ export const Login = () => {
                 router.push(`/dashboard`)
             })
             .catch((error) => {
-                console.log(error);
+                setError(error.response.data)
             });
     }
 
@@ -38,6 +40,8 @@ export const Login = () => {
                     <Input type="password" placeholder="Contraseña" id="contrasena" width="w-full"
                            icon={<KeyOutlinedIcon/>} withForgotPassword/>
                 </div>
+
+                {error && <span className="text-red-500 mb-3">{error}</span>}
 
                 <ButtonBlue label="Ingresar" width="w-1/2" onClick={onHandleClick} className="mb-3" />
 
