@@ -15,7 +15,7 @@ export const Register = () => {
     const password = document.getElementById("contrasena").value;
     register(username, email, password)
         .then(() => {
-          router.push(`/auth/verify-email`)
+          router.push(`/auth/verify-email?userName=${username}`);
         })
         .catch((error) => {
           console.log(error);
