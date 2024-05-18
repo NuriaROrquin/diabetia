@@ -133,3 +133,34 @@ export const TYPE_EVENTS = [
         "link": "/event/free-note"
     }
 ];
+
+export const TYPE_EXERCISES = [
+    {
+        "id": 1,
+        "title": "Correr"
+    },
+    {
+        "id": 2,
+        "title": "Caminar"
+    },
+    {
+        "id": 3,
+        "title": "Nadar"
+    },
+    {
+        "id": 4,
+        "title": "Ciclismo"
+    },
+    {
+        "id": 5,
+        "title": "Caminata"
+    },
+    {
+        "id": 6,
+        "title": "Natación"
+    },
+    {
+        "id": 7,
+        "title": "Otra"
+    }
+]
