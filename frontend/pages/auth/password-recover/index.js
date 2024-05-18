@@ -1,9 +1,10 @@
-import {Input} from "../../../components/input";
+
 import {PersonOutline} from "@mui/icons-material";
 import {ButtonBlue} from "../../../components/button";
 import {CustomLink} from "../../../components/link";
 import {useRouter} from "next/router";
 import {passwordRecover} from "../../../services/api.service";
+import {Input} from "../../../components/input";
 
 export const PasswordRecover = () => {
     const router = useRouter();
