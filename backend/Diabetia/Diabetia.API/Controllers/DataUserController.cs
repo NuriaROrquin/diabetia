@@ -17,16 +17,17 @@ namespace Diabetia.API.Controllers
 
         private readonly DataUserUseCase _dataUserUseCase;
 
-        public DataController(ILogger<DataController> logger)
+        public DataController(ILogger<DataController> logger,DataUserUseCase dataUserUseCase)
         {
             _logger = logger;
+            _dataUserUseCase = dataUserUseCase;
         }
 
 
         [HttpPost("firstStep")]
         public async Task<IActionResult> Post([FromBody] DataRequest request)
         {
-            await _dataUserUseCase.firstStep(request.name, request.email, request.gender, request.lastname, request.weight, request.phone);
+            await _dataUserUseCase.FirstStep(request.name, request.email, request.gender, request.lastname, request.weight, request.phone);
 
             return Ok();
         }

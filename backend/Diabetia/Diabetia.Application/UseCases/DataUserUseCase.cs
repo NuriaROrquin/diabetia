@@ -1,6 +1,5 @@
 ﻿using Amazon.Runtime.Internal;
 using Diabetia.Domain.Services;
-using 
 
 namespace Diabetia.Application.UseCases
 {

@@ -15,6 +15,7 @@ builder.Services.AddDbContext<diabetiaContext>();
 builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddScoped<RegisterUseCase>();
 builder.Services.AddScoped<ConfirmUserEmailUseCase>();
+builder.Services.AddScoped<DataUserUseCase>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
