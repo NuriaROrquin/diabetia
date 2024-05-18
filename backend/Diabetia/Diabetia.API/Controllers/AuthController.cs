@@ -39,6 +39,7 @@ namespace Diabetia.API.Controllers
 
             var cookieOptions = new CookieOptions
             {
+<<<<<<< Updated upstream
                 HttpOnly = true,
                 Expires = DateTime.UtcNow.AddDays(7),
                 SameSite = SameSiteMode.None,
@@ -49,6 +50,9 @@ namespace Diabetia.API.Controllers
             Response.Cookies.Append("jwt", jwt, cookieOptions);
 
             return Ok("Bienvenido");
+=======
+                return BadRequest("Usuario o contraseña inválidos");            }
+>>>>>>> Stashed changes
         }
 
         [HttpPost("register")]

@@ -95,32 +95,34 @@ namespace Infrastructure.Provider
         }
 
         public async Task<string> LoginUserAsync(string username, string password)
+        {
+            string secretHash = CalculateSecretHash(_clientId, _clientSecret, username);
+            var request = new InitiateAuthRequest
+            {
+                AuthFlow = AuthFlowType.USER_PASSWORD_AUTH,
+                AuthParameters = new Dictionary<string, string>
                 {
-                    var request = new InitiateAuthRequest
-                    {
-                        AuthFlow = AuthFlowType.USER_PASSWORD_AUTH,
-                        AuthParameters = new Dictionary<string, string>
-                        {
-                            { "USERNAME", username },
-                            { "PASSWORD", password }
-                        },
-                        ClientId = _clientId
-                    };
+                    { "USERNAME", username },
+                    { "PASSWORD", password },
+                    { "SECRET_HASH", secretHash }
+                },
+                ClientId = _clientId
+            };
 
-                    try
-                    {
-                        var response = await _cognitoClient.InitiateAuthAsync(request);
-                        return response.AuthenticationResult.AccessToken;
-                    }
-                    catch (NotAuthorizedException e)
-                    {
-                        throw new Exception("La autenticación ha fallado. Mensaje de error: " + e.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("Error al autenticar al usuario: " + ex.Message);
-                    }
-                }
+            try
+            {
+                var response = await _cognitoClient.InitiateAuthAsync(request);
+                return response.AuthenticationResult.AccessToken;
+            }
+            catch (NotAuthorizedException e)
+            {
+                throw new Exception("La autenticación ha fallado. Mensaje de error: " + e.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al autenticar al usuario: " + ex.Message);
+            }
+        }
 
         public async Task ForgotPasswordRecoverAsync(string username)
         {

@@ -28,7 +28,7 @@ namespace Diabetia.Application.UseCases
             }
             catch (Exception ex)
             {
-                return null;
+                return ex.Message;
             }
             
         }
