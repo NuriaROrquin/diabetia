@@ -13,19 +13,24 @@ namespace Diabetia.Application.UseCases
             _apiCognitoProvider = apiCognitoProvider;
         }
 
-        public string Login(string email)
+        public async Task<string> Login(string username, string password)
         {
-            // Lógica para realizar la autenticación con cognito
-            // Se conecta a provider de infrastructure para conexión con cognito
-
-            var isCognitoSuccess = true;
-
-            if(isCognitoSuccess)
+            try
             {
-                return _authService.GenerateJwtToken(email);
+                var response = await _apiCognitoProvider.LoginUserAsync(username, password);
+                if (response != null){
+                    return response;
+                }
+                else
+                {
+                    return "Usuario o contraseña invalido";
+                }
             }
-
-            return "";
+            catch (Exception ex)
+            {
+                return "Usuario o contraseña invalido";
+            }
+            
         }
 
         
