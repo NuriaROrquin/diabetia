@@ -73,11 +73,6 @@ namespace Infrastructure.Provider
             }
         }
 
-
-
-
-
-        // Este metodo verifica el codigo dentro del correo del usuario
         public async Task<bool> ConfirmEmailVerificationAsync(string username, string hashCode, string confirmationCode)
         {
             var request = new ConfirmSignUpRequest
@@ -99,39 +94,81 @@ namespace Infrastructure.Provider
             }
         }
 
-        
-        
-
-// Este metodo loguea usuarios
-public async Task<string> LoginUserAsync(string username, string password)
-        {
-            var request = new InitiateAuthRequest
-            {
-                AuthFlow = AuthFlowType.USER_PASSWORD_AUTH,
-                AuthParameters = new Dictionary<string, string>
+        public async Task<string> LoginUserAsync(string username, string password)
                 {
-                    { "USERNAME", username },
-                    { "PASSWORD", password }
-                },
-                ClientId = _clientId
-            };
+                    var request = new InitiateAuthRequest
+                    {
+                        AuthFlow = AuthFlowType.USER_PASSWORD_AUTH,
+                        AuthParameters = new Dictionary<string, string>
+                        {
+                            { "USERNAME", username },
+                            { "PASSWORD", password }
+                        },
+                        ClientId = _clientId
+                    };
 
+                    try
+                    {
+                        var response = await _cognitoClient.InitiateAuthAsync(request);
+                        return response.AuthenticationResult.AccessToken;
+                    }
+                    catch (NotAuthorizedException e)
+                    {
+                        throw new Exception("La autenticación ha fallado. Mensaje de error: " + e.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error al autenticar al usuario: " + ex.Message);
+                    }
+                }
+
+        public async Task ForgotPasswordRecoverAsync(string username)
+        {
+            string secretHash = CalculateSecretHash(_clientId, _clientSecret, username);
+            var request = new ForgotPasswordRequest
+            {
+                ClientId = _clientId,
+                Username =  username,
+                SecretHash = secretHash
+            };
             try
             {
-                var response = await _cognitoClient.InitiateAuthAsync(request);
-                return response.AuthenticationResult.AccessToken;
-            }
-            catch (NotAuthorizedException e)
-            {
-                throw new Exception("La autenticación ha fallado. Mensaje de error: " + e.Message);
+                var response = await _cognitoClient.ForgotPasswordAsync(request);
+                if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    Console.WriteLine("El correo con el código de verificación se ha enviado correctamente.");
+                }
+                else
+                {
+                    Console.WriteLine("Ocurrió un error al intentar enviar el correo.");
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al autenticar al usuario: " + ex.Message);
+                Console.WriteLine($"Error al recuperar contraseña: {ex.Message}");
+                throw;
             }
         }
 
-        
-
+        public async Task ConfirmForgotPasswordCodeAsync(string username, string confirmationCode, string password)
+        {
+            var request = new ConfirmForgotPasswordRequest
+            {
+                ClientId = _clientId,
+                Username = username,
+                ConfirmationCode = confirmationCode,
+                Password = password,
+                //secretHash
+            };
+            try
+            {
+                await _cognitoClient.ConfirmForgotPasswordAsync(request);
+            }
+            catch (Exception ex) 
+            { 
+                Console.WriteLine(ex.Message); 
+            }
+            
+        }
     }
 }
