@@ -22,7 +22,8 @@
     "nookies": "^2.5.2",
     "react": "^18",
     "react-cookie": "^7.1.4",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "rsuite": "^5.61.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",
