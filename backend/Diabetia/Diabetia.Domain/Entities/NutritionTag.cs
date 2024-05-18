@@ -10,7 +10,9 @@ namespace Diabetia.Domain.Entities
     {
         public string CarbohydratesText { get; set; }
         public float Confidece { get; set; }
-        public int portion { get; set; }   
+        public float portion { get; set; }   
+        public float grPerPortion { get; set; }
+        public float chInPortion { get; set; }
 
     }
 }
