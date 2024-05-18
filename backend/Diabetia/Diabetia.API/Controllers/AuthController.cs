@@ -16,13 +16,17 @@ namespace Diabetia.API.Controllers
         private readonly LoginUseCase _loginUseCase;
         private readonly RegisterUseCase _registerUseCase;
         private readonly ConfirmUserEmailUseCase _confirmUserEmailUseCase;
+        private readonly ForgotPasswordUseCase _forgotPasswordUseCase;
+        private readonly ConfirmForgotPasswordCodeUseCase _confirmForgotPasswordCodeUseCase;
 
-        public AuthController(ILogger<AuthController> logger, LoginUseCase loginUseCase, RegisterUseCase registerUseCase, ConfirmUserEmailUseCase confirmUserEmailUseCase)
+        public AuthController(ILogger<AuthController> logger, LoginUseCase loginUseCase, RegisterUseCase registerUseCase, ConfirmUserEmailUseCase confirmUserEmailUseCase, ForgotPasswordUseCase forgotPasswordUseCase, ConfirmForgotPasswordCodeUseCase confirmForgotPasswordCodeUseCase)
         {
             _logger = logger;
             _loginUseCase = loginUseCase;
             _registerUseCase = registerUseCase;
             _confirmUserEmailUseCase = confirmUserEmailUseCase;
+            _forgotPasswordUseCase = forgotPasswordUseCase;
+            _confirmForgotPasswordCodeUseCase = confirmForgotPasswordCodeUseCase;
         }
 
 
@@ -71,6 +75,34 @@ namespace Diabetia.API.Controllers
             else
             {
                 return BadRequest(new { Message = "Ocurrió un error al querer validar el email, intentelo nuevamente." });
+            }
+        }
+
+        [HttpPost("passwordRecover")]
+        public async Task<IActionResult> PasswordEmailRecover([FromBody] string username)
+        {
+            try
+            {
+                await _forgotPasswordUseCase.ForgotPasswordEmailAsync(username);
+                return Ok("Usuario registrado exitosamente");
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(500, $"Error al enviar el correo de recuperación: {ex.Message}");
+            }
+        }
+
+        [HttpPost("passwordRecoverCode")]
+        public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] string username, string confirmationCode, string password)
+        {
+            try
+            {
+                await _confirmForgotPasswordCodeUseCase.ConfirmForgotPasswordAsync(username, confirmationCode, password);
+                return Ok("Contraseña cambiada exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al cambiar la contraseña: {ex.Message}");
             }
         }
     }

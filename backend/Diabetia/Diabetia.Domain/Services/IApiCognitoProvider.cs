@@ -15,6 +15,9 @@ namespace Diabetia.Domain.Services
 
         public Task<string> LoginUserAsync(string username, string password);
 
+        public Task ForgotPasswordRecoverAsync(string username);
+
+        public Task ConfirmForgotPasswordCodeAsync(string username, string confirmationCode, string password);
 
     }
 }
