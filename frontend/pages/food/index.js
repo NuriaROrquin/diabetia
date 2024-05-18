@@ -1,7 +1,7 @@
 import {Section} from "@/components/section";
 import {SubtitleSection, TitleSection} from "@/components/titles";
 import {CameraAltOutlined, UploadFileOutlined} from "@mui/icons-material";
-import {useRef, useState} from "react";
+import {useRef} from "react";
 
 const FoodPage = () => {
     const fileInputRef = useRef(null);
