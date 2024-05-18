@@ -8,7 +8,7 @@ export const CustomLink = ({text, href}) => {
 
 export const NavLink = ({text, href, className}) => {
     return (
-        <Link className={`inline-block text-white no-underline py-2 px-4 ${className}`} href={href}>{text}</Link>
+        <Link className={`inline-block text-white no-underline hover:no-underline focus:no-underline focus:text-white hover:text-white py-2 px-4 text-base ${className}`} href={href}>{text}</Link>
     )
 }
 
@@ -17,7 +17,7 @@ export const OrangeLink = ({label, width, href}) => {
         <div className={`flex justify-center ${width}`}>
             <Link
                 href={href}
-                className="bg-orange-focus hover:bg-orange-primary transition-all text-white py-2 px-8 rounded-full w-full flex justify-center"
+                className="bg-orange-focus hover:bg-orange-primary hover:no-underline transition-all hover:text-white text-white py-2 px-8 rounded-full w-full flex justify-center"
             >
                 {label}
             </Link>

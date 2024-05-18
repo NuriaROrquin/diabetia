@@ -41,7 +41,7 @@ export const Navigation = () => {
     }
 
     return (
-        <nav id="header" className={`fixed w-full z-30 top-0 text-white transition-all ${scrolling && 'bg-blue-primary'} `}>
+        <nav id="header" className={`fixed w-full z-30 top-0 text-white transition-all  ${scrolling && 'bg-blue-primary'} `}>
             <div className="w-full container mx-auto flex items-center justify-between mt-0 py-2">
                 <div className="pl-4 flex items-center">
                     <Link className="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
@@ -52,7 +52,7 @@ export const Navigation = () => {
                 <div
                     className="w-full flex items-center mt-2 lg:mt-0 bg-transparent text-black p-4 lg:p-0 z-20"
                     id="nav-content">
-                    <ul className="list-reset lg:flex justify-end flex-1 items-center">
+                    <ul className="lg:flex justify-end flex-1 items-center mb-0">
                         <li className="mr-3">
                             <NavLink href="/event/food" text="Registrar comida" className="bg-orange-secondary rounded-xl !py-1 hover:bg-orange-focus transition-all"/>
                         </li>
