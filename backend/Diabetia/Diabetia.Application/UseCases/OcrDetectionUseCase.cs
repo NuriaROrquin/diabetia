@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 namespace Diabetia.Application.UseCases
 {
-      public class OcrDetectionUseCase
+    public class OcrDetectionUseCase
     {
         private readonly IApiAmazonProvider _apiAmazonService;
 
@@ -60,7 +60,7 @@ namespace Diabetia.Application.UseCases
                 {
                     string cantidadCarbohidratos = match.Groups[1].Value;
                     chInPortion = float.Parse(cantidadCarbohidratos);
-                    ocrResponse +=("Cantidad de carbohidratos por porción: " + cantidadCarbohidratos + ". ");
+                    ocrResponse += ("Cantidad de carbohidratos por porción: " + cantidadCarbohidratos + ". ");
                 }
             }
             else
@@ -73,7 +73,7 @@ namespace Diabetia.Application.UseCases
             carbohydratesText.CarbohydratesText = ocrResponse;
             carbohydratesText.grPerPortion = grPerPortion;
             carbohydratesText.chInPortion = chInPortion;
-            
+
 
 
             return carbohydratesText;

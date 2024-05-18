@@ -19,14 +19,25 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("ocrdetection")]
-        public async Task<string> GetOcrResponseAsync([FromBody] OcrRequest request)
+        public async Task<OcrResponse> GetOcrResponseAsync([FromBody] OcrRequest request)
         {
             NutritionTag tagRequest = new NutritionTag();
             tagRequest = await _OcrDetectionUseCase.GetOcrResponseFromDocument(request.ImageBase64);
 
             tagRequest.portion = request.portion;
 
-            string response = await _OcrCalculateUseCase.GetChPerPortionConsumed(tagRequest);
+            
+            string consumed = await _OcrCalculateUseCase.GetChPerPortionConsumed(tagRequest);
+
+            OcrResponse response = new OcrResponse();
+
+            response.grPerPortion = tagRequest.grPerPortion;
+
+            response.portion = request.portion;
+
+            response.chInPortion = tagRequest.chInPortion;
+
+            response.CarbohydratesText = consumed;
 
             return response;
              

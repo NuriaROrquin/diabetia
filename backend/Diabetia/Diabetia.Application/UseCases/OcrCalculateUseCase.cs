@@ -12,13 +12,10 @@ namespace Diabetia.Application.UseCases
     {
         public async Task<string> GetChPerPortionConsumed(NutritionTag nutritionTag) 
         {
-            string chConsumed = "";
 
             float chPerPortionConsumed = (nutritionTag.chInPortion * nutritionTag.portion);
 
-            chConsumed += "Consumiste " + chPerPortionConsumed.ToString() + " carbohidatros en total.";
-
-            return chConsumed;
+            return chPerPortionConsumed.ToString();
         }
     }
 }
