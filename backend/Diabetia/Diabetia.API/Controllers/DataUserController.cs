@@ -17,7 +17,7 @@ namespace Diabetia.API.Controllers
 
         private readonly DataUserUseCase _dataUserUseCase;
 
-        public DataController(ILogger<DataController> logger,DataUserUseCase dataUserUseCase)
+        public DataController(ILogger<DataController> logger, DataUserUseCase dataUserUseCase)
         {
             _logger = logger;
             _dataUserUseCase = dataUserUseCase;
@@ -28,6 +28,14 @@ namespace Diabetia.API.Controllers
         public async Task<IActionResult> Post([FromBody] DataRequest request)
         {
             await _dataUserUseCase.FirstStep(request.name, request.email, request.gender, request.lastname, request.weight, request.phone);
+
+            return Ok();
+        }
+
+        [HttpPost("secondStep")]
+        public async Task<IActionResult> PostSecondStep([FromBody] PatientRequest request)
+        {
+            await _dataUserUseCase.SecondStep(request.typeDiabetes, request.useInsuline, request.typeInsuline, request.email);
 
             return Ok();
         }
