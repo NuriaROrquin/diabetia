@@ -13,22 +13,22 @@ using System.Text.RegularExpressions;
 
 namespace Diabetia.Application.UseCases
 {
-    public class OcrDetectionUseCase
+    public class TagDetectionUseCase
     {
         private readonly IApiAmazonProvider _apiAmazonService;
 
-        public OcrDetectionUseCase(IApiAmazonProvider apiAmazonService)
+        public TagDetectionUseCase(IApiAmazonProvider apiAmazonService)
         {
             _apiAmazonService = apiAmazonService;
         }
 
-        public async Task<NutritionTag> GetOcrResponseFromDocument(string ocrRequest)
+        public async Task<NutritionTag> GetOcrResponseFromDocument(string tagRequest)
         {
-            string ocrResponse = "";
             float chInPortion = 0;
             float grPerPortion = 0;
-            string textractResponse = await _apiAmazonService.GetChFromDocument(ocrRequest);
+            string textractResponse = await _apiAmazonService.GetChFromDocument(tagRequest);
             string chPattern = @"[Cc]arbohidratos:?\s*(\d+)\s*g";
+            string tagResponse = "";
 
             string portionPatter = @"[Pp]orci[oó]n\s*(\d+)\s*g";
 
@@ -43,14 +43,13 @@ namespace Diabetia.Application.UseCases
             {
                 foreach (Match match in portionMatches)
                 {
-                    string cantidadCarbohidratos = match.Groups[1].Value;
-                    grPerPortion = float.Parse(cantidadCarbohidratos);
-                    ocrResponse += ("Cantidad de gramos por porción: " + cantidadCarbohidratos + ". ");
+                    string grDetected = match.Groups[1].Value;
+                    grPerPortion = float.Parse(grDetected);
                 }
             }
             else
             {
-                ocrResponse += ("No se encontró la cantidad de gramos por porción en el texto proporcionado. ");
+                tagResponse += ("No se encontró la cantidad de gramos por porción en el texto proporcionado. ");
             }
 
             // Imprime todas las coincidencias encontradas de ch
@@ -58,23 +57,21 @@ namespace Diabetia.Application.UseCases
             {
                 foreach (Match match in chMatches)
                 {
-                    string cantidadCarbohidratos = match.Groups[1].Value;
-                    chInPortion = float.Parse(cantidadCarbohidratos);
-                    ocrResponse += ("Cantidad de carbohidratos por porción: " + cantidadCarbohidratos + ". ");
+                    string quantityCarbohydrates = match.Groups[1].Value;
+                    chInPortion = float.Parse(quantityCarbohydrates);
                 }
             }
             else
             {
-                ocrResponse += ("No se encontró la cantidad de carbohidratos por porción en el texto proporcionado.");
+                tagResponse += ("No se encontró la cantidad de carbohidratos por porción en el texto proporcionado.");
             }
 
             NutritionTag carbohydratesText = new NutritionTag();
 
-            carbohydratesText.CarbohydratesText = ocrResponse;
+            carbohydratesText.CarbohydratesText = tagResponse;
             carbohydratesText.grPerPortion = grPerPortion;
             carbohydratesText.chInPortion = chInPortion;
-
-
+            carbohydratesText.CarbohydratesText = tagResponse;
 
             return carbohydratesText;
         }

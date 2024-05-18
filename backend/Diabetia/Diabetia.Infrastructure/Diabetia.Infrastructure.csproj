@@ -32,4 +32,8 @@
     <ProjectReference Include="..\Diabetia.Domain\Diabetia.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>

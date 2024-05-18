@@ -12,6 +12,7 @@ namespace Diabetia.Domain.Entities
         public float portion { get; set; }   
         public float grPerPortion { get; set; }
         public float chInPortion { get; set; }
+        public float chCalculated { get; set; }
 
     }
 }

@@ -11,8 +11,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddScoped<RegisterUseCase>();
-builder.Services.AddScoped<OcrDetectionUseCase>();
-builder.Services.AddScoped<OcrCalculateUseCase>();
+builder.Services.AddScoped<TagDetectionUseCase>();
+builder.Services.AddScoped<TagCalculateUseCase>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
 builder.Services.AddScoped<IApiAmazonProvider, ApiAmazonProvider>();

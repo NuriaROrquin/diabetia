@@ -46,9 +46,6 @@ namespace Diabetia.Infrastructure.Providers
 
             textractResult.CarbohydratesText = string.Join(" ", result.Blocks.Where(b => b.BlockType == BlockType.LINE).Select(b => b.Text));
 
-            IEnumerable<float> confidenceValues = result.Blocks.Select(b => b.Confidence);
-            textractResult.Confidece = confidenceValues.Average();
-
             return textractResult.CarbohydratesText;
 
         }

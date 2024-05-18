@@ -8,14 +8,14 @@ using Diabetia.Domain.Entities;
 
 namespace Diabetia.Application.UseCases
 {
-    public class OcrCalculateUseCase
+    public class TagCalculateUseCase
     {
-        public async Task<string> GetChPerPortionConsumed(NutritionTag nutritionTag) 
+        public async Task<float> GetChPerPortionConsumed(NutritionTag nutritionTag) 
         {
 
             float chPerPortionConsumed = (nutritionTag.chInPortion * nutritionTag.portion);
 
-            return chPerPortionConsumed.ToString();
+            return chPerPortionConsumed;
         }
     }
 }
