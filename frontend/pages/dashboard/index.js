@@ -1,4 +1,4 @@
-import {Card} from "../../components/card";
+import {Card, MetricCard} from "../../components/card";
 import {Selector} from "../../components/selector";
 import Link from "next/link";
 import {useState} from "react";
@@ -32,7 +32,7 @@ export const Home = () => {
 
                 <div className="flex flex-wrap justify-around my-12 gap-x-1 gap-y-8">
                     {DASHBOARD_INDICATORS.map((data, index) => (
-                        <Card
+                        <MetricCard
                             key={index}
                             textIndicator={data.textIndicator}
                             color={data.color}
