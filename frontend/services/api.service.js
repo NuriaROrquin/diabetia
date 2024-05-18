@@ -26,3 +26,21 @@ export const register = (username, email, password) => {
             { withCredentials: true }
         );
 }
+
+export const passwordRecover = (username) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/passwordRecover`,
+            { username },
+            { withCredentials: true }
+        );
+}
+
+export const passwordRecoverCode = (username, confirmationCode, password) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/passwordRecoverCode`,
+            { username, confirmationCode, password },
+            { withCredentials: true }
+        );
+}

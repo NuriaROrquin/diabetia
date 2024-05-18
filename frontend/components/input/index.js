@@ -17,7 +17,7 @@ export const Input = ({type, placeholder, id, width, icon, withForgotPassword=fa
           </div>
 
           {withForgotPassword && (
-              <Link href="/" className="mt-1 text-gray-secondary text-sm underline self-end" >Olvidé mi contraseña</Link>
+              <Link href="/auth/password-recover" className="mt-1 text-gray-secondary text-sm underline self-end" >Olvidé mi contraseña</Link>
           )}
       </>
   )
