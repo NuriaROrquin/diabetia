@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Diabetia.Domain.Services
 {
-    internal interface IUserRepository
+    public interface IUserRepository
     {
+
+        public async Task CompleteUserInfo(string name, string email, string gender, string lastname, int weight, string phone);
     }
 }

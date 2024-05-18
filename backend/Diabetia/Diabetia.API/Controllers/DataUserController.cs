@@ -26,7 +26,7 @@ namespace Diabetia.API.Controllers
         [HttpPost("firstStep")]
         public async Task<IActionResult> Post([FromBody] DataRequest request)
         {
-            var res = await _dataUserUseCase.firstStep(request.name, request.email, request.gender);
+            var res = await _dataUserUseCase.firstStep(request.name, request.email, request.gender, request.lastname, request.weight, request.phone);
 
             return Ok(res);
         }

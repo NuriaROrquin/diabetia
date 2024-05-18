@@ -9,13 +9,14 @@ namespace Diabetia.API
         public string birthdate { get; set; }
         public string email { get; set; }
         public string gender { get; set; }
+        public string phone { get; set; }
+        public int weight { get; set; }
+        public string lastname { get; set; }
 
-        public int phone { get; set; }
+        // public string country { get; set; }
 
-       // public string country { get; set; }
+        //  public bool actived { get; set; }
 
-      //  public bool actived { get; set; }
-
-       // public string hash { get; set; }
+        // public string hash { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Diabetia.Domain.Services;
+﻿using Amazon.Runtime.Internal;
+using Diabetia.Domain.Services;
+using 
 
 namespace Diabetia.Application.UseCases
 {
@@ -6,16 +8,16 @@ namespace Diabetia.Application.UseCases
     {
         private readonly IAuthService _authService;
         private readonly IApiCognitoProvider _apiCognitoProvider;
+        private readonly IUserRepository _userRepository;
         public DataUserUseCase(IAuthService authService, IApiCognitoProvider apiCognitoProvider)
         {
             _authService = authService;
             _apiCognitoProvider = apiCognitoProvider;
         }
-        public async Task<string> firstStep(string username, string password, string email)
+        public async Task firstStep(string name, string email, string gender, string lastname, int weight, string phone)
         {
-            string res = await _apiCognitoProvider.RegisterUserAsync(username, password, email);
+             await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone); 
 
-            return res;
         }
     }
 }

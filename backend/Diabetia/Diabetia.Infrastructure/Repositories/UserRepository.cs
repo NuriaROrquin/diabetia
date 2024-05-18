@@ -1,12 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Diabetia.API;
+using Diabetia.Domain.Services;
+using System.Data.Entity;
+using Diabetia.Infrastructure.Repositories;
 
 namespace Diabetia.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
+
+        private diabetiaContext _context;
+
+        public UserRepository(diabetiaContext context)
+        {
+            _context = context;
+        }
+
+        public async Task CompleteUserInfo(string name, string email, string gender, string lastname, int weight, string phone)
+        {
+
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user != null)
+            {
+                user.NombreCompleto = String.Concat(name, " ", lastname);
+                user.Genero = gender;
+                user.Telefono = phone;
+            }
+                _context.Usuarios.Add(user);
+                await _context.SaveChangesAsync();
+        }
+
+
     }
 }
