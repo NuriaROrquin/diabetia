@@ -6,7 +6,7 @@ namespace Diabetia.API
         //me baso en el front
 
         public string name { get; set; }
-        public string birthdate { get; set; }
+        public DateTime birthdate { get; set; }
         public string email { get; set; }
         public string gender { get; set; }
         public string phone { get; set; }

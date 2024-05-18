@@ -1,7 +1,7 @@
 ﻿using Diabetia.API;
 using Diabetia.Domain.Services;
-using System.Data.Entity;
-using Diabetia.Infrastructure.Repositories;
+//using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -26,7 +26,7 @@ namespace Diabetia.Infrastructure.Repositories
                 user.Genero = gender;
                 user.Telefono = phone;
             }
-                _context.Usuarios.Add(user);
+                _context.Usuarios.Update(user);
                 await _context.SaveChangesAsync();
         }
 
