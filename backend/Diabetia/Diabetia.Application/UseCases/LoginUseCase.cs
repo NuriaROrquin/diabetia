@@ -23,12 +23,12 @@ namespace Diabetia.Application.UseCases
                 }
                 else
                 {
-                    return "Usuario o contraseña invalido";
+                    return null;
                 }
             }
             catch (Exception ex)
             {
-                return "Usuario o contraseña invalido";
+                return null;
             }
             
         }

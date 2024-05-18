@@ -36,19 +36,25 @@ namespace Diabetia.API.Controllers
         public async Task<IActionResult> Post([FromBody] LoginRequest request)
         {
             var jwt = await _loginUseCase.Login(request.username, request.password);
-
-            var cookieOptions = new CookieOptions
+            if (jwt != null)
             {
-                HttpOnly = true,
-                Expires = DateTime.UtcNow.AddDays(7),
-                SameSite = SameSiteMode.None,
-                Secure = true,
-                Path = "/"
-            };
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    SameSite = SameSiteMode.None,
+                    Secure = true,
+                    Path = "/"
+                };
 
-            Response.Cookies.Append("jwt", jwt, cookieOptions);
-
-            return Ok("Bienvenido");
+                Response.Cookies.Append("jwt", jwt, cookieOptions);
+                return Ok("Bienvenido");
+            }
+            else
+            {
+                return BadRequest("Usuario o contraseña invalidos");
+            }
+            
         }
 
         [HttpPost("register")]
