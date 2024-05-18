@@ -17,12 +17,11 @@ builder.Services.AddScoped<RegisterUseCase>();
 builder.Services.AddScoped<ConfirmUserEmailUseCase>();
 builder.Services.AddScoped<ForgotPasswordUseCase>();
 builder.Services.AddScoped<ConfirmForgotPasswordCodeUseCase>();
+builder.Services.AddScoped<OcrDetectionUseCase>();
+
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
-builder.Services.AddScoped<OcrDetectionUseCase>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
 builder.Services.AddScoped<IApiAmazonService, ApiAmazonService>();
 
 
