@@ -1,3 +1,5 @@
+using Amazon.CognitoIdentityProvider.Model;
+using Diabetia.API.DTO;
 using Diabetia.Application.UseCases;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -64,9 +66,9 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("confirmEmailVerification")]
-        public async Task<IActionResult> ConfirmEmailVerification([FromBody] string username, string email, string confirmationCode)
+        public async Task<IActionResult> ConfirmEmailVerification([FromBody] UserRequest request)
         {
-            bool isSuccess = await _confirmUserEmailUseCase.ConfirmEmailVerification(username, email, confirmationCode);
+            bool isSuccess = await _confirmUserEmailUseCase.ConfirmEmailVerification(request.username, request.email, request.confirmationCode);
 
             if (isSuccess)
             {
@@ -79,11 +81,11 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("passwordRecover")]
-        public async Task<IActionResult> PasswordEmailRecover([FromBody] string username)
+        public async Task<IActionResult> PasswordEmailRecover([FromBody] UserRequest request)
         {
             try
             {
-                await _forgotPasswordUseCase.ForgotPasswordEmailAsync(username);
+                await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.username);
                 return Ok("Usuario registrado exitosamente");
             }
             catch (Exception ex) 
@@ -93,11 +95,11 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("passwordRecoverCode")]
-        public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] string username, string confirmationCode, string password)
+        public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] UserRequest request)
         {
             try
             {
-                await _confirmForgotPasswordCodeUseCase.ConfirmForgotPasswordAsync(username, confirmationCode, password);
+                await _confirmForgotPasswordCodeUseCase.ConfirmForgotPasswordAsync(request.username, request.confirmationCode, request.password);
                 return Ok("Contraseña cambiada exitosamente");
             }
             catch (Exception ex)
