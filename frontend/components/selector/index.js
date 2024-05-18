@@ -8,7 +8,7 @@ export const Selector = ({width, selectedOption, options, isOpen, setIsOpen, han
             <div className="relative w-full">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className={`flex appearance-none w-full bg-orange-secondary px-4 py-3 pr-8 shadow leading-tight focus:outline-none focus:shadow-outline ${isOpen ? 'rounded-b-0 rounded-t-xl' : 'rounded-xl'}`}
+                    className={`flex appearance-none text-white w-full bg-orange-secondary px-4 py-3 pr-8 shadow leading-tight focus:outline-none focus:shadow-outline ${isOpen ? 'rounded-b-0 rounded-t-xl' : 'rounded-xl'}`}
                 >
                     {selectedOption}
                     <span

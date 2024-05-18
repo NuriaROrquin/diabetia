@@ -143,3 +143,14 @@ body {
   background-color: #648ECA;
   border-radius: 5px;
 }
+
+/*****************************************************CALENDAR******************************************/
+
+.rs-calendar-panel .rs-calendar-table-cell-is-today .rs-calendar-table-cell-day {
+  background-color: #5D89C8 !important;
+}
+
+.rs-calendar-panel .rs-calendar-table-cell-selected .rs-calendar-table-cell-content {
+  box-shadow: inset 0 0 0 1px #5D89C8 !important;
+  border-radius: 2rem;
+}

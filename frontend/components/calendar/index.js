@@ -7,14 +7,14 @@ import "rsuite/dist/rsuite.min.css";
 
 function getTodoList(date) {
     const todoLists = {
-        10: [
+        '2024-05-10': [
             { time: '10:30 am', title: 'Meeting' },
             { time: '12:00 pm', title: 'Lunch' }
         ],
-        12: [
+        '2024-05-12': [
             { time: '10:30 am', title: 'Meeting' }
         ],
-        15: [
+        '2024-05-15': [
             { time: '09:30 pm', title: 'Products ' },
             { time: '12:30 pm', title: 'Client ' },
             { time: '02:00 pm', title: 'Product ' },
@@ -24,8 +24,8 @@ function getTodoList(date) {
         ],
     };
 
-    const day = date.getDate();
-    return todoLists[day] || [];
+    const formattedDate = date.toISOString().split('T')[0];
+    return todoLists[formattedDate] || [];
 }
 
 export const CustomCalendar = () => {
