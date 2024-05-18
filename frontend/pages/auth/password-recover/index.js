@@ -12,7 +12,7 @@ export const PasswordRecover = () => {
         const username = document.getElementById("username").value;
         passwordRecover(username)
             .then(() => {
-                router.push(`/auth/password-recover/code?userName=${username}`);
+                router.push(`/auth/password-recover/code?username=${username}`);
             })
             .catch((error) => {
                 console.log(error);

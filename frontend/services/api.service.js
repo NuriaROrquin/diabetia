@@ -45,11 +45,11 @@ export const passwordRecoverCode = (username, confirmationCode, password) => {
         );
 }
 
-export const confirmEmailVerification = (username, confirmationCode) => {
+export const confirmEmailVerification = (username, email, confirmationCode) => {
     return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/confirmEmailVerification`,
-            { username, confirmationCode},
+            { username, email, confirmationCode},
             { withCredentials: true }
         );
 }

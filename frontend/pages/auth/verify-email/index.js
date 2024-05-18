@@ -1,17 +1,16 @@
 import {Input} from "../../../components/input";
-import {CodeOffOutlined } from "@mui/icons-material";
+import {CodeOffOutlined} from "@mui/icons-material";
 import {ButtonBlue} from "../../../components/button";
-import {CustomLink} from "../../../components/link";
 import {useRouter} from "next/router";
 import {confirmEmailVerification} from "../../../services/api.service";
 
 export const VerifyEmail = () => {
     const router = useRouter();
-    const { username } = router.query;
+    const { username, email } = router.query;
 
     const onHandleClick = () => {
         const confirmationCode = document.getElementById("confirmationCode").value;
-        confirmEmailVerification(username, confirmationCode)
+        confirmEmailVerification(username,email, confirmationCode)
             .then(() => {
                 router.push(`/auth/login`)
             })
