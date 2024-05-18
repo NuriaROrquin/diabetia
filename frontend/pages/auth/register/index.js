@@ -20,8 +20,7 @@ export const Register = () => {
           router.push(`/auth/verify-email?username=${username}&email=${email}`);
         })
         .catch((error) => {
-            setError(error.response.data)
-        });
+            error.response.data ? setError(error.response.data) : setError("Hubo un error")        });
   }
 
   return (

@@ -21,7 +21,7 @@ export const PasswordRecoverCode = () => {
                 router.push(`/auth/login`);
             })
             .catch((error) => {
-                setError(error.response.data)
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")
             });
     }
 
