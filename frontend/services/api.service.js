@@ -1,11 +1,10 @@
 import axios from "axios";
-import {redirect} from "next/navigation";
 
-export const login = (email, password) => {
+export const login = (username, password) => {
     return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-            { email, password },
+            { username, password },
             { withCredentials: true }
         );
 }

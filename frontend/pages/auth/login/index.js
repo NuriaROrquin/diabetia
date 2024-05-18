@@ -1,6 +1,6 @@
 import {Input} from "../../../components/input";
 import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
-import {EmailOutlined} from "@mui/icons-material";
+import {PersonOutline} from "@mui/icons-material";
 import {ButtonBlue} from "../../../components/button";
 import {CustomLink} from "../../../components/link";
 import {login} from "../../../services/api.service";
@@ -11,9 +11,9 @@ export const Login = () => {
     const router = useRouter();
 
     const onHandleClick = () => {
-        const email = document.getElementById("email").value;
+        const username = document.getElementById("username").value;
         const password = document.getElementById("contrasena").value;
-        login(email, password)
+        login(username, password)
             .then(() => {
                 router.push(`/dashboard`)
             })
@@ -33,7 +33,7 @@ export const Login = () => {
 
                 <div className="flex flex-col w-1/2 mb-6">
 
-                    <Input type="email" placeholder="Email" id="email" width="w-full" icon={<KeyOutlinedIcon/>}/>
+                    <Input type="text" placeholder="Username" id="username" width="w-full" icon={<PersonOutline/>}/>
 
                     <Input type="password" placeholder="Contraseña" id="contrasena" width="w-full"
                            icon={<KeyOutlinedIcon/>} withForgotPassword/>
