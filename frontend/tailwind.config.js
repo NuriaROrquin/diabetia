@@ -55,6 +55,8 @@ module.exports = {
       },
       backgroundImage: {
         'actividad-fisica': "url('/actividad-fisica.webp')",
+        'food': "url('/food.jpg')",
+
       }
     },
   },

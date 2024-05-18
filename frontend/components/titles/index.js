@@ -6,10 +6,10 @@ export const TitleSection = ({children, className = ""}) => {
     )
 }
 
-export const SubtitleSection = ({children}) => {
+export const SubtitleSection = ({children, className = ""}) => {
     return (
-        <div className="text-center text-gray-primary">
-            <h2 className="text-2xl font-bold">{children}</h2>
+        <div className={`text-center text-gray-primary ${className}`}>
+            <h2 className="text-2xl font-medium">{children}</h2>
         </div>
     )
 }

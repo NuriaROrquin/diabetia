@@ -54,7 +54,7 @@ export const Navigation = () => {
                     id="nav-content">
                     <ul className="lg:flex justify-end flex-1 items-center mb-0">
                         <li className="mr-3">
-                            <NavLink href="/event/food" text="Registrar comida" className="bg-orange-secondary rounded-xl !py-1 hover:bg-orange-focus transition-all"/>
+                            <NavLink href="/food" text="Registrar comida" className="bg-orange-secondary rounded-xl !py-1 hover:bg-orange-focus transition-all"/>
                         </li>
                         <li className="mr-3">
                             <NavLink href="/calendar" text="Calendario"/>
