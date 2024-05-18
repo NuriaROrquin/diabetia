@@ -1,10 +1,6 @@
 ﻿using Diabetia.API;
 using Diabetia.Domain.Services;
-using System.Data.Entity;
-using Diabetia.Infrastructure.Repositories;
-using System.Numerics;
-using System.Reflection;
-using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -38,12 +34,24 @@ namespace Diabetia.Infrastructure.Repositories
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
 
-            if (user != null)
+            if (pac == null)
             {
+                var pac_new = new Paciente
+                {
+                    IdUsuario = user.Id,
+                    IdTipoDiabetes = typeDiabetes,
+                    UsaInsulina = useInsuline,
+                    IdSensibilidadInsulina = 1,
+            };
+                _context.Pacientes.Add(pac_new);
+            }
+            else {
+                pac.IdUsuario = user.Id;
                 pac.IdTipoDiabetes = typeDiabetes;
                 pac.UsaInsulina = useInsuline;
+                pac.IdSensibilidadInsulina = 1;
+                _context.Pacientes.Update(pac);
             }
-            _context.Pacientes.Add(pac);
             await _context.SaveChangesAsync();
         }
     }
