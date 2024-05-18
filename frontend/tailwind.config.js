@@ -52,6 +52,9 @@ module.exports = {
       height: {
         "600": "600px",
         "400": "400px",
+      },
+      backgroundImage: {
+        'actividad-fisica': "url('/actividad-fisica.webp')",
       }
     },
   },

@@ -1,6 +1,6 @@
-export const TitleSection = ({children}) => {
+export const TitleSection = ({children, className = ""}) => {
     return (
-        <div className="text-center text-gray-primary">
+        <div className={`text-center text-gray-primary ${className}`}>
             <h1 className="text-3xl font-bold">{children}</h1>
         </div>
     )

@@ -1,3 +1,5 @@
+using Amazon.CognitoIdentityProvider.Model;
+using Diabetia.API.DTO;
 using Diabetia.Application.UseCases;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -16,33 +18,43 @@ namespace Diabetia.API.Controllers
         private readonly LoginUseCase _loginUseCase;
         private readonly RegisterUseCase _registerUseCase;
         private readonly ConfirmUserEmailUseCase _confirmUserEmailUseCase;
+        private readonly ForgotPasswordUseCase _forgotPasswordUseCase;
+        private readonly ConfirmForgotPasswordCodeUseCase _confirmForgotPasswordCodeUseCase;
 
-        public AuthController(ILogger<AuthController> logger, LoginUseCase loginUseCase, RegisterUseCase registerUseCase, ConfirmUserEmailUseCase confirmUserEmailUseCase)
+        public AuthController(ILogger<AuthController> logger, LoginUseCase loginUseCase, RegisterUseCase registerUseCase, ConfirmUserEmailUseCase confirmUserEmailUseCase, ForgotPasswordUseCase forgotPasswordUseCase, ConfirmForgotPasswordCodeUseCase confirmForgotPasswordCodeUseCase)
         {
             _logger = logger;
             _loginUseCase = loginUseCase;
             _registerUseCase = registerUseCase;
             _confirmUserEmailUseCase = confirmUserEmailUseCase;
+            _forgotPasswordUseCase = forgotPasswordUseCase;
+            _confirmForgotPasswordCodeUseCase = confirmForgotPasswordCodeUseCase;
         }
 
 
         [HttpPost("login")]
-        public IActionResult Post([FromBody] LoginRequest request)
+        public async Task<IActionResult> Post([FromBody] LoginRequest request)
         {
-            var jwt = _loginUseCase.Login(request.email);
-
-            var cookieOptions = new CookieOptions
+            var jwt = await _loginUseCase.Login(request.username, request.password);
+            if (jwt != null)
             {
-                HttpOnly = true,
-                Expires = DateTime.UtcNow.AddDays(7),
-                SameSite = SameSiteMode.None,
-                Secure = true,
-                Path = "/"
-            };
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    SameSite = SameSiteMode.None,
+                    Secure = true,
+                    Path = "/"
+                };
 
-            Response.Cookies.Append("jwt", jwt, cookieOptions);
-
-            return Ok();
+                Response.Cookies.Append("jwt", jwt, cookieOptions);
+                return Ok("Bienvenido");
+            }
+            else
+            {
+                return BadRequest("Usuario o contraseña invalidos");
+            }
+            
         }
 
         [HttpPost("register")]
@@ -59,11 +71,10 @@ namespace Diabetia.API.Controllers
             }
         }
 
-        // Cambiar nombre del method post
         [HttpPost("confirmEmailVerification")]
-        public async Task<IActionResult> ConfirmEmailVerification([FromBody] string username, string confirmationCode)
+        public async Task<IActionResult> ConfirmEmailVerification([FromBody] UserRequest request)
         {
-            bool isSuccess = await _confirmUserEmailUseCase.ConfirmEmailVerification(username, confirmationCode);
+            bool isSuccess = await _confirmUserEmailUseCase.ConfirmEmailVerification(request.username, request.email, request.confirmationCode);
 
             if (isSuccess)
             {
@@ -72,6 +83,34 @@ namespace Diabetia.API.Controllers
             else
             {
                 return BadRequest(new { Message = "Ocurrió un error al querer validar el email, intentelo nuevamente." });
+            }
+        }
+
+        [HttpPost("passwordRecover")]
+        public async Task<IActionResult> PasswordEmailRecover([FromBody] UserRequest request)
+        {
+            try
+            {
+                await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.username);
+                return Ok("Usuario registrado exitosamente");
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(500, $"Error al enviar el correo de recuperación: {ex.Message}");
+            }
+        }
+
+        [HttpPost("passwordRecoverCode")]
+        public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] UserRequest request)
+        {
+            try
+            {
+                await _confirmForgotPasswordCodeUseCase.ConfirmForgotPasswordAsync(request.username, request.confirmationCode, request.password);
+                return Ok("Contraseña cambiada exitosamente");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al cambiar la contraseña: {ex.Message}");
             }
         }
     }

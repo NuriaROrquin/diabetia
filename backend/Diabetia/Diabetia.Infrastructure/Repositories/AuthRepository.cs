@@ -12,6 +12,18 @@ namespace Diabetia.Infrastructure.Repositories
         {
             this._context = context;
         }
+
+        public async Task<string> GetUserHashAsync(string email)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (user != null)
+            {
+                string hashCode = user.Hash;
+                return hashCode;
+            }
+            throw new NotImplementedException("No se pudo obtener el codigo.");
+        }
+
         public async Task SaveUserHashAsync(string username, string email, string hash)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
@@ -32,5 +44,6 @@ namespace Diabetia.Infrastructure.Repositories
 
             await _context.SaveChangesAsync();
         }
+
     }
 }

@@ -1,4 +1,8 @@
-export const Card = ({number, textIndicator, title, description, unit, color="blue"}) => {
+import {CircleRounded} from "@mui/icons-material";
+import Link from "next/link";
+import Image from "next/image";
+
+export const MetricCard = ({number, textIndicator, title, description, unit, color="blue"}) => {
 
     const getTextColor = () => {
         if(color){
@@ -7,7 +11,7 @@ export const Card = ({number, textIndicator, title, description, unit, color="bl
     }
 
     return (
-        <section className="min-w-80 w-full sm:w-1/3 lg:w-1/4 bg-white p-8 rounded-2xl">
+        <div className="min-w-80 w-full sm:w-1/3 lg:w-1/4 bg-white p-8 rounded-2xl">
             <div className="w-full flex justify-center flex-col items-center mb-4">
                 <div className="flex items-end">
                     <h3 className={`${getTextColor()} text-6xl font-bold`}>{number}</h3>
@@ -19,6 +23,28 @@ export const Card = ({number, textIndicator, title, description, unit, color="bl
                 <span className="font-semibold text-gray-primary">{title}</span>
                 <span className="text-gray-secondary text-center">{description}</span>
             </div>
-        </section>
+        </div>
+    )
+}
+
+
+export const EventCard = ({events}) => {
+    return (
+        <>
+            {events.map((event) => {
+                return (
+                    <div key={event.title} className="relative w-1/5 h-52 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:-translate-y-2">
+                        <Link href={event.link || ""}>
+                            <Image src={event.image} alt="Actividad Física" width={500} height={500}
+                                 className="w-full h-full object-cover object-bottom"/>
+                            <div
+                                className="absolute top-0 h-full w-full p-2 bg-blue-primary bg-opacity-45 text-white text-center text-5xl font-bold flex justify-center items-center">
+                                <span>{event.title}</span>
+                            </div>
+                        </Link>
+                    </div>
+                )
+            })}
+        </>
     )
 }
