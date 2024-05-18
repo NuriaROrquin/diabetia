@@ -5,13 +5,10 @@ namespace Diabetia.Application.UseCases
 {
     public class DataUserUseCase
     {
-        private readonly IAuthService _authService;
-        private readonly IApiCognitoProvider _apiCognitoProvider;
         private readonly IUserRepository _userRepository;
-        public DataUserUseCase(IAuthService authService, IApiCognitoProvider apiCognitoProvider)
+        public DataUserUseCase(IUserRepository userRepository)
         {
-            _authService = authService;
-            _apiCognitoProvider = apiCognitoProvider;
+            _userRepository = userRepository;
         }
         public async Task FirstStep(string name, string email, string gender, string lastname, int weight, string phone)
         {
