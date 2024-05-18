@@ -14,7 +14,7 @@ namespace Diabetia.Application.UseCases
             _authService = authService;
             _apiCognitoProvider = apiCognitoProvider;
         }
-        public async Task firstStep(string name, string email, string gender, string lastname, int weight, string phone)
+        public async Task FirstStep(string name, string email, string gender, string lastname, int weight, string phone)
         {
              await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone); 
 
