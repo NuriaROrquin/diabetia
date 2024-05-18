@@ -1,5 +1,8 @@
 ﻿using Amazon.Runtime.Internal;
 using Diabetia.Domain.Services;
+using System.Numerics;
+using System.Reflection;
+using System.Xml.Linq;
 
 namespace Diabetia.Application.UseCases
 {
@@ -14,6 +17,11 @@ namespace Diabetia.Application.UseCases
         {
              await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone); 
 
+        }
+
+        public async Task SecondStep(int typeDiabetes, bool useInsuline, string typeInsuline, string email)
+        {
+            await _userRepository.UpdateUserInfo(typeDiabetes, useInsuline, typeInsuline, email);
         }
     }
 }

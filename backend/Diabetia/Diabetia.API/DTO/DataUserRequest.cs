@@ -12,11 +12,32 @@ namespace Diabetia.API
         public string phone { get; set; }
         public int weight { get; set; }
         public string lastname { get; set; }
+        public int typeDiabetes { get; set; }
 
-        // public string country { get; set; }
+        public bool useInsuline { get; set; }
 
-        //  public bool actived { get; set; }
+        public string typeInsuline { get; set; }
 
-        // public string hash { get; set; }
+        public int idUser { get; set; }
+
     }
+
+
+    public class PatientRequest
+    {
+
+
+        public string email { get; set; }
+        public int weight { get; set; }
+        public int typeDiabetes { get; set; }
+
+        public bool useInsuline { get; set; }
+
+        public string typeInsuline { get; set; }
+
+
+    }
+
+
+
 }

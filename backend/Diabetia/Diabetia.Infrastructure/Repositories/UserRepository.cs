@@ -2,6 +2,9 @@
 using Diabetia.Domain.Services;
 using System.Data.Entity;
 using Diabetia.Infrastructure.Repositories;
+using System.Numerics;
+using System.Reflection;
+using System.Xml.Linq;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -30,6 +33,18 @@ namespace Diabetia.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateUserInfo(int typeDiabetes, bool useInsuline, string typeInsuline, string email)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
 
+            if (user != null)
+            {
+                pac.IdTipoDiabetes = typeDiabetes;
+                pac.UsaInsulina = useInsuline;
+            }
+            _context.Pacientes.Add(pac);
+            await _context.SaveChangesAsync();
+        }
     }
 }
