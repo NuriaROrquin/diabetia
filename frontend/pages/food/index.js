@@ -2,9 +2,11 @@ import {Section} from "@/components/section";
 import {SubtitleSection, TitleSection} from "@/components/titles";
 import {CameraAltOutlined, UploadFileOutlined} from "@mui/icons-material";
 import {useRef} from "react";
+import {useRouter} from "next/router";
 
 const FoodPage = () => {
     const fileInputRef = useRef(null);
+    const router = useRouter();
 
     const handleCameraClick = () => {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -32,7 +34,8 @@ const FoodPage = () => {
             const reader = new FileReader();
             reader.onloadend = () => {
                 const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
-                console.log(base64String);
+                sessionStorage.setItem('imageBase64', base64String);
+                router.push("/food/step-2")
             };
             reader.readAsDataURL(file);
         }

@@ -15,12 +15,10 @@ namespace Diabetia.API.Controllers
             _OcrDetectionUseCase = OcrDetectionUseCase;
         }
 
-        [HttpPost("ocrdetection")]
+        [HttpPost("tagDetection")]
         public async Task<string> GetOcrResponseAsync([FromBody] OcrRequest request)
         {
             return await _OcrDetectionUseCase.GetOcrResponseFromDocument(request.ImageBase64);
-
-             
         }
     }
 }

@@ -52,3 +52,12 @@ export const confirmEmailVerification = (username, email, confirmationCode) => {
             { withCredentials: true }
         );
 }
+
+export const recognizeFood = (base64Image) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/ocr/ocrDetection`,
+            { imageBase64: base64Image },
+            { withCredentials: true }
+        );
+}
