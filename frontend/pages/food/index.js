@@ -4,8 +4,10 @@ import {CameraAltOutlined, UploadFileOutlined} from "@mui/icons-material";
 import {useRef} from "react";
 import {useRouter} from "next/router";
 import { v4 as uuidv4 } from 'uuid';
+import {useAIData} from "../../context";
 
 const FoodPage = () => {
+    const { saveFiles } = useAIData();
     const fileInputRef = useRef(null);
     const router = useRouter();
 
@@ -35,8 +37,8 @@ const FoodPage = () => {
             const reader = new FileReader();
             reader.onloadend = () => {
                 const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
-                const images = [{ id: uuidv4(), imageBase64: base64String }];
-                sessionStorage.setItem('imagesBase64', JSON.stringify(images));
+                const newImage = { id: uuidv4(), imageBase64: base64String };
+                saveFiles(newImage);
                 router.push("/food/step-1")
             };
             reader.readAsDataURL(file);

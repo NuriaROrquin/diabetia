@@ -5,31 +5,23 @@ import { TYPE_PORTIONS } from "../../../constants";
 import { InputWithLabel } from "@/components/input";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import {ButtonOrange} from "@/components/button";
+import {tagDetection} from "../../../services/api.service";
+import {useAIData} from "../../../context";
+import {useRouter} from "next/router";
 
 const StepThree = () => {
+    const { updateAIData, imagesUploaded } = useAIData();
+    const router = useRouter();
+
     const [images, setImages] = useState([]);
     const [isOpenStates, setIsOpenStates] = useState({});
     const [selectedOptions, setSelectedOptions] = useState({});
     const [checkboxStates, setCheckboxStates] = useState({});
+    const [error, setError] = useState(false)
 
     useEffect(() => {
-        const storedImages = sessionStorage.getItem('imagesBase64');
-        if (storedImages) {
-            try {
-                const parsedImages = JSON.parse(storedImages);
-                if (Array.isArray(parsedImages)) {
-                    setImages(parsedImages);
-                } else {
-                    setImages([]);
-                }
-            } catch (error) {
-                console.error("Error parsing stored images:", error);
-                setImages([]);
-            }
-        } else {
-            setImages([]);
-        }
-    }, []);
+        setImages(imagesUploaded || []);
+    }, [imagesUploaded]);
 
     const handleOptionClick = (imageId) => (option) => {
         setSelectedOptions({
@@ -57,15 +49,21 @@ const StepThree = () => {
     };
 
     const handleSubmit = () => {
-        const result = images.map((image) => ({
+        const tagsArray = images.map((image) => ({
             id: image.id,
             portion: selectedOptions[image.id]?.quantity,
-            title: selectedOptions[image.id]?.title,
-            savePreference: checkboxStates[image.id] || false,
+            title: document.getElementById(image.id).value,
+            //savePreference: checkboxStates[image.id] || false,
             imageBase64: image.imageBase64,
         }));
 
-        console.log("Datos del formulario:", result);
+        tagDetection(tagsArray).then((res) => {
+            updateAIData(res.data);
+            router.push("/food/step-4");
+        })
+        .catch((error) => {
+            error.response.data ? setError(error.response.data) : setError("Hubo un error")
+        });
     };
 
     return (
@@ -85,6 +83,7 @@ const StepThree = () => {
                             </div>
                             <div className="flex flex-col w-full gap-4">
                                 <InputWithLabel
+                                    id={image.id}
                                     type="text"
                                     placeholder="Nombre"
                                     label="Nombre de producto"

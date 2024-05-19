@@ -5,6 +5,7 @@ import {MainContainer} from "../components/mainContainer";
 import {Footer} from "../components/footer";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import {AIDataProvider} from "../context";
 
 
 export default function App({ Component, pageProps }) {
@@ -13,20 +14,22 @@ export default function App({ Component, pageProps }) {
     const isLogged = !router.route.startsWith('/auth');
     return(
         <>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                {isLogged &&
-                    <>
-                        <Navigation path={router.route} />
-                        <MainContainer>
-                            <Component {...pageProps} />
-                        </MainContainer>
-                    </>
-                }
-                {!isLogged && <Component {...pageProps} />}
-                {isLogged &&
-                    <Footer />
-                }
-            </LocalizationProvider>
+            <AIDataProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    {isLogged &&
+                        <>
+                            <Navigation path={router.route} />
+                            <MainContainer>
+                                <Component {...pageProps} />
+                            </MainContainer>
+                        </>
+                    }
+                    {!isLogged && <Component {...pageProps} />}
+                    {isLogged &&
+                        <Footer />
+                    }
+                </LocalizationProvider>
+            </AIDataProvider>
         </>
     )
 }

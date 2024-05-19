@@ -53,11 +53,10 @@ export const confirmEmailVerification = (username, email, confirmationCode) => {
         );
 }
 
-export const recognizeFood = (base64Image) => {
+export const tagDetection = (data) => {
     return axios
         .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/ocr/ocrDetection`,
-            { imageBase64: base64Image },
-            { withCredentials: true }
+            `${process.env.NEXT_PUBLIC_API_URL}/Tag/tagDetection`,
+            data
         );
 }

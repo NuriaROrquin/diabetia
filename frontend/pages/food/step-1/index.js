@@ -7,17 +7,18 @@ import {Checkbox, FormControlLabel} from "@mui/material";
 import {ButtonGreen, ButtonOrange, ButtonRed} from "@/components/button";
 import {v4 as uuidv4} from "uuid";
 import {useRouter} from "next/router";
+import {useAIData} from "../../../context";
 
 const StepOne = () => {
+    const { saveFiles, imagesUploaded } = useAIData();
+
     const [images, setImages] = useState([]);
     const fileInputRef = useRef(null);
     const router = useRouter();
 
     useEffect(() => {
-        const storedImages = sessionStorage.getItem('imagesBase64');
-        const images = storedImages ? JSON.parse(storedImages) : [];
-        setImages(images);
-    }, []);
+        setImages(imagesUploaded || []);
+    }, [imagesUploaded]);
 
     const handleUploadClick = () => {
         fileInputRef.current.click();
@@ -30,9 +31,9 @@ const StepOne = () => {
             reader.onloadend = () => {
                 const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
                 const newImage = { id: uuidv4(), imageBase64: base64String };
-                const updatedImages = [...images, newImage];
-                sessionStorage.setItem('imagesBase64', JSON.stringify(updatedImages));
-                setImages(updatedImages);
+
+                setImages((prevImages) => [...prevImages, newImage]);
+                saveFiles(newImage);
                 router.push("/food/step-1");
             };
             reader.readAsDataURL(file);
