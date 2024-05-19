@@ -2,9 +2,14 @@ import {Section} from "@/components/section";
 import {SubtitleSection, TitleSection} from "@/components/titles";
 import {CameraAltOutlined, UploadFileOutlined} from "@mui/icons-material";
 import {useRef} from "react";
+import {useRouter} from "next/router";
+import { v4 as uuidv4 } from 'uuid';
+import {useAIData} from "../../context";
 
 const FoodPage = () => {
+    const { saveFiles } = useAIData();
     const fileInputRef = useRef(null);
+    const router = useRouter();
 
     const handleCameraClick = () => {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -32,7 +37,9 @@ const FoodPage = () => {
             const reader = new FileReader();
             reader.onloadend = () => {
                 const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
-                console.log(base64String);
+                const newImage = { id: uuidv4(), imageBase64: base64String };
+                saveFiles(newImage);
+                router.push("/food/step-1")
             };
             reader.readAsDataURL(file);
         }

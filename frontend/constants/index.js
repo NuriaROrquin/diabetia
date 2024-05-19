@@ -170,3 +170,42 @@ export const TYPE_EXERCISES = [
         "title": "Otra"
     }
 ]
+
+export const TYPE_PORTIONS = [
+    {
+        "id": 1,
+        "title": "1/4 porción",
+        "quantity": 0.25
+    },
+    {
+        "id": 2,
+        "title": "1/3 porción",
+        "quantity": 0.33
+    },
+    {
+        "id": 3,
+        "title": "1/2 porción",
+        "quantity": 0.5
+    },
+    {
+        "id": 4,
+        "title": "1 porción",
+        "quantity": 1
+    },
+    {
+        "id": 5,
+        "title": "2 porción",
+        "quantity": 2
+    },
+    {
+        "id": 6,
+        "title": "3 porción",
+        "quantity": 3
+    },
+    {
+        "id": 7,
+        "title": "4 porción",
+        "quantity": 4
+    }
+
+]
