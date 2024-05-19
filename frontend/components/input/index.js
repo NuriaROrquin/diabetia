@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const Input = ({type, placeholder, id, width, icon, withForgotPassword=false}) => {
+export const Input = ({type, placeholder, id, width, icon, withForgotPassword=false, defaultValue = null}) => {
   return (
       <>
           <div className={`${type !== "password" && "mb-4"} ${width} flex items-center relative`}>
@@ -13,7 +13,8 @@ export const Input = ({type, placeholder, id, width, icon, withForgotPassword=fa
                   type={type}
                   id={id}
                   placeholder={placeholder}
-                  className={`border border-gray-400 rounded-lg p-3 pl-14 w-full focus:outline-none text-gray-primary`}/>
+                  defaultValue={defaultValue}
+                  className={`border border-gray-400 rounded-lg p-3 ${icon ? "pl-14" : ""}  w-full focus:outline-none text-gray-primary`}/>
           </div>
 
           {withForgotPassword && (
