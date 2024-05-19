@@ -15,7 +15,6 @@ export const AIDataProvider = ({ children }) => {
     }, [router.pathname]);
     
     const updateAIDataDetected = (data) => {
-        console.log("updateAIDataDetected", data);
         setImagesUploaded(prevImages => {
             data.forEach(newImage => {
                 const existingImageIndex = prevImages.findIndex(image => image.id === newImage.id);

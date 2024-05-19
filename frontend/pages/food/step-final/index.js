@@ -18,14 +18,18 @@ const StepFinal = () => {
                         El total de carbohidratos consumidos se obtiene sumando los carbohidratos calculados para cada registro individual. Este total representa la cantidad total de carbohidratos consumidos.
                     </p>
 
-                    <MetricCard
-                        key="chCalculated"
-                        textIndicator=""
-                        unit="gr"
-                        number={finalCalcCarbos && finalCalcCarbos[0] && finalCalcCarbos[0].chTotal || 1}
-                        title="Carbohidratos Consumidos"
-                        description="Estos son los carbohidratos que se han detectado según el algoritmo de cálculo"
-                    />
+                    {finalCalcCarbos && finalCalcCarbos[0] && finalCalcCarbos[0].chTotal ?
+                        <MetricCard
+                            key="chCalculated"
+                            textIndicator=""
+                            unit="gr"
+                            number={finalCalcCarbos && finalCalcCarbos[0] && finalCalcCarbos[0].chTotal}
+                            title="Carbohidratos Consumidos"
+                            description="Estos son los carbohidratos que se han detectado según el algoritmo de cálculo"
+                        />
+                        :
+                        <span>Ocurrió un error calculando los carbohidratos. Intentá recargar la página</span>
+                    }
 
                 </div>
             </div>

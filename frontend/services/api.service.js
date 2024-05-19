@@ -59,21 +59,6 @@ export const tagDetection = (data) => {
             `${process.env.NEXT_PUBLIC_API_URL}/Tag/tagDetection`,
             data
         );
-
-    /*return Promise.resolve([
-        {
-            "id": "e6186a8f-1425-4956-beec-55be14d04a98",
-            "portion": 0.25,
-            "grPerPortion": 30,
-            "chInPortion": 28
-        },
-        {
-            "id": "d744cde9-1b11-4c38-b12d-d9e38bddd55c",
-            "portion": 0.5,
-            "grPerPortion": 21,
-            "chInPortion": 13
-        }
-    ]);*/
 }
 
 export const tagRegistration = (data) => {
