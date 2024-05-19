@@ -58,8 +58,8 @@ const StepThree = () => {
         }));
 
         tagDetection(tagsArray).then((res) => {
-            //updateAIDataDetected(res.data);
-            updateAIDataDetected(res)
+            updateAIDataDetected(res.data);
+            //updateAIDataDetected(res)
             router.push("/food/step-4");
         })
         .catch((error) => {

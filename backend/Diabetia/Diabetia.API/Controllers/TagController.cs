@@ -2,6 +2,7 @@
 using Diabetia.Application.UseCases;
 using Diabetia.API.DTO;
 using Diabetia.Domain.Entities;
+using Amazon.Runtime.Internal;
 
 
 namespace Diabetia.API.Controllers
@@ -19,11 +20,11 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("tagDetection")]
-        public async Task<IEnumerable<TagDetectionResponse>> GetOcrResponseAsync([FromBody] IEnumerable<TagDetectionRequest> request)
+        public async Task<IEnumerable<TagDetectionResponse>> GetOcrResponseAsync([FromBody] IEnumerable<TagDetectionRequest> tags)
         {
             List<TagDetectionResponse> responses = new List<TagDetectionResponse>();
 
-            foreach (var tag in request)
+            foreach (var tag in tags)
             {
                 var tagResponses = await _TagDetectionUseCase.GetOcrResponseFromDocument(new List<string> { tag.ImageBase64 });
 
@@ -42,30 +43,32 @@ namespace Diabetia.API.Controllers
             return responses;
         }
 
-        [HttpPost("foodTagRegistration")]
-        public async Task<TagRegistrationResponse> ConfirmTagRegistration([FromBody] TagRegistrationRequest request)
+        [HttpPost("tagRegistration")]
+        public async Task<IEnumerable<TagRegistrationResponse>> ConfirmTagRegistration([FromBody] IEnumerable<TagRegistrationRequest> tags)
         {
-            NutritionTag tagConfirmationRequest = new NutritionTag();
+            List<TagRegistrationResponse> responses = new List<TagRegistrationResponse>();
 
-            tagConfirmationRequest.chInPortion = request.chInPortion;
+            foreach (var tag in tags)
+            {
+                NutritionTag tagConfirmationRequest = new NutritionTag();
 
-            tagConfirmationRequest.grPerPortion = request.grPerPortion;
+                tagConfirmationRequest.chInPortion = tag.ChInPortion;
+                tagConfirmationRequest.grPerPortion = tag.grPerPortion;
+                tagConfirmationRequest.portion = tag.Portion;
 
-            tagConfirmationRequest.portion = request.portion;
+                float consumed = await _TagCalculateUseCase.GetChPerPortionConsumed(tagConfirmationRequest);
 
-            float consumed = await _TagCalculateUseCase.GetChPerPortionConsumed(tagConfirmationRequest);
+                TagRegistrationResponse tagRegistrationResponse = new TagRegistrationResponse();
+                tagRegistrationResponse.Id = tag.Id;
+                tagRegistrationResponse.Portion = tag.Portion;
+                tagRegistrationResponse.GrPerPortion = tag.grPerPortion;
+                tagRegistrationResponse.ChInPortion = tag.ChInPortion;
+                tagRegistrationResponse.ChCalculated = consumed;
 
-            TagRegistrationResponse tagRegistrationResponse = new TagRegistrationResponse();
+                responses.Add(tagRegistrationResponse);
+            }
 
-            tagRegistrationResponse.portion = request.portion;
-
-            tagRegistrationResponse.grPerPortion = request.grPerPortion;
-
-            tagRegistrationResponse.chInPortion = request.chInPortion;
-
-            tagRegistrationResponse.chCalculated = consumed;
-
-            return tagRegistrationResponse;
+            return responses;
         }
 
     }

@@ -6,6 +6,7 @@ export const AIDataProvider = ({ children }) => {
     const [imagesUploaded, setImagesUploaded] = useState([]);
 
     const updateAIDataDetected = (data) => {
+        console.log("updateAIDataDetected", data);
         setImagesUploaded(prevImages => {
             data.forEach(newImage => {
                 const existingImageIndex = prevImages.findIndex(image => image.id === newImage.id);
@@ -20,7 +21,6 @@ export const AIDataProvider = ({ children }) => {
     };
 
     const saveFiles = (newImage) => {
-        console.log("data que llega al save files en context", newImage)
         setImagesUploaded((prevImages) => [...prevImages, newImage]);
     };
 
