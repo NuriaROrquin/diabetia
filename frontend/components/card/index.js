@@ -1,8 +1,9 @@
 import {CircleRounded} from "@mui/icons-material";
 import Link from "next/link";
 import Image from "next/image";
+import { Tooltip } from '@mui/material';
 
-export const MetricCard = ({number, textIndicator, title, description, unit, color="blue"}) => {
+export const MetricCard = ({number, textIndicator, title, description, unit, color="blue", tooltipContent, selectedOption}) => {
 
     const getTextColor = () => {
         if(color){
@@ -10,7 +11,20 @@ export const MetricCard = ({number, textIndicator, title, description, unit, col
         }
     }
 
+    const getPreposition = (option) => {
+        if (option.startsWith('Último')) {
+            return 'del ';
+        } else if(option.startsWith('Últimas')) {
+            return 'de las ';
+        } else {
+            return 'de la '
+        }
+    }
+
+    const preposition = getPreposition(selectedOption);
+
     return (
+        <Tooltip title={`${tooltipContent} ${preposition} ${selectedOption}`} arrow>
         <div className="min-w-80 w-full sm:w-1/3 lg:w-1/4 bg-white p-8 rounded-2xl">
             <div className="w-full flex justify-center flex-col items-center mb-4">
                 <div className="flex items-end">
@@ -24,6 +38,7 @@ export const MetricCard = ({number, textIndicator, title, description, unit, col
                 <span className="text-gray-secondary text-center">{description}</span>
             </div>
         </div>
+        </Tooltip>
     )
 }
 
@@ -38,7 +53,7 @@ export const EventCard = ({events}) => {
                             <Image src={event.image} alt="Actividad Física" width={500} height={500}
                                  className="w-full h-full object-cover object-bottom"/>
                             <div
-                                className="absolute top-0 h-full w-full p-2 bg-blue-primary bg-opacity-45 text-white text-center text-5xl font-bold flex justify-center items-center">
+                                className="absolute top-0 h-full w-full p-2 bg-blue-primary bg-opacity-55 text-white text-center text-5xl font-bold flex justify-center items-center ">
                                 <span>{event.title}</span>
                             </div>
                         </Link>

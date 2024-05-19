@@ -25,16 +25,18 @@ export const Login = () => {
 
     return (
         <section className="flex">
-            <div className="flex w-3/5 bg-gradient-to-b from-blue-primary to-orange-primary min-h-screen"></div>
+            <div className="flex w-3/5 bg-gradient-to-b from-blue-primary to-orange-primary min-h-screen">
+                <img src="/img-auth-finger-2.png" alt="Descripción de la imagen" className="w-full h-full"/>
+            </div>
             <div className="flex flex-col justify-center items-center w-2/5 bg-white min-h-screen">
                 <div className="flex flex-col w-1/2 mb-12">
                     <h1 className="font-bold text-gray-primary text-3xl">Bienvenido!</h1>
-                    <span className="text-gray-primary text-lg">Ingrese sus credenciales</span>
+                    <span className="text-gray-primary text-lg">Ingresá tus credenciales</span>
                 </div>
 
                 <div className="flex flex-col w-1/2 mb-6">
 
-                    <Input type="text" placeholder="Username" id="username" width="w-full" icon={<PersonOutline/>}/>
+                    <Input type="text" placeholder="Nombre de Usuario" id="username" width="w-full" icon={<PersonOutline/>}/>
 
                     <Input type="password" placeholder="Contraseña" id="contrasena" width="w-full"
                            icon={<KeyOutlinedIcon/>} withForgotPassword/>

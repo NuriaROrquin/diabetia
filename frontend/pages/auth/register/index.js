@@ -25,8 +25,10 @@ export const Register = () => {
 
   return (
       <section className="flex">
-        <div className="flex w-3/5 bg-gradient-to-b from-blue-primary to-orange-primary min-h-screen"></div>
-        <div className="flex flex-col justify-center items-center w-2/5 bg-white min-h-screen">
+          <div className="flex w-3/5 bg-gradient-to-b from-blue-primary to-orange-primary min-h-screen">
+              <img src="/img-auth-logo.png" alt="Descripción de la imagen" className="w-full h-full"/>
+          </div>
+          <div className="flex flex-col justify-center items-center w-2/5 bg-white min-h-screen">
           <div className="flex flex-col w-1/2 mb-12">
             <h1 className="font-bold text-gray-primary text-3xl">Comenzá a utilizar DiabetIA!</h1>
             <span className="text-gray-primary text-lg"></span>

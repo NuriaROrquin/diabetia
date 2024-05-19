@@ -9,11 +9,11 @@ export const Footer = () => {
                     <div className="flex flex-col">
                             <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                                 <Link href="#"
-                                   className="no-underline text-white hover:text-gray-900 transition-all">Quienes somos</Link>
+                                   className="no-underline text-white hover:text-gray-900 transition-all">Quiénes somos</Link>
                             </li>
                             <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                                 <Link href="#"
-                                   className="no-underline text-white hover:text-gray-900 transition-all">Quienes somos</Link>
+                                   className="no-underline text-white hover:text-gray-900 transition-all">Quiénes somos</Link>
                             </li>
                             <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                                 <Link href="#"
@@ -21,7 +21,7 @@ export const Footer = () => {
                             </li>
                     </div>
                     <div>
-                        <Image src="/logo-blanco.png" width="80" height="80" alt="logo diabetIA" />
+                        <Image src="/isologo-blanco.png" width="80" height="80" alt="logo diabetIA" />
                     </div>
             </div>
         </footer>

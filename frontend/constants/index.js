@@ -6,21 +6,24 @@ export const DASHBOARD_INDICATORS = [
         "color": "green",
         "number": 115,
         "title": "Promedio de medidas",
-        "description": "Cuando midas tu glucosa en sangre, tu promedio se verá afectado."
+        "description": "Cuando midas tu glucosa en sangre, tu promedio se verá afectado.",
+        "tooltipContent":"Se visualiza el promedio de glucosa en sangre (mg/dL) basado en tus registros "
     },
     {
         "textIndicator": "Hiperglucemias",
         "color": "green",
         "number": 0,
         "title": "En total",
-        "description": "Nivel de glucosa en sangre demasiado alta."
+        "description": "Nivel de glucosa en sangre demasiado alta.",
+        "tooltipContent":"Se visualiza la cantidad de mediciones con un nivel bajo de glucosa "
     },
     {
         "textIndicator": "Hipoglucemias",
         "color": "red",
         "number": 1,
         "title": "En total",
-        "description": "Nivel de glucosa en sangre demasiado baja."
+        "description": "Nivel de glucosa en sangre demasiado baja.",
+        "tooltipContent":"Se visualiza la cantidad de mediciones con nivel de glucosa más alto de lo esperado "
     },
     {
         "textIndicator": "Carbohidratos",
@@ -28,7 +31,8 @@ export const DASHBOARD_INDICATORS = [
         "number": 102,
         "unit": "G",
         "title": "En total",
-        "description": "Cuando cargues una comida, este número se verá afectado."
+        "description": "Cuando cargues una comida, este número se verá afectado.",
+        "tooltipContent":"Se visualiza la cantidad de carbohidratos presentes en sus comidas "
     },
     {
         "textIndicator": "Insulina",
@@ -36,7 +40,8 @@ export const DASHBOARD_INDICATORS = [
         "number": 7,
         "unit": "U",
         "title": "En total",
-        "description": "5u insulina rápida y 2u insulina lenta"
+        "description": "5u insulina rápida y 2u insulina lenta",
+        "tooltipContent":"Se visualiza la cantidad de dosis de insulina administrada "
     },
     {
         "textIndicator": "Ejercicio",
@@ -44,7 +49,8 @@ export const DASHBOARD_INDICATORS = [
         "number": 25,
         "unit": "Min",
         "title": "En total",
-        "description": "La recomendación son 30 min de ejercicio diario"
+        "description": "La recomendación son 30 min de ejercicio diario",
+        "tooltipContent":"Se visualiza la cantidad de ejercicio realizado "
     }
 ]
 

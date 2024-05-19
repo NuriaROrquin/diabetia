@@ -7,6 +7,7 @@ import {CircleRounded} from "@mui/icons-material";
 import {ContainerTitles, SubtitleSection, TitleSection} from "../../components/titles";
 import {Timeline} from "../../components/timeline";
 import {Section} from "../../components/section";
+import { Tooltip } from '@mui/material';
 
 export const Home = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +18,8 @@ export const Home = () => {
         setIsOpen(false);
     };
 
+    const registrarEventoTooltipText = "Registrá un nuevo evento: mediciones de glucosa, actividad física, eventos de salud, visitas médicas, insulina, comida manual.";
+
     return (
         <>
         <Section>
@@ -25,9 +28,11 @@ export const Home = () => {
                     <div className="w-full col-start-2 flex justify-self-center justify-center">
                         <Selector width="w-1/2" setIsOpen={setIsOpen} isOpen={isOpen} selectedOption={selectedOption} options={DASHBOARD_OPTIONS_FILTER_DAYS} handleOptionClick={handleOptionClick} />
                     </div>
-                    <div className="col-start-3 justify-self-end">
-                        <Link href="/event" className="bg-orange-focus hover:bg-orange-primary transition-all text-white py-2 px-8 rounded-full w-full" href="/event">Registrar evento</Link>
-                    </div>
+                    <Tooltip title={registrarEventoTooltipText} arrow>
+                        <div className="col-start-3 justify-self-end">
+                            <Link href="/event" className="bg-orange-focus hover:bg-orange-primary transition-all text-white py-2 px-8 rounded-lg w-full" href="/event">Registrar evento</Link>
+                        </div>
+                    </Tooltip>
                 </div>
 
                 <div className="flex flex-wrap justify-around my-12 gap-x-1 gap-y-8">
@@ -39,6 +44,8 @@ export const Home = () => {
                             number={data.number}
                             title={data.title}
                             description={data.description}
+                            tooltipContent={data.tooltipContent}
+                            selectedOption={selectedOption}
                         />
                     ))}
                 </div>
@@ -46,7 +53,7 @@ export const Home = () => {
                 <div className="flex justify-around bg-white w-1/2 self-center rounded-xl p-4 mt-10">
                     <div className="flex gap-2">
                         <CircleRounded className="text-green-primary"/>
-                        <span className="text-gray-primary font-medium">Bien! Valores correctos</span>
+                        <span className="text-gray-primary font-medium">Valores dentro de lo esperado</span>
                     </div>
                     <div className="flex gap-2">
                         <CircleRounded className="text-red-primary"/>

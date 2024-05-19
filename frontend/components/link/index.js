@@ -17,7 +17,7 @@ export const OrangeLink = ({label, width, href}) => {
         <div className={`flex justify-center ${width}`}>
             <Link
                 href={href}
-                className="bg-orange-focus hover:bg-orange-primary hover:no-underline transition-all hover:text-white text-white py-2 px-8 rounded-full w-full flex justify-center"
+                className="bg-orange-focus hover:bg-orange-primary hover:no-underline transition-all hover:text-white text-white py-2 px-8 rounded-lg w-full flex justify-center"
             >
                 {label}
             </Link>
