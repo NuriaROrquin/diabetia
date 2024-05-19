@@ -38,7 +38,7 @@ namespace Diabetia.API.Controllers
              
         }
 
-        [HttpPost("FoodTagRegistration")]
+        [HttpPost("foodTagRegistration")]
         public async Task<TagRegistrationResponse> ConfirmTagRegistration([FromBody] TagRegistrationRequest request)
         {
             NutritionTag tagConfirmationRequest = new NutritionTag();
