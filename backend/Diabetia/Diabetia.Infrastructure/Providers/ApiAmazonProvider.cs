@@ -14,15 +14,16 @@ using Amazon.S3.Model;
 using Amazon.Textract.Model;
 using Amazon.Textract;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 
 namespace Diabetia.Infrastructure.Providers
 {
-    public class ApiAmazonService : IApiAmazonService
+    public class ApiAmazonProvider : IApiAmazonProvider
     {
         private readonly IConfiguration _configuration;
 
-        public ApiAmazonService(IConfiguration configuration)
+        public ApiAmazonProvider(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -38,12 +39,12 @@ namespace Diabetia.Infrastructure.Providers
 
             DetectDocumentTextResponse result = await ProcessingTextract(awsAccessKey, awsSecretKey, region, uniqueId);
 
+            string jsonResponse = JsonConvert.SerializeObject(result, Formatting.Indented);
+            Console.WriteLine(jsonResponse);
+
             NutritionTag textractResult = new NutritionTag();
 
             textractResult.CarbohydratesText = string.Join(" ", result.Blocks.Where(b => b.BlockType == BlockType.LINE).Select(b => b.Text));
-
-            IEnumerable<float> confidenceValues = result.Blocks.Select(b => b.Confidence);
-            textractResult.Confidece = confidenceValues.Average();
 
             return textractResult.CarbohydratesText;
 

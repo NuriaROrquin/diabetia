@@ -1,6 +1,6 @@
 ﻿namespace Diabetia.API.DTO
 {
-    public class OcrRequest
+    public class TagDetectionRequest
     {
         public string ImageBase64 { get; set; }
 

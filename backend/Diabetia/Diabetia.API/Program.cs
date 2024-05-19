@@ -28,6 +28,11 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<TagDetectionUseCase>();
+builder.Services.AddScoped<TagCalculateUseCase>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
+builder.Services.AddScoped<IApiAmazonProvider, ApiAmazonProvider>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckles
