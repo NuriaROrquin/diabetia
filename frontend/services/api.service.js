@@ -75,3 +75,11 @@ export const tagDetection = (data) => {
         }
     ]);*/
 }
+
+export const tagRegistration = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Tag/tagRegistration`,
+            data
+        );
+}

@@ -1,18 +1,15 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {Section} from "@/components/section";
-import {Select} from "@/components/selector";
-import {TYPE_PORTIONS} from "../../../constants";
-import {Input, InputWithLabel} from "@/components/input";
-import {Checkbox, FormControlLabel} from "@mui/material";
-import {ButtonGreen, ButtonOrange, ButtonRed} from "@/components/button";
-import {v4 as uuidv4} from "uuid";
+import {Input} from "@/components/input";
+import {ButtonOrange} from "@/components/button";
 import {useRouter} from "next/router";
 import {useAIData} from "../../../context";
-import {tagDetection} from "../../../services/api.service";
+import {tagRegistration} from "../../../services/api.service";
 
 const StepFour = () => {
-    const { imagesUploaded, updateAIDataDetected } = useAIData();
+    const { imagesUploaded, updateAIDataDetected, updateCarbohydratesConsumed } = useAIData();
     const [inputData, setInputData] = useState({});
+    const router = useRouter();
 
     useEffect(() => {
         const initialInputData = {};
@@ -31,9 +28,20 @@ const StepFour = () => {
         }));
 
         updateAIDataDetected(newData);
-        console.log("Datos enviados:", newData);
+
+        const tagsToRegister = imagesUploaded.map(tag => ({
+            id: tag.id,
+            portion: tag.portion ? parseFloat(document.getElementById(`portion_${tag.id}`).value) : 0,
+            grPerPortion: tag.grPerPortion ? parseFloat(document.getElementById(`grPerPortion_${tag.id}`).value) : 0,
+            chInPortion: tag.chInPortion ? parseFloat(document.getElementById(`chPerPortion_${tag.id}`).value) : 0
+        }));
+
+        tagRegistration(tagsToRegister).then((response) => {
+            updateCarbohydratesConsumed(response.data)
+            router.push("/food/step-final");
+        })
     };
-    
+
     return(
         <Section>
             <div className="container">

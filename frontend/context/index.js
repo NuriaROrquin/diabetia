@@ -1,10 +1,19 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {createContext, useContext, useEffect, useState} from "react";
+import {useRouter} from "next/router";
 
 const AIDataContext = createContext();
 
 export const AIDataProvider = ({ children }) => {
     const [imagesUploaded, setImagesUploaded] = useState([]);
+    const [finalCalcCarbos, setFinalCalcCarbos] = useState([]);
+    const router = useRouter();
 
+    useEffect(() => {
+        if (!router.pathname.startsWith("/food")) {
+            clearData();
+        }
+    }, [router.pathname]);
+    
     const updateAIDataDetected = (data) => {
         console.log("updateAIDataDetected", data);
         setImagesUploaded(prevImages => {
@@ -24,8 +33,17 @@ export const AIDataProvider = ({ children }) => {
         setImagesUploaded((prevImages) => [...prevImages, newImage]);
     };
 
+    const updateCarbohydratesConsumed = (data) => {
+        setFinalCalcCarbos(data);
+    };
+
+    const clearData = () => {
+        setImagesUploaded([]);
+        setFinalCalcCarbos([]);
+    };
+
     return (
-        <AIDataContext.Provider value={{ updateAIDataDetected, imagesUploaded, saveFiles }}>
+        <AIDataContext.Provider value={{ updateAIDataDetected, imagesUploaded, saveFiles, updateCarbohydratesConsumed, finalCalcCarbos }}>
             {children}
         </AIDataContext.Provider>
     );
