@@ -10,7 +10,7 @@ import {useAIData} from "../../../context";
 import {useRouter} from "next/router";
 
 const StepThree = () => {
-    const { updateAIData, imagesUploaded } = useAIData();
+    const { updateAIDataDetected, imagesUploaded } = useAIData();
     const router = useRouter();
 
     const [images, setImages] = useState([]);
@@ -58,7 +58,8 @@ const StepThree = () => {
         }));
 
         tagDetection(tagsArray).then((res) => {
-            updateAIData(res.data);
+            //updateAIDataDetected(res.data);
+            updateAIDataDetected(res)
             router.push("/food/step-4");
         })
         .catch((error) => {
@@ -70,7 +71,7 @@ const StepThree = () => {
         <Section>
             <div className="container">
                 <div className="bg-white rounded-xl w-full flex flex-col flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
-                    <h4 className="font-semibold text-xl text-center">Seleccione la cantidad consumida del producto</h4>
+                    <h4 className="font-semibold text-2xl text-center">Seleccione la cantidad consumida de cada producto</h4>
 
                     {images.map((image) => (
                         <div key={image.id} className="flex w-full gap-12">
