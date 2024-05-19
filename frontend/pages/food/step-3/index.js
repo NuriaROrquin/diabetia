@@ -57,7 +57,15 @@ const StepThree = () => {
     };
 
     const handleSubmit = () => {
-        console.log("Datos del formulario:", selectedOptions, checkboxStates, images);
+        const result = images.map((image) => ({
+            id: image.id,
+            portion: selectedOptions[image.id]?.quantity,
+            title: selectedOptions[image.id]?.title,
+            savePreference: checkboxStates[image.id] || false,
+            imageBase64: image.imageBase64,
+        }));
+
+        console.log("Datos del formulario:", result);
     };
 
     return (

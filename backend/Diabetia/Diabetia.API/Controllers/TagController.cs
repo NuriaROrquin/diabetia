@@ -19,23 +19,27 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("tagDetection")]
-        public async Task<TagDetectionResponse> GetOcrResponseAsync([FromBody] TagDetectionRequest request)
+        public async Task<IEnumerable<TagDetectionResponse>> GetOcrResponseAsync([FromBody] IEnumerable<TagDetectionRequest> request)
         {
-            NutritionTag tagRequest = new NutritionTag();
-            tagRequest = await _TagDetectionUseCase.GetOcrResponseFromDocument(request.ImageBase64);
+            List<TagDetectionResponse> responses = new List<TagDetectionResponse>();
 
-            tagRequest.portion = request.portion;
+            foreach (var tag in request)
+            {
+                var tagResponses = await _TagDetectionUseCase.GetOcrResponseFromDocument(new List<string> { tag.ImageBase64 });
 
-            TagDetectionResponse response = new TagDetectionResponse();
+                foreach (var tagResponse in tagResponses)
+                {
+                    responses.Add(new TagDetectionResponse
+                    {
+                        Id = tag.Id,
+                        GrPerPortion = tagResponse.grPerPortion,
+                        Portion = tag.Portion,
+                        ChInPortion = tagResponse.chInPortion
+                    });
+                }
+            }
 
-            response.grPerPortion = tagRequest.grPerPortion;
-
-            response.portion = request.portion;
-
-            response.chInPortion = tagRequest.chInPortion;
-
-            return response;
-             
+            return responses;
         }
 
         [HttpPost("foodTagRegistration")]
