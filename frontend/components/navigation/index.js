@@ -68,7 +68,7 @@ export const Navigation = () => {
                     <ul className="lg:flex justify-end flex-1 items-center mb-0">
                         <Tooltip title="Subí una foto de tu comida, contamos los carbohidratos por vos!" arrow>
                             <li className="mr-3">
-                                <NavLink href="/food" text="Registrar comida" className="bg-orange-secondary rounded-lg !py-1 hover:bg-orange-focus transition-all"/>
+                                <NavLink href="/food" text="Registrar comida" className="bg-orange-secondary rounded-lg !py-2 hover:bg-orange-focus transition-all"/>
                             </li>
                         </Tooltip>
                         <Tooltip title="Visualizá todos tus eventos en un mismo lugar" arrow>

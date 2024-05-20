@@ -15,7 +15,7 @@ export const DASHBOARD_INDICATORS = [
         "number": 0,
         "title": "En total",
         "description": "Nivel de glucosa en sangre demasiado alta.",
-        "tooltipContent":"Se visualiza la cantidad de mediciones con un nivel bajo de glucosa "
+        "tooltipContent":"Se visualiza la cantidad de mediciones con nivel de glucosa más alto de lo esperado "
     },
     {
         "textIndicator": "Hipoglucemias",
@@ -23,7 +23,7 @@ export const DASHBOARD_INDICATORS = [
         "number": 1,
         "title": "En total",
         "description": "Nivel de glucosa en sangre demasiado baja.",
-        "tooltipContent":"Se visualiza la cantidad de mediciones con nivel de glucosa más alto de lo esperado "
+        "tooltipContent":"Se visualiza la cantidad de mediciones con un nivel bajo de glucosa "
     },
     {
         "textIndicator": "Carbohidratos",

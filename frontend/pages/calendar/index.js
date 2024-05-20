@@ -10,13 +10,16 @@ export const CalendarPage = () => {
 
     return (
         <Section className="pt-12 pb-6">
-            <CustomCalendar />
+            <div className="w-full col-start-2 flex justify-self-center justify-center pb-6 text-white">
+                <span className="text-xl">Tu agenda de bienestar personal, todo en un mismo lugar</span>
+            </div>
+            <CustomCalendar/>
 
 
             <Tooltip title={registrarEventoTooltipText} arrow>
-            <div className="flex items-center justify-center pt-12">
-                <OrangeLink href="/event" label="Agregar Evento" width="w-1/10"/>
-            </div>
+                <div className="flex items-center justify-center pt-12">
+                    <OrangeLink href="/event" label="Agregar Evento" width="w-1/10"/>
+                </div>
 
             </Tooltip>
         </Section>

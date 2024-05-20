@@ -54,14 +54,14 @@ const ExerciseEvent = () => {
                 {/* FORMULARIO */}
                 <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
                     <CustomDatePicker
-                        label="Ingrese una fecha"
+                        label="Ingresá una fecha"
                         value={date}
                         onChange={(e) => setDate(e)}
                         defaultValue={dayjs()}
                         width="w-1/3"
                     />
 
-                    <Select label="Actividad" placeholder="Que tipo de actividad realizas?" options={TYPE_EXERCISES} selectedOption={selectedOption} handleOptionClick={handleOptionClick} setIsOpen={setIsOpen} isOpen={isOpen} width="w-1/3"/>
+                    <Select label="Actividad" placeholder="Elegí una actividad" options={TYPE_EXERCISES} selectedOption={selectedOption} handleOptionClick={handleOptionClick} setIsOpen={setIsOpen} isOpen={isOpen} width="w-1/3"/>
 
                     <CustomTimePicker
                         label="Hora de comienzo"
