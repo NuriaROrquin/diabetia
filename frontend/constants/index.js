@@ -209,3 +209,18 @@ export const TYPE_PORTIONS = [
     }
 
 ]
+
+export const TYPE_DEVICES = [
+    {
+        "id": 1,
+        "title": "Capilar"
+    },
+    {
+        "id": 2,
+        "title": "Sensor"
+    },
+    {
+        "id": 3,
+        "title": "Bomba"
+    }
+]
