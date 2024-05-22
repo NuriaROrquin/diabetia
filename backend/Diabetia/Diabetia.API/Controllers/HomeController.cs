@@ -1,6 +1,8 @@
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Services;
+using Diabetia.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Diabetia.API.DTO;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -24,13 +26,21 @@ namespace Diabetia.API.Controllers
         }
 
 
-
-        [HttpPost("physicalActivity")]
-        public async Task<IActionResult> ShowPhysicalMetrics([FromBody] MetricsRequest request)
+        
+        [HttpPost("metrics")]
+        public async Task<MetricsResponse> ShowAllMetrics([FromBody] MetricsRequest request)
         {
-            await _homeUseCase.PhysicalActivity(request.IdUser, request.IdEvento );
 
-            return Ok();
+            MetricsResponse metricsResponse = new MetricsResponse();
+            Metrics metrics = new Metrics();
+
+            metrics = await _homeUseCase.ShowMetrics(request.Email);
+
+            metricsResponse.ChMetrics = metrics.Carbohydrates;
+
+            metricsResponse.PhysicalActivity = metrics.PhysicalActivity;
+
+            return metricsResponse;
         }
 
     }
