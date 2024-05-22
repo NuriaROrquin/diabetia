@@ -11,35 +11,28 @@ namespace Diabetia.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class DataController : ControllerBase
+    public class HomeController : ControllerBase
     {
-        private readonly ILogger<DataController> _logger;
+        private readonly ILogger<HomeController> _logger;
 
-        private readonly DataUserUseCase _dataUserUseCase;
+        private readonly HomeUseCase _homeUseCase;
 
-        public DataController(ILogger<DataController> logger, DataUserUseCase dataUserUseCase)
+        public HomeController(ILogger<HomeController> logger, HomeUseCase homeUseCase)
         {
             _logger = logger;
-            _dataUserUseCase = dataUserUseCase;
+            _homeUseCase = homeUseCase;
         }
 
 
 
-        [HttpPut("firstStep")]
-        public async Task<IActionResult> UserInformationFirstStep([FromBody] DataRequest request)
+        [HttpPost("physicalActivity")]
+        public async Task<IActionResult> ShowPhysicalMetrics([FromBody] MetricsRequest request)
         {
-            await _dataUserUseCase.FirstStep(request.name, request.email, request.gender, request.lastname, request.weight, request.phone);
+            await _homeUseCase.PhysicalActivity(request.IdUser, request.IdEvento );
 
             return Ok();
         }
 
-        [HttpPut("secondStep")]
-        public async Task<IActionResult> PatientInformationSecondStep([FromBody] PatientRequest request)
-        {
-            await _dataUserUseCase.SecondStep(request.typeDiabetes, request.useInsuline, request.typeInsuline, request.email);
-
-            return Ok();
-        }
     }
 }
 

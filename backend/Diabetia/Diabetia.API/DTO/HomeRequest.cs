@@ -1,27 +1,13 @@
-﻿namespace Diabetia.API.DTO
+﻿namespace Diabetia.API
 {
-    public class TagRegistrationResponse
+    public class MetricsRequest
     {
-        public List<PerTag> Tags { get; set; }
+        public string? Email { get; set; }
 
-        public float ChTotal { get; set; }
+        public int IdUser { get; set; }
 
-        public TagRegistrationResponse()
-        {
-            Tags = new List<PerTag>();
-        }
+        public int IdEvento { get; set; }
+
     }
 
-    public class PerTag
-    {
-        public string Id { get; set; }
-
-        public float Portion { get; set; }
-
-        public float GrPerPortion { get; set; }
-
-        public float ChInPortion { get; set; }
-
-        public float ChCalculated { get; set; }
-    }
 }

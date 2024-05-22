@@ -5,7 +5,7 @@ namespace Diabetia.API
 {
     public partial class CargaEvento
     {
-        public CargaEvento()
+       public CargaEvento()
         {
             EventoActividadFisicas = new HashSet<EventoActividadFisica>();
             EventoComida = new HashSet<EventoComidum>();

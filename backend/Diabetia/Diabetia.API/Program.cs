@@ -20,12 +20,15 @@ builder.Services.AddScoped<ConfirmForgotPasswordCodeUseCase>();
 builder.Services.AddScoped<DataUserUseCase>();
 builder.Services.AddScoped<TagDetectionUseCase>();
 builder.Services.AddScoped<TagCalculateUseCase>();
+builder.Services.AddScoped<HomeUseCase>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IApiAmazonProvider, ApiAmazonProvider>();
+builder.Services.AddScoped<IHomeRepository, HomeRepository>();
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckles
