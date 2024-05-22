@@ -6,9 +6,11 @@ import {CustomLink} from "../../../components/link";
 import {login} from "../../../services/api.service";
 import {useRouter} from "next/router";
 import {useState} from "react";
+import {useCookies} from "react-cookie";
 
 export const Login = () => {
     const [error, setError] = useState(false);
+    const [_cookies, setCookie, _removeCookie] = useCookies(['cookie-name']);
 
     const router = useRouter();
 
@@ -16,8 +18,12 @@ export const Login = () => {
         const username = document.getElementById("username").value;
         const password = document.getElementById("contrasena").value;
         login(username, password)
-            .then(() => {
-                router.push(`/dashboard`)
+            .then((res) => {
+                if(res.data){
+                    setCookie("informationCompleted", res.data.informationCompleted, {path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)});
+                    router.push(`/dashboard`)
+                }
+
             })
             .catch((error) => {
                 error.response.data ? setError(error.response.data) : setError("Hubo un error")
@@ -26,8 +32,8 @@ export const Login = () => {
 
     return (
         <section className="flex">
-            <div className="flex w-3/5 bg-gradient-to-b from-blue-primary to-orange-primary min-h-screen">
-                <img src="/img-auth-logo-blanco.png" alt="Descripción de la imagen" className="w-full h-full"/>
+            <div className="flex w-3/5 bg-gradient-to-b from-blue-primary to-orange-primary min-h-screen justify-center items-center">
+                <img src="/img-auth-logo-blanco.png" alt="Logo Diabetia" className="w-1/3 h-max"/>
             </div>
             <div className="flex flex-col justify-center items-center w-2/5 bg-white min-h-screen">
                 <div className="flex flex-col w-1/2 mb-12">

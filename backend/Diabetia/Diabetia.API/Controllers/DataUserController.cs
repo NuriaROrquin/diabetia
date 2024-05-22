@@ -23,8 +23,6 @@ namespace Diabetia.API.Controllers
             _dataUserUseCase = dataUserUseCase;
         }
 
-
-
         [HttpPut("firstStep")]
         public async Task<IActionResult> UserInformationFirstStep([FromBody] DataRequest request)
         {

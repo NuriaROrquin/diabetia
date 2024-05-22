@@ -56,7 +56,7 @@ export const Home = () => {
                     ))}
                 </div>
 
-                <div className="flex justify-around bg-white w-1/2 self-center rounded-xl p-6 mt-10">
+                <div className="flex justify-around bg-white w-1/2 self-center rounded-xl p-6 mt-10 mb-10">
                     <div className="flex gap-2">
                         <CircleRounded className="text-green-primary"/>
                         <span className="text-gray-primary font-medium">Valores dentro de lo esperado</span>
@@ -77,7 +77,7 @@ export const Home = () => {
                     <TitleSection>Registros de hoy</TitleSection>
                     <SubtitleSection>Acá encontrarás todos los registros cargados en el día actual</SubtitleSection>
             </ContainerTitles>
-            <div className="flex justify-center">
+            <div className="flex justify-center mb-10">
                 <Timeline events={DASHBOARD_TIMELINE_EVENTS} />
             </div>
         </Section>

@@ -1,6 +1,7 @@
 import {Section} from "@/components/section";
 import {useAIData} from "../../../context";
 import {MetricCard} from "@/components/card";
+import {OrangeLink} from "../../../components/link";
 
 const StepFinal = () => {
     const { finalCalcCarbos } = useAIData();
@@ -14,8 +15,12 @@ const StepFinal = () => {
                     <h4 className="font-semibold text-3xl text-center text-blue-primary">Resultados</h4>
 
                     <p className="font-light text-xl text-center text-gray-primary">
-                        Estos son los carbohidratos calculados en base a la información proporcionada para cada registro nutricional. Para cada registro, se considera la cantidad consumida, el peso de la porción y los carbohidratos presentes en esa porción. A partir de estos datos, se determina la cantidad de carbohidratos consumidos para cada registro.
-                        El total de carbohidratos consumidos se obtiene sumando los carbohidratos calculados para cada registro individual. Este total representa la cantidad total de carbohidratos consumidos.
+                        Estos son los carbohidratos calculados en base a la información proporcionada para cada registro
+                        nutricional. Para cada registro, se considera la cantidad consumida, el peso de la porción y los
+                        carbohidratos presentes en esa porción. A partir de estos datos, se determina la cantidad de
+                        carbohidratos consumidos para cada registro.
+                        El total de carbohidratos consumidos se obtiene sumando los carbohidratos calculados para cada
+                        registro individual. Este total representa la cantidad total de carbohidratos consumidos.
                     </p>
 
                     {finalCalcCarbos && finalCalcCarbos[0] && finalCalcCarbos[0].chTotal ?
@@ -30,6 +35,10 @@ const StepFinal = () => {
                         :
                         <span>Ocurrió un error calculando los carbohidratos. Intentá recargar la página</span>
                     }
+
+
+                        <OrangeLink href="/" label="Ir al home" width="w-1/3"/>
+
 
                 </div>
             </div>

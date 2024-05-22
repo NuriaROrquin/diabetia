@@ -35,8 +35,8 @@ namespace Diabetia.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Post([FromBody] LoginRequest request)
         {
-            var jwt = await _loginUseCase.Login(request.username, request.password);
-            if (jwt != null)
+            var user = await _loginUseCase.Login(request.username, request.password);
+            if (user.Token != null)
             {
                 var cookieOptions = new CookieOptions
                 {
@@ -47,8 +47,13 @@ namespace Diabetia.API.Controllers
                     Path = "/"
                 };
 
-                Response.Cookies.Append("jwt", jwt, cookieOptions);
-                return Ok("Bienvenido");
+                Response.Cookies.Append("jwt", user.Token, cookieOptions);
+
+                LoginResponse res = new LoginResponse();
+
+                res.InformationCompleted = user.InformationCompleted;
+
+                return Ok(res);
             }
             else
             {

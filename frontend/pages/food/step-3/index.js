@@ -3,6 +3,7 @@ import { Section } from "@/components/section";
 import { Select } from "@/components/selector";
 import { TYPE_PORTIONS } from "../../../constants";
 import { InputWithLabel } from "@/components/input";
+import {OrangeLink} from "../../../components/link";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import {ButtonOrange} from "@/components/button";
 import {tagDetection} from "../../../services/api.service";
@@ -115,8 +116,9 @@ const StepThree = () => {
                             </div>
                         </div>
                     ))}
+                    <div className="flex justify-between">
+                        <OrangeLink href="/food/step-1" label="Atrás" width="w-1/4"/>
 
-                    <div className="flex justify-end">
                         <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/4" />
                     </div>
                 </div>

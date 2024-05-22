@@ -224,3 +224,51 @@ export const TYPE_DEVICES = [
         "title": "Bomba"
     }
 ]
+
+export const TYPE_DIABETES = [
+    {
+        "id": 1,
+        "title": "Tipo I"
+    },
+    {
+        "id": 2,
+        "title": "Tipo II"
+    },
+    {
+        "id": 3,
+        "title": "Gestacional"
+    }
+]
+
+export const TYPE_INSULIN = [
+    {
+        "id": 1,
+        "title": "Acción rápida"
+    },
+    {
+        "id": 2,
+        "title": "Acción corta"
+    },
+    {
+        "id": 3,
+        "title": "Acción intermedia"
+    },
+    {
+        "id": 4,
+        "title": "Acción prolongada"
+    }
+]
+export const INSULIN_FREQUENCY = [
+    {
+        "id": 1,
+        "title": "1 vez por día"
+    },
+    {
+        "id": 2,
+        "title": "2 veces por día"
+    },
+    {
+        "id": 3,
+        "title": "3 veces por día"
+    }
+]
