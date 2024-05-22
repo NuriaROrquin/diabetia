@@ -224,3 +224,18 @@ export const TYPE_DEVICES = [
         "title": "Bomba"
     }
 ]
+
+export const TYPE_DIABETES = [
+    {
+        "id": 1,
+        "title": "Tipo I"
+    },
+    {
+        "id": 2,
+        "title": "Tipo II"
+    },
+    {
+        "id": 3,
+        "title": "Gestacional"
+    }
+]
