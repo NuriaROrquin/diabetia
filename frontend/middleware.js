@@ -23,7 +23,7 @@ export function middleware(req){
             response.cookies.delete("currentUser");
             return response;
         } else {
-            if (JSON.parse(informationCompleted.toLowerCase()) === false) {
+            if (informationCompleted && JSON.parse(informationCompleted.toLowerCase()) === false) {
                 return NextResponse.redirect(new URL("/initialForm", req.url));
             }
             return NextResponse.next()
