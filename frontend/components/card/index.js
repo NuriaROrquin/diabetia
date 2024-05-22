@@ -10,7 +10,7 @@ export const MetricCard = ({number, textIndicator, title, description, unit, col
         }
     }
 
-    const getPreposition = (option) => {
+    /*const getPreposition = (option) => {
         if (option.startsWith('Último')) {
             return 'del ';
         } else if(option.startsWith('Últimas')) {
@@ -18,7 +18,7 @@ export const MetricCard = ({number, textIndicator, title, description, unit, col
         } else {
             return 'de la '
         }
-    }
+    }*/
 
     const preposition = getPreposition(selectedOption);
 
