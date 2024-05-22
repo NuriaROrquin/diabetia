@@ -1,6 +1,8 @@
 ﻿using Diabetia.API;
+using Diabetia.Domain.Entities;
 using Diabetia.Domain.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -68,6 +70,19 @@ namespace Diabetia.Infrastructure.Repositories
                             pac?.IdSensibilidadInsulina != null;
 
             return allFieldsNotNull;
+        }
+
+        public async Task<IEnumerable<Event>> GetAllEvents(string email)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
+
+            var events = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patient.Id)
+                .Select(ce => new Event { TipoEvento = ce.IdTipoEvento, FechaEvento = ce.FechaEvento })
+                .ToListAsync();
+
+            return events;
         }
     }
 }

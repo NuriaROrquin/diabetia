@@ -20,6 +20,7 @@ builder.Services.AddScoped<ConfirmForgotPasswordCodeUseCase>();
 builder.Services.AddScoped<DataUserUseCase>();
 builder.Services.AddScoped<TagDetectionUseCase>();
 builder.Services.AddScoped<TagCalculateUseCase>();
+builder.Services.AddScoped<CalendarUseCase>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
