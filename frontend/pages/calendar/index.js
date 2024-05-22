@@ -1,7 +1,6 @@
 import {Section} from "../../components/section";
 import CustomCalendar from "../../components/calendar";
-import {ButtonOrange} from "../../components/button";
-import {CustomLink, OrangeLink} from "../../components/link";
+import {OrangeLink} from "../../components/link";
 import { Tooltip } from '@mui/material';
 
 export const CalendarPage = () => {

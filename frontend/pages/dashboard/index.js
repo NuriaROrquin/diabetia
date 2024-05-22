@@ -1,4 +1,4 @@
-import {Card, MetricCard} from "../../components/card";
+import {MetricCard} from "../../components/card";
 import {Selector} from "../../components/selector";
 import {useState} from "react";
 import {DASHBOARD_OPTIONS_FILTER_DAYS, DASHBOARD_INDICATORS, DASHBOARD_TIMELINE_EVENTS} from "../../constants";

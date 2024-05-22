@@ -1,10 +1,6 @@
 import {useEffect, useRef, useState} from "react";
 import {Section} from "@/components/section";
-import {Select} from "@/components/selector";
-import {TYPE_PORTIONS} from "../../../constants";
-import {InputWithLabel} from "@/components/input";
-import {Checkbox, FormControlLabel} from "@mui/material";
-import {ButtonGreen, ButtonOrange, ButtonRed} from "@/components/button";
+import {ButtonGreen, ButtonOrange} from "@/components/button";
 import {v4 as uuidv4} from "uuid";
 import {useRouter} from "next/router";
 import {useAIData} from "../../../context";

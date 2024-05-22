@@ -20,7 +20,8 @@ export const Login = () => {
                 router.push(`/dashboard`)
             })
             .catch((error) => {
-                error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")
+            });
     }
 
     return (

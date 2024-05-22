@@ -1,4 +1,3 @@
-import {useState} from "react";
 import {ChevronLeft} from "@mui/icons-material";
 
 export const Selector = ({width, selectedOption, options, isOpen, setIsOpen, handleOptionClick}) => {
