@@ -5,6 +5,7 @@ import {ButtonOrange} from "@/components/button";
 import {useRouter} from "next/router";
 import {useAIData} from "../../../context";
 import {tagRegistration} from "../../../services/api.service";
+import {OrangeLink} from "../../../components/link";
 
 const StepFour = () => {
     const { imagesUploaded, updateAIDataDetected, updateCarbohydratesConsumed } = useAIData();
@@ -81,7 +82,8 @@ const StepFour = () => {
                             </div>
                         </div>
                     ))}
-                    <div className="flex justify-end">
+                    <div className="flex justify-between">
+                        <OrangeLink href="/food/step-3" label="Atrás" width="w-1/4"/>
                         <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/4"/>
                     </div>
                 </div>
