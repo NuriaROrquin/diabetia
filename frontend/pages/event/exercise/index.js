@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomDatePicker, CustomTimePicker} from "../../../components/pickers";
 import {addPhysicalEvent} from "../../../services/api.service";
+import {useRouter} from "next/router";
 
 const ExerciseEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 1)[0].title;
@@ -18,6 +19,8 @@ const ExerciseEvent = () => {
     const [startHour, setStartHour] = useState()
     const [endHour, setEndHour] = useState()
     const [date, setDate] = useState()
+
+    const router = useRouter();
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
@@ -43,8 +46,8 @@ const ExerciseEvent = () => {
             "finishTime": start
         }
 
-        addPhysicalEvent(data).then((res) =>
-            console.log(res)
+        addPhysicalEvent(data).then(() =>
+            router.push("/calendar")
         )
     }
 
