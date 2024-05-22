@@ -1,7 +1,7 @@
 ﻿using Diabetia.API;
 using Diabetia.Domain.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
+using Diabetia.Domain.Repositories;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -35,8 +35,8 @@ namespace Diabetia.Infrastructure.Repositories
 
         public async Task<int> GetChMetrics(string Email, int idEvent)
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+            var user =  _context.Usuarios.FirstOrDefault(u => u.Email == Email);
+            var patient =  _context.Pacientes.FirstOrDefault(u => u.IdUsuario == user.Id);
             // Buscar todos los registros en CargaEvento que coincidan con el IdUsuario y el IdEvento
             int TotalCh = (int)(from ec in _context.EventoComida
                                               join ce in _context.CargaEventos
