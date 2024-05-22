@@ -54,5 +54,20 @@ namespace Diabetia.Infrastructure.Repositories
             }
             await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> GetInformationCompleted(string username)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.NombreCompleto == username);
+            var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+
+            bool allFieldsNotNull = user.NombreCompleto != null &&
+                            user.Genero != null &&
+                            user.Telefono != null &&
+                            pac?.IdTipoDiabetes != null &&
+                            pac?.UsaInsulina != null &&
+                            pac?.IdSensibilidadInsulina != null;
+
+            return allFieldsNotNull;
+        }
     }
 }

@@ -1,38 +1,29 @@
-﻿using Diabetia.Domain.Services;
+﻿using Diabetia.Domain.Entities;
+using Diabetia.Domain.Services;
 
 namespace Diabetia.Application.UseCases
 {
     public class LoginUseCase
     {
-        private readonly IAuthService _authService;
+        private readonly IUserRepository _userRepository;
         private readonly IApiCognitoProvider _apiCognitoProvider;
 
-        public LoginUseCase(IAuthService authService, IApiCognitoProvider apiCognitoProvider)
+        public LoginUseCase(IApiCognitoProvider apiCognitoProvider, IUserRepository userRepository)
         {
-            _authService = authService;
             _apiCognitoProvider = apiCognitoProvider;
+            _userRepository = userRepository;
         }
 
-        public async Task<string> Login(string username, string password)
+        public async Task<User> Login(string username, string password)
         {
-            try
+            User user = new User
             {
-                var response = await _apiCognitoProvider.LoginUserAsync(username, password);
-                if (response != null){
-                    return response;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-            
-        }
+                Token = await _apiCognitoProvider.LoginUserAsync(username, password),
 
-        
+                InformationCompleted = await _userRepository.GetInformationCompleted(username)
+            };
+
+            return user;            
+        }        
     }
 }
