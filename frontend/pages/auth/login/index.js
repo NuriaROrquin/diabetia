@@ -19,8 +19,11 @@ export const Login = () => {
         const password = document.getElementById("contrasena").value;
         login(username, password)
             .then((res) => {
-                setCookie("informationCompleted", res.data.informationCompleted, {path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)});
-                router.push(`/dashboard`)
+                if(res.data){
+                    setCookie("informationCompleted", res.data.informationCompleted, {path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)});
+                    router.push(`/dashboard`)
+                }
+
             })
             .catch((error) => {
                 error.response.data ? setError(error.response.data) : setError("Hubo un error")
