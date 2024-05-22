@@ -4,7 +4,7 @@ import {TYPE_EVENTS, TYPE_DEVICES} from "../../../constants";
 import {capitalizeFirstLetter} from "../../../helpers";
 import {useState} from "react";
 import {BlueLink, OrangeLink} from "../../../components/link";
-import {TextArea, InputWithLabel} from "../../../components/input";
+import {TextArea, InputWithLabel, CustomSwitch} from "../../../components/input";
 import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";

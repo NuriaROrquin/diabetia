@@ -4,7 +4,7 @@ import {TYPE_EVENTS, TYPE_DEVICES} from "../../../constants";
 import {capitalizeFirstLetter} from "../../../helpers";
 import {useState} from "react";
 import {BlueLink, OrangeLink} from "../../../components/link";
-import {TextArea, InputWithLabel} from "../../../components/input";
+import {TextArea, InputWithLabel, CustomSwitch} from "../../../components/input";
 import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
@@ -14,6 +14,8 @@ const InitialFormStep2 = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [date, setDate] = useState()
+    const [insuline, setInsuline] = useState(false)
+    const [reminder, setReminder] = useState(false)
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
@@ -39,11 +41,7 @@ const InitialFormStep2 = () => {
                     {TYPE_EVENTS.map((event) => {
                         return(
                             <>
-                                {event.title === eventSelected ?
-                                    <OrangeLink key={event.title} label={capitalizeFirstLetter(event.title)} width="w-1/6" href={event.link} />
-                                    :
-                                    <BlueLink key={event.title} label={capitalizeFirstLetter(event.title)} width="w-1/6" href={event.link} />
-                                }
+
                             </>
                         )
                     })}
@@ -64,7 +62,10 @@ const InitialFormStep2 = () => {
                     <InputWithLabel label="Correo Electrónico" placeholder="email@diabetia.com.ar"  id="email" width="w-1/3"/>
                     <InputWithLabel label="Teléfono" placeholder="1234-5678"  id="phone" width="w-1/3"/>
 
-                    <ButtonOrange onClick={handleSubmit} label="Siguiente" width="w-1/3"/>
+                    <CustomSwitch label="¿Usás insulina?" id="insulin" onChange={() => setInsuline(!insuline)} width="w-1/3"/>
+                    <CustomSwitch label="¿Querés un recordatorio de aplicación?" id="reminder" onChange={() => setReminder(!reminder)} width="w-1/3"/>
+
+                    <ButtonOrange onClick={handleSubmit} label="Finalizar" width="w-1/3"/>
                 </div>
             </div>
         </Section>

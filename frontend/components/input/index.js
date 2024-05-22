@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Switch from '@mui/material/Switch';
 
 export const Input = ({type, placeholder, id, width, icon, withForgotPassword=false, defaultValue = null}) => {
   return (
@@ -54,6 +55,21 @@ export const TextArea = ({label, id, width, placeholder, rows}) => {
                 placeholder={placeholder}
                 rows={rows || 5}
             />
+        </div>
+    )
+}
+
+export const CustomSwitch = ({label, id, width, checked, onChange}) => {
+    return (
+        <div className={`flex flex-col items-start text-base text-blue-primary font-medium gap-2 ${width}`}>
+            <label htmlFor={id}>{label}</label>
+            <div className="w-full flex relative items-center">
+                <Switch
+                    checked={checked}
+                    onChange={onChange}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                />
+            </div>
         </div>
     )
 }

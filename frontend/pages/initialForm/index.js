@@ -1,4 +1,4 @@
-import {BlueLink, OrangeLink} from "../../components/link";
+import {OrangeLink} from "../../components/link";
 
 const InitialForm = () => {
     return(
