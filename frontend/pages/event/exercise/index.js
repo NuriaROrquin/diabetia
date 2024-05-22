@@ -39,12 +39,8 @@ const ExerciseEvent = () => {
             "eventDate": "2024-05-22T23:03:17.219Z",
             "freeNote": notes,
             "physicalActivity": selectedOption.id,
-            "iniciateTime": {
-                "ticks": start
-            },
-            "finishTime": {
-                "ticks": end
-            }
+            "iniciateTime": start,
+            "finishTime": start
         }
 
         addPhysicalEvent(data).then((res) =>
