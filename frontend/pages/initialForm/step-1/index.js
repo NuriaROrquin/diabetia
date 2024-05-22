@@ -37,7 +37,7 @@ const InitialFormStep1 = () => {
     ];
 
     return(
-        <Section className="pt-12">
+        <Section className="">
             <div className="container items-center flex w-full justify-center flex-col">
                 {/* FORMULARIO */}
                 <div
