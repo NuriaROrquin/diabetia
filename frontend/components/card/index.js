@@ -20,10 +20,8 @@ export const MetricCard = ({number, textIndicator, title, description, unit, col
         }
     }*/
 
-    const preposition = getPreposition(selectedOption);
-
     return (
-        <Tooltip title={`${tooltipContent} ${preposition} ${selectedOption}`} arrow>
+        <Tooltip title={`${tooltipContent}  ${selectedOption}`} arrow>
         <div className="min-w-80 w-full sm:w-1/3 lg:w-1/4 bg-white p-8 rounded-2xl shadow">
             <div className="w-full flex justify-center flex-col items-center mb-4">
                 <div className="flex items-end">
