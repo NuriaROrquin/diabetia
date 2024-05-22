@@ -68,3 +68,11 @@ export const tagRegistration = (data) => {
             data
         );
 }
+
+export const addPhysicalEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/AddPhysicalEvent`,
+            data
+        );
+}

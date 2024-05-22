@@ -9,6 +9,7 @@ import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomDatePicker, CustomTimePicker} from "../../../components/pickers";
+import {addPhysicalEvent} from "../../../services/api.service";
 
 const ExerciseEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 1)[0].title;
@@ -26,11 +27,29 @@ const ExerciseEvent = () => {
     const handleSubmit = () => {
         const exercise = selectedOption;
         const dateFormatted = date ? date.format('DD-MM-YYYY') : null;
-        const start = startHour ? startHour.format('HH:mm') : null;
-        const end = endHour ? endHour.format('HH:mm') : null;
+        const start = startHour ? startHour.format('HH:mm:ss') : null;
+        const end = endHour ? endHour.format('HH:mm:ss') : null;
         const notes = document.getElementById("notes").value;
 
         console.log("Datos del formulario:", dateFormatted, exercise, start, end, notes);
+
+        const data = {
+            "email": "pablooantunez@gmail.com",
+            "idKindEvent": 4,
+            "eventDate": "2024-05-22T23:03:17.219Z",
+            "freeNote": notes,
+            "physicalActivity": selectedOption.id,
+            "iniciateTime": {
+                "ticks": start
+            },
+            "finishTime": {
+                "ticks": end
+            }
+        }
+
+        addPhysicalEvent(data).then((res) =>
+            console.log(res)
+        )
     }
 
     return(

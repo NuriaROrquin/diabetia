@@ -143,31 +143,31 @@ export const TYPE_EVENTS = [
 export const TYPE_EXERCISES = [
     {
         "id": 1,
-        "title": "Correr"
+        "title": "Futbol"
     },
     {
         "id": 2,
-        "title": "Caminar"
+        "title": "Basket"
     },
     {
         "id": 3,
-        "title": "Nadar"
+        "title": "Tenis"
     },
     {
         "id": 4,
-        "title": "Ciclismo"
+        "title": "Natación"
     },
     {
         "id": 5,
-        "title": "Caminata"
+        "title": "Running"
     },
     {
         "id": 6,
-        "title": "Natación"
+        "title": "Ciclismo"
     },
     {
         "id": 7,
-        "title": "Otra"
+        "title": "Yoga"
     }
 ]
 
