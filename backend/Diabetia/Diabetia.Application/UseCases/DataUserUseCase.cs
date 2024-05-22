@@ -1,8 +1,4 @@
-﻿using Amazon.Runtime.Internal;
-using Diabetia.Domain.Services;
-using System.Numerics;
-using System.Reflection;
-using System.Xml.Linq;
+﻿using Diabetia.Domain.Services;
 
 namespace Diabetia.Application.UseCases
 {
