@@ -6,9 +6,9 @@ namespace Diabetia.Application.UseCases
     public class LoginUseCase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IApiCognitoProvider _apiCognitoProvider;
+        private readonly IAuthProvider _apiCognitoProvider;
 
-        public LoginUseCase(IApiCognitoProvider apiCognitoProvider, IUserRepository userRepository)
+        public LoginUseCase(IAuthProvider apiCognitoProvider, IUserRepository userRepository)
         {
             _apiCognitoProvider = apiCognitoProvider;
             _userRepository = userRepository;

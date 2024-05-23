@@ -13,16 +13,14 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<diabetiaContext>();
 builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddScoped<RegisterUseCase>();
-builder.Services.AddScoped<ConfirmUserEmailUseCase>();
 builder.Services.AddScoped<ForgotPasswordUseCase>();
-builder.Services.AddScoped<ConfirmForgotPasswordCodeUseCase>();
 builder.Services.AddScoped<DataUserUseCase>();
 builder.Services.AddScoped<TagDetectionUseCase>();
 builder.Services.AddScoped<TagCalculateUseCase>();
 builder.Services.AddScoped<AddPhysicalEventUseCase>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
+builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IApiAmazonProvider, ApiAmazonProvider>();

@@ -1,11 +1,6 @@
-using Amazon.CognitoIdentityProvider.Model;
 using Diabetia.API.DTO;
 using Diabetia.Application.UseCases;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace Diabetia.API.Controllers
 {
@@ -13,22 +8,15 @@ namespace Diabetia.API.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly ILogger<AuthController> _logger;
-
         private readonly LoginUseCase _loginUseCase;
         private readonly RegisterUseCase _registerUseCase;
-        private readonly ConfirmUserEmailUseCase _confirmUserEmailUseCase;
         private readonly ForgotPasswordUseCase _forgotPasswordUseCase;
-        private readonly ConfirmForgotPasswordCodeUseCase _confirmForgotPasswordCodeUseCase;
 
-        public AuthController(ILogger<AuthController> logger, LoginUseCase loginUseCase, RegisterUseCase registerUseCase, ConfirmUserEmailUseCase confirmUserEmailUseCase, ForgotPasswordUseCase forgotPasswordUseCase, ConfirmForgotPasswordCodeUseCase confirmForgotPasswordCodeUseCase)
+        public AuthController(LoginUseCase loginUseCase, RegisterUseCase registerUseCase, ForgotPasswordUseCase forgotPasswordUseCase)
         {
-            _logger = logger;
             _loginUseCase = loginUseCase;
             _registerUseCase = registerUseCase;
-            _confirmUserEmailUseCase = confirmUserEmailUseCase;
             _forgotPasswordUseCase = forgotPasswordUseCase;
-            _confirmForgotPasswordCodeUseCase = confirmForgotPasswordCodeUseCase;
         }
 
 
@@ -79,7 +67,7 @@ namespace Diabetia.API.Controllers
         [HttpPost("confirmEmailVerification")]
         public async Task<IActionResult> ConfirmEmailVerification([FromBody] UserRequest request)
         {
-            bool isSuccess = await _confirmUserEmailUseCase.ConfirmEmailVerification(request.username, request.email, request.confirmationCode);
+            bool isSuccess = await  _registerUseCase.ConfirmEmailVerification(request.username, request.email, request.confirmationCode);
 
             if (isSuccess)
             {
@@ -110,7 +98,7 @@ namespace Diabetia.API.Controllers
         {
             try
             {
-                await _confirmForgotPasswordCodeUseCase.ConfirmForgotPasswordAsync(request.username, request.confirmationCode, request.password);
+                await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.username, request.confirmationCode, request.password);
                 return Ok("Contraseña cambiada exitosamente");
             }
             catch (Exception ex)

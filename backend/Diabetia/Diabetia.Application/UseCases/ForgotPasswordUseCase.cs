@@ -1,18 +1,12 @@
-﻿using Diabetia.Domain.Repositories;
-using Diabetia.Domain.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Diabetia.Domain.Services;
 
 namespace Diabetia.Application.UseCases
 {
     public class ForgotPasswordUseCase
     {
     
-        private readonly IApiCognitoProvider _apiCognitoProvider;
-        public ForgotPasswordUseCase(IApiCognitoProvider apiCognitoProvider)
+        private readonly IAuthProvider _apiCognitoProvider;
+        public ForgotPasswordUseCase(IAuthProvider apiCognitoProvider)
         {
             _apiCognitoProvider = apiCognitoProvider;
         }
@@ -20,6 +14,11 @@ namespace Diabetia.Application.UseCases
         public async Task ForgotPasswordEmailAsync(string username)
         {
             await _apiCognitoProvider.ForgotPasswordRecoverAsync(username);
+        }
+
+        public async Task ConfirmForgotPasswordAsync(string username, string confirmationCode, string password)
+        {
+            await _apiCognitoProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password);
         }
     }
 }

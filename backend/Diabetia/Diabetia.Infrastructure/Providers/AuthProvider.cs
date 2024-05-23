@@ -11,28 +11,37 @@ using System.Text;
 
 namespace Infrastructure.Provider
 {
-    public class ApiCognitoProvider : IApiCognitoProvider
+    public class AuthProvider : IAuthProvider
     {
-        private readonly AmazonCognitoIdentityProviderClient _cognitoClient;
-        private readonly string _userPoolId = "us-east-1_Ev8XQPSJv";
-        private readonly RegionEndpoint _region = RegionEndpoint.USEast1;
         private readonly IConfiguration _configuration;
+        private readonly AmazonCognitoIdentityProviderClient _cognitoClient;
         private CognitoUserPool _cognitoUserPool;
         private readonly string _clientId;
         private readonly string _clientSecret;
 
-        // Constructor
-        public ApiCognitoProvider(IConfiguration configuration)
+        public AuthProvider(IConfiguration configuration)
         {
             _configuration = configuration;
+            string _region = _configuration["Region"];
+            string _userPoolId = _configuration["UserPoolId"];
             string awsAccessKey = _configuration["awsAccessKey"];
             string awsSecretKey = _configuration["awsSecretKey"];
             _clientId = _configuration["ClientId"];
             _clientSecret = _configuration["ClientSecret"];
 
+            RegionEndpoint regionEndpoint = RegionEndpoint.GetBySystemName(_region);
+            if (regionEndpoint == null)
+            {
+                throw new ArgumentException("La región especificada en la configuración no es válida.");
+            }
+
             var credentials = new Amazon.Runtime.BasicAWSCredentials(awsAccessKey, awsSecretKey);
             AmazonCognitoIdentityProviderConfig clientConfig = new AmazonCognitoIdentityProviderConfig();
-            clientConfig.RegionEndpoint = _region;
+            clientConfig.RegionEndpoint = regionEndpoint;
+
+            //var credentials = new Amazon.Runtime.BasicAWSCredentials(awsAccessKey, awsSecretKey);
+            //AmazonCognitoIdentityProviderConfig clientConfig = new AmazonCognitoIdentityProviderConfig();
+            //clientConfig.RegionEndpoint = _region;
 
             _cognitoClient = new AmazonCognitoIdentityProviderClient(credentials, clientConfig);
             _cognitoUserPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient, _clientSecret); 
@@ -56,20 +65,6 @@ namespace Infrastructure.Provider
             catch (Exception ex)
             {
                 throw new Exception("Error al registrar usuario: " + ex.Message);
-            }
-        }
-        
-        static string CalculateSecretHash(string userPoolClientId, string userPoolClientSecret, string userName)
-        {
-            const string HMAC_SHA256_ALGORITHM = "HMACSHA256";
-
-            byte[] keyBytes = Encoding.UTF8.GetBytes(userPoolClientSecret);
-            byte[] messageBytes = Encoding.UTF8.GetBytes(userName + userPoolClientId);
-
-            using (var hmac = new HMACSHA256(keyBytes))
-            {
-                byte[] hashBytes = hmac.ComputeHash(messageBytes);
-                return Convert.ToBase64String(hashBytes);
             }
         }
 
@@ -171,6 +166,20 @@ namespace Infrastructure.Provider
                 Console.WriteLine(ex.Message); 
             }
             
+        }
+
+        private string CalculateSecretHash(string userPoolClientId, string userPoolClientSecret, string userName)
+        {
+            const string HMAC_SHA256_ALGORITHM = "HMACSHA256";
+
+            byte[] keyBytes = Encoding.UTF8.GetBytes(userPoolClientSecret);
+            byte[] messageBytes = Encoding.UTF8.GetBytes(userName + userPoolClientId);
+
+            using (var hmac = new HMACSHA256(keyBytes))
+            {
+                byte[] hashBytes = hmac.ComputeHash(messageBytes);
+                return Convert.ToBase64String(hashBytes);
+            }
         }
     }
 }
