@@ -25,3 +25,4 @@ namespace Diabetia.Application.UseCases
         }
     }
 }
+ 

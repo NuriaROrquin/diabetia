@@ -4,7 +4,6 @@ using Amazon.CognitoIdentityProvider.Model;
 using Amazon.Extensions.CognitoAuthentication;
 using Diabetia.Domain.Services;
 using Microsoft.Extensions.Configuration;
-using System.Configuration;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,43 +13,30 @@ namespace Infrastructure.Provider
     public class AuthProvider : IAuthProvider
     {
         private readonly IConfiguration _configuration;
-        private readonly AmazonCognitoIdentityProviderClient _cognitoClient;
+        private IAmazonCognitoIdentityProvider _cognitoClient;
+        //private readonly AmazonCognitoIdentityProviderClient _cognitoClient;
         private CognitoUserPool _cognitoUserPool;
+        private readonly string _userPoolId;
         private readonly string _clientId;
         private readonly string _clientSecret;
+        private readonly string _region;
+        private readonly string _awsAccessKey;
+        private readonly string _awsSecretKey;  
 
-        public AuthProvider(IConfiguration configuration)
+        public AuthProvider(IConfiguration configuration, IAmazonCognitoIdentityProvider cognitoClient)
         {
             _configuration = configuration;
-            string _region = _configuration["Region"];
-            string _userPoolId = _configuration["UserPoolId"];
-            string awsAccessKey = _configuration["awsAccessKey"];
-            string awsSecretKey = _configuration["awsSecretKey"];
+            _cognitoClient = cognitoClient;
+            _userPoolId = _configuration["UserPoolId"];
+            _region = _configuration["Region"];
+            _awsAccessKey = _configuration["awsAccessKey"];
+            _awsSecretKey = _configuration["awsSecretKey"];
             _clientId = _configuration["ClientId"];
             _clientSecret = _configuration["ClientSecret"];
-
-            RegionEndpoint regionEndpoint = RegionEndpoint.GetBySystemName(_region);
-            if (regionEndpoint == null)
-            {
-                throw new ArgumentException("La región especificada en la configuración no es válida.");
-            }
-
-            var credentials = new Amazon.Runtime.BasicAWSCredentials(awsAccessKey, awsSecretKey);
-            AmazonCognitoIdentityProviderConfig clientConfig = new AmazonCognitoIdentityProviderConfig();
-            clientConfig.RegionEndpoint = regionEndpoint;
-
-            //var credentials = new Amazon.Runtime.BasicAWSCredentials(awsAccessKey, awsSecretKey);
-            //AmazonCognitoIdentityProviderConfig clientConfig = new AmazonCognitoIdentityProviderConfig();
-            //clientConfig.RegionEndpoint = _region;
-
-            _cognitoClient = new AmazonCognitoIdentityProviderClient(credentials, clientConfig);
-            _cognitoUserPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient, _clientSecret); 
-
         }
 
         public async Task<string> RegisterUserAsync(string username, string password, string email)
         {
-            
             var userAttributes = new Dictionary<string, string> {
                     { "email", email }
                 };
@@ -58,7 +44,16 @@ namespace Infrastructure.Provider
 
             try
             {
-                await _cognitoUserPool.SignUpAsync(username, password, userAttributes,  null);
+                var _cognitoUserPool = CreateCognitoUserPool();
+                //await _cognitoUserPool.SignUpAsync(username, password, userAttributes,  null);
+                var request = new SignUpRequest
+                {
+                    ClientId = _clientId,
+                    Username = username,
+                    Password = password,
+                    UserAttributes = userAttributes
+                };
+                await _cognitoClient.SignUpAsync(request);
 
                 return secretHash;
             }
@@ -77,16 +72,12 @@ namespace Infrastructure.Provider
                 ConfirmationCode = confirmationCode,
                 SecretHash = hashCode
             };
-
-            try
+            var response = await _cognitoClient.ConfirmSignUpAsync(request);
+            if (response.HttpStatusCode == HttpStatusCode.OK)
             {
-                var response = await _cognitoClient.ConfirmSignUpAsync(request);
-                return response.HttpStatusCode == HttpStatusCode.OK;
+                return true;
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al confirmar verificación de correo electrónico: " + ex.Message);
-            }
+            return false;
         }
 
         public async Task<string> LoginUserAsync(string username, string password)
@@ -149,17 +140,26 @@ namespace Infrastructure.Provider
 
         public async Task ConfirmForgotPasswordCodeAsync(string username, string confirmationCode, string password)
         {
-            var request = new ConfirmForgotPasswordRequest
+            string secretHash = CalculateSecretHash(_clientId, _clientSecret, username);
+            var confirmRequest = new ConfirmForgotPasswordRequest
             {
                 ClientId = _clientId,
                 Username = username,
                 ConfirmationCode = confirmationCode,
                 Password = password,
-                //secretHash
+                SecretHash = secretHash
             };
             try
             {
-                await _cognitoClient.ConfirmForgotPasswordAsync(request);
+                await _cognitoClient.ConfirmForgotPasswordAsync(confirmRequest);
+                var passwordRequest = new AdminSetUserPasswordRequest
+                {
+                    Password = password,
+                    Username = username,
+                    Permanent = true,
+                    UserPoolId = _userPoolId,
+                };
+                await _cognitoClient.AdminSetUserPasswordAsync(passwordRequest);
             }
             catch (Exception ex) 
             { 
@@ -180,6 +180,34 @@ namespace Infrastructure.Provider
                 byte[] hashBytes = hmac.ComputeHash(messageBytes);
                 return Convert.ToBase64String(hashBytes);
             }
+        }
+
+        private CognitoUserPool CreateCognitoUserPool()
+        {
+            RegionEndpoint regionEndpoint = RegionEndpoint.GetBySystemName(_region);
+            if (regionEndpoint == null)
+            {
+                throw new ArgumentException("La región especificada en la configuración no es válida.");
+            }
+            var credentials = new Amazon.Runtime.BasicAWSCredentials(_awsAccessKey, _awsSecretKey);
+            AmazonCognitoIdentityProviderConfig clientConfig = new AmazonCognitoIdentityProviderConfig();
+            clientConfig.RegionEndpoint = regionEndpoint;
+            //var request = new CreateUserPoolClientRequest
+            //{
+            //    UserPoolId = _userPoolId;
+            //Cognito
+            //}
+            //var request = new CreateUserPoolRequest
+            //    {
+
+            //    }
+            _cognitoClient.
+            _cognitoClient.CreateUserPoolAsync(CreateUserPoolRequest)
+            _cognitoClient.CreateUserPoolClientAsync()
+            //_cognitoClient = new AmazonCognitoIdentityProviderClient(credentials, clientConfig);
+            _cognitoUserPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient, _clientSecret);
+            return _cognitoUserPool;
+
         }
     }
 }
