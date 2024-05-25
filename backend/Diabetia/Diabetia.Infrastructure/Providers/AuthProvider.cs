@@ -2,6 +2,7 @@
 using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using Amazon.Extensions.CognitoAuthentication;
+using Amazon.Runtime.Internal;
 using Diabetia.Domain.Services;
 using Microsoft.Extensions.Configuration;
 using System.Net;
@@ -14,53 +15,42 @@ namespace Infrastructure.Provider
     {
         private readonly IConfiguration _configuration;
         private IAmazonCognitoIdentityProvider _cognitoClient;
-        //private readonly AmazonCognitoIdentityProviderClient _cognitoClient;
-        private CognitoUserPool _cognitoUserPool;
+
         private readonly string _userPoolId;
         private readonly string _clientId;
         private readonly string _clientSecret;
-        private readonly string _region;
-        private readonly string _awsAccessKey;
-        private readonly string _awsSecretKey;  
 
         public AuthProvider(IConfiguration configuration, IAmazonCognitoIdentityProvider cognitoClient)
         {
             _configuration = configuration;
             _cognitoClient = cognitoClient;
-            _userPoolId = _configuration["UserPoolId"];
-            _region = _configuration["Region"];
-            _awsAccessKey = _configuration["awsAccessKey"];
-            _awsSecretKey = _configuration["awsSecretKey"];
+
             _clientId = _configuration["ClientId"];
             _clientSecret = _configuration["ClientSecret"];
         }
 
         public async Task<string> RegisterUserAsync(string username, string password, string email)
         {
-            var userAttributes = new Dictionary<string, string> {
-                    { "email", email }
-                };
+
             string secretHash = CalculateSecretHash(_clientId, _clientSecret, username);
 
-            try
+            var request = new SignUpRequest
             {
-                var _cognitoUserPool = CreateCognitoUserPool();
-                //await _cognitoUserPool.SignUpAsync(username, password, userAttributes,  null);
-                var request = new SignUpRequest
+                ClientId = _clientId,
+                Password = password,
+                SecretHash = secretHash,
+                UserAttributes = new List<AttributeType>
                 {
-                    ClientId = _clientId,
-                    Username = username,
-                    Password = password,
-                    UserAttributes = userAttributes
-                };
-                await _cognitoClient.SignUpAsync(request);
+                    new AttributeType { Name = "email", Value = email}
+                },
+                Username = username
+            };
 
-                return secretHash;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al registrar usuario: " + ex.Message);
-            }
+                
+            await _cognitoClient.SignUpAsync(request).ConfigureAwait(true);
+
+            return secretHash;
+
         }
 
         public async Task<bool> ConfirmEmailVerificationAsync(string username, string hashCode, string confirmationCode)
@@ -72,17 +62,21 @@ namespace Infrastructure.Provider
                 ConfirmationCode = confirmationCode,
                 SecretHash = hashCode
             };
+
             var response = await _cognitoClient.ConfirmSignUpAsync(request);
+
             if (response.HttpStatusCode == HttpStatusCode.OK)
             {
                 return true;
             }
+
             return false;
         }
 
         public async Task<string> LoginUserAsync(string username, string password)
         {
             string secretHash = CalculateSecretHash(_clientId, _clientSecret, username);
+
             var request = new InitiateAuthRequest
             {
                 AuthFlow = AuthFlowType.USER_PASSWORD_AUTH,
@@ -95,52 +89,29 @@ namespace Infrastructure.Provider
                 ClientId = _clientId
             };
 
-            try
-            {
-                var response = await _cognitoClient.InitiateAuthAsync(request);
-                return response.AuthenticationResult.AccessToken;
-            }
-            catch (NotAuthorizedException e)
-            {
-                throw new Exception("La autenticación ha fallado. Mensaje de error: " + e.Message);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al autenticar al usuario: " + ex.Message);
-            }
+            var response = await _cognitoClient.InitiateAuthAsync(request);
+
+            return response.AuthenticationResult.AccessToken;
         }
 
         public async Task ForgotPasswordRecoverAsync(string username)
         {
             string secretHash = CalculateSecretHash(_clientId, _clientSecret, username);
+
             var request = new ForgotPasswordRequest
             {
                 ClientId = _clientId,
                 Username =  username,
                 SecretHash = secretHash
             };
-            try
-            {
-                var response = await _cognitoClient.ForgotPasswordAsync(request);
-                if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    Console.WriteLine("El correo con el código de verificación se ha enviado correctamente.");
-                }
-                else
-                {
-                    Console.WriteLine("Ocurrió un error al intentar enviar el correo.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al recuperar contraseña: {ex.Message}");
-                throw;
-            }
+
+            await _cognitoClient.ForgotPasswordAsync(request);
         }
 
         public async Task ConfirmForgotPasswordCodeAsync(string username, string confirmationCode, string password)
         {
             string secretHash = CalculateSecretHash(_clientId, _clientSecret, username);
+
             var confirmRequest = new ConfirmForgotPasswordRequest
             {
                 ClientId = _clientId,
@@ -149,22 +120,18 @@ namespace Infrastructure.Provider
                 Password = password,
                 SecretHash = secretHash
             };
-            try
+
+            await _cognitoClient.ConfirmForgotPasswordAsync(confirmRequest);
+
+            var passwordRequest = new AdminSetUserPasswordRequest
             {
-                await _cognitoClient.ConfirmForgotPasswordAsync(confirmRequest);
-                var passwordRequest = new AdminSetUserPasswordRequest
-                {
-                    Password = password,
-                    Username = username,
-                    Permanent = true,
-                    UserPoolId = _userPoolId,
-                };
-                await _cognitoClient.AdminSetUserPasswordAsync(passwordRequest);
-            }
-            catch (Exception ex) 
-            { 
-                Console.WriteLine(ex.Message); 
-            }
+                Password = password,
+                Username = username,
+                Permanent = true,
+                UserPoolId = _userPoolId,
+            };
+
+            await _cognitoClient.AdminSetUserPasswordAsync(passwordRequest);
             
         }
 
@@ -182,7 +149,7 @@ namespace Infrastructure.Provider
             }
         }
 
-        private CognitoUserPool CreateCognitoUserPool()
+        /*private CognitoUserPool CreateCognitoUserPool()
         {
             RegionEndpoint regionEndpoint = RegionEndpoint.GetBySystemName(_region);
             if (regionEndpoint == null)
@@ -208,6 +175,6 @@ namespace Infrastructure.Provider
             _cognitoUserPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient, _clientSecret);
             return _cognitoUserPool;
 
-        }
+        }*/
     }
 }

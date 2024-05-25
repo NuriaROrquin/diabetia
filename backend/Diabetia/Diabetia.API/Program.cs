@@ -1,4 +1,7 @@
+using Amazon.CognitoIdentity.Model;
 using Amazon.CognitoIdentityProvider;
+using Amazon.Extensions.NETCore.Setup;
+using Amazon.Runtime;
 using Diabetia.API;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Repositories;
@@ -6,6 +9,8 @@ using Diabetia.Domain.Services;
 using Diabetia.Infrastructure.Providers;
 using Diabetia.Infrastructure.Repositories;
 using Infrastructure.Provider;
+using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +31,26 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IApiAmazonProvider, ApiAmazonProvider>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
+
+// Añade la configuración como servicio
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
+// Obtiene la configuración
+var configuration = builder.Services.BuildServiceProvider().GetService<IConfiguration>();
+
+var awsOptions = configuration.GetAWSOptions();
+
+awsOptions.Region = Amazon.RegionEndpoint.USEast1;
+
+awsOptions.Credentials = new Credentials()
+{
+    AccessKeyId = configuration["AWS_ACCESS_KEY_ID"],
+    SecretKey = configuration["AWS_SECRET_ACCESS_KEY"],
+};
+
+builder.Services.AddDefaultAWSOptions(awsOptions);
+
 builder.Services.AddAWSService<IAmazonCognitoIdentityProvider>();
-//builder.Services.AddScoped<IAmazonCognitoIdentityProvider, AuthProvider>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckles
