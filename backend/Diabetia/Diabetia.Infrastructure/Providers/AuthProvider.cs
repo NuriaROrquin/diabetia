@@ -65,12 +65,7 @@ namespace Infrastructure.Provider
 
             var response = await _cognitoClient.ConfirmSignUpAsync(request);
 
-            if (response.HttpStatusCode == HttpStatusCode.OK)
-            {
-                return true;
-            }
-
-            return false;
+            return response.HttpStatusCode == HttpStatusCode.OK;
         }
 
         public async Task<string> LoginUserAsync(string username, string password)
