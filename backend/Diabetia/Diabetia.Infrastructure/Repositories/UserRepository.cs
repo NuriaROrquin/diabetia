@@ -57,8 +57,13 @@ namespace Diabetia.Infrastructure.Repositories
 
         public async Task<bool> GetInformationCompleted(string username)
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.NombreCompleto == username);
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
             var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+
+            if (pac == null)
+            {
+                return false;
+            }
 
             bool allFieldsNotNull = user.NombreCompleto != null &&
                             user.Genero != null &&

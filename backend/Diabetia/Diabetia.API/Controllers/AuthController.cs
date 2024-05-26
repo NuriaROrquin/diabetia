@@ -1,6 +1,7 @@
 using Diabetia.API.DTO;
 using Diabetia.Application.UseCases;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Diabetia.API.Controllers
 {
@@ -51,17 +52,12 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            try
-            {
-                await _registerUseCase.Register(request.userName, request.email, request.password);
-                return Ok("Usuario registrado exitosamente");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error al registrar usuario: {ex.Message}");
-            }
+            await _registerUseCase.Register(request.userName, request.email, request.password);
+            return Ok("Usuario registrado exitosamente");
         }
 
         [HttpPost("confirmEmailVerification")]
@@ -82,29 +78,15 @@ namespace Diabetia.API.Controllers
         [HttpPost("passwordRecover")]
         public async Task<IActionResult> PasswordEmailRecover([FromBody] UserRequest request)
         {
-            try
-            {
-                await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.username);
-                return Ok("Usuario registrado exitosamente");
-            }
-            catch (Exception ex) 
-            {
-                return StatusCode(500, $"Error al enviar el correo de recuperación: {ex.Message}");
-            }
+            await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.username);
+            return Ok("Usuario registrado exitosamente");
         }
 
         [HttpPost("passwordRecoverCode")]
         public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] UserRequest request)
         {
-            try
-            {
-                await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.username, request.confirmationCode, request.password);
-                return Ok("Contraseña cambiada exitosamente");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error al cambiar la contraseña: {ex.Message}");
-            }
+            await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.username, request.confirmationCode, request.password);
+            return Ok("Contraseña cambiada exitosamente");
         }
     }
 }

@@ -6,6 +6,7 @@ using Diabetia.API;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
+using Diabetia.Infrastructure.Middlewares;
 using Diabetia.Infrastructure.Providers;
 using Diabetia.Infrastructure.Repositories;
 using Infrastructure.Provider;
@@ -57,6 +58,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseCors(options =>
 {

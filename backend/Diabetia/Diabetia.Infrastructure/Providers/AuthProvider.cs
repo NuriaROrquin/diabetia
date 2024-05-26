@@ -27,6 +27,7 @@ namespace Infrastructure.Provider
 
             _clientId = _configuration["ClientId"];
             _clientSecret = _configuration["ClientSecret"];
+            _userPoolId = _configuration["UserPoolId"];
         }
 
         public async Task<string> RegisterUserAsync(string username, string password, string email)
