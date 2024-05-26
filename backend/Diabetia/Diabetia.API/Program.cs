@@ -1,17 +1,13 @@
 using Amazon.CognitoIdentity.Model;
 using Amazon.CognitoIdentityProvider;
-using Amazon.Extensions.NETCore.Setup;
-using Amazon.Runtime;
-using Diabetia.API;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
+using Diabetia.Infrastructure.EF;
 using Diabetia.Infrastructure.Middlewares;
 using Diabetia.Infrastructure.Providers;
 using Diabetia.Infrastructure.Repositories;
 using Infrastructure.Provider;
-using Microsoft.Extensions.DependencyInjection;
-using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
