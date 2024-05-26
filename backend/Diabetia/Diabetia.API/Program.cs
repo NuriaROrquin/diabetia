@@ -32,10 +32,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IApiAmazonProvider, ApiAmazonProvider>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 
-// Añade la configuración como servicio
+
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
-// Obtiene la configuración
 var configuration = builder.Services.BuildServiceProvider().GetService<IConfiguration>();
 
 var awsOptions = configuration.GetAWSOptions();

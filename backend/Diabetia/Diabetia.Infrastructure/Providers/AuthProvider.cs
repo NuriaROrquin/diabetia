@@ -47,7 +47,7 @@ namespace Infrastructure.Provider
             };
 
                 
-            await _cognitoClient.SignUpAsync(request).ConfigureAwait(true);
+            await _cognitoClient.SignUpAsync(request, CancellationToken.None).ConfigureAwait(true);
 
             return secretHash;
 
@@ -135,7 +135,7 @@ namespace Infrastructure.Provider
             
         }
 
-        private string CalculateSecretHash(string userPoolClientId, string userPoolClientSecret, string userName)
+        public string CalculateSecretHash(string userPoolClientId, string userPoolClientSecret, string userName)
         {
             const string HMAC_SHA256_ALGORITHM = "HMACSHA256";
 

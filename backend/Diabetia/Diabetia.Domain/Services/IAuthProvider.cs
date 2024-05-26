@@ -13,5 +13,7 @@
 
         public Task ConfirmForgotPasswordCodeAsync(string username, string confirmationCode, string password);
 
+        public string CalculateSecretHash(string clientId, string clientSecret, string username);
+
     }
 }
