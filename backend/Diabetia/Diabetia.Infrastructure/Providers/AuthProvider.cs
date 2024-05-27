@@ -1,8 +1,5 @@
-﻿using Amazon;
-using Amazon.CognitoIdentityProvider;
+﻿using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
-using Amazon.Extensions.CognitoAuthentication;
-using Amazon.Runtime.Internal;
 using Diabetia.Domain.Services;
 using Microsoft.Extensions.Configuration;
 using System.Net;
@@ -145,32 +142,5 @@ namespace Infrastructure.Provider
             }
         }
 
-        /*private CognitoUserPool CreateCognitoUserPool()
-        {
-            RegionEndpoint regionEndpoint = RegionEndpoint.GetBySystemName(_region);
-            if (regionEndpoint == null)
-            {
-                throw new ArgumentException("La región especificada en la configuración no es válida.");
-            }
-            var credentials = new Amazon.Runtime.BasicAWSCredentials(_awsAccessKey, _awsSecretKey);
-            AmazonCognitoIdentityProviderConfig clientConfig = new AmazonCognitoIdentityProviderConfig();
-            clientConfig.RegionEndpoint = regionEndpoint;
-            //var request = new CreateUserPoolClientRequest
-            //{
-            //    UserPoolId = _userPoolId;
-            //Cognito
-            //}
-            //var request = new CreateUserPoolRequest
-            //    {
-
-            //    }
-            _cognitoClient.
-            _cognitoClient.CreateUserPoolAsync(CreateUserPoolRequest)
-            _cognitoClient.CreateUserPoolClientAsync()
-            //_cognitoClient = new AmazonCognitoIdentityProviderClient(credentials, clientConfig);
-            _cognitoUserPool = new CognitoUserPool(_userPoolId, _clientId, _cognitoClient, _clientSecret);
-            return _cognitoUserPool;
-
-        }*/
     }
 }
