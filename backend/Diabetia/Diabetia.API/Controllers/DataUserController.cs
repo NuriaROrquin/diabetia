@@ -38,6 +38,16 @@ namespace Diabetia.API.Controllers
 
             return Ok();
         }
+
+        [HttpPut("thirdStep")]
+        public async Task<IActionResult> PhysicalInformationThirdStep([FromBody] PhysicalRequest request)
+        {
+            await _dataUserUseCase.ThirdStep();
+
+            return Ok();
+        }
+
+
     }
 }
 
