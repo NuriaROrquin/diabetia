@@ -61,6 +61,10 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("confirmEmailVerification")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+
         public async Task<IActionResult> ConfirmEmailVerification([FromBody] UserRequest request)
         {
             bool isSuccess = await  _registerUseCase.ConfirmEmailVerification(request.username, request.email, request.confirmationCode);

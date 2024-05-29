@@ -17,7 +17,7 @@ namespace Diabetia.Test.Core
     public class RegisterUserCaseTest
     {
         [Fact]
-        public async Task RegisterUseCaseAsync_()
+        public async Task RegisterUseCase_WhenCalledWithValidData_ShouldRegisterUserSuccessfully()
         {
             var username = "testUser";
             var password = "testPassword";
@@ -38,6 +38,31 @@ namespace Diabetia.Test.Core
             A.CallTo(() => fakeAuthProvider.RegisterUserAsync(username, password, email)).MustHaveHappenedOnceExactly();
 
             A.CallTo(() => fakeAuthRepository.SaveUserHashAsync(username, email, hashCode)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task RegisterUseCase_GivenEmailCode_ShouldConfirmUserSuccessfully()
+        {
+            var username = "testUser";
+            var email = "test@user.com";
+            var hashCode = "hashtest";
+            var confirmationCode = "123456";
+
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeAuthRepository = A.Fake<IAuthRepository>();
+
+            A.CallTo(() => fakeAuthRepository.GetUserHashAsync(email)).Returns(Task.FromResult(hashCode));
+            A.CallTo(() => fakeAuthProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode)).Returns(Task.FromResult(true));
+
+            var registerUseCase = new RegisterUseCase(fakeAuthProvider, fakeAuthRepository);
+
+            // Act
+            await registerUseCase.ConfirmEmailVerification(username, email, confirmationCode);
+
+            //// Asserts
+            A.CallTo(() => fakeAuthProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode)).MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeAuthRepository.GetUserHashAsync(email)).MustHaveHappenedOnceExactly();
         }
     }
 }

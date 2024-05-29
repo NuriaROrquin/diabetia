@@ -45,6 +45,18 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Parámetros de solicitud inválidos");
             }
+            else if (ex is ExpiredCodeException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El código ingresado ha expirado");
+            }
+            else if (ex is UserNotFoundException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.NotFound, "Usuario no encontrado");
+            }
+            else if (ex is InvalidParameterException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Parámetros de solicitud inválidos");
+            }
             else
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.InternalServerError, "Este es un mensaje de error custom");
