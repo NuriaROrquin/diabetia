@@ -26,8 +26,8 @@ namespace Diabetia.Infrastructure.Repositories
                 user.Genero = gender;
                 user.Telefono = phone;
             }
-                _context.Usuarios.Add(user);
-                await _context.SaveChangesAsync();
+            _context.Usuarios.Add(user);
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateUserInfo(int typeDiabetes, bool useInsuline, string typeInsuline, string email)
@@ -43,10 +43,11 @@ namespace Diabetia.Infrastructure.Repositories
                     IdTipoDiabetes = typeDiabetes,
                     UsaInsulina = useInsuline,
                     IdSensibilidadInsulina = 1,
-            };
+                };
                 _context.Pacientes.Add(pac_new);
             }
-            else {
+            else
+            {
                 pac.IdUsuario = user.Id;
                 pac.IdTipoDiabetes = typeDiabetes;
                 pac.UsaInsulina = useInsuline;
@@ -74,6 +75,11 @@ namespace Diabetia.Infrastructure.Repositories
                             pac?.IdSensibilidadInsulina != null;
 
             return allFieldsNotNull;
+        }
+
+        public Task CompletePhysicalUserInfo(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica)
+        {
+            throw new NotImplementedException();
         }
     }
 }
