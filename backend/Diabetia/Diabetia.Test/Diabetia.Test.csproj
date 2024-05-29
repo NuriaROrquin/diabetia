@@ -28,6 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Diabetia.API\Diabetia.API.csproj" />
+    <ProjectReference Include="..\Diabetia.Application\Diabetia.Application.csproj" />
+    <ProjectReference Include="..\Diabetia.Domain\Diabetia.Domain.csproj" />
     <ProjectReference Include="..\Diabetia.Infrastructure\Diabetia.Infrastructure.csproj" />
   </ItemGroup>
 
