@@ -64,19 +64,15 @@ namespace Diabetia.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-
         public async Task<IActionResult> ConfirmEmailVerification([FromBody] UserRequest request)
         {
-            bool isSuccess = await  _registerUseCase.ConfirmEmailVerification(request.username, request.email, request.confirmationCode);
-
+            bool isSuccess = await _registerUseCase.ConfirmEmailVerification(request.username, request.email, request.confirmationCode);
+            Console.Write("hola");
             if (isSuccess)
             {
                 return Ok(new { Message = "Se ha verificado el Email correctamente. Ya puede ingresar al sitio." });
             }
-            else
-            {
-                return BadRequest(new { Message = "Ocurrió un error al querer validar el email, intentelo nuevamente." });
-            }
+            return BadRequest(new { Message = "Ocurrió un error al querer validar el email, intentelo nuevamente." });
         }
 
         [HttpPost("passwordRecover")]

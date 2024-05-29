@@ -254,7 +254,7 @@ namespace Diabetia.Test.Infraestructure.Providers
         }
 
         [Fact]
-        public async Task ConfirmEmailAsync_GivenInvalidÚser_ThrowsUserNotFoundException()
+        public async Task ConfirmEmailAsync_GivenInvalidUser_ThrowsUserNotFoundException()
         {
             // Arrange
             var username = "testUser";
@@ -307,6 +307,38 @@ namespace Diabetia.Test.Infraestructure.Providers
             authProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode));
 
             Assert.Equal("Parametros incorrectos", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
+                A<ConfirmSignUpRequest>.That.Matches(req =>
+                    req.ClientId == fakeConfiguration["ClientId"] &&
+                    req.Username == username &&
+                    req.ConfirmationCode == confirmationCode &&
+                    req.SecretHash == hashCode
+                ), CancellationToken.None)).MustHaveHappenedOnceExactly();
+
+        }
+
+        [Fact]
+        public async Task ConfirmEmailAsync_GivenInvalidCode_ThrowsCodeMismatchException()
+        {
+            // Arrange
+            var username = "testUser";
+            var confirmationCode = "123456";
+            var hashCode = "hashTest";
+
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
+            fakeConfiguration["ClientSecret"] = "clientSecret";
+
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(A<ConfirmSignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new CodeMismatchException("Código incorrecto"));
+
+            // Act y Assert
+            var exception = await Assert.ThrowsAsync<CodeMismatchException>(() =>
+            authProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode));
+
+            Assert.Equal("Código incorrecto", exception.Message);
             A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
                 A<ConfirmSignUpRequest>.That.Matches(req =>
                     req.ClientId == fakeConfiguration["ClientId"] &&
