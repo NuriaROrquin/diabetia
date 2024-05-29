@@ -1,7 +1,6 @@
 using Diabetia.API.DTO;
 using Diabetia.Application.UseCases;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace Diabetia.API.Controllers
 {
@@ -54,6 +53,7 @@ namespace Diabetia.API.Controllers
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             await _registerUseCase.Register(request.userName, request.email, request.password);
