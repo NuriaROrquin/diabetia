@@ -77,9 +77,32 @@ namespace Diabetia.Infrastructure.Repositories
             return allFieldsNotNull;
         }
 
-        public Task CompletePhysicalUserInfo(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica)
+        public async Task CompletePhysicalUserInfo(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica, int duracion)
         {
-            throw new NotImplementedException();
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            var pac_phy = await _context.PacienteActividadFisicas.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+
+            if (pac_phy == null)
+            {
+                var pac_new = new PacienteActividadFisica
+                {
+                    IdPaciente = user.Id,
+                    IdActividadFisica = idActividadFisica,
+                    Frecuencia = frecuencia,
+                    Duracion = duracion ,
+                };
+                _context.PacienteActividadFisicas.Add(pac_new);
+            }
+            else
+            {
+                pac_phy.IdPaciente = user.Id,
+                    IdActividadFisica = idActividadFisica,
+                    Frecuencia = frecuencia,
+                    Duracion = duracion ,
+                _context.Pacientes.Update(pac);
+            }
+            await _context.SaveChangesAsync();
         }
+    }
     }
 }

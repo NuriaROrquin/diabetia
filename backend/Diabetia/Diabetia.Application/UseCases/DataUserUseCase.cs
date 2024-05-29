@@ -20,10 +20,10 @@ namespace Diabetia.Application.UseCases
             await _userRepository.UpdateUserInfo(typeDiabetes, useInsuline, typeInsuline, email);
         }
 
-        public async Task ThirdStep(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica)
+        public async Task ThirdStep(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica, int duracion)
         {
 
-            await _userRepository.CompletePhysicalUserInfo(email, haceActividadFisica, frecuencia, idActividadFisica);
+            await _userRepository.CompletePhysicalUserInfo(email, haceActividadFisica, frecuencia, idActividadFisica, duracion);
         }
     }
 }
