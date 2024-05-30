@@ -40,8 +40,14 @@ namespace Diabetia.API
         public string Email { get; set; }
         public int IdEnfermedad { get; set; }
 
-
-
     }
 
+    public class DevicesRequest
+    {
+        public string Email { get; set; }
+        public bool TieneDispositivo { get; set; }
+        public int IdDispositivo { get; set; }
+        public int? Frecuencia { get; set; }
+
+    }
 }

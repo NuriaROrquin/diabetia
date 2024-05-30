@@ -1,4 +1,5 @@
-﻿using Diabetia.Domain.Services;
+﻿using Diabetia.Domain.Models;
+using Diabetia.Domain.Services;
 
 namespace Diabetia.Application.UseCases
 {
@@ -11,7 +12,7 @@ namespace Diabetia.Application.UseCases
         }
         public async Task FirstStep(string name, string email, string gender, string lastname, int weight, string phone)
         {
-             await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone); 
+            await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone);
 
         }
 
@@ -24,6 +25,11 @@ namespace Diabetia.Application.UseCases
         {
 
             await _userRepository.CompletePhysicalUserInfo(email, haceActividadFisica, frecuencia, idActividadFisica, duracion);
+        }
+
+        public async Task FourthStep(string email, bool tieneDispositivo, int idDispositivo, int frecuencia)
+        {
+            await _userRepository.CompleteDeviceslUserInfo(email, tieneDispositivo, idDispositivo, frecuencia);
         }
     }
 }

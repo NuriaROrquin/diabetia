@@ -47,6 +47,14 @@ namespace Diabetia.API.Controllers
             return Ok();
         }
 
+        [HttpPut("fourthStep")]
+        public async Task<IActionResult> DevicesInformationFourthStep([FromBody] DevicesRequest request)
+        {
+            await _dataUserUseCase.FourthStep(request.Email, request.TieneDispositivo, request.IdDispositivo, request.Frecuencia);
+
+            return Ok();
+        }
+
 
     }
 }
