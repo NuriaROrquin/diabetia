@@ -27,10 +27,21 @@ namespace Diabetia.API
 
     public class PhysicalRequest
     {
-        public string email { get; set; }
+        public string Email { get; set; }
         public int IdActividadFisica { get; set; }
         public int Frecuencia { get; set; }
         public int Duracion { get; set; }
+        public bool HaceActividadFisica { get; set; }
 
     }
+
+    public class IllnessRequest
+    {
+        public string Email { get; set; }
+        public int IdEnfermedad { get; set; }
+
+
+
+    }
+
 }

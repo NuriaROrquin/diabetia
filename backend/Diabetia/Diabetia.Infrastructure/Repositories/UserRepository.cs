@@ -80,26 +80,27 @@ namespace Diabetia.Infrastructure.Repositories
         public async Task CompletePhysicalUserInfo(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica, int duracion)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
-            var pac_phy = await _context.PacienteActividadFisicas.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+            var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+            var pac_phy = await _context.PacienteActividadFisicas.FirstOrDefaultAsync(u => u.IdPaciente == pac.Id);
 
             if (pac_phy == null)
             {
                 var pac_new = new PacienteActividadFisica
                 {
-                    IdPaciente = user.Id,
+                    IdPaciente = pac.Id,
                     IdActividadFisica = idActividadFisica,
                     Frecuencia = frecuencia,
-                    Duracion = duracion ,
+                    Duracion = duracion
                 };
                 _context.PacienteActividadFisicas.Add(pac_new);
             }
             else
             {
-                pac_phy.IdPaciente = user.Id,
-                    IdActividadFisica = idActividadFisica,
-                    Frecuencia = frecuencia,
-                    Duracion = duracion ,
-                _context.Pacientes.Update(pac);
+                pac_phy.IdPaciente = pac.Id;
+                pac_phy.IdActividadFisica = idActividadFisica;
+                pac_phy.Frecuencia = frecuencia;
+                pac_phy.Duracion = duracion;
+                _context.PacienteActividadFisicas.Update(pac_phy);
             }
             await _context.SaveChangesAsync();
         }
