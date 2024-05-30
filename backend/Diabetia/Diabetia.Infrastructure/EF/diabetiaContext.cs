@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Diabetia.Domain.Model
+namespace Diabetia.Infrastructure.EF
 {
     public partial class diabetiaContext : DbContext
     {
