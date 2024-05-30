@@ -8,8 +8,12 @@ using Diabetia.Infrastructure.Middlewares;
 using Diabetia.Infrastructure.Providers;
 using Diabetia.Infrastructure.Repositories;
 using Infrastructure.Provider;
+using Microsoft.AspNetCore.Authentication.Certificate;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAuthentication(
+    CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
 
 // Add services to the container.
 builder.Services.AddControllers();
