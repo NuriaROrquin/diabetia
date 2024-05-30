@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Diabetia.Domain.Models
+namespace Diabetia.Domain.Model
 {
     public partial class Usuario
     {
@@ -24,7 +24,7 @@ namespace Diabetia.Domain.Models
         public string? Pais { get; set; }
         public bool? EstaActivo { get; set; }
         public string? Hash { get; set; }
-        public string Username { get; set; } = null!;
+        public string? Username { get; set; }
 
         public virtual Rol IdRolNavigation { get; set; } = null!;
         public virtual ICollection<EncargadoLegal> EncargadoLegals { get; set; }

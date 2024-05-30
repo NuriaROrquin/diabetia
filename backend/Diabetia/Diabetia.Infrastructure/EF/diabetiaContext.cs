@@ -1,7 +1,9 @@
-﻿using Diabetia.Domain.Models;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Diabetia.Infrastructure.EF
+namespace Diabetia.Domain.Model
 {
     public partial class diabetiaContext : DbContext
     {
@@ -61,22 +63,22 @@ namespace Diabetia.Infrastructure.EF
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql("server=diabetia-mysql.mysql.database.azure.com;database=diabetia;user=borbotones;password=Diabetia123_;", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.4.32-mariadb"));
+                optionsBuilder.UseMySql("server=diabetia-mysql.mysql.database.azure.com;database=diabetia;user=borbotones;password=Diabetia123_", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.36-mysql"));
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.UseCollation("utf8mb4_general_ci")
+            modelBuilder.UseCollation("utf8mb4_0900_ai_ci")
                 .HasCharSet("utf8mb4");
 
             modelBuilder.Entity<ActividadFisica>(entity =>
             {
                 entity.ToTable("actividad_fisica");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(100)
@@ -87,13 +89,13 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("carga_evento");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdPaciente, "id_paciente");
 
                 entity.HasIndex(e => e.IdTipoEvento, "id_tipo_evento");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.EsNotaLibre)
                     .HasColumnName("es_nota_libre")
@@ -102,7 +104,7 @@ namespace Diabetia.Infrastructure.EF
                 entity.Property(e => e.FechaActual)
                     .HasColumnType("timestamp")
                     .HasColumnName("fecha_actual")
-                    .HasDefaultValueSql("current_timestamp()");
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.FechaEvento)
                     .HasColumnType("datetime")
@@ -112,13 +114,9 @@ namespace Diabetia.Infrastructure.EF
                     .HasColumnName("fue_realizado")
                     .HasDefaultValueSql("'0'");
 
-                entity.Property(e => e.IdPaciente)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_paciente");
+                entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
 
-                entity.Property(e => e.IdTipoEvento)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_tipo_evento");
+                entity.Property(e => e.IdTipoEvento).HasColumnName("id_tipo_evento");
 
                 entity.Property(e => e.NotaLibre)
                     .HasMaxLength(255)
@@ -141,9 +139,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("dia_semana");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Dia)
                     .HasMaxLength(20)
@@ -154,9 +152,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("dispositivo");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Marca)
                     .HasMaxLength(100)
@@ -171,25 +169,19 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("dispositivo_paciente");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdDispositivo, "id_dispositivo");
 
                 entity.HasIndex(e => e.IdPaciente, "id_paciente");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Frecuencia)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("frecuencia");
+                entity.Property(e => e.Frecuencia).HasColumnName("frecuencia");
 
-                entity.Property(e => e.IdDispositivo)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_dispositivo");
+                entity.Property(e => e.IdDispositivo).HasColumnName("id_dispositivo");
 
-                entity.Property(e => e.IdPaciente)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_paciente");
+                entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
 
                 entity.HasOne(d => d.IdDispositivoNavigation)
                     .WithMany(p => p.DispositivoPacientes)
@@ -208,21 +200,17 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("encargado_legal");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdPaciente, "id_paciente");
 
                 entity.HasIndex(e => e.IdUsuario, "id_usuario");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.IdPaciente)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_paciente");
+                entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
 
-                entity.Property(e => e.IdUsuario)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_usuario");
+                entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
 
                 entity.Property(e => e.PuedeEditarDatos).HasColumnName("puede_editar_datos");
 
@@ -247,9 +235,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("enfermedad");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.EsCronica).HasColumnName("es_cronica");
 
@@ -262,9 +250,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("especialidad");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.NombreEspecialidad)
                     .HasMaxLength(100)
@@ -275,25 +263,19 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("evento_actividad_fisica");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdActividadRegistrada, "id_actividad_registrada");
 
                 entity.HasIndex(e => e.IdCargaEvento, "id_carga_evento");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Duracion)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("duracion");
+                entity.Property(e => e.Duracion).HasColumnName("duracion");
 
-                entity.Property(e => e.IdActividadRegistrada)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_actividad_registrada");
+                entity.Property(e => e.IdActividadRegistrada).HasColumnName("id_actividad_registrada");
 
-                entity.Property(e => e.IdCargaEvento)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_carga_evento");
+                entity.Property(e => e.IdCargaEvento).HasColumnName("id_carga_evento");
 
                 entity.HasOne(d => d.IdActividadRegistradaNavigation)
                     .WithMany(p => p.EventoActividadFisicas)
@@ -311,13 +293,13 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("evento_comida");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdCargaEvento, "id_carga_evento");
 
                 entity.HasIndex(e => e.IdTipoCargaComida, "id_tipo_carga_comida");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Carbohidratos)
                     .HasPrecision(10, 2)
@@ -333,13 +315,9 @@ namespace Diabetia.Infrastructure.EF
                     .HasPrecision(10, 2)
                     .HasColumnName("grasas_totales");
 
-                entity.Property(e => e.IdCargaEvento)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_carga_evento");
+                entity.Property(e => e.IdCargaEvento).HasColumnName("id_carga_evento");
 
-                entity.Property(e => e.IdTipoCargaComida)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_tipo_carga_comida");
+                entity.Property(e => e.IdTipoCargaComida).HasColumnName("id_tipo_carga_comida");
 
                 entity.Property(e => e.Imagen)
                     .HasMaxLength(255)
@@ -370,25 +348,21 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("evento_estudio");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdCargaEvento, "id_carga_evento");
 
                 entity.HasIndex(e => e.IdProfesional, "id_profesional");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Archivo)
                     .HasMaxLength(255)
                     .HasColumnName("archivo");
 
-                entity.Property(e => e.IdCargaEvento)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_carga_evento");
+                entity.Property(e => e.IdCargaEvento).HasColumnName("id_carga_evento");
 
-                entity.Property(e => e.IdProfesional)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_profesional");
+                entity.Property(e => e.IdProfesional).HasColumnName("id_profesional");
 
                 entity.Property(e => e.TipoEstudio)
                     .HasMaxLength(100)
@@ -411,31 +385,25 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("evento_glucosa");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdCargaEvento, "id_carga_evento");
 
                 entity.HasIndex(e => e.IdDispositivoPaciente, "id_dispositivo_paciente");
 
                 entity.HasIndex(e => e.IdEventoComida, "id_evento_comida");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Glucemia)
                     .HasPrecision(10, 2)
                     .HasColumnName("glucemia");
 
-                entity.Property(e => e.IdCargaEvento)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_carga_evento");
+                entity.Property(e => e.IdCargaEvento).HasColumnName("id_carga_evento");
 
-                entity.Property(e => e.IdDispositivoPaciente)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_dispositivo_paciente");
+                entity.Property(e => e.IdDispositivoPaciente).HasColumnName("id_dispositivo_paciente");
 
-                entity.Property(e => e.IdEventoComida)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_evento_comida");
+                entity.Property(e => e.IdEventoComida).HasColumnName("id_evento_comida");
 
                 entity.Property(e => e.MedicionPostComida).HasColumnName("medicion_post_comida");
 
@@ -460,37 +428,27 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("evento_insulina");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdCargaEvento, "id_carga_evento");
 
                 entity.HasIndex(e => e.IdEventoComida, "id_evento_comida");
 
                 entity.HasIndex(e => e.IdInsulinaPaciente, "id_insulina_paciente");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.IdCargaEvento)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_carga_evento");
+                entity.Property(e => e.IdCargaEvento).HasColumnName("id_carga_evento");
 
-                entity.Property(e => e.IdEventoComida)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_evento_comida");
+                entity.Property(e => e.IdEventoComida).HasColumnName("id_evento_comida");
 
-                entity.Property(e => e.IdInsulinaPaciente)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_insulina_paciente");
+                entity.Property(e => e.IdInsulinaPaciente).HasColumnName("id_insulina_paciente");
 
-                entity.Property(e => e.InsulinaInyectada)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("insulina_inyectada");
+                entity.Property(e => e.InsulinaInyectada).HasColumnName("insulina_inyectada");
 
                 entity.Property(e => e.InsulinaPreComida).HasColumnName("insulina_pre_comida");
 
-                entity.Property(e => e.InsulinaRecomendada)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("insulina_recomendada");
+                entity.Property(e => e.InsulinaRecomendada).HasColumnName("insulina_recomendada");
 
                 entity.HasOne(d => d.IdCargaEventoNavigation)
                     .WithMany(p => p.EventoInsulinas)
@@ -514,21 +472,17 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("evento_salud");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdCargaEvento, "id_carga_evento");
 
                 entity.HasIndex(e => e.IdEnfermedad, "id_enfermedad");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.IdCargaEvento)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_carga_evento");
+                entity.Property(e => e.IdCargaEvento).HasColumnName("id_carga_evento");
 
-                entity.Property(e => e.IdEnfermedad)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_enfermedad");
+                entity.Property(e => e.IdEnfermedad).HasColumnName("id_enfermedad");
 
                 entity.HasOne(d => d.IdCargaEventoNavigation)
                     .WithMany(p => p.EventoSaluds)
@@ -547,25 +501,21 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("evento_visita_medica");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdCargaEvento, "id_carga_evento");
 
                 entity.HasIndex(e => e.IdProfesional, "id_profesional");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Descripcion)
                     .HasMaxLength(50)
                     .HasColumnName("descripcion");
 
-                entity.Property(e => e.IdCargaEvento)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_carga_evento");
+                entity.Property(e => e.IdCargaEvento).HasColumnName("id_carga_evento");
 
-                entity.Property(e => e.IdProfesional)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_profesional");
+                entity.Property(e => e.IdProfesional).HasColumnName("id_profesional");
 
                 entity.HasOne(d => d.IdCargaEventoNavigation)
                     .WithMany(p => p.EventoVisitaMedicas)
@@ -583,13 +533,13 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("feedback");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdCargaEvento, "id_carga_evento");
 
                 entity.HasIndex(e => e.IdSentimiento, "id_sentimiento");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.FueRealizado)
                     .HasColumnName("fue_realizado")
@@ -599,13 +549,9 @@ namespace Diabetia.Infrastructure.EF
                     .HasColumnType("timestamp")
                     .HasColumnName("hora_aviso");
 
-                entity.Property(e => e.IdCargaEvento)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_carga_evento");
+                entity.Property(e => e.IdCargaEvento).HasColumnName("id_carga_evento");
 
-                entity.Property(e => e.IdSentimiento)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_sentimiento");
+                entity.Property(e => e.IdSentimiento).HasColumnName("id_sentimiento");
 
                 entity.Property(e => e.NotaLibre)
                     .HasMaxLength(255)
@@ -627,9 +573,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("gravedad_sintoma");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Descripcion)
                     .HasMaxLength(50)
@@ -640,13 +586,13 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("ingrediente");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdUnidadMedidaIngrediente, "id_unidad_medida_ingrediente");
 
                 entity.HasIndex(e => e.IdUsuario, "id_usuario");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Carbohidratos)
                     .HasPrecision(10, 2)
@@ -664,13 +610,9 @@ namespace Diabetia.Infrastructure.EF
                     .HasPrecision(10, 2)
                     .HasColumnName("grasas_totales");
 
-                entity.Property(e => e.IdUnidadMedidaIngrediente)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_unidad_medida_ingrediente");
+                entity.Property(e => e.IdUnidadMedidaIngrediente).HasColumnName("id_unidad_medida_ingrediente");
 
-                entity.Property(e => e.IdUsuario)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_usuario");
+                entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
 
                 entity.Property(e => e.Kilocalorias)
                     .HasPrecision(10, 2)
@@ -708,17 +650,15 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("ingrediente_comida");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdEventoComida, "id_evento_comida");
 
                 entity.HasIndex(e => e.IdIngrediente, "id_ingrediente");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.CantidadIngerida)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("cantidad_ingerida");
+                entity.Property(e => e.CantidadIngerida).HasColumnName("cantidad_ingerida");
 
                 entity.Property(e => e.Carbohidratos)
                     .HasPrecision(10, 2)
@@ -732,13 +672,9 @@ namespace Diabetia.Infrastructure.EF
                     .HasPrecision(10, 2)
                     .HasColumnName("grasas_totales");
 
-                entity.Property(e => e.IdEventoComida)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_evento_comida");
+                entity.Property(e => e.IdEventoComida).HasColumnName("id_evento_comida");
 
-                entity.Property(e => e.IdIngrediente)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_ingrediente");
+                entity.Property(e => e.IdIngrediente).HasColumnName("id_ingrediente");
 
                 entity.Property(e => e.Proteinas)
                     .HasPrecision(10, 2)
@@ -765,25 +701,19 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("insulina_paciente");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdPaciente, "id_paciente");
 
                 entity.HasIndex(e => e.IdTipoInsulina, "id_tipo_insulina");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Frecuencia)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("frecuencia");
+                entity.Property(e => e.Frecuencia).HasColumnName("frecuencia");
 
-                entity.Property(e => e.IdPaciente)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_paciente");
+                entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
 
-                entity.Property(e => e.IdTipoInsulina)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_tipo_insulina");
+                entity.Property(e => e.IdTipoInsulina).HasColumnName("id_tipo_insulina");
 
                 entity.HasOne(d => d.IdPacienteNavigation)
                     .WithMany(p => p.InsulinaPacientes)
@@ -802,21 +732,17 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("medida_tomada_evento_salud");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdEventoSalud, "id_evento_salud");
 
                 entity.HasIndex(e => e.IdMedidaTomada, "id_medida_tomada");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.IdEventoSalud)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_evento_salud");
+                entity.Property(e => e.IdEventoSalud).HasColumnName("id_evento_salud");
 
-                entity.Property(e => e.IdMedidaTomada)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_medida_tomada");
+                entity.Property(e => e.IdMedidaTomada).HasColumnName("id_medida_tomada");
 
                 entity.HasOne(d => d.IdEventoSaludNavigation)
                     .WithMany(p => p.MedidaTomadaEventoSaluds)
@@ -835,9 +761,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("medida_tomada_sintoma");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Descripcion)
                     .HasMaxLength(255)
@@ -848,49 +774,33 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("paciente");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdSensibilidadInsulina, "id_sensibilidad_insulina");
 
                 entity.HasIndex(e => e.IdTipoDiabetes, "id_tipo_diabetes");
 
                 entity.HasIndex(e => e.IdUsuario, "id_usuario");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Altura)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("altura");
+                entity.Property(e => e.Altura).HasColumnName("altura");
 
-                entity.Property(e => e.CorreccionCh)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("correccion_ch");
+                entity.Property(e => e.CorreccionCh).HasColumnName("correccion_ch");
 
                 entity.Property(e => e.FechaDiagnostico).HasColumnName("fecha_diagnostico");
 
-                entity.Property(e => e.IdSensibilidadInsulina)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_sensibilidad_insulina");
+                entity.Property(e => e.IdSensibilidadInsulina).HasColumnName("id_sensibilidad_insulina");
 
-                entity.Property(e => e.IdTipoDiabetes)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_tipo_diabetes");
+                entity.Property(e => e.IdTipoDiabetes).HasColumnName("id_tipo_diabetes");
 
-                entity.Property(e => e.IdUsuario)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_usuario");
+                entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
 
-                entity.Property(e => e.MaxGlucosa)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("max_glucosa");
+                entity.Property(e => e.MaxGlucosa).HasColumnName("max_glucosa");
 
-                entity.Property(e => e.MinGlucosa)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("min_glucosa");
+                entity.Property(e => e.MinGlucosa).HasColumnName("min_glucosa");
 
-                entity.Property(e => e.Peso)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("peso");
+                entity.Property(e => e.Peso).HasColumnName("peso");
 
                 entity.Property(e => e.UsaInsulina).HasColumnName("usa_insulina");
 
@@ -917,29 +827,21 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("paciente_actividad_fisica");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdActividadFisica, "id_actividad_fisica");
 
                 entity.HasIndex(e => e.IdPaciente, "id_paciente");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Duracion)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("duracion");
+                entity.Property(e => e.Duracion).HasColumnName("duracion");
 
-                entity.Property(e => e.Frecuencia)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("frecuencia");
+                entity.Property(e => e.Frecuencia).HasColumnName("frecuencia");
 
-                entity.Property(e => e.IdActividadFisica)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_actividad_fisica");
+                entity.Property(e => e.IdActividadFisica).HasColumnName("id_actividad_fisica");
 
-                entity.Property(e => e.IdPaciente)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_paciente");
+                entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
 
                 entity.HasOne(d => d.IdActividadFisicaNavigation)
                     .WithMany(p => p.PacienteActividadFisicas)
@@ -958,21 +860,17 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("paciente_enfermedad_preexistente");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdEnfermedad, "id_enfermedad");
 
                 entity.HasIndex(e => e.IdPaciente, "id_paciente");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.IdEnfermedad)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_enfermedad");
+                entity.Property(e => e.IdEnfermedad).HasColumnName("id_enfermedad");
 
-                entity.Property(e => e.IdPaciente)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_paciente");
+                entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
 
                 entity.HasOne(d => d.IdEnfermedadNavigation)
                     .WithMany(p => p.PacienteEnfermedadPreexistentes)
@@ -991,6 +889,8 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("profesional");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdEspecialidad, "id_especialidad");
 
                 entity.HasIndex(e => e.IdUsuario, "id_usuario");
@@ -998,17 +898,11 @@ namespace Diabetia.Infrastructure.EF
                 entity.HasIndex(e => e.Matricula, "matricula")
                     .IsUnique();
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.IdEspecialidad)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_especialidad");
+                entity.Property(e => e.IdEspecialidad).HasColumnName("id_especialidad");
 
-                entity.Property(e => e.IdUsuario)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_usuario");
+                entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
 
                 entity.Property(e => e.Matricula).HasColumnName("matricula");
 
@@ -1029,11 +923,11 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("recordatorio");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdTipoEvento, "id_tipo_evento");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.EstaActivo)
                     .HasColumnName("esta_activo")
@@ -1055,9 +949,7 @@ namespace Diabetia.Infrastructure.EF
                     .HasColumnType("time")
                     .HasColumnName("horario_actividad");
 
-                entity.Property(e => e.IdTipoEvento)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_tipo_evento");
+                entity.Property(e => e.IdTipoEvento).HasColumnName("id_tipo_evento");
 
                 entity.HasOne(d => d.IdTipoEventoNavigation)
                     .WithMany(p => p.Recordatorios)
@@ -1070,25 +962,21 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("recordatorio_dia");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdDiaSemana, "id_dia_semana");
 
                 entity.HasIndex(e => e.IdRecordatorio, "id_recordatorio");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.FechaHoraRecordatorio)
                     .HasColumnType("datetime")
                     .HasColumnName("fecha_hora_recordatorio");
 
-                entity.Property(e => e.IdDiaSemana)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_dia_semana");
+                entity.Property(e => e.IdDiaSemana).HasColumnName("id_dia_semana");
 
-                entity.Property(e => e.IdRecordatorio)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_recordatorio");
+                entity.Property(e => e.IdRecordatorio).HasColumnName("id_recordatorio");
 
                 entity.HasOne(d => d.IdDiaSemanaNavigation)
                     .WithMany(p => p.RecordatorioDia)
@@ -1107,9 +995,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("rol");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Rol1)
                     .HasMaxLength(50)
@@ -1120,9 +1008,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("sensibilidad_insulina");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Nivel)
                     .HasMaxLength(50)
@@ -1133,9 +1021,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("sentimiento");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Emoji)
                     .HasMaxLength(255)
@@ -1150,9 +1038,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("sintoma");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Descripcion)
                     .HasMaxLength(100)
@@ -1163,31 +1051,25 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("sintoma_evento_salud");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdEventoSalud, "id_evento_salud");
 
                 entity.HasIndex(e => e.IdGravedadSintoma, "id_gravedad_sintoma");
 
                 entity.HasIndex(e => e.IdSintoma, "id_sintoma");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Descripcion)
                     .HasMaxLength(255)
                     .HasColumnName("descripcion");
 
-                entity.Property(e => e.IdEventoSalud)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_evento_salud");
+                entity.Property(e => e.IdEventoSalud).HasColumnName("id_evento_salud");
 
-                entity.Property(e => e.IdGravedadSintoma)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_gravedad_sintoma");
+                entity.Property(e => e.IdGravedadSintoma).HasColumnName("id_gravedad_sintoma");
 
-                entity.Property(e => e.IdSintoma)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_sintoma");
+                entity.Property(e => e.IdSintoma).HasColumnName("id_sintoma");
 
                 entity.HasOne(d => d.IdEventoSaludNavigation)
                     .WithMany(p => p.SintomaEventoSaluds)
@@ -1212,9 +1094,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("tipo_accion_insulina");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.TipoAccion)
                     .HasMaxLength(50)
@@ -1225,9 +1107,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("tipo_carga_comida");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.TipoCarga)
                     .HasMaxLength(20)
@@ -1238,9 +1120,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("tipo_diabetes");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Tipo)
                     .HasMaxLength(100)
@@ -1251,17 +1133,15 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("tipo_evento");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.NombreTabla)
                     .HasMaxLength(100)
                     .HasColumnName("nombre_tabla");
 
-                entity.Property(e => e.TiempoFeedback)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("tiempo_feedback");
+                entity.Property(e => e.TiempoFeedback).HasColumnName("tiempo_feedback");
 
                 entity.Property(e => e.Tipo)
                     .HasMaxLength(100)
@@ -1272,19 +1152,15 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("tipo_insulina");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdTipoAccionInsulina, "id_tipo_accion_insulina");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Duracion)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("duracion");
+                entity.Property(e => e.Duracion).HasColumnName("duracion");
 
-                entity.Property(e => e.IdTipoAccionInsulina)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_tipo_accion_insulina");
+                entity.Property(e => e.IdTipoAccionInsulina).HasColumnName("id_tipo_accion_insulina");
 
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(50)
@@ -1301,9 +1177,9 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("unidad_medida_ingrediente");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.UseCollation("utf8mb4_general_ci");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Abreviacion)
                     .HasMaxLength(10)
@@ -1318,6 +1194,8 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("usuario");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.Dni, "dni")
                     .IsUnique();
 
@@ -1326,9 +1204,7 @@ namespace Diabetia.Infrastructure.EF
 
                 entity.HasIndex(e => e.IdRol, "id_rol");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Dni)
                     .HasMaxLength(20)
@@ -1352,7 +1228,6 @@ namespace Diabetia.Infrastructure.EF
                     .HasColumnName("hash");
 
                 entity.Property(e => e.IdRol)
-                    .HasColumnType("int(11)")
                     .HasColumnName("id_rol")
                     .HasDefaultValueSql("'1'");
 
@@ -1383,21 +1258,17 @@ namespace Diabetia.Infrastructure.EF
             {
                 entity.ToTable("vinculo_profesional_paciente");
 
+                entity.UseCollation("utf8mb4_general_ci");
+
                 entity.HasIndex(e => e.IdPaciente, "id_paciente");
 
                 entity.HasIndex(e => e.IdProfesional, "id_profesional");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.IdPaciente)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_paciente");
+                entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
 
-                entity.Property(e => e.IdProfesional)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("id_profesional");
+                entity.Property(e => e.IdProfesional).HasColumnName("id_profesional");
 
                 entity.HasOne(d => d.IdPacienteNavigation)
                     .WithMany(p => p.VinculoProfesionalPacientes)

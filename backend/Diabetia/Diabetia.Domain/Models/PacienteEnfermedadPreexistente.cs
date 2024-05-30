@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Diabetia.Domain.Models
+namespace Diabetia.Domain.Model
 {
     public partial class PacienteEnfermedadPreexistente
     {
