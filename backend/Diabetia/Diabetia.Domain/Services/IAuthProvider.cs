@@ -13,7 +13,10 @@
 
         public Task ConfirmForgotPasswordCodeAsync(string username, string confirmationCode, string password);
 
+        public Task ChangeUserPasswordAsync(string accessToken, string previousPassword, string newPassword);
+
         public string CalculateSecretHash(string clientId, string clientSecret, string username);
+
 
     }
 }

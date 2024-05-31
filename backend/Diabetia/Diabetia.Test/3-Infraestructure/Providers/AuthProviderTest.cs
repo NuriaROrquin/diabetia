@@ -5,12 +5,14 @@ using Diabetia.Domain.Services;
 using FakeItEasy;
 using Infrastructure.Provider;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Net;
 
 namespace Diabetia.Test.Infraestructure.Providers
 {
     public class AuthProviderTest
     {
+        // Register
         [Fact]
         public async Task RegisterUserAsync_Success_ReturnsSecretHash()
         {
@@ -165,6 +167,7 @@ namespace Diabetia.Test.Infraestructure.Providers
             )).MustHaveHappenedOnceExactly();
         }
 
+        // Confirm Email - Register
         [Fact]
         public async Task ConfirmEmailAsync_GivenCodeSentToAccountEmail_ConfirmsEmail()
         {
@@ -347,6 +350,42 @@ namespace Diabetia.Test.Infraestructure.Providers
                     req.SecretHash == hashCode
                 ), CancellationToken.None)).MustHaveHappenedOnceExactly();
 
+        }
+
+        // Change Password
+        [Fact]
+        public async Task ChangePasswordAsync_GivenPreviousAndNewPassword_ShouldChange()
+        {
+            // Arrange
+            var accessToken = "testUser";
+            var previousPassword = "testPassword";
+            var newPassword = "testNewPassword";
+
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
+            fakeConfiguration["ClientSecret"] = "clientSecret";
+
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+
+            var request = new ChangePasswordRequest
+            {
+                AccessToken = accessToken,
+                PreviousPassword = previousPassword,
+                ProposedPassword = newPassword
+            };
+
+            A.CallTo(() => fakeCognitoClient.ChangePasswordAsync(request, CancellationToken.None));
+
+            //// Act
+            await authProvider.ChangeUserPasswordAsync(accessToken, previousPassword, newPassword);
+
+            // Assert & Act
+            A.CallTo(() => fakeCognitoClient.ChangePasswordAsync(
+                A<ChangePasswordRequest>.That.Matches(req =>
+                    req.AccessToken == accessToken &&
+                    req.PreviousPassword == previousPassword &&
+                    req.ProposedPassword == newPassword), CancellationToken.None)).MustHaveHappenedOnceExactly();
         }
     }
 }

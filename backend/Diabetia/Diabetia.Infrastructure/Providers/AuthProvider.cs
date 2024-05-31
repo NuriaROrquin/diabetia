@@ -128,6 +128,17 @@ namespace Infrastructure.Provider
             
         }
 
+        public async Task ChangeUserPasswordAsync(string accessToken, string previousPassword, string newPassword)
+        {
+            var passwordRequest = new ChangePasswordRequest
+            {
+                AccessToken = accessToken,
+                PreviousPassword = previousPassword,
+                ProposedPassword = newPassword
+            };
+            await _cognitoClient.ChangePasswordAsync(passwordRequest);
+        }
+
         public string CalculateSecretHash(string userPoolClientId, string userPoolClientSecret, string userName)
         {
             const string HMAC_SHA256_ALGORITHM = "HMACSHA256";
@@ -141,6 +152,7 @@ namespace Infrastructure.Provider
                 return Convert.ToBase64String(hashBytes);
             }
         }
+
 
     }
 }
