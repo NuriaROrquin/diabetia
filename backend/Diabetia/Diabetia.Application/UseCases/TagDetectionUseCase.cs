@@ -7,9 +7,9 @@ namespace Diabetia.Application.UseCases
 {
     public class TagDetectionUseCase
     {
-        private readonly IApiAmazonProvider _apiAmazonService;
+        private readonly ITagRecognitionProvider _apiAmazonService;
 
-        public TagDetectionUseCase(IApiAmazonProvider apiAmazonService)
+        public TagDetectionUseCase(ITagRecognitionProvider apiAmazonService)
         {
             _apiAmazonService = apiAmazonService;
         }

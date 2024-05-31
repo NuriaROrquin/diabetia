@@ -30,7 +30,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IApiAmazonProvider, ApiAmazonProvider>();
+builder.Services.AddScoped<ITagRecognitionProvider, TagRecognitionProvider>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 
 

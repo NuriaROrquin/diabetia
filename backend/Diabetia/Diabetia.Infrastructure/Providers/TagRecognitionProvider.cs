@@ -19,11 +19,11 @@ using Newtonsoft.Json;
 
 namespace Diabetia.Infrastructure.Providers
 {
-    public class ApiAmazonProvider : IApiAmazonProvider
+    public class TagRecognitionProvider : ITagRecognitionProvider
     {
         private readonly IConfiguration _configuration;
 
-        public ApiAmazonProvider(IConfiguration configuration)
+        public TagRecognitionProvider(IConfiguration configuration)
         {
             _configuration = configuration;
         }

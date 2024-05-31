@@ -152,7 +152,5 @@ namespace Infrastructure.Provider
                 return Convert.ToBase64String(hashBytes);
             }
         }
-
-
     }
 }

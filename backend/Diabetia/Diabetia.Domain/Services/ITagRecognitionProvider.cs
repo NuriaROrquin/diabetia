@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Diabetia.Domain.Services
 {
-    public interface IApiAmazonProvider
+    public interface ITagRecognitionProvider
     {
         public Task<string> GetChFromDocument(string ocrRequest);
         
