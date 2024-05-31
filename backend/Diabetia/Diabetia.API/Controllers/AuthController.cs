@@ -11,12 +11,14 @@ namespace Diabetia.API.Controllers
         private readonly LoginUseCase _loginUseCase;
         private readonly RegisterUseCase _registerUseCase;
         private readonly ForgotPasswordUseCase _forgotPasswordUseCase;
+        private readonly ChangePasswordUseCase _changePasswordUseCase;
 
-        public AuthController(LoginUseCase loginUseCase, RegisterUseCase registerUseCase, ForgotPasswordUseCase forgotPasswordUseCase)
+        public AuthController(LoginUseCase loginUseCase, RegisterUseCase registerUseCase, ForgotPasswordUseCase forgotPasswordUseCase, ChangePasswordUseCase changePasswordUse)
         {
             _loginUseCase = loginUseCase;
             _registerUseCase = registerUseCase;
             _forgotPasswordUseCase = forgotPasswordUseCase;
+            _changePasswordUseCase = changePasswordUse;
         }
 
 
@@ -56,7 +58,7 @@ namespace Diabetia.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            await _registerUseCase.Register(request.userName, request.email, request.password);
+            await _registerUseCase.Register(request.Username, request.Email, request.Password);
             return Ok("Usuario registrado exitosamente");
         }
 
@@ -64,9 +66,9 @@ namespace Diabetia.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> ConfirmEmailVerification([FromBody] UserRequest request)
+        public async Task<IActionResult> ConfirmEmailVerification([FromBody] ConfirmEmailRequest request)
         {
-            bool isSuccess = await _registerUseCase.ConfirmEmailVerification(request.username, request.email, request.confirmationCode);
+            bool isSuccess = await _registerUseCase.ConfirmEmailVerification(request.Username, request.Email, request.ConfirmationCode);
             Console.Write("hola");
             if (isSuccess)
             {
@@ -78,14 +80,21 @@ namespace Diabetia.API.Controllers
         [HttpPost("passwordRecover")]
         public async Task<IActionResult> PasswordEmailRecover([FromBody] UserRequest request)
         {
-            await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.username);
+            await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.Username);
             return Ok("Usuario registrado exitosamente");
         }
 
         [HttpPost("passwordRecoverCode")]
-        public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] UserRequest request)
+        public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] ConfirmPasswordRecoverRequest request)
         {
-            await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.username, request.confirmationCode, request.password);
+            await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.Username, request.ConfirmationCode, request.Password);
+            return Ok("Contraseña cambiada exitosamente");
+        }
+
+        [HttpPost("changePassword")]
+        public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] ChangePasswordRequest request)
+        {
+            await _changePasswordUseCase.ChangeUserPasswordAsync(request.AccessToken, request.PreviousPassword, request.NewPassword);
             return Ok("Contraseña cambiada exitosamente");
         }
     }

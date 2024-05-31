@@ -1,6 +1,4 @@
-﻿using Amazon.S3.Model;
-using Diabetia.Domain.Repositories;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Diabetia.Domain.Repositories;
 
 namespace Diabetia.Application.UseCases
 {

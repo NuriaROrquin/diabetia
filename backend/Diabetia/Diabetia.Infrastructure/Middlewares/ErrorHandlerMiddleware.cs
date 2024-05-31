@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Text.Json;
+using Diabetia.Application.Exceptions;
 
 namespace Diabetia.Infrastructure.Middlewares
 {
@@ -33,6 +34,7 @@ namespace Diabetia.Infrastructure.Middlewares
         {
             context.Response.ContentType = "application/json";
 
+            // Register Exceptions
             if (ex is UsernameExistsException)
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.Conflict, "El usuario ya está registrado");
@@ -60,6 +62,14 @@ namespace Diabetia.Infrastructure.Middlewares
             else if (ex is CodeMismatchException)
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El código ingresado es incorrecto");
+            }
+            else if (ex is InvalidEmailException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El email no tiene un formato válido");
+            }
+            else if (ex is InvalidOperationException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario no fue encontrado");
             }
             else
             {

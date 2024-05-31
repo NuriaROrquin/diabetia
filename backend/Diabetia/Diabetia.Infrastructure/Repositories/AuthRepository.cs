@@ -2,6 +2,7 @@
 using Diabetia.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
+using System.Data.Entity.Core;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -22,7 +23,7 @@ namespace Diabetia.Infrastructure.Repositories
                 string hashCode = user.Hash;
                 return hashCode;
             }
-            throw new NotImplementedException("No se pudo obtener el codigo.");
+            return "";
         }
 
         public async Task SaveUserHashAsync(string username, string email, string hash)
