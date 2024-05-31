@@ -3,12 +3,12 @@ using Diabetia.Domain.Services;
 
 namespace Diabetia.Application.UseCases
 {
-    public class LoginUseCase
+    public class AuthLoginUseCase
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthProvider _apiCognitoProvider;
 
-        public LoginUseCase(IAuthProvider apiCognitoProvider, IUserRepository userRepository)
+        public AuthLoginUseCase(IAuthProvider apiCognitoProvider, IUserRepository userRepository)
         {
             _apiCognitoProvider = apiCognitoProvider;
             _userRepository = userRepository;

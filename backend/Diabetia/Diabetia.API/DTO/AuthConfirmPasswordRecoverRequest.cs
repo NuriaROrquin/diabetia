@@ -1,6 +1,6 @@
 ﻿namespace Diabetia.API.DTO
 {
-    public class ConfirmPasswordRecoverRequest : UserRequest
+    public class AuthConfirmPasswordRecoverRequest : AuthUserRequest
     {
         public string ConfirmationCode { get; set; }
         public string Password { get; set; }

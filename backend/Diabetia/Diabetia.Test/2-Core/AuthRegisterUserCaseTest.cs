@@ -14,7 +14,7 @@ using Diabetia.Application.UseCases;
 
 namespace Diabetia.Test.Core
 {
-    public class RegisterUserCaseTest
+    public class AuthRegisterUserCaseTest
     {
         [Fact]
         public async Task RegisterUseCase_WhenCalledWithValidData_ShouldRegisterUserSuccessfully()
@@ -29,7 +29,7 @@ namespace Diabetia.Test.Core
       
             A.CallTo(() => fakeAuthProvider.RegisterUserAsync(username, password, email))
             .Returns(Task.FromResult(hashCode));
-            var registerUseCase = new RegisterUseCase(fakeAuthProvider, fakeAuthRepository);
+            var registerUseCase = new AuthRegisterUseCase(fakeAuthProvider, fakeAuthRepository);
 
             // Act
             await registerUseCase.Register(username, email, password);
@@ -54,7 +54,7 @@ namespace Diabetia.Test.Core
             A.CallTo(() => fakeAuthRepository.GetUserHashAsync(email)).Returns(Task.FromResult(hashCode));
             A.CallTo(() => fakeAuthProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode)).Returns(Task.FromResult(true));
 
-            var registerUseCase = new RegisterUseCase(fakeAuthProvider, fakeAuthRepository);
+            var registerUseCase = new AuthRegisterUseCase(fakeAuthProvider, fakeAuthRepository);
 
             // Act
             await registerUseCase.ConfirmEmailVerification(username, email, confirmationCode);

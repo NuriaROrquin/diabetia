@@ -2,7 +2,7 @@
 
 namespace Diabetia.API.DTO
 {
-    public class ChangePasswordRequest
+    public class AuthChangePasswordRequest
     {
 
         public string AccessToken { get; set; }

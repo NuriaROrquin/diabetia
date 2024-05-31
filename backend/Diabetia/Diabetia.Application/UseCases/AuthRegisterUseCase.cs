@@ -6,11 +6,11 @@ using System.Data;
 
 namespace Diabetia.Application.UseCases
 {
-    public class RegisterUseCase
+    public class AuthRegisterUseCase
     {
         private readonly IAuthRepository _authRepository;
         private readonly IAuthProvider _apiCognitoProvider;
-        public RegisterUseCase(IAuthProvider apiCognitoProvider, IAuthRepository authRepository)
+        public AuthRegisterUseCase(IAuthProvider apiCognitoProvider, IAuthRepository authRepository)
         {
             _apiCognitoProvider = apiCognitoProvider;
             _authRepository = authRepository;

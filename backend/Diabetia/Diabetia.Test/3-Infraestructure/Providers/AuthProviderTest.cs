@@ -173,17 +173,12 @@ namespace Diabetia.Test.Infraestructure.Providers
         {
             // Arrange
             var username = "testUser";
-            var password = "testPassword";
-            var email = "test@user.com";
             var confirmationCode = "123456";
             var hashCode = "hashTest";
 
             var fakeConfiguration = A.Fake<IConfiguration>();
             fakeConfiguration["ClientId"] = "clientId";
             fakeConfiguration["ClientSecret"] = "clientSecret";
-
-            var clientId = "clientId";
-            var clientSecret = "clientSecret";
 
             var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
             var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
@@ -215,7 +210,6 @@ namespace Diabetia.Test.Infraestructure.Providers
 
             // Assert
             Assert.True(result);
-            Assert.NotNull(result);
             A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
                 A<ConfirmSignUpRequest>.That.Matches(req =>
                     req.ClientId == fakeConfiguration["ClientId"] &&
@@ -386,6 +380,114 @@ namespace Diabetia.Test.Infraestructure.Providers
                     req.AccessToken == accessToken &&
                     req.PreviousPassword == previousPassword &&
                     req.ProposedPassword == newPassword), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task ChangePasswordAsync_GivenInvalidNewPassword_ThrowInvalidPasswordException()
+        {
+            var accessToken = "testUser";
+            var previousPassword = "testPassword";
+            var newPassword = "testNewPassword";
+
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
+            fakeConfiguration["ClientSecret"] = "clientSecret";
+
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+
+            A.CallTo(() => fakeCognitoClient.ChangePasswordAsync(A<ChangePasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new InvalidPasswordException("La contraseña ingresada no es válida."));
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<InvalidPasswordException>(() => authProvider.ChangeUserPasswordAsync(accessToken, previousPassword, newPassword));
+
+            Assert.Equal("La contraseña ingresada no es válida.", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ChangePasswordAsync(
+                A<ChangePasswordRequest>.That.Matches(req => 
+                req.AccessToken == accessToken &&
+                req.PreviousPassword == previousPassword && 
+                req.ProposedPassword == newPassword), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task ChangePasswordAsync_GivenInvalidUserInAccessToken_ThrowsUserNotFoundException()
+        {
+            var accessToken = "testUser";
+            var previousPassword = "testPassword";
+            var newPassword = "testNewPassword";
+
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
+            fakeConfiguration["ClientSecret"] = "clientSecret";
+
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+
+            A.CallTo(() => fakeCognitoClient.ChangePasswordAsync(A<ChangePasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new UserNotFoundException("Usuario no encontrado."));
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<UserNotFoundException>(() => authProvider.ChangeUserPasswordAsync(accessToken, previousPassword, newPassword));
+
+            Assert.Equal("Usuario no encontrado.", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ChangePasswordAsync(
+                A<ChangePasswordRequest>.That.Matches(req =>
+                req.AccessToken == accessToken &&
+                req.PreviousPassword == previousPassword &&
+                req.ProposedPassword == newPassword), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task ChangePasswordAsync_WhenNotConfirmUser_ThrowsUserNotConfirmedException()
+        {
+            var accessToken = "testUser";
+            var previousPassword = "testPassword";
+            var newPassword = "testNewPassword";
+
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
+            fakeConfiguration["ClientSecret"] = "clientSecret";
+
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+
+            A.CallTo(() => fakeCognitoClient.ChangePasswordAsync(A<ChangePasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new UserNotConfirmedException("El usuario aún no está confirmado."));
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<UserNotConfirmedException>(() => authProvider.ChangeUserPasswordAsync(accessToken, previousPassword, newPassword));
+
+            Assert.Equal("El usuario aún no está confirmado.", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ChangePasswordAsync(
+                A<ChangePasswordRequest>.That.Matches(req =>
+                req.AccessToken == accessToken &&
+                req.PreviousPassword == previousPassword &&
+                req.ProposedPassword == newPassword), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task ChangePasswordAsync_GivenInvalidPasswordsOrAccessToken_ThrowsInvalidParameterException()
+        {
+            var accessToken = "testUser";
+            var previousPassword = "testPassword";
+            var newPassword = "testNewPassword";
+
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
+            fakeConfiguration["ClientSecret"] = "clientSecret";
+
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+
+            A.CallTo(() => fakeCognitoClient.ChangePasswordAsync(A<ChangePasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new InvalidParameterException("Uno de los datos no es válido"));
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<InvalidParameterException>(() => authProvider.ChangeUserPasswordAsync(accessToken, previousPassword, newPassword));
+
+            Assert.Equal("Uno de los datos no es válido", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ChangePasswordAsync(
+                A<ChangePasswordRequest>.That.Matches(req =>
+                req.AccessToken == accessToken &&
+                req.PreviousPassword == previousPassword &&
+                req.ProposedPassword == newPassword), CancellationToken.None)).MustHaveHappenedOnceExactly();
         }
     }
 }

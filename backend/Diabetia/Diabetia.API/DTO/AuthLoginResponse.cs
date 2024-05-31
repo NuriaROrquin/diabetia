@@ -1,6 +1,6 @@
 namespace Diabetia.API
 {
-    public class LoginResponse
+    public class AuthLoginResponse
     {
         public bool IsAuth { get; set; }
         public bool InformationCompleted { get; set; }

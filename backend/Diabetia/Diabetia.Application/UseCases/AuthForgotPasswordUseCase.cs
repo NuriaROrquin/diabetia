@@ -2,11 +2,11 @@
 
 namespace Diabetia.Application.UseCases
 {
-    public class ForgotPasswordUseCase
+    public class AuthForgotPasswordUseCase
     {
     
         private readonly IAuthProvider _apiCognitoProvider;
-        public ForgotPasswordUseCase(IAuthProvider apiCognitoProvider)
+        public AuthForgotPasswordUseCase(IAuthProvider apiCognitoProvider)
         {
             _apiCognitoProvider = apiCognitoProvider;
         }

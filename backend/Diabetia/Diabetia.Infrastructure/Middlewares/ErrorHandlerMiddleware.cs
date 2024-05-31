@@ -71,6 +71,25 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario no fue encontrado");
             }
+
+            // Change Password Exceptions
+            else if (ex is InvalidPasswordException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La contraseña ingresada no es válida");
+            }
+            else if (ex is UserNotFoundException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario no fue encontrado");
+            }
+            else if (ex is UserNotConfirmedException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario aún no se encuentra confirmado");
+            }
+            else if (ex is InvalidParameterException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Los datos ingresados son incorrectos");
+            }
+
             else
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.InternalServerError, "Este es un mensaje de error custom");
