@@ -9,16 +9,21 @@ import {Section} from "../../components/section";
 import {OrangeLink} from "../../components/link";
 import { Tooltip } from '@mui/material';
 import {getMetrics, login} from "../../services/api.service";
+import {useCookies} from "react-cookie";
 
 export const Home = () => {
     const [error, setError] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(DASHBOARD_OPTIONS_FILTER_DAYS[0])
+    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
+    const [metrics, setMetrics] = useState({chMetrics:0, glycemia: 99999, hyperglycemia:0, hypoglycemia:0, insulin:0, physicalActivity:0});
 
     useEffect(() => {
-        getMetrics(email)
+        const email = cookies.email;
+
+        email && getMetrics({email, lalala, poo})
             .then((res) => {
-                console.log(res.data)
+                setMetrics(res.data);
             })
             .catch((error) => {
                 error.response.data ? setError(error.response.data) : setError("Hubo un error")
@@ -59,7 +64,7 @@ export const Home = () => {
                             key={index}
                             textIndicator={data.textIndicator}
                             color={data.color}
-                            number={data.number}
+                            number={metrics[data.key]}
                             title={data.title}
                             description={data.description}
                             tooltipContent={data.tooltipContent}

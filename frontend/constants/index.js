@@ -4,7 +4,7 @@ export const DASHBOARD_INDICATORS = [
     {
         "textIndicator": "Glucemia",
         "color": "green",
-        "number": 115,
+        "key": "glycemia",
         "title": "Promedio de medidas",
         "description": "Cuando midas tu glucosa en sangre, tu promedio se verá afectado.",
         "tooltipContent":"Se visualiza el promedio de glucosa en sangre (mg/dL) basado en tus registros "
@@ -12,7 +12,7 @@ export const DASHBOARD_INDICATORS = [
     {
         "textIndicator": "Hiperglucemias",
         "color": "green",
-        "number": 0,
+        "key": "hyperglycemia",
         "title": "En total",
         "description": "Nivel de glucosa en sangre demasiado alta.",
         "tooltipContent":"Se visualiza la cantidad de mediciones con nivel de glucosa más alto de lo esperado "
@@ -20,7 +20,7 @@ export const DASHBOARD_INDICATORS = [
     {
         "textIndicator": "Hipoglucemias",
         "color": "red",
-        "number": 1,
+        "key": "hypoglycemia",
         "title": "En total",
         "description": "Nivel de glucosa en sangre demasiado baja.",
         "tooltipContent":"Se visualiza la cantidad de mediciones con un nivel bajo de glucosa "
@@ -28,7 +28,7 @@ export const DASHBOARD_INDICATORS = [
     {
         "textIndicator": "Carbohidratos",
         "color": "blue",
-        "number": 102,
+        "key": "chMetrics",
         "unit": "G",
         "title": "En total",
         "description": "Cuando cargues una comida, este número se verá afectado.",
@@ -37,7 +37,7 @@ export const DASHBOARD_INDICATORS = [
     {
         "textIndicator": "Insulina",
         "color": "blue",
-        "number": 7,
+        "key": "insulin",
         "unit": "U",
         "title": "En total",
         "description": "5u insulina rápida y 2u insulina lenta",
@@ -46,7 +46,7 @@ export const DASHBOARD_INDICATORS = [
     {
         "textIndicator": "Ejercicio",
         "color": "red",
-        "number": 25,
+        "key": "physicalActivity",
         "unit": "Min",
         "title": "En total",
         "description": "La recomendación son 30 min de ejercicio diario",
