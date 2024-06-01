@@ -25,6 +25,7 @@ builder.Services.AddScoped<DataUserUseCase>();
 builder.Services.AddScoped<TagDetectionUseCase>();
 builder.Services.AddScoped<TagCalculateUseCase>();
 builder.Services.AddScoped<AddPhysicalEventUseCase>();
+builder.Services.AddScoped<AddGlucoseEventUseCase>();
 builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();
 
@@ -35,6 +36,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITagRecognitionProvider, TagRecognitionProvider>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IHomeRepository, HomeRepository>();
+
 
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
