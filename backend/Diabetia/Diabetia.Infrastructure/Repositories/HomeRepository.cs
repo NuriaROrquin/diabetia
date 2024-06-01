@@ -48,6 +48,19 @@ namespace Diabetia.Infrastructure.Repositories
             return TotalCh;
         }
 
+        public async Task<int> GetGlucose(string Email, int idEvent)
+        {
+            var user = _context.Usuarios.FirstOrDefault(u => u.Email == Email);
+            var patient = _context.Pacientes.FirstOrDefault(p => p.IdUsuario == user.Id);
+
+            var LastRegister = await _context.EventoGlucosas.OrderByDescending(eg => eg.Id).FirstOrDefaultAsync();
+
+            int LastGlucoseRegister = (int)LastRegister.Glucemia;
+
+
+            return LastGlucoseRegister;
+        }
+
     }
         
 }

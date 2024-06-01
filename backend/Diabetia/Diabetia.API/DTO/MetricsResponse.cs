@@ -1,7 +1,6 @@
 ﻿namespace Diabetia.API
 {
     public class MetricsResponse { 
-        public int? IdUser { get; set; }
 
         public int ChMetrics { get; set; }
 
