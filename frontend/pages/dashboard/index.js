@@ -17,6 +17,7 @@ export const Home = () => {
     const [selectedOption, setSelectedOption] = useState(DASHBOARD_OPTIONS_FILTER_DAYS[0])
     const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
     const [metrics, setMetrics] = useState({chMetrics:0, glycemia: 99999, hyperglycemia:0, hypoglycemia:0, insulin:0, physicalActivity:0});
+    const [loadingMetrics, setLoadingMetrics] = useState(true);
 
     useEffect(() => {
         const email = cookies.email;
@@ -24,6 +25,7 @@ export const Home = () => {
         email && getMetrics({email})
             .then((res) => {
                 setMetrics(res.data);
+                setLoadingMetrics(false);
             })
             .catch((error) => {
                 error.response.data ? setError(error.response.data) : setError("Hubo un error")
@@ -69,11 +71,13 @@ export const Home = () => {
                             description={data.description}
                             tooltipContent={data.tooltipContent}
                             selectedOption={selectedOption}
+                            loading={loadingMetrics}
+                            state={metrics[data.key]}
                         />
                     ))}
                 </div>
 
-                <div className="flex justify-around bg-white w-1/2 self-center rounded-xl p-6 mt-10 mb-10">
+                <div className="flex justify-around bg-white w-1/2 self-center rounded-xl p-6 mb-10">
                     <div className="flex gap-2">
                         <CircleRounded className="text-green-primary"/>
                         <span className="text-gray-primary font-medium">Valores dentro de lo esperado</span>
