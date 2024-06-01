@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Infrastructure.EF;
+using Diabetia.Domain.Models;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -54,10 +55,14 @@ namespace Diabetia.Infrastructure.Repositories
             var user = _context.Usuarios.FirstOrDefault(u => u.Email == Email);
             var patient = _context.Pacientes.FirstOrDefault(p => p.IdUsuario == user.Id);
 
-            var LastRegister = await _context.EventoGlucosas.OrderByDescending(eg => eg.Id).FirstOrDefaultAsync();
+            var LastRegister = (from eg in _context.EventoGlucosas
+                                join ce in _context.CargaEventos
+                                on eg.IdCargaEvento equals ce.Id
+                                where ce.IdPaciente == patient.Id
+                                orderby ce.Id descending
+                                select eg.Glucemia).FirstOrDefault(); ;
 
-            int LastGlucoseRegister = (int)LastRegister.Glucemia;
-
+            int LastGlucoseRegister = (int)LastRegister
 
             return LastGlucoseRegister;
         }
