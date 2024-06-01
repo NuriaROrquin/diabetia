@@ -31,7 +31,7 @@ namespace Diabetia.Infrastructure.Repositories
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             if (user != null)
             {
-                user.Hash = hash;
+                user.Hash = hash; //TODO: exception ya estoy registrado.
             }
             else
             {
@@ -39,6 +39,7 @@ namespace Diabetia.Infrastructure.Repositories
                 {
                     Email = email,
                     Username = username,
+                    NombreCompleto = username,
                     Hash = hash
                 };
                 _context.Usuarios.Add(user);
