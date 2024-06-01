@@ -4,15 +4,15 @@ namespace Diabetia.Application.UseCases
 {
     public class AddGlucoseEventUseCase
     {
-        private readonly IGlucoseEventRepository _glucoseEventRepository;
+        private readonly IEventRepository _eventRepository;
 
-        public AddGlucoseEventUseCase(IGlucoseEventRepository glucoseEventRepository)
+        public AddGlucoseEventUseCase(IEventRepository eventRepository)
         {
-            _glucoseEventRepository = glucoseEventRepository;
+            _eventRepository = eventRepository;
         }
         public async Task AddGlucoseEvent(string Email, int KindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition)
         {
-            await _glucoseEventRepository.AddGlucoseEvent(Email, KindEvent, EventDate, FreeNote, Glucose, IdDevicePacient, IdFoodEvent, PostFoodMedition);
+            await _eventRepository.AddGlucoseEvent(Email, KindEvent, EventDate, FreeNote, Glucose, IdDevicePacient, IdFoodEvent, PostFoodMedition);
         }
     }
 }
