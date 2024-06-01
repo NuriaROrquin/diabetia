@@ -38,7 +38,7 @@ namespace Diabetia.Infrastructure.Repositories
                 user = new Usuario
                 {
                     Email = email,
-                    NombreCompleto = username,
+                    Username = username,
                     Hash = hash
                 };
                 _context.Usuarios.Add(user);
