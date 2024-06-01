@@ -1,5 +1,4 @@
-﻿using Amazon.Runtime.Internal;
-using Diabetia.Domain.Services;
+﻿using Diabetia.Domain.Services;
 using Diabetia.Domain.Entities;
 using System.Numerics;
 using System.Reflection;
