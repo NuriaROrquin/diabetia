@@ -13,12 +13,12 @@ namespace Diabetia.API.Controllers
         private readonly AuthForgotPasswordUseCase _forgotPasswordUseCase;
         private readonly AuthChangePasswordUseCase _changePasswordUseCase;
 
-        public AuthController(AuthLoginUseCase loginUseCase, AuthRegisterUseCase registerUseCase, AuthForgotPasswordUseCase forgotPasswordUseCase, AuthChangePasswordUseCase changePasswordUse)
+        public AuthController(AuthLoginUseCase loginUseCase, AuthRegisterUseCase registerUseCase, AuthForgotPasswordUseCase forgotPasswordUseCase, AuthChangePasswordUseCase changePasswordUseCase)
         {
             _loginUseCase = loginUseCase;
             _registerUseCase = registerUseCase;
             _forgotPasswordUseCase = forgotPasswordUseCase;
-            _changePasswordUseCase = changePasswordUse;
+            _changePasswordUseCase = changePasswordUseCase;
         }
 
 
@@ -47,7 +47,7 @@ namespace Diabetia.API.Controllers
             }
             else
             {
-                return BadRequest("Usuario o contraseña invalidos");
+                return BadRequest("Usuario o contraseï¿½a invalidos");
             }
             
         }
@@ -74,7 +74,7 @@ namespace Diabetia.API.Controllers
             {
                 return Ok(new { Message = "Se ha verificado el Email correctamente. Ya puede ingresar al sitio." });
             }
-            return BadRequest(new { Message = "Ocurrió un error al querer validar el email, intentelo nuevamente." });
+            return BadRequest(new { Message = "Ocurriï¿½ un error al querer validar el email, intentelo nuevamente." });
         }
 
         [HttpPost("changePassword")]
@@ -84,7 +84,7 @@ namespace Diabetia.API.Controllers
         public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] AuthChangePasswordRequest request)
         {
             await _changePasswordUseCase.ChangeUserPasswordAsync(request.AccessToken, request.PreviousPassword, request.NewPassword);
-            return Ok("Contraseña cambiada exitosamente");
+            return Ok("Contraseï¿½a cambiada exitosamente");
         }
         
         [HttpPost("passwordRecover")]
@@ -98,7 +98,7 @@ namespace Diabetia.API.Controllers
         public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] AuthConfirmPasswordRecoverRequest request)
         {
             await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.Username, request.ConfirmationCode, request.Password);
-            return Ok("Contraseña cambiada exitosamente");
+            return Ok("Contraseï¿½a cambiada exitosamente");
         }
 
     }
