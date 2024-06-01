@@ -8,7 +8,10 @@ import {TextArea, InputWithLabel} from "../../../components/input";
 import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
-import {CustomDatePicker, CustomTimePicker} from "../../../components/pickers";
+import {addGlucoseEvent} from "../../../services/api.service";
+import {useCookies} from "react-cookie";
+import {useRouter} from "next/router";
+import {CustomDatePicker, CustomTimePicker} from "@/components/pickers";
 
 const GlycemiaEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 2)[0].title;
@@ -16,6 +19,9 @@ const GlycemiaEvent = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [Hour, setHour] = useState()
     const [date, setDate] = useState()
+    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
+
+    const router = useRouter();
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
@@ -23,13 +29,24 @@ const GlycemiaEvent = () => {
     };
 
     const handleSubmit = () => {
-        const device = selectedOption;
-        const dateFormatted = date ? date.format('DD-MM-YYYY') : null;
-        const start = Hour ? Hour.format('HH:mm') : null;
+        const device = selectedOption.id;
+        const dateFormatted = date ? date.format('YYYY-MM-DD') : null;
         const glycemiaMeasurement = document.getElementById("glycemiaMeasurement").value
         const notes = document.getElementById("notes").value;
+        const email = cookies.email;
 
-        console.log("Datos del formulario:", dateFormatted, device, start, glycemiaMeasurement, notes);
+        const data = {
+            "email": email,
+            "idKindEvent": 3,
+            "eventDate": dateFormatted,
+            "freeNote": notes,
+            "glucose": glycemiaMeasurement,
+            "idDevicePatient": device ?? null,
+        }
+
+        addGlucoseEvent(data).then(() =>
+            router.push("/calendar")
+        )
     }
 
     return(

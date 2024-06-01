@@ -69,6 +69,14 @@ export const addPhysicalEvent = (data) => {
         );
 }
 
+export const addGlucoseEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/AddGlucoseEvent`,
+            data
+        );
+}
+
 export const getMetrics = (data) => {
     return axios
         .post(
