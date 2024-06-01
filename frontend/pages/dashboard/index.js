@@ -21,7 +21,7 @@ export const Home = () => {
     useEffect(() => {
         const email = cookies.email;
 
-        email && getMetrics({email, lalala, poo})
+        email && getMetrics({email})
             .then((res) => {
                 setMetrics(res.data);
             })
