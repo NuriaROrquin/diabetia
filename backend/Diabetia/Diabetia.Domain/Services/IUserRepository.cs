@@ -1,9 +1,11 @@
 ﻿
+using Diabetia.Domain.Models;
+
 namespace Diabetia.Domain.Services
 {
     public interface IUserRepository
     {
-
+        public Task<Usuario> GetUserInfo(string userName);
         public Task CompleteUserInfo(string name, string email, string gender, string lastname, int weight, string phone);
         public Task UpdateUserInfo(int typeDiabetes, bool useInsuline, string typeInsuline, string email);
         public Task<bool> GetInformationCompleted(string username);

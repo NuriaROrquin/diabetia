@@ -26,22 +26,14 @@ namespace Diabetia.API.Controllers
         public async Task<IActionResult> Post([FromBody] AuthLoginRequest request)
         {
             var user = await _loginUseCase.Login(request.username, request.password);
+
             if (user.Token != null)
             {
-                var cookieOptions = new CookieOptions
-                {
-                    HttpOnly = true,
-                    Expires = DateTime.UtcNow.AddDays(7),
-                    SameSite = SameSiteMode.None,
-                    Secure = true,
-                    Path = "/"
-                };
-
-                Response.Cookies.Append("jwt", user.Token, cookieOptions);
-
                 AuthLoginResponse res = new AuthLoginResponse();
 
                 res.InformationCompleted = user.InformationCompleted;
+                res.Token = user.Token;
+                res.Email = user.Email;
 
                 return Ok(res);
             }

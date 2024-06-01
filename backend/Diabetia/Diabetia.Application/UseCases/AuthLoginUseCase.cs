@@ -19,8 +19,8 @@ namespace Diabetia.Application.UseCases
             User user = new User
             {
                 Token = await _apiCognitoProvider.LoginUserAsync(username, password),
-
-                InformationCompleted = await _userRepository.GetInformationCompleted(username)
+                InformationCompleted = await _userRepository.GetInformationCompleted(username),
+                Email = (await _userRepository.GetUserInfo(username)).Email
             };
 
             return user;            
