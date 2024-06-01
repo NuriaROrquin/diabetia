@@ -2,6 +2,7 @@
 using Diabetia.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
+using Diabetia.Domain.Entities;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -131,6 +132,13 @@ namespace Diabetia.Infrastructure.Repositories
             }
             await _context.SaveChangesAsync();
 
+        }
+
+        public async Task<Usuario> GetUserInfo(string userName)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == userName);
+
+            return user;
         }
     }
 }

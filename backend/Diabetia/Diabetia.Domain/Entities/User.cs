@@ -10,6 +10,7 @@ namespace Diabetia.Domain.Entities
     {
         public string Token { get; set; }
         public bool InformationCompleted { get; set; }
+        public string Email { get; set; }
 
     }
 }
