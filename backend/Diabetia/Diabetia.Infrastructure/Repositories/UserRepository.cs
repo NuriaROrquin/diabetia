@@ -16,7 +16,7 @@ namespace Diabetia.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task CompleteUserInfo(string name, string email, string gender, string lastname, int weight, string phone)
+        public async Task CompleteUserInfo(string name, string email, string gender, string lastname, int weight, string phone, DateOnly birthdate)
         {
 
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
@@ -26,8 +26,9 @@ namespace Diabetia.Infrastructure.Repositories
                 user.NombreCompleto = String.Concat(name, " ", lastname);
                 user.Genero = gender;
                 user.Telefono = phone;
+                user.FechaNacimiento = birthdate;
             }
-            _context.Usuarios.Add(user);
+            _context.Usuarios.Update(user);
             await _context.SaveChangesAsync();
         }
 

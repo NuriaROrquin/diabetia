@@ -31,10 +31,10 @@ const InitialFormStep1 = () => {
     const handleSubmit = () => {
         const name = document.getElementById("name").value;
         const lastname = document.getElementById("lastname").value;
-        const birthdate = date ? date.format('DD-MM-YYYY') : null;
+        const birthdate = date ? date.format('YYYY-MM-DD') : null;
         const weight = document.getElementById("weight").value;
         const phone = document.getElementById("phone").value;
-        const gender = selectedOption.title;
+        const gender = selectedOption.key;
 
         console.log("Datos del formulario:", name, lastname, birthdate, weight, email, phone, gender);
 

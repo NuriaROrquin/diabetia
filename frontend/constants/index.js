@@ -276,14 +276,17 @@ export const INSULIN_FREQUENCY = [
 export const GENDER = [
     {
         "id": 1,
-        "title": "Masculino"
+        "title": "Masculino",
+        "key": 'M'
     },
     {
         "id": 2,
-        "title": "Femenino"
+        "title": "Femenino",
+        "key": 'F'
     },
     {
         "id": 3,
-        "title": "Prefiero no decir"
+        "title": "Prefiero no decir",
+        "key": null
     }
 ]

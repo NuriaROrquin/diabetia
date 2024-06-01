@@ -3,7 +3,7 @@ namespace Diabetia.API
     public class DataRequest
     {
         public string name { get; set; }
-        public string birthdate { get; set; }
+        public DateOnly birthdate { get; set; }
         public string email { get; set; }
         public string gender { get; set; }
         public string phone { get; set; }
