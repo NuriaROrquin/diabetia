@@ -36,12 +36,13 @@ namespace Diabetia.Infrastructure.Repositories
 
             _context.CargaEventos.Add(NewEvent);
             await _context.SaveChangesAsync();
-            int IdLoadEvent = NewEvent.Id;
+
+            var lastInsertedIdEvent = await _context.CargaEventos.OrderByDescending(e => e.Id).FirstOrDefaultAsync();
 
             // 2- Guardar evento Glucosa            
             var NewGlucoseEvent = new EventoGlucosa
             {
-                IdCargaEvento = IdLoadEvent,
+                IdCargaEvento = lastInsertedIdEvent.Id,
                 Glucemia = Glucose,
                 IdDispositivoPaciente = IdDevicePacient,
                 IdEventoComida = IdFoodEvent,
