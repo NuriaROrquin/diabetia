@@ -1,13 +1,5 @@
 ﻿using Diabetia.Domain.Services;
 using Diabetia.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
-using static System.Net.Mime.MediaTypeNames;
 using System.Text.RegularExpressions;
 
 
@@ -15,9 +7,9 @@ namespace Diabetia.Application.UseCases
 {
     public class TagDetectionUseCase
     {
-        private readonly IApiAmazonProvider _apiAmazonService;
+        private readonly ITagRecognitionProvider _apiAmazonService;
 
-        public TagDetectionUseCase(IApiAmazonProvider apiAmazonService)
+        public TagDetectionUseCase(ITagRecognitionProvider apiAmazonService)
         {
             _apiAmazonService = apiAmazonService;
         }

@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Diabetia.Common\Diabetia.Common.csproj" />
     <ProjectReference Include="..\Diabetia.Domain\Diabetia.Domain.csproj" />
-    <ProjectReference Include="..\Diabetia.Infrastructure\Diabetia.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

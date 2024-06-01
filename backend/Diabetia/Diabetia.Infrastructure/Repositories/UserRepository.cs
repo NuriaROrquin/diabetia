@@ -1,6 +1,7 @@
-﻿using Diabetia.API;
+﻿using Diabetia.Infrastructure.EF;
 using Diabetia.Domain.Services;
 using Microsoft.EntityFrameworkCore;
+using Diabetia.Domain.Models;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -25,8 +26,8 @@ namespace Diabetia.Infrastructure.Repositories
                 user.Genero = gender;
                 user.Telefono = phone;
             }
-                _context.Usuarios.Add(user);
-                await _context.SaveChangesAsync();
+            _context.Usuarios.Add(user);
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateUserInfo(int typeDiabetes, bool useInsuline, string typeInsuline, string email)
@@ -42,10 +43,11 @@ namespace Diabetia.Infrastructure.Repositories
                     IdTipoDiabetes = typeDiabetes,
                     UsaInsulina = useInsuline,
                     IdSensibilidadInsulina = 1,
-            };
+                };
                 _context.Pacientes.Add(pac_new);
             }
-            else {
+            else
+            {
                 pac.IdUsuario = user.Id;
                 pac.IdTipoDiabetes = typeDiabetes;
                 pac.UsaInsulina = useInsuline;
@@ -54,5 +56,82 @@ namespace Diabetia.Infrastructure.Repositories
             }
             await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> GetInformationCompleted(string username)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
+            var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+
+            if (pac == null)
+            {
+                return false;
+            }
+
+            bool allFieldsNotNull = user.NombreCompleto != null &&
+                            user.Genero != null &&
+                            user.Telefono != null &&
+                            pac?.IdTipoDiabetes != null &&
+                            pac?.UsaInsulina != null &&
+                            pac?.IdSensibilidadInsulina != null;
+
+            return allFieldsNotNull;
+        }
+
+        public async Task CompletePhysicalUserInfo(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica, int duracion)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+            var pac_phy = await _context.PacienteActividadFisicas.FirstOrDefaultAsync(u => u.IdPaciente == pac.Id);
+
+            if (pac_phy == null)
+            {
+                var pac_new = new PacienteActividadFisica
+                {
+                    IdPaciente = pac.Id,
+                    IdActividadFisica = idActividadFisica,
+                    Frecuencia = frecuencia,
+                    Duracion = duracion
+                };
+                _context.PacienteActividadFisicas.Add(pac_new);
+            }
+            else
+            {
+                pac_phy.IdPaciente = pac.Id;
+                pac_phy.IdActividadFisica = idActividadFisica;
+                pac_phy.Frecuencia = frecuencia;
+                pac_phy.Duracion = duracion;
+                _context.PacienteActividadFisicas.Update(pac_phy);
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task CompleteDeviceslUserInfo(string email, bool tieneDispositivo, int? idDispositivo, int? frecuencia)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+            var pac_div = await _context.DispositivoPacientes.FirstOrDefaultAsync(u => u.IdPaciente == pac.Id);
+
+
+            if (pac_div == null)
+            {
+                var pac_new = new DispositivoPaciente
+                {
+                    IdPaciente = pac.Id,
+                    IdDispositivo = idDispositivo,
+                    Frecuencia = frecuencia
+                };
+                _context.DispositivoPacientes.Add(pac_div);
+            }
+            else
+            {
+                pac_div.IdPaciente = pac.Id;
+                pac_div.IdDispositivo = idDispositivo;
+                pac_div.Frecuencia = frecuencia;
+                _context.DispositivoPacientes.Update(pac_div);
+            }
+            await _context.SaveChangesAsync();
+
+        }
     }
 }
+

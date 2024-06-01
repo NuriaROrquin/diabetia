@@ -46,7 +46,7 @@ const FoodPage = () => {
     };
 
     return(
-        <Section className="bg-food bg-cover">
+        <Section className="">
             <div className="bg-blue-primary w-full h-screen bg-opacity-70 flex flex-col items-center gap-12">
                 <div>
                     <TitleSection className="text-white pt-20 mb-6">¿Qué estás comiendo?</TitleSection>

@@ -1,34 +1,58 @@
-using Diabetia.API;
+using Amazon.CognitoIdentity.Model;
+using Amazon.CognitoIdentityProvider;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
+using Diabetia.Infrastructure.EF;
+using Diabetia.Infrastructure.Middlewares;
 using Diabetia.Infrastructure.Providers;
 using Diabetia.Infrastructure.Repositories;
 using Infrastructure.Provider;
-using System.Configuration;
+using Microsoft.AspNetCore.Authentication.Certificate;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAuthentication(
+    CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddDbContext<diabetiaContext>();
-builder.Services.AddScoped<LoginUseCase>();
-builder.Services.AddScoped<RegisterUseCase>();
-builder.Services.AddScoped<ConfirmUserEmailUseCase>();
-builder.Services.AddScoped<ForgotPasswordUseCase>();
-builder.Services.AddScoped<ConfirmForgotPasswordCodeUseCase>();
+builder.Services.AddScoped<AuthLoginUseCase>();
+builder.Services.AddScoped<AuthRegisterUseCase>();
+builder.Services.AddScoped<AuthForgotPasswordUseCase>();
 builder.Services.AddScoped<DataUserUseCase>();
 builder.Services.AddScoped<TagDetectionUseCase>();
 builder.Services.AddScoped<TagCalculateUseCase>();
+builder.Services.AddScoped<AddPhysicalEventUseCase>();
+builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IApiCognitoProvider, ApiCognitoProvider>();
+builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IApiAmazonProvider, ApiAmazonProvider>();
-builder.Services.AddScoped<IHomeRepository, HomeRepository>();
+builder.Services.AddScoped<ITagRecognitionProvider, TagRecognitionProvider>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
 
+
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
+var configuration = builder.Services.BuildServiceProvider().GetService<IConfiguration>();
+
+var awsOptions = configuration.GetAWSOptions();
+
+awsOptions.Region = Amazon.RegionEndpoint.USEast1;
+
+awsOptions.Credentials = new Credentials()
+{
+    AccessKeyId = configuration["AWS_ACCESS_KEY_ID"],
+    SecretKey = configuration["AWS_SECRET_ACCESS_KEY"],
+};
+
+builder.Services.AddDefaultAWSOptions(awsOptions);
+
+builder.Services.AddAWSService<IAmazonCognitoIdentityProvider>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckles
@@ -36,6 +60,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseCors(options =>
 {

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Diabetia.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
-
-namespace Diabetia.API
+namespace Diabetia.Infrastructure.EF
 {
     public partial class diabetiaContext : DbContext
     {
@@ -65,7 +64,7 @@ namespace Diabetia.API
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql("server=localhost;database=diabetia;user=root;AllowZeroDateTime=True;ConvertZeroDateTime=True;", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.3.0-mysql"));
+                optionsBuilder.UseMySql("server=diabetia-mysql.mysql.database.azure.com;database=diabetia;user=borbotones;password=Diabetia123_", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.36-mysql"));
             }
         }
 
@@ -109,7 +108,7 @@ namespace Diabetia.API
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.Property(e => e.FechaEvento)
-                    .HasColumnType("timestamp")
+                    .HasColumnType("datetime")
                     .HasColumnName("fecha_evento");
 
                 entity.Property(e => e.FueRealizado)
@@ -1244,6 +1243,10 @@ namespace Diabetia.API
                 entity.Property(e => e.Telefono)
                     .HasMaxLength(30)
                     .HasColumnName("telefono");
+
+                entity.Property(e => e.Username)
+                    .HasMaxLength(100)
+                    .HasColumnName("username");
 
                 entity.HasOne(d => d.IdRolNavigation)
                     .WithMany(p => p.Usuarios)

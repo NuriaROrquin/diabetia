@@ -1,6 +1,8 @@
-﻿using Diabetia.API;
+﻿using Diabetia.Infrastructure.EF;
 using Diabetia.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Diabetia.Domain.Models;
+using System.Data.Entity.Core;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -21,7 +23,7 @@ namespace Diabetia.Infrastructure.Repositories
                 string hashCode = user.Hash;
                 return hashCode;
             }
-            throw new NotImplementedException("No se pudo obtener el codigo.");
+            return "";
         }
 
         public async Task SaveUserHashAsync(string username, string email, string hash)
@@ -29,13 +31,14 @@ namespace Diabetia.Infrastructure.Repositories
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             if (user != null)
             {
-                user.Hash = hash;
+                user.Hash = hash; //TODO: exception ya estoy registrado.
             }
             else
             {
                 user = new Usuario
                 {
                     Email = email,
+                    Username = username,
                     NombreCompleto = username,
                     Hash = hash
                 };

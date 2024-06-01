@@ -1,8 +1,5 @@
-﻿using Amazon.Runtime.Internal;
+﻿using Diabetia.Domain.Models;
 using Diabetia.Domain.Services;
-using System.Numerics;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace Diabetia.Application.UseCases
 {
@@ -15,13 +12,24 @@ namespace Diabetia.Application.UseCases
         }
         public async Task FirstStep(string name, string email, string gender, string lastname, int weight, string phone)
         {
-             await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone); 
+            await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone);
 
         }
 
         public async Task SecondStep(int typeDiabetes, bool useInsuline, string typeInsuline, string email)
         {
             await _userRepository.UpdateUserInfo(typeDiabetes, useInsuline, typeInsuline, email);
+        }
+
+        public async Task ThirdStep(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica, int duracion)
+        {
+
+            await _userRepository.CompletePhysicalUserInfo(email, haceActividadFisica, frecuencia, idActividadFisica, duracion);
+        }
+
+        public async Task FourthStep(string email, bool tieneDispositivo, int? idDispositivo, int? frecuencia)
+        {
+            await _userRepository.CompleteDeviceslUserInfo(email, tieneDispositivo, idDispositivo, frecuencia);
         }
     }
 }

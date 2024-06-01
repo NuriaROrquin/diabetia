@@ -9,20 +9,9 @@ import es_AR from 'rsuite/locales/es_AR';
 
 function getTodoList(date) {
     const todoLists = {
-        '2024-05-10': [
-            { time: '10:30 am', title: 'Reunión' },
-            { time: '12:00 pm', title: 'Almuerzo' }
-        ],
-        '2024-05-12': [
-            { time: '10:30 am', title: 'Reunión' }
-        ],
-        '2024-05-15': [
-            { time: '09:30 pm', title: 'Productos' },
-            { time: '12:30 pm', title: 'Cliente' },
-            { time: '02:00 pm', title: 'Producto' },
-            { time: '05:00 pm', title: 'Producto' },
-            { time: '06:30 pm', title: 'Reportando' },
-            { time: '10:00 pm', title: 'Irse' }
+        '2024-05-22': [
+            { time: '08:40 pm', title: 'Comida' },
+            { time: '03:00 pm', title: 'Ejercicio' },
         ],
     };
 

@@ -1,11 +1,6 @@
-using Amazon.CognitoIdentityProvider.Model;
 using Diabetia.API.DTO;
 using Diabetia.Application.UseCases;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace Diabetia.API.Controllers
 {
@@ -13,30 +8,25 @@ namespace Diabetia.API.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly ILogger<AuthController> _logger;
+        private readonly AuthLoginUseCase _loginUseCase;
+        private readonly AuthRegisterUseCase _registerUseCase;
+        private readonly AuthForgotPasswordUseCase _forgotPasswordUseCase;
+        private readonly AuthChangePasswordUseCase _changePasswordUseCase;
 
-        private readonly LoginUseCase _loginUseCase;
-        private readonly RegisterUseCase _registerUseCase;
-        private readonly ConfirmUserEmailUseCase _confirmUserEmailUseCase;
-        private readonly ForgotPasswordUseCase _forgotPasswordUseCase;
-        private readonly ConfirmForgotPasswordCodeUseCase _confirmForgotPasswordCodeUseCase;
-
-        public AuthController(ILogger<AuthController> logger, LoginUseCase loginUseCase, RegisterUseCase registerUseCase, ConfirmUserEmailUseCase confirmUserEmailUseCase, ForgotPasswordUseCase forgotPasswordUseCase, ConfirmForgotPasswordCodeUseCase confirmForgotPasswordCodeUseCase)
+        public AuthController(AuthLoginUseCase loginUseCase, AuthRegisterUseCase registerUseCase, AuthForgotPasswordUseCase forgotPasswordUseCase, AuthChangePasswordUseCase changePasswordUseCase)
         {
-            _logger = logger;
             _loginUseCase = loginUseCase;
             _registerUseCase = registerUseCase;
-            _confirmUserEmailUseCase = confirmUserEmailUseCase;
             _forgotPasswordUseCase = forgotPasswordUseCase;
-            _confirmForgotPasswordCodeUseCase = confirmForgotPasswordCodeUseCase;
+            _changePasswordUseCase = changePasswordUseCase;
         }
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Post([FromBody] LoginRequest request)
+        public async Task<IActionResult> Post([FromBody] AuthLoginRequest request)
         {
-            var jwt = await _loginUseCase.Login(request.username, request.password);
-            if (jwt != null)
+            var user = await _loginUseCase.Login(request.username, request.password);
+            if (user.Token != null)
             {
                 var cookieOptions = new CookieOptions
                 {
@@ -47,71 +37,69 @@ namespace Diabetia.API.Controllers
                     Path = "/"
                 };
 
-                Response.Cookies.Append("jwt", jwt, cookieOptions);
-                return Ok("Bienvenido");
+                Response.Cookies.Append("jwt", user.Token, cookieOptions);
+
+                AuthLoginResponse res = new AuthLoginResponse();
+
+                res.InformationCompleted = user.InformationCompleted;
+
+                return Ok(res);
             }
             else
             {
-                return BadRequest("Usuario o contraseña invalidos");
+                return BadRequest("Usuario o contraseï¿½a invalidos");
             }
             
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Register([FromBody] AuthRegisterRequest request)
         {
-            try
-            {
-                await _registerUseCase.Register(request.userName, request.email, request.password);
-                return Ok("Usuario registrado exitosamente");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error al registrar usuario: {ex.Message}");
-            }
+            await _registerUseCase.Register(request.Username, request.Email, request.Password);
+            return Ok("Usuario registrado exitosamente");
         }
 
         [HttpPost("confirmEmailVerification")]
-        public async Task<IActionResult> ConfirmEmailVerification([FromBody] UserRequest request)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ConfirmEmailVerification([FromBody] AuthConfirmEmailRequest request)
         {
-            bool isSuccess = await _confirmUserEmailUseCase.ConfirmEmailVerification(request.username, request.email, request.confirmationCode);
-
+            bool isSuccess = await _registerUseCase.ConfirmEmailVerification(request.Username, request.Email, request.ConfirmationCode);
+            Console.Write("hola");
             if (isSuccess)
             {
                 return Ok(new { Message = "Se ha verificado el Email correctamente. Ya puede ingresar al sitio." });
             }
-            else
-            {
-                return BadRequest(new { Message = "Ocurrió un error al querer validar el email, intentelo nuevamente." });
-            }
+            return BadRequest(new { Message = "Ocurriï¿½ un error al querer validar el email, intentelo nuevamente." });
         }
 
-        [HttpPost("passwordRecover")]
-        public async Task<IActionResult> PasswordEmailRecover([FromBody] UserRequest request)
+        [HttpPost("changePassword")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] AuthChangePasswordRequest request)
         {
-            try
-            {
-                await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.username);
-                return Ok("Usuario registrado exitosamente");
-            }
-            catch (Exception ex) 
-            {
-                return StatusCode(500, $"Error al enviar el correo de recuperación: {ex.Message}");
-            }
+            await _changePasswordUseCase.ChangeUserPasswordAsync(request.AccessToken, request.PreviousPassword, request.NewPassword);
+            return Ok("Contraseï¿½a cambiada exitosamente");
+        }
+        
+        [HttpPost("passwordRecover")]
+        public async Task<IActionResult> PasswordEmailRecover([FromBody] AuthUserRequest request)
+        {
+            await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.Username);
+            return Ok("Usuario registrado exitosamente");
         }
 
         [HttpPost("passwordRecoverCode")]
-        public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] UserRequest request)
+        public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] AuthConfirmPasswordRecoverRequest request)
         {
-            try
-            {
-                await _confirmForgotPasswordCodeUseCase.ConfirmForgotPasswordAsync(request.username, request.confirmationCode, request.password);
-                return Ok("Contraseña cambiada exitosamente");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error al cambiar la contraseña: {ex.Message}");
-            }
+            await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.Username, request.ConfirmationCode, request.Password);
+            return Ok("Contraseï¿½a cambiada exitosamente");
         }
+
     }
 }
