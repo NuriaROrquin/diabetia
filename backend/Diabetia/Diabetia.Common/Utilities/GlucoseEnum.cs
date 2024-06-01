@@ -8,7 +8,7 @@ namespace Diabetia.Common.Utilities
 {
     public enum GlucoseEnum
     {
-        HIPOGLUCEMIA = 1,
-        HIPERGLUCEMIA = 2
+        HIPOGLUCEMIA = 70,
+        HIPERGLUCEMIA = 180
     }
 }

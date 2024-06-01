@@ -25,13 +25,11 @@ namespace Diabetia.Application.UseCases
 
             Metrics.Glycemia = await _homeRepository.GetGlucose(Email, 3);
 
-            /*Metrics.Hyperglycemia =  await _homeRepository.GetHyperglycemia(Email);
+            Metrics.Hyperglycemia =  await _homeRepository.GetHyperglycemia(Email);
 
             Metrics.Hypoglycemia = await _homeRepository.GetHypoglycemia(Email);
 
-            
-
-            Metrics.Insulin = await _homeRepository.GetInsulin(Email, _homeRepository.GetIdEvent("Insulin"));*/
+            /*Metrics.Insulin = await _homeRepository.GetInsulin(Email, _homeRepository.GetIdEvent("Insulin"));*/
 
             return Metrics;
 

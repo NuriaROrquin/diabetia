@@ -1,5 +1,6 @@
 ﻿using Diabetia.Domain.Services;
 using Microsoft.EntityFrameworkCore;
+using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Infrastructure.EF;
 
@@ -59,6 +60,33 @@ namespace Diabetia.Infrastructure.Repositories
 
 
             return LastGlucoseRegister;
+        }
+
+        public async Task<int> GetHypoglycemia(string Email)
+        {
+            int hipo = (int)GlucoseEnum.HIPOGLUCEMIA;
+            var user = _context.Usuarios.FirstOrDefault(u => u.Email == Email);
+            var patient = _context.Pacientes.FirstOrDefault(p => p.IdUsuario == user.Id);
+
+            var Hipoglycemias = await _context.EventoGlucosas.Where(eg => eg.Glucemia < hipo)
+                                                            .SumAsync(eg => eg.Glucemia);
+            int TotalHipoglycemias = (int)Hipoglycemias; 
+
+            return TotalHipoglycemias;
+        }
+
+        public async Task<int> GetHyperglycemia(string Email)
+        {
+            int hiper = (int)GlucoseEnum.HIPERGLUCEMIA;
+            var user = _context.Usuarios.FirstOrDefault(u => u.Email == Email);
+            var patient = _context.Pacientes.FirstOrDefault(p => p.IdUsuario == user.Id);
+
+            var Hiperglycemias = await _context.EventoGlucosas.Where(eg => eg.Glucemia  > hiper)
+                                                            .SumAsync(eg => eg.Glucemia);
+
+            var TotalHiperglycemias = (int)Hiperglycemias;
+
+            return TotalHiperglycemias;
         }
 
     }

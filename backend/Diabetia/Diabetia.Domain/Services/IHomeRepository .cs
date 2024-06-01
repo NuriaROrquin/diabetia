@@ -8,5 +8,9 @@ namespace Diabetia.Domain.Services
         public Task<int> GetChMetrics(string Email, int idEvento);
 
         public Task<int> GetGlucose(string Email, int idEvento);
+
+        public Task<int> GetHypoglycemia(string Email);
+
+        public Task<int> GetHyperglycemia(string Email);
     }
 }
