@@ -40,11 +40,9 @@ const InitialFormStep1 = () => {
 
         firstStep({name, birthdate, email, gender, phone, weight, lastname})
             .then((res) => {
-                if(res.data){
-
+                if(res){
                     router.push("/initialForm/step-2")
                 }
-
             })
             .catch((error) => {
                 error.response.data ? setError(error.response.data) : setError("Hubo un error")
