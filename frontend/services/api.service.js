@@ -76,3 +76,11 @@ export const addPhysicalEvent = (data) => {
             data
         );
 }
+
+export const firstStep = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/initialForm/firstStep`,
+            data
+        );
+}

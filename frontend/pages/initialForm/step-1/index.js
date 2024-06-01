@@ -1,32 +1,54 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
-import {TYPE_EVENTS, TYPE_DEVICES} from "../../../constants";
-import {capitalizeFirstLetter} from "../../../helpers";
+import {GENDER, TYPE_EVENTS} from "../../../constants";
 import {useState} from "react";
-import {BlueLink, OrangeLink} from "../../../components/link";
-import {TextArea, InputWithLabel, CustomSwitch} from "../../../components/input";
-import {Select} from "../../../components/selector";
+import {InputWithLabel} from "../../../components/input";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
-import {CustomDatePicker, CustomTimePicker} from "../../../components/pickers";
+import {CustomDatePicker} from "../../../components/pickers";
 import {useRouter} from "next/router";
 import {Step, StepLabel, Stepper} from "@mui/material";
+import {useCookies} from "react-cookie";
+import {Select} from "@/components/selector";
+import {firstStep} from "../../../services/api.service";
+
 
 const InitialFormStep1 = () => {
+    const [error, setError] = useState(false);
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 2)[0].title;
     const [date, setDate] = useState()
     const router = useRouter()
+    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
+    const email = cookies.email
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const handleOptionClick = (option) => {
+        setSelectedOption(option);
+        setIsOpen(false);
+    };
 
     const handleSubmit = () => {
         const name = document.getElementById("name").value;
-        const surname = document.getElementById("surname").value;
-        const dateFormatted = date ? date.format('DD-MM-YYYY') : null;
+        const lastname = document.getElementById("lastname").value;
+        const birthdate = date ? date.format('DD-MM-YYYY') : null;
         const weight = document.getElementById("weight").value;
-        const email = document.getElementById("email").value;
         const phone = document.getElementById("phone").value;
+        const gender = document.getElementById("gender").value;
 
-        console.log("Datos del formulario:", name, surname, dateFormatted, weight, email, phone);
-        router.push("/initialForm/step-2")
+        console.log("Datos del formulario:", name, lastname, birthdate, weight, email, phone, gender);
+
+        firstStep(name, birthdate, email, gender, phone, weight, lastname)
+            .then((res) => {
+                if(res.data){
+
+                    router.push("/initialForm/step-2")
+                }
+
+            })
+            .catch((error) => {
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")
+            });
     }
 
     const steps = [
@@ -55,7 +77,7 @@ const InitialFormStep1 = () => {
                     </div>
 
                     <InputWithLabel label="Nombre" placeholder="Juan" id="name" width="w-1/3"/>
-                    <InputWithLabel label="Apellido" placeholder="Perez" id="surname" width="w-1/3"/>
+                    <InputWithLabel label="Apellido" placeholder="Perez" id="lastname" width="w-1/3"/>
                     <CustomDatePicker
                         label="Fecha de nacimiento"
                         value={date}
@@ -64,9 +86,13 @@ const InitialFormStep1 = () => {
                         width="w-1/3"
                     />
                     <InputWithLabel label="Peso" placeholder="Ingresá tu peso" id="weight" width="w-1/3"/>
-                    <InputWithLabel label="Correo Electrónico" placeholder="email@diabetia.com.ar" id="email"
-                                    width="w-1/3"/>
+                    <Select label="Genero" placeholder="Indicanos tu género" id="gender" options={GENDER}
+                            selectedOption={selectedOption}
+                            handleOptionClick={handleOptionClick} setIsOpen={setIsOpen}
+                            isOpen={isOpen} width="w-1/3"/>
                     <InputWithLabel label="Teléfono" placeholder="1234-5678" id="phone" width="w-1/3"/>
+
+                    {error && <span className="text-red-500 mb-3">{error}</span>}
 
                     <ButtonOrange onClick={handleSubmit} label="Siguiente" width="w-1/3"/>
                 </div>

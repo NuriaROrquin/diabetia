@@ -25,7 +25,7 @@ export const Input = ({type, placeholder, id, width, icon, withForgotPassword=fa
   )
 }
 
-export const InputWithLabel = ({type, placeholder, label, id, width, icon}) => {
+export const InputWithLabel = ({type, placeholder, label, id, width, icon, defaultValue = null, disabled = false}) => {
     return (
         <div className={`flex flex-col items-start text-base text-blue-primary font-medium gap-2 ${width}`}>
             <label htmlFor={id}>{label}</label>
@@ -39,6 +39,8 @@ export const InputWithLabel = ({type, placeholder, label, id, width, icon}) => {
                     type={type}
                     id={id}
                     placeholder={placeholder}
+                    defaultValue={defaultValue}
+                    disabled={disabled}
                     className={`border border-gray-400 rounded-lg p-3 ${icon ? "pl-14" : ""} w-full focus:outline-none text-gray-primary font-normal`}/>
             </div>
         </div>
