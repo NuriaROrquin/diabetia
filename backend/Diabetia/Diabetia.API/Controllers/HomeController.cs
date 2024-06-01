@@ -40,6 +40,8 @@ namespace Diabetia.API.Controllers
 
             metricsResponse.PhysicalActivity = metrics.PhysicalActivity;
 
+            metricsResponse.Glycemia = metrics.Glycemia;
+
             return metricsResponse;
         }
 
