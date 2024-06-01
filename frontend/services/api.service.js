@@ -81,6 +81,13 @@ export const getMetrics = (data) => {
     return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/Home/metrics`,
+            data)
+}
+
+export const firstStep = (data) => {
+    return axios
+        .put(
+            `${process.env.NEXT_PUBLIC_API_URL}/Data/firstStep`,
             data
         );
 }

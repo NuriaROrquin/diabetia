@@ -26,7 +26,7 @@ namespace Diabetia.API.Controllers
         [HttpPut("firstStep")]
         public async Task<IActionResult> UserInformationFirstStep([FromBody] DataRequest request)
         {
-            await _dataUserUseCase.FirstStep(request.name, request.email, request.gender, request.lastname, request.weight, request.phone);
+            await _dataUserUseCase.FirstStep(request.name, request.email, request.gender, request.lastname, request.weight, request.phone, request.birthdate);
 
             return Ok();
         }

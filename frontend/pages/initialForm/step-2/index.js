@@ -1,14 +1,13 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
 import {TYPE_INSULIN, TYPE_DIABETES, INSULIN_FREQUENCY} from "../../../constants";
-import {capitalizeFirstLetter} from "../../../helpers";
 import {useState} from "react";
-import {BlueLink, OrangeLink} from "../../../components/link";
-import {TextArea, InputWithLabel, CustomSwitch} from "../../../components/input";
+import {OrangeLink} from "../../../components/link";
+import {CustomSwitch} from "../../../components/input";
 import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
-import {CustomDatePicker, CustomTimePicker} from "../../../components/pickers";
+import {CustomTimePicker} from "../../../components/pickers";
 import {useCookies} from "react-cookie";
 import {Step, StepLabel, Stepper} from "@mui/material";
 

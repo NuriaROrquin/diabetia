@@ -10,10 +10,9 @@ namespace Diabetia.Application.UseCases
         {
             _userRepository = userRepository;
         }
-        public async Task FirstStep(string name, string email, string gender, string lastname, int weight, string phone)
+        public async Task FirstStep(string name, string email, string gender, string lastname, int weight, string phone, DateOnly birthdate)
         {
-            await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone);
-
+            await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone, birthdate);
         }
 
         public async Task SecondStep(int typeDiabetes, bool useInsuline, string typeInsuline, string email)
