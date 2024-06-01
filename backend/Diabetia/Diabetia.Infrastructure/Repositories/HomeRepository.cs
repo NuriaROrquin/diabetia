@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Infrastructure.EF;
+using Diabetia.Domain.Models;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -54,10 +55,14 @@ namespace Diabetia.Infrastructure.Repositories
             var user = _context.Usuarios.FirstOrDefault(u => u.Email == Email);
             var patient = _context.Pacientes.FirstOrDefault(p => p.IdUsuario == user.Id);
 
-            var LastRegister = await _context.EventoGlucosas.OrderByDescending(eg => eg.Id).FirstOrDefaultAsync();
+            var LastRegister = (from eg in _context.EventoGlucosas
+                                join ce in _context.CargaEventos
+                                on eg.IdCargaEvento equals ce.Id
+                                where ce.IdPaciente == patient.Id
+                                orderby ce.Id descending
+                                select eg.Glucemia).FirstOrDefault(); ;
 
-            int LastGlucoseRegister = (int)LastRegister.Glucemia;
-
+            int LastGlucoseRegister = (int)LastRegister;
 
             return LastGlucoseRegister;
         }
@@ -68,8 +73,12 @@ namespace Diabetia.Infrastructure.Repositories
             var user = _context.Usuarios.FirstOrDefault(u => u.Email == Email);
             var patient = _context.Pacientes.FirstOrDefault(p => p.IdUsuario == user.Id);
 
-            var Hipoglycemias = await _context.EventoGlucosas.Where(eg => eg.Glucemia < hipo)
-                                                            .SumAsync(eg => eg.Glucemia);
+            var Hipoglycemias = await (from eg in _context.EventoGlucosas
+                                       join ce in _context.CargaEventos
+                                       on eg.IdCargaEvento equals ce.Id
+                                       where ce.IdPaciente == patient.Id && eg.Glucemia < hipo
+                                       select eg).CountAsync();
+
             int TotalHipoglycemias = (int)Hipoglycemias; 
 
             return TotalHipoglycemias;
@@ -81,8 +90,11 @@ namespace Diabetia.Infrastructure.Repositories
             var user = _context.Usuarios.FirstOrDefault(u => u.Email == Email);
             var patient = _context.Pacientes.FirstOrDefault(p => p.IdUsuario == user.Id);
 
-            var Hiperglycemias = await _context.EventoGlucosas.Where(eg => eg.Glucemia  > hiper)
-                                                            .SumAsync(eg => eg.Glucemia);
+            var Hiperglycemias = await (from eg in _context.EventoGlucosas
+                                        join ce in _context.CargaEventos
+                                        on eg.IdCargaEvento equals ce.Id
+                                        where ce.IdPaciente == patient.Id && eg.Glucemia > hiper
+                                        select eg).CountAsync();
 
             int TotalHiperglycemias = (int)Hiperglycemias;
 
