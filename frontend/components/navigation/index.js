@@ -40,11 +40,11 @@ export const Navigation = () => {
     }
 
     const handleOnLogout = () =>{
-            setOpenUserMenu(false);
-            removeCookie("jwt");
-            removeCookie("email")
-            removeCookie("informationCompleted")
-            return router.push("/auth/login")
+        setOpenUserMenu(false);
+        removeCookie("jwt");
+        removeCookie("email")
+        removeCookie("informationCompleted")
+        return router.push("/auth/login")
     }
 
     return (

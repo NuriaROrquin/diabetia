@@ -9,14 +9,6 @@ export const login = (username, password) => {
         );
 }
 
-export const logout = () => {
-    return axios
-        .post(
-            `/api/logout`,
-            { withCredentials: true }
-        );
-}
-
 export const register = (username, email, password) => {
     return axios
         .post(
