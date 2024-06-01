@@ -15,9 +15,9 @@ namespace Diabetia.Application.UseCases
             await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone, birthdate);
         }
 
-        public async Task SecondStep(int typeDiabetes, bool useInsuline, string typeInsuline, string email)
+        public async Task SecondStep(int typeDiabetes, bool useInsuline, string typeInsuline, string email, string frequency, bool needsReminder, TimeSpan hourReminder)
         {
-            await _userRepository.UpdateUserInfo(typeDiabetes, useInsuline, typeInsuline, email);
+            await _userRepository.UpdateUserInfo(typeDiabetes, useInsuline, typeInsuline, email, frequency, needsReminder, hourReminder);
         }
 
         public async Task ThirdStep(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica, int duracion)
