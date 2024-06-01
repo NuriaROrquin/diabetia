@@ -34,6 +34,7 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITagRecognitionProvider, TagRecognitionProvider>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IHomeRepository, HomeRepository>();
 
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
