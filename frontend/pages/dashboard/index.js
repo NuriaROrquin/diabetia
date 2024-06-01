@@ -10,6 +10,7 @@ import {OrangeLink} from "../../components/link";
 import { Tooltip } from '@mui/material';
 import {getMetrics, login} from "../../services/api.service";
 import {useCookies} from "react-cookie";
+import CustomTooltip from "@/components/tooltip";
 
 export const Home = () => {
     const [error, setError] = useState(false);
@@ -53,11 +54,11 @@ export const Home = () => {
                         <Selector width="w-1/2" setIsOpen={setIsOpen} isOpen={isOpen} selectedOption={selectedOption}
                                   options={DASHBOARD_OPTIONS_FILTER_DAYS} handleOptionClick={handleOptionClick}/>
                     </div>
-                    <Tooltip title={registrarEventoTooltipText} arrow>
+                    <CustomTooltip title={registrarEventoTooltipText} arrow>
                         <div className="col-start-3 justify-self-end">
                             <OrangeLink href="/event" label="Registrar Evento" width="w-1/10"/>
                         </div>
-                    </Tooltip>
+                    </CustomTooltip>
                 </div>
 
                 <div className="flex flex-wrap justify-around my-12 gap-x-1 gap-y-8">

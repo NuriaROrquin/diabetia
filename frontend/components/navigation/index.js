@@ -7,6 +7,7 @@ import {useRouter} from "next/router";
 import {useCookies} from "react-cookie";
 import {logout} from "../../services/api.service";
 import { Tooltip } from '@mui/material';
+import CustomTooltip from "@/components/tooltip";
 
 export const Navigation = () => {
 
@@ -65,16 +66,16 @@ export const Navigation = () => {
                         className="w-full flex items-center mt-2 lg:mt-0 bg-transparent text-black p-4 lg:p-0 z-20"
                     id="nav-content">
                     <ul className="lg:flex justify-end flex-1 items-center mb-0">
-                        <Tooltip title="Subí una foto de tu comida, contamos los carbohidratos por vos!" arrow>
+                        <CustomTooltip title="Subí una foto de tu comida, contamos los carbohidratos por vos!" arrow>
                             <li className="mr-3">
                                 <NavLink href="/food" text="Registrar comida" className="bg-orange-secondary rounded-lg !py-2 hover:bg-orange-focus transition-all"/>
                             </li>
-                        </Tooltip>
-                        <Tooltip title="Visualizá todos tus eventos en un mismo lugar" arrow>
+                        </CustomTooltip>
+                        <CustomTooltip title="Visualizá todos tus eventos en un mismo lugar" arrow>
                             <li className="mr-3">
                                 <NavLink href="/calendar" text="Calendario"/>
                             </li>
-                        </Tooltip>
+                        </CustomTooltip>
                         <li className="mr-3">
                             <NavLink href="/reports" text="Reportes"/>
                         </li>

@@ -5,8 +5,8 @@ export const DASHBOARD_INDICATORS = [
         "textIndicator": "Glucemia",
         "color": "green",
         "key": "glycemia",
-        "title": "Promedio de medidas",
-        "description": "Cuando midas tu glucosa en sangre, tu promedio se verá afectado.",
+        "title": "Última medida",
+        "description": "Cuando midas tu glucosa en sangre, se mostrará en este apartado.",
         "tooltipContent":"Se visualiza el promedio de glucosa en sangre (mg/dL) basado en tus registros "
     },
     {
