@@ -46,6 +46,8 @@ namespace Diabetia.API.Controllers
 
             metricsResponse.Hyperglycemia = metrics.Hyperglycemia;
 
+            metricsResponse.Insulin = metrics.Insulin;
+
             return metricsResponse;
         }
 

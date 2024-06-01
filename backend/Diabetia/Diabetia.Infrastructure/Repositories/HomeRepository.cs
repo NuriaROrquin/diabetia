@@ -17,7 +17,7 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
 
-        public async Task<int> GetPhysicalActivity(string Email, int idEvent)
+        public async Task<int> GetPhysicalActivity(string Email, int IdEvent)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
             var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
@@ -25,7 +25,7 @@ namespace Diabetia.Infrastructure.Repositories
             int TotalPhysicalActivity = (int)(from eaf in _context.EventoActividadFisicas
                                          join ce in _context.CargaEventos
                                          on eaf.IdCargaEvento equals ce.Id
-                                         where ce.IdPaciente == patient.Id && ce.Id == idEvent
+                                         where ce.IdPaciente == patient.Id && ce.IdTipoEvento == IdEvent
                                          select eaf.Duracion)
                                          .Sum();
 
@@ -34,7 +34,7 @@ namespace Diabetia.Infrastructure.Repositories
          }
         
 
-        public async Task<int> GetChMetrics(string Email, int idEvent)
+        public async Task<int> GetChMetrics(string Email, int IdEvent)
         {
             var user =  _context.Usuarios.FirstOrDefault(u => u.Email == Email);
             var patient =  _context.Pacientes.FirstOrDefault(u => u.IdUsuario == user.Id);
@@ -42,14 +42,14 @@ namespace Diabetia.Infrastructure.Repositories
             int TotalCh = (int)(from ec in _context.EventoComida
                                               join ce in _context.CargaEventos
                                               on ec.IdCargaEvento equals ce.Id
-                                              where ce.IdPaciente == patient.Id && ce.Id == idEvent
-                                              select ec.Carbohidratos)
+                                              where ce.IdPaciente == patient.Id && ce.IdTipoEvento == IdEvent
+                                select ec.Carbohidratos)
                                               .Sum();
 
             return TotalCh;
         }
 
-        public async Task<int> GetGlucose(string Email, int idEvent)
+        public async Task<int> GetGlucose(string Email, int IdEvent)
         {
             var user = _context.Usuarios.FirstOrDefault(u => u.Email == Email);
             var patient = _context.Pacientes.FirstOrDefault(p => p.IdUsuario == user.Id);
@@ -84,11 +84,27 @@ namespace Diabetia.Infrastructure.Repositories
             var Hiperglycemias = await _context.EventoGlucosas.Where(eg => eg.Glucemia  > hiper)
                                                             .SumAsync(eg => eg.Glucemia);
 
-            var TotalHiperglycemias = (int)Hiperglycemias;
+            int TotalHiperglycemias = (int)Hiperglycemias;
 
             return TotalHiperglycemias;
         }
 
+        public async Task<int> GetInsulin(string Email, int IdEvent)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+
+            var InsulinPerDay = (from ei in _context.EventoInsulinas
+                                 join ce in _context.CargaEventos
+                                 on ei.IdCargaEvento equals ce.Id
+                                 where ce.IdPaciente == patient.Id && ce.IdTipoEvento == IdEvent
+                                 select ei.InsulinaInyectada)
+                                         .Sum();
+
+            int UnitsOfInsulinPerDay = (int)InsulinPerDay;
+
+            return UnitsOfInsulinPerDay;
+        }
     }
         
 }
