@@ -34,11 +34,11 @@ const InitialFormStep1 = () => {
         const birthdate = date ? date.format('DD-MM-YYYY') : null;
         const weight = document.getElementById("weight").value;
         const phone = document.getElementById("phone").value;
-        const gender = document.getElementById("gender").value;
+        const gender = selectedOption.title;
 
         console.log("Datos del formulario:", name, lastname, birthdate, weight, email, phone, gender);
 
-        firstStep(name, birthdate, email, gender, phone, weight, lastname)
+        firstStep({name, birthdate, email, gender, phone, weight, lastname})
             .then((res) => {
                 if(res.data){
 
