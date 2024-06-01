@@ -1,6 +1,6 @@
 import {MetricCard} from "../../components/card";
 import {Selector} from "../../components/selector";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {DASHBOARD_OPTIONS_FILTER_DAYS, DASHBOARD_INDICATORS, DASHBOARD_TIMELINE_EVENTS} from "../../constants";
 import {CircleRounded} from "@mui/icons-material";
 import {ContainerTitles, SubtitleSection, TitleSection} from "../../components/titles";
@@ -8,10 +8,22 @@ import {Timeline} from "../../components/timeline";
 import {Section} from "../../components/section";
 import {OrangeLink} from "../../components/link";
 import { Tooltip } from '@mui/material';
+import {getMetrics, login} from "../../services/api.service";
 
 export const Home = () => {
+    const [error, setError] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(DASHBOARD_OPTIONS_FILTER_DAYS[0])
+
+    useEffect(() => {
+        getMetrics(email)
+            .then((res) => {
+                console.log(res.data)
+            })
+            .catch((error) => {
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")
+            });
+    }, []);
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
