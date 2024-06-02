@@ -27,6 +27,11 @@ namespace Diabetia.Application.UseCases
             {
                 throw new UsernameNotFoundException();
             }
+            bool userState = await _authRepository.GetUserStateAsync(email);
+            if (!userState) 
+            { 
+                throw new UserNotAuthorizedException();
+            }
             await _apiCognitoProvider.ForgotPasswordRecoverAsync(username);
         }
 

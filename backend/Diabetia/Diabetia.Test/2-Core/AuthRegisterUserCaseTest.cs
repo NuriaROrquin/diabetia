@@ -45,7 +45,7 @@ namespace Diabetia.Test.Core
 
             A.CallTo(() => fakeAuthRepository.GetUserHashAsync(email)).Returns(Task.FromResult(hashCode));
             A.CallTo(() => fakeAuthProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode)).Returns(Task.FromResult(true));
-            A.CallTo(() => fakeAuthRepository.SetUserActiveAsync(email));
+            A.CallTo(() => fakeAuthRepository.SetUserStateActiveAsync(email));
 
             var registerUseCase = new AuthRegisterUseCase(fakeAuthProvider, fakeAuthRepository);
 
@@ -57,7 +57,7 @@ namespace Diabetia.Test.Core
 
             A.CallTo(() => fakeAuthRepository.GetUserHashAsync(email)).MustHaveHappenedOnceExactly();
 
-            A.CallTo(() => fakeAuthRepository.SetUserActiveAsync(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeAuthRepository.SetUserStateActiveAsync(email)).MustHaveHappenedOnceExactly();
         }
     }
 }

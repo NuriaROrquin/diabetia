@@ -2,7 +2,7 @@
 using Diabetia.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
-using System.Data.Entity.Core;
+using Diabetia.Domain.Entities;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -34,6 +34,23 @@ namespace Diabetia.Infrastructure.Repositories
                 return hashCode;
             }
             return "";
+        }
+
+        public async Task <bool> GetUserStateAsync(string email)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (user != null)
+            {
+                if (user.EstaActivo.HasValue)
+                {
+                    return user.EstaActivo.Value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("El usuario no tiene estado asignado.");
+                }
+            }
+            throw new NotImplementedException();
         }
 
         public async Task SaveUserHashAsync(string username, string email, string hash)
@@ -72,12 +89,13 @@ namespace Diabetia.Infrastructure.Repositories
             
         }
 
-        public async Task SetUserActiveAsync(string email)
+        public async Task SetUserStateActiveAsync(string email)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             if (user != null)
             {
                 user.EstaActivo = true;
+                await _context.SaveChangesAsync();
             }
             else
             {
@@ -85,5 +103,6 @@ namespace Diabetia.Infrastructure.Repositories
             }
 
         }
+
     }
 }

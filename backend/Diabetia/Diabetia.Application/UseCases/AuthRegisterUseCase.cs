@@ -2,7 +2,6 @@
 using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
-using System.Data;
 
 namespace Diabetia.Application.UseCases
 {
@@ -39,7 +38,7 @@ namespace Diabetia.Application.UseCases
                 throw new InvalidOperationException();
             }
             bool response = await _apiCognitoProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode);
-            await _authRepository.SetUserActiveAsync(email);
+            await _authRepository.SetUserStateActiveAsync(email);
             return response;
         }
     }

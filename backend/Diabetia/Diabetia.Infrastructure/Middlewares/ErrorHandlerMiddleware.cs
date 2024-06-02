@@ -83,6 +83,10 @@ namespace Diabetia.Infrastructure.Middlewares
             }
 
             // Forgot Password Exceptions
+            else if (ex is UserNotAuthorizedException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario no se encuentra autenticado");
+            }
             else if (ex is TooManyRequestsException)
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La contraseña ingresada no es válida");

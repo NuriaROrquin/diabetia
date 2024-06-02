@@ -10,6 +10,8 @@
 
         public Task <string> GetUsernameByEmail(string email);
 
-        public Task SetUserActiveAsync(string email);
+        public Task SetUserStateActiveAsync(string email);
+
+        public Task <bool> GetUserStateAsync(string email);
     }
 }
