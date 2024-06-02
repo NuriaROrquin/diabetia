@@ -489,5 +489,122 @@ namespace Diabetia.Test.Infraestructure.Providers
                 req.PreviousPassword == previousPassword &&
                 req.ProposedPassword == newPassword), CancellationToken.None)).MustHaveHappenedOnceExactly();
         }
+
+        // Recover Password
+        [Fact]
+        public async Task ForgotPasswordRecoverAsync_GivenValidUser_ShouldSendCodeToEmail()
+        {
+            // Arrange
+            var username = "testUsername";
+
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
+            fakeConfiguration["ClientSecret"] = "clientSecret";
+            var clientId = "clientId";
+            var clientSecret = "clientSecret";
+
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+
+            var request = new ForgotPasswordRequest
+            {
+                ClientId = fakeConfiguration["ClientId"],
+                Username = username,
+                SecretHash = authProvider.CalculateSecretHash(clientId, clientSecret, username)
+            };
+
+            A.CallTo(() => fakeCognitoClient.ForgotPasswordAsync(request, CancellationToken.None));
+
+            // Act
+            await authProvider.ForgotPasswordRecoverAsync(username);
+
+            // Assert
+            A.CallTo(() => fakeCognitoClient.ForgotPasswordAsync(A<ForgotPasswordRequest>.That.Matches(req =>
+            req.ClientId == fakeConfiguration["ClientId"] &&
+            req.Username == username &&
+            req.SecretHash == authProvider.CalculateSecretHash(clientId, clientSecret, username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task ForgotPasswordRecoverAsync_GivenInvalidUser_ThrowsUserNotFoundException()
+        {
+            // Arrange
+            var username = "testUsername";
+
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
+            fakeConfiguration["ClientSecret"] = "clientSecret";
+            var clientId = "clientId";
+            var clientSecret = "clientSecret";
+
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+
+            A.CallTo(() => fakeCognitoClient.ForgotPasswordAsync(A<ForgotPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new UserNotFoundException("Usuario no encontrado"));
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<UserNotFoundException>(() => authProvider.ForgotPasswordRecoverAsync(username));
+
+            Assert.Equal("Usuario no encontrado", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ForgotPasswordAsync(A<ForgotPasswordRequest>.That.Matches(req =>
+                req.ClientId == clientId &&
+                req.Username == username &&
+                req.SecretHash == authProvider.CalculateSecretHash(clientId, clientSecret, username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task ForgotPasswordRecoverAsync_GivenTooManyRequest_ThrowsTooManyRequestsException()
+        {
+            // Arrange
+            var username = "testUsername";
+
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
+            fakeConfiguration["ClientSecret"] = "clientSecret";
+            var clientId = "clientId";
+            var clientSecret = "clientSecret";
+
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+
+            A.CallTo(() => fakeCognitoClient.ForgotPasswordAsync(A<ForgotPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new TooManyRequestsException("Muchas solicitudes al mismo tiempo"));
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<TooManyRequestsException>(() => authProvider.ForgotPasswordRecoverAsync(username));
+
+            Assert.Equal("Muchas solicitudes al mismo tiempo", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ForgotPasswordAsync(A<ForgotPasswordRequest>.That.Matches(req =>
+                req.ClientId == clientId &&
+                req.Username == username &&
+                req.SecretHash == authProvider.CalculateSecretHash(clientId, clientSecret, username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task ForgotPasswordRecoverAsync_TryTooManyAttempts_ThrowsLimitExceededException()
+        {
+            // Arrange
+            var username = "testUsername";
+
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
+            fakeConfiguration["ClientSecret"] = "clientSecret";
+            var clientId = "clientId";
+            var clientSecret = "clientSecret";
+
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+
+            A.CallTo(() => fakeCognitoClient.ForgotPasswordAsync(A<ForgotPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new LimitExceededException("Muchos intentos"));
+
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<LimitExceededException>(() => authProvider.ForgotPasswordRecoverAsync(username));
+
+            Assert.Equal("Muchos intentos", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ForgotPasswordAsync(A<ForgotPasswordRequest>.That.Matches(req =>
+                req.ClientId == clientId &&
+                req.Username == username &&
+                req.SecretHash == authProvider.CalculateSecretHash(clientId, clientSecret, username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
+
     }
 }
