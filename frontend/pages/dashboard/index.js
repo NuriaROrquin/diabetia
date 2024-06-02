@@ -46,8 +46,8 @@ export const Home = () => {
             <div className="container pt-12 flex flex-col">
 
 
-                <div className="w-full col-start-2 flex justify-self-center justify-center pb-6">
-                    <span className="text-xl">Tu panel de salud para la gestión de tu diabetes</span>
+                <div className="w-full flex justify-self-center justify-center pb-6">
+                    <span className="text-xl text-white">Tu panel de salud para la gestión de tu diabetes</span>
                 </div>
                 <div className="grid grid-cols-3 w-full items-center">
                 <div className="w-full col-start-2 flex justify-self-center justify-center">
@@ -61,7 +61,7 @@ export const Home = () => {
                     </CustomTooltip>
                 </div>
 
-                <div className="flex flex-wrap justify-around my-12 gap-x-1 gap-y-8">
+                <div className="flex flex-wrap justify-between my-12 gap-x-1 gap-y-8">
                     {DASHBOARD_INDICATORS.map((data, index) => (
                         <MetricCard
                             key={index}

@@ -213,15 +213,23 @@ export const TYPE_PORTIONS = [
 export const TYPE_DEVICES = [
     {
         "id": 1,
-        "title": "Capilar"
+        "title": "Accu-Chek"
     },
     {
         "id": 2,
-        "title": "Sensor"
+        "title": "OneTouch"
     },
     {
         "id": 3,
-        "title": "Bomba"
+        "title": "Medtronic"
+    },
+    {
+        "id": 4,
+        "title": "Dexcom"
+    },
+    {
+        "id": 5,
+        "title": "Freestyle"
     }
 ]
 

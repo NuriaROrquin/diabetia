@@ -66,6 +66,11 @@ export const Navigation = () => {
                         className="w-full flex items-center mt-2 lg:mt-0 bg-transparent text-black p-4 lg:p-0 z-20"
                     id="nav-content">
                     <ul className="lg:flex justify-end flex-1 items-center mb-0">
+                        <CustomTooltip title="Ir a la home" arrow>
+                            <li className="mr-3">
+                                <NavLink href="/calendar" text="Home"/>
+                            </li>
+                        </CustomTooltip>
                         <CustomTooltip title="Subí una foto de tu comida, contamos los carbohidratos por vos!" arrow>
                             <li className="mr-3">
                                 <NavLink href="/food" text="Registrar comida" className="bg-orange-secondary rounded-lg !py-2 hover:bg-orange-focus transition-all"/>
