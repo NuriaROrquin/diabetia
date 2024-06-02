@@ -50,14 +50,16 @@ namespace Diabetia.Test._2_Core
         public async Task ForgotPasswordUseCase_WhenUserIsNotConfirmed_ShouldThrowUserNotAuthorizedException()
         {
             // Arrange
-            var invalidEmail = "invalidEmail@gmail.com";
+            var email = "test.email@gmail.com";
+            var username = "testUsername";
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
 
+            A.CallTo(() => fakeAuthRepository.GetUsernameByEmail(email)).Returns(username);
             var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository);
 
             // Act & Assert
-            await Assert.ThrowsAsync<UserNotAuthorizedException>(() => forgotPasswordUseCase.ForgotPasswordEmailAsync(invalidEmail));
+            await Assert.ThrowsAsync<UserNotAuthorizedException>(() => forgotPasswordUseCase.ForgotPasswordEmailAsync(email));
         }
 
         [Fact]
