@@ -36,8 +36,9 @@ namespace Diabetia.Test.Core
 
             // Asserts
             A.CallTo(() => fakeAuthProvider.RegisterUserAsync(username, password, email)).MustHaveHappenedOnceExactly();
-
             A.CallTo(() => fakeAuthRepository.SaveUserHashAsync(username, email, hashCode)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeAuthRepository.SaveUserUsernameAsync(email, username)).MustHaveHappenedOnceExactly();
+
         }
 
         [Fact]

@@ -15,6 +15,16 @@ namespace Diabetia.Infrastructure.Repositories
             this._context = context;
         }
 
+        public async Task <string> GetUsernameByEmail(string email)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (user != null)
+            {
+                return user.Username;
+            }
+            return "";
+        }
+
         public async Task<string> GetUserHashAsync(string email)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
@@ -47,5 +57,19 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task SaveUserUsernameAsync(string email, string username)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (user != null)
+            {
+                user.Username = username;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"No se encontró un usuario con el email {email}.");
+            }
+            
+        }
     }
 }

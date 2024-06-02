@@ -55,10 +55,6 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.NotFound, "Usuario no encontrado");
             }
-            else if (ex is InvalidParameterException)
-            {
-                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Parámetros de solicitud inválidos");
-            }
             else if (ex is CodeMismatchException)
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El código ingresado es incorrecto");
@@ -67,9 +63,13 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El email no tiene un formato válido");
             }
+            else if (ex is UsernameNotFoundException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Nombre de usuario no encontrado");
+            }
             else if (ex is InvalidOperationException)
             {
-                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario no fue encontrado");
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Operación inválida");
             }
 
             // Change Password Exceptions
@@ -77,19 +77,20 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La contraseña ingresada no es válida");
             }
-            else if (ex is UserNotFoundException)
-            {
-                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario no fue encontrado");
-            }
             else if (ex is UserNotConfirmedException)
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario aún no se encuentra confirmado");
             }
-            else if (ex is InvalidParameterException)
-            {
-                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Los datos ingresados son incorrectos");
-            }
 
+            // Forgot Password Exceptions
+            else if (ex is TooManyRequestsException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La contraseña ingresada no es válida");
+            }
+            else if (ex is LimitExceededException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La contraseña ingresada no es válida");
+            }
             else
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.InternalServerError, "Este es un mensaje de error custom");

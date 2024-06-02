@@ -88,10 +88,13 @@ namespace Diabetia.API.Controllers
         }
         
         [HttpPost("passwordRecover")]
-        public async Task<IActionResult> PasswordEmailRecover([FromBody] AuthUserRequest request)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> PasswordEmailRecover([FromBody] AuthForgotPasswordRequest request)
         {
-            await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.Username);
-            return Ok("Usuario registrado exitosamente");
+            await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.Email);
+            return Ok("Código enviado exitosamente, revise su casilla de correo.");
         }
 
         [HttpPost("passwordRecoverCode")]
