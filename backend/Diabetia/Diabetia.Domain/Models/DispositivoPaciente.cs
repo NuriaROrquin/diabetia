@@ -12,7 +12,7 @@ namespace Diabetia.Domain.Models
 
         public int Id { get; set; }
         public int IdPaciente { get; set; }
-        public int? IdDispositivo { get; set; }
+        public int IdDispositivo { get; set; }
         public int? Frecuencia { get; set; }
 
         public virtual Dispositivo IdDispositivoNavigation { get; set; } = null!;

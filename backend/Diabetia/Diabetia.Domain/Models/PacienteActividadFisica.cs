@@ -5,11 +5,6 @@ namespace Diabetia.Domain.Models
 {
     public partial class PacienteActividadFisica
     {
-        public PacienteActividadFisica()
-        {
-            EventoActividadFisicas = new HashSet<EventoActividadFisica>();
-        }
-
         public int Id { get; set; }
         public int IdPaciente { get; set; }
         public int IdActividadFisica { get; set; }
@@ -18,6 +13,5 @@ namespace Diabetia.Domain.Models
 
         public virtual ActividadFisica IdActividadFisicaNavigation { get; set; } = null!;
         public virtual Paciente IdPacienteNavigation { get; set; } = null!;
-        public virtual ICollection<EventoActividadFisica> EventoActividadFisicas { get; set; }
     }
 }
