@@ -10,19 +10,23 @@ import {ButtonOrange} from "../../../components/button";
 import {CustomTimePicker} from "../../../components/pickers";
 import {useCookies} from "react-cookie";
 import {Step, StepLabel, Stepper} from "@mui/material";
+import {secondStep} from "../../../services/api.service";
+import {useRouter} from "next/router";
 
 const InitialFormStep2 = () => {
+    const [error, setError] = useState(false);
     const [isOpenTipoDiabetes, setIsOpenTipoDiabetes] = useState(false);
     const [selectedOptionTipoDiabetes, setSelectedOptionTipoDiabetes] = useState(null);
     const [isOpenTipoInsulina, setIsOpenTipoInsulina] = useState(false);
     const [selectedOptionFrecuenciaInsulina, setSelectedOptionFrecuenciaInsulina] = useState(null);
     const [isOpenFrecuenciaInsulina, setIsOpenFrecuenciaInsulina] = useState(false);
     const [selectedOptionTipoInsulina, setSelectedOptionTipoInsulina] = useState(null);
-    const [date, setDate] = useState()
-    const [insuline, setInsuline] = useState(false)
+    const router = useRouter();
+    const [insuline, setInsuline] = useState(false);
     const [reminder, setReminder] = useState(false);
-    const [Hour, setHour] = useState()
-    const [_cookies, setCookie, _removeCookie] = useCookies(['cookie-name']);
+    const [hour, setHour] = useState();
+    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
+    const email = cookies.email
 
     const handleOptionClickTipoDiabetes = (option) => {
         setSelectedOptionTipoDiabetes(option);
@@ -48,16 +52,23 @@ const InitialFormStep2 = () => {
 
 
     const handleSubmit = () => {
-        const tipoDiabetes = selectedOptionTipoDiabetes;
-        const usaInsulina = insuline;
-        const tipoInsulina = selectedOptionTipoInsulina;
-        const FrecuenciaInsulina = selectedOptionFrecuenciaInsulina;
-        const quiereReminder = reminder;
-        const dateFormatted = date ? date.format('DD-MM-YYYY') : null;
+        const typeDiabetes = selectedOptionTipoDiabetes.id;
+        const useInsuline = insuline;
+        const typeInsuline = selectedOptionTipoInsulina.id;
+        const frequency = selectedOptionFrecuenciaInsulina.id;
+        const needsReminder = reminder;
+        const hourReminder = hour ? hour.format('HH:mm') : null;
 
-        console.log("Datos del formulario:", tipoDiabetes, usaInsulina, tipoInsulina, FrecuenciaInsulina, quiereReminder, dateFormatted);
-        setCookie("informationCompleted", true, {path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)});
-        window.location.href = '/';
+        secondStep({email, typeDiabetes, useInsuline, typeInsuline, frequency, needsReminder, hourReminder})
+            .then((res) => {
+            if(res){
+                router.push("/initialForm/step-3")
+            }
+        })
+            .catch((error) => {
+                console.error('Error in secondStep:', error);
+                error.response ? setError(error.response) : setError("Hubo un error")
+            });
     }
 
     return(
@@ -101,7 +112,7 @@ const InitialFormStep2 = () => {
                                           onChange={() => setReminder(!reminder)} width="w-1/3"/>
                             <CustomTimePicker
                                 label="Hora del recordatorio"
-                                value={Hour}
+                                value={hour}
                                 onChange={(e) => setHour(e)}
                                 defaultValue={dayjs()}
                                 width="w-1/3"

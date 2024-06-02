@@ -295,6 +295,6 @@ export const GENDER = [
     {
         "id": 3,
         "title": "Prefiero no decir",
-        "key": null
+        "key": 'X'
     }
 ]

@@ -2,23 +2,25 @@ namespace Diabetia.API
 {
     public class DataRequest
     {
-        public string name { get; set; }
-        public DateOnly birthdate { get; set; }
-        public string email { get; set; }
-        public string gender { get; set; }
-        public string phone { get; set; }
-        public int weight { get; set; }
-        public string lastname { get; set; }
+        public string Name { get; set; }
+        public DateOnly Birthdate { get; set; }
+        public string Email { get; set; }
+        public string Gender { get; set; }
+        public string Phone { get; set; }
+        public int Weight { get; set; }
+        public string Lastname { get; set; }
     }
 
 
     public class PatientRequest
     {
-        public string email { get; set; }
-        public int weight { get; set; }
-        public int typeDiabetes { get; set; }
-        public bool useInsuline { get; set; }
-        public string typeInsuline { get; set; }
+        public string Email { get; set; }
+        public int TypeDiabetes { get; set; }
+        public bool UseInsuline { get; set; }
+        public int TypeInsuline { get; set; }
+        public int Frequency { get; set; }
+        public bool NeedsReminder { get; set; }
+        public string HourReminder { get; set; }
     }
 
     public class PhysicalRequest
