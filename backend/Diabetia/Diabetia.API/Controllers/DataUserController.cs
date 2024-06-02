@@ -26,7 +26,7 @@ namespace Diabetia.API.Controllers
         [HttpPut("firstStep")]
         public async Task<IActionResult> UserInformationFirstStep([FromBody] DataRequest request)
         {
-            await _dataUserUseCase.FirstStep(request.name, request.email, request.gender, request.lastname, request.weight, request.phone, request.birthdate);
+            await _dataUserUseCase.FirstStep(request.Name, request.Email, request.Gender, request.Lastname, request.Weight, request.Phone, request.Birthdate);
 
             return Ok();
         }
@@ -34,7 +34,7 @@ namespace Diabetia.API.Controllers
         [HttpPut("secondStep")]
         public async Task<IActionResult> PatientInformationSecondStep([FromBody] PatientRequest request)
         {
-            await _dataUserUseCase.SecondStep(request.typeDiabetes, request.useInsuline, request.typeInsuline, request.email);
+            await _dataUserUseCase.SecondStep(request.TypeDiabetes, request.UseInsuline, request.TypeInsuline, request.Email, request.NeedsReminder, request.Frequency, request.HourReminder);
 
             return Ok();
         }

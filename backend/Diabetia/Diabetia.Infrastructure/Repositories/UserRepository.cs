@@ -44,18 +44,37 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateUserInfo(int typeDiabetes, bool useInsuline, string typeInsuline, string email)
+        public async Task UpdateUserInfo(int typeDiabetes, bool useInsuline, int typeInsuline, string email, bool needsReminder, int frequency, string hourReminder)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+            var insulina_pac = await _context.InsulinaPacientes.FirstOrDefaultAsync(u => u.IdPaciente == pac.Id);
 
-            pac.IdUsuario = user.Id;
+
             pac.IdTipoDiabetes = typeDiabetes;
             pac.UsaInsulina = useInsuline;
             pac.IdSensibilidadInsulina = 1;
 
             _context.Pacientes.Update(pac);
 
+            if (insulina_pac == null)
+            {
+                if (useInsuline == true)
+                {
+                    var insulina_pac_new = new InsulinaPaciente
+                    {
+
+                        IdPaciente = pac.Id,
+                        IdTipoInsulina = typeInsuline,
+                        Frecuencia = frequency
+                    };
+
+                    _context.InsulinaPacientes.Add(insulina_pac_new);
+
+                }
+
+            }
+                
             await _context.SaveChangesAsync();
         }
 

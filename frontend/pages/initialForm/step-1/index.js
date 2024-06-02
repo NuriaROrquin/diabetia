@@ -15,7 +15,6 @@ import {firstStep} from "../../../services/api.service";
 
 const InitialFormStep1 = () => {
     const [error, setError] = useState(false);
-    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 2)[0].title;
     const [date, setDate] = useState()
     const router = useRouter()
     const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
@@ -36,7 +35,6 @@ const InitialFormStep1 = () => {
         const phone = document.getElementById("phone").value;
         const gender = selectedOption.key;
 
-        console.log("Datos del formulario:", name, lastname, birthdate, weight, email, phone, gender);
 
         firstStep({name, birthdate, email, gender, phone, weight, lastname})
             .then((res) => {
