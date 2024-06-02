@@ -42,7 +42,7 @@ namespace Diabetia.Infrastructure.Repositories
             var NewPhysicalEvent = new EventoActividadFisica
             {
                 IdCargaEvento = IdLoadEvent,
-                IdActividadRegistrada = IdPhysicalActivity,
+                IdActividadFisica = IdPhysicalActivity,
                 Duracion = eventDuration,
             };
 
