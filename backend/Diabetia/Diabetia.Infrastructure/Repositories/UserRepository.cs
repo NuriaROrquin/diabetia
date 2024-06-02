@@ -132,16 +132,18 @@ namespace Diabetia.Infrastructure.Repositories
             var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
             var pac_div = await _context.DispositivoPacientes.FirstOrDefaultAsync(u => u.IdPaciente == pac.Id);
 
-
             if (pac_div == null)
             {
-                var pac_new = new DispositivoPaciente
+                if (tieneDispositivo == true)
                 {
-                    IdPaciente = pac.Id,
-                    IdDispositivo = idDispositivo,
-                    Frecuencia = frecuencia
-                };
-                _context.DispositivoPacientes.Add(pac_div);
+                    var pac_new = new DispositivoPaciente
+                    {
+                        IdPaciente = pac.Id,
+                        IdDispositivo = idDispositivo,
+                        Frecuencia = frecuencia
+                    };
+                    _context.DispositivoPacientes.Add(pac_div);
+                }
             }
             else
             {
