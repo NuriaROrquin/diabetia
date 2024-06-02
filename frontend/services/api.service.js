@@ -99,3 +99,11 @@ export const secondStep = (data) => {
             data
         );
 }
+
+export const getAllEvents = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Calendar/events`,
+            data
+        );
+}

@@ -1,4 +1,4 @@
-
+using Diabetia.API.DTO;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +20,9 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("events")]
-        public async Task<Dictionary<string, List<EventItem>>> GetAllEvents([FromBody] string email)
+        public async Task<Dictionary<string, List<EventItem>>> GetAllEvents([FromBody] CalendarRequest request)
         {
-            var eventsByDate = await _calendarUseCase.GetAllEvents(email);
+            var eventsByDate = await _calendarUseCase.GetAllEvents(request.Email);
             return eventsByDate;
         }
 

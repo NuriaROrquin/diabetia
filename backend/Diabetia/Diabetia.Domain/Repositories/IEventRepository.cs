@@ -14,5 +14,7 @@ namespace Diabetia.Domain.Repositories
         public Task AddGlucoseEvent(string Email, int KindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition);
 
         public Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId);
+
+        public Task<IEnumerable<FoodEvent>> GetFoods(int patientId);
     }
 }

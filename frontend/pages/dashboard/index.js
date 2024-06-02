@@ -40,7 +40,6 @@ export const Home = () => {
 
     const registrarEventoTooltipText = "Registrá un nuevo evento: mediciones de glucosa, actividad física, eventos de salud, visitas médicas, insulina, comida manual.";
 
-    console.log(metrics)
     return (
         <>
         <Section>
@@ -64,7 +63,6 @@ export const Home = () => {
 
                 <div className="flex flex-wrap justify-between my-12 gap-x-1 gap-y-8">
                     {metrics && DASHBOARD_INDICATORS.map((data, index) => {
-                        console.log(metrics[data.key])
                         return (
                         <MetricCard
                             key={index}

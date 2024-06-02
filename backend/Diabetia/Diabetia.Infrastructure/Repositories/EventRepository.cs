@@ -119,6 +119,39 @@ namespace Diabetia.Infrastructure.Repositories
             return physicalActivityEvents;
         }
 
+        public async Task<IEnumerable<FoodEvent>> GetFoods(int patientId)
+        {
+            var foodEvents = await _context.CargaEventos
+               .Where(ce => ce.IdPaciente == 3)
+               .Join(_context.TipoEventos,
+                   ce => ce.IdTipoEvento,
+                   te => te.Id,
+                   (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+               .Join(_context.EventoComida,
+                   joined => joined.CargaEvento.Id,
+                   ec => ec.IdCargaEvento,
+                   (joined, ec) => new { joined.CargaEvento, joined.TipoEvento, EventoComida = ec })
+               .Join(_context.IngredienteComida,
+                   joined => joined.EventoComida.Id,
+                   ic => ic.IdEventoComida,
+                   (joined, ic) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoComida, IngredienteComida = ic })
+               .Join(_context.Ingredientes,
+                   joined => joined.IngredienteComida.IdIngrediente,
+                   i => i.Id,
+                   (joined, i) => new FoodEvent
+                   {
+                       IdEvent = joined.CargaEvento.Id,
+                       IdEventType = joined.TipoEvento.Id,
+                       DateEvent = joined.CargaEvento.FechaEvento,
+                       Title = joined.TipoEvento.Tipo,
+                       IngredientName = i.Nombre,
+                   })
+               .ToListAsync();
+
+            return foodEvents;
+        }
+
         
+
     }
 }
