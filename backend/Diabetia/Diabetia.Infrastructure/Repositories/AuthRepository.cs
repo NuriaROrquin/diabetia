@@ -71,5 +71,19 @@ namespace Diabetia.Infrastructure.Repositories
             }
             
         }
+
+        public async Task SetUserActiveAsync(string email)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (user != null)
+            {
+                user.EstaActivo = true;
+            }
+            else
+            {
+                throw new KeyNotFoundException($"No se encontró un usuario con el email {email}.");
+            }
+
+        }
     }
 }

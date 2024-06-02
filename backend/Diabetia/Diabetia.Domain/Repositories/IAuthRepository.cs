@@ -9,5 +9,7 @@
         public Task SaveUserUsernameAsync(string email, string username);
 
         public Task <string> GetUsernameByEmail(string email);
+
+        public Task SetUserActiveAsync(string email);
     }
 }

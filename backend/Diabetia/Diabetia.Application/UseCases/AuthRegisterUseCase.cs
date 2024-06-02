@@ -39,6 +39,7 @@ namespace Diabetia.Application.UseCases
                 throw new InvalidOperationException();
             }
             bool response = await _apiCognitoProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode);
+            await _authRepository.SetUserActiveAsync(email);
             return response;
         }
     }
