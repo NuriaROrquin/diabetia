@@ -298,3 +298,105 @@ export const GENDER = [
         "key": 'X'
     }
 ]
+export const ACTIVITY_FREQUENCY = [
+    {
+        "id": 1,
+        "title": "1 vez por semana"
+    },
+    {
+        "id": 2,
+        "title": "2 veces por semana"
+    },
+    {
+        "id": 3,
+        "title": "3 veces por semana"
+    },
+    {
+        "id": 4,
+        "title": "4 veces por semana"
+    },
+    {
+        "id": 5,
+        "title": "5 veces por semana"
+    }
+
+
+]
+
+export const ACTIVITY_HOURS_WEEK = [
+    {
+        "id": 1,
+        "title": "1 hora"
+    },
+    {
+        "id": 2,
+        "title": "2 horas"
+    },
+    {
+        "id": 3,
+        "title": "3 horas"
+    },
+    {
+        "id": 4,
+        "title": "4 horas"
+    },
+    {
+        "id": 5,
+        "title": "5 horas"
+    },
+    {
+        "id": 6,
+        "title": "6 horas"
+    },
+    {
+        "id": 7,
+        "title": "7 horas"
+    },
+    {
+        "id": 8,
+        "title": "8 horas"
+    },
+    {
+        "id": 9,
+        "title": "9 horas"
+    },
+    {
+        "id": 10,
+        "title": "10 horas"
+    }
+]
+
+export const TYPE_ILLNESS = [
+    {
+        "id": 1,
+        "title": "Hipertensión"
+    },
+    {
+        "id": 2,
+        "title": "Enfermedad cardíaca"
+    },
+    {
+        "id": 3,
+        "title": "Enfermedad renal"
+    },
+    {
+        "id": 4,
+        "title": "Neuropatía periférica"
+    },
+    {
+        "id": 5,
+        "title": "Retinopatía diabética"
+    },
+    {
+        "id": 6,
+        "title": "Pie diabético"
+    },
+    {
+        "id": 7,
+        "title": "Asma"
+    },
+    {
+        "id": 8,
+        "title": "Artritis"
+    }
+]
