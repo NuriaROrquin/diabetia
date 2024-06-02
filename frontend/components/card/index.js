@@ -84,3 +84,23 @@ export const EventCard = ({events}) => {
         </>
     )
 }
+
+export const ProfileCard = ({ editInfo }) => {
+    return (
+        <div className="flex space-x-4">
+            {editInfo && editInfo.map((item) => (
+                console.log(item.title),
+                <div key={item.title} className="relative w-1/5 h-52 bg-gray-200 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:-translate-y-2">
+                    <Link href={item.link || ""}>
+                        <div className="absolute top-0 h-full w-full p-2 bg-blue-primary bg-opacity-55 text-white text-center text-2xl font-bold flex flex-col justify-center items-center">
+                            <div className="mb-2">
+                                <img src={item.icon} alt={`${item.title} icon`} className="w-12 h-12" />
+                            </div>
+                            <span>{item.title}</span>
+                        </div>
+                    </Link>
+                </div>
+            ))}
+        </div>
+    );
+};

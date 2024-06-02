@@ -298,3 +298,26 @@ export const GENDER = [
         "key": 'X'
     }
 ]
+
+export const INFO_PROFILE = [
+    {
+        "title": 'Datos personales',
+        "icon": '/insulina.jpg',
+        "link": '/personal-data'
+    },
+    {
+        "title": 'Información del paciente',
+        "icon": '/insulina.jpg',
+        "link": '/patient-info'
+    },
+    {
+        "title": 'Datos de actividad física y salud',
+        "icon": '/insulina.jpg',
+        "link": '/activity-data'
+    },
+    {
+        "title": 'Dispositivos y sensores',
+        "icon": '/insulina.jpg',
+        "link": '/devices'
+    }
+]
