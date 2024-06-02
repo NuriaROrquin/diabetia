@@ -162,6 +162,14 @@ namespace Diabetia.Infrastructure.Repositories
 
             return user;
         }
+
+        public async Task<Paciente> GetPatient(string email)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
+
+            return patient;
+        }
     }
 }
 

@@ -3,6 +3,7 @@ using Diabetia.Infrastructure.EF;
 using Diabetia.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
+using Diabetia.Domain.Entities;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -88,5 +89,36 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
 
         }
+
+        public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId)
+        {
+            var physicalActivityEvents = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId)
+                .Join(_context.TipoEventos,
+                    ce => ce.IdTipoEvento,
+                    te => te.Id,
+                    (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoActividadFisicas,
+                    joined => joined.CargaEvento.Id,
+                    eaf => eaf.IdCargaEvento,
+                    (joined, eaf) => new { joined.CargaEvento, joined.TipoEvento, EventoActividadFisica = eaf })
+                .Join(_context.ActividadFisicas,
+                    joined => joined.EventoActividadFisica.IdActividadFisica,
+                    af => af.Id,
+                    (joined, af) => new PhysicalActivityEvent
+                    {
+                        IdEvent = joined.EventoActividadFisica.Id,
+                        IdEventType = joined.TipoEvento.Id,
+                        IdPhysicalEducationEvent = joined.EventoActividadFisica.IdActividadFisica,
+                        DateEvent = joined.CargaEvento.FechaEvento,
+                        Title = joined.TipoEvento.Tipo,
+                        Duration = joined.EventoActividadFisica.Duracion
+                    })
+                .ToListAsync();
+
+            return physicalActivityEvents;
+        }
+
+        
     }
 }
