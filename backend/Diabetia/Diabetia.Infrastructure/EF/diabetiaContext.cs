@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Diabetia.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -187,7 +186,6 @@ namespace Diabetia.Infrastructure.EF
                 entity.HasOne(d => d.IdDispositivoNavigation)
                     .WithMany(p => p.DispositivoPacientes)
                     .HasForeignKey(d => d.IdDispositivo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("dispositivo_paciente_ibfk_2");
 
                 entity.HasOne(d => d.IdPacienteNavigation)
@@ -272,7 +270,7 @@ namespace Diabetia.Infrastructure.EF
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Duracion).HasColumnName("DURACION");
+                entity.Property(e => e.Duracion).HasColumnName("duracion");
 
                 entity.Property(e => e.IdActividadFisica).HasColumnName("id_actividad_fisica");
 
@@ -1243,6 +1241,8 @@ namespace Diabetia.Infrastructure.EF
                 entity.Property(e => e.Pais)
                     .HasMaxLength(255)
                     .HasColumnName("pais");
+
+                entity.Property(e => e.StepCompleted).HasColumnName("stepCompleted");
 
                 entity.Property(e => e.Telefono)
                     .HasMaxLength(30)
