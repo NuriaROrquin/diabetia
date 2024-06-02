@@ -1,14 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import {HelpOutline} from "@mui/icons-material";
+import {AddAlert, ErrorOutline, HelpOutline, Warning, WarningAmber} from "@mui/icons-material";
 import CustomTooltip from "@/components/tooltip";
 
-export const MetricCard = ({number, textIndicator, title, description, unit, color="blue", tooltipContent, selectedOption, loading, state}) => {
+export const MetricCard = ({number, textIndicator, title, description, unit, tooltipContent, selectedOption, loading, isWarning}) => {
 
     const getTextColor = () => {
-        if(color){
-            return color === 'blue' ? 'text-blue-primary' : color === 'green' ? 'text-green-primary' : 'text-red-primary'
-        }
+        return isWarning === null ? 'text-blue-primary' : isWarning === false ? 'text-green-primary' : 'text-red-primary'
     }
 
     return (
@@ -19,16 +17,8 @@ export const MetricCard = ({number, textIndicator, title, description, unit, col
                 <HelpOutline className="text-orange-primary absolute top-4 right-4"/>
             </CustomTooltip>
 
-            {state === "DANGER" && <span className="flex absolute h-8 w-8 top-0 right-0 -mt-1 -mr-1">
-              <span className="animate-bounce absolute inline-flex h-full w-full rounded-full bg-red-primary"></span>
-            </span>}
-
-            {state === "OK" && <span className="flex absolute h-8 w-8 top-0 right-0 -mt-1 -mr-1">
-              <span className="animate-bounce absolute inline-flex h-full w-full rounded-full bg-green-primary"></span>
-            </span>}
-
-            {state === "WARNING" && <span className="flex absolute h-8 w-8 top-0 right-0 -mt-1 -mr-1">
-              <span className="animate-bounce absolute inline-flex h-full w-full rounded-full bg-yellow-400"></span>
+            {isWarning && <span className="flex absolute h-6 w-6 top-0 left-0 mt-2 ml-2">
+                <ErrorOutline className="animate-ping font-bold text-6xl text-red-primary">!</ErrorOutline>
             </span>}
 
             {!loading &&

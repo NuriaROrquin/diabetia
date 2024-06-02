@@ -40,6 +40,7 @@ export const Home = () => {
 
     const registrarEventoTooltipText = "Registrá un nuevo evento: mediciones de glucosa, actividad física, eventos de salud, visitas médicas, insulina, comida manual.";
 
+    console.log(metrics)
     return (
         <>
         <Section>
@@ -62,20 +63,23 @@ export const Home = () => {
                 </div>
 
                 <div className="flex flex-wrap justify-between my-12 gap-x-1 gap-y-8">
-                    {DASHBOARD_INDICATORS.map((data, index) => (
+                    {metrics && DASHBOARD_INDICATORS.map((data, index) => {
+                        console.log(metrics[data.key])
+                        return (
                         <MetricCard
                             key={index}
                             textIndicator={data.textIndicator}
                             color={data.color}
-                            number={metrics[data.key]}
+                            number={metrics[data.key] && metrics[data.key].quantity}
                             title={data.title}
                             description={data.description}
                             tooltipContent={data.tooltipContent}
                             selectedOption={selectedOption}
                             loading={loadingMetrics}
-                            state={metrics[data.key]}
-                        />
-                    ))}
+                            isWarning={metrics[data.key] && metrics[data.key].isWarning}
+                        />)
+                    }
+                    )}
                 </div>
 
                 <div className="flex justify-around bg-white w-1/2 self-center rounded-xl p-6 mb-10">

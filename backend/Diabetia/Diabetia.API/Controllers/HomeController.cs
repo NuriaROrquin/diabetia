@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Diabetia.Common.Utilities;
 
 namespace Diabetia.API.Controllers
 {
@@ -34,12 +35,34 @@ namespace Diabetia.API.Controllers
 
             MetricsResponse metricsResponse = new MetricsResponse
             {
-                ChMetrics = metrics.Carbohydrates,
-                PhysicalActivity = metrics.PhysicalActivity,
-                Glycemia = metrics.Glycemia,
-                Hypoglycemia = metrics.Hypoglycemia,
-                Hyperglycemia = metrics.Hyperglycemia,
-                Insulin = metrics.Insulin,
+                Carbohidrates = new Carbohidrates
+                {
+                    Quantity = metrics.Carbohydrates
+                },
+                PhysicalActivity = new PhysicalActivity
+                {
+                    Quantity = metrics.PhysicalActivity,
+                    IsWarning = metrics.PhysicalActivity < 30
+                },
+                Glycemia = new Glycemia
+                {
+                    Quantity = metrics.Glycemia,
+                    IsWarning = metrics.Glycemia < (int)GlucoseEnum.HIPOGLUCEMIA || metrics.Glycemia > (int)GlucoseEnum.HIPERGLUCEMIA
+                },
+                Hypoglycemia = new Hypoglycemia
+                {
+                    Quantity = metrics.Hypoglycemia,
+                    IsWarning = metrics.Hypoglycemia >= 1
+                },
+                Hyperglycemia = new Hyperglycemia
+                {
+                    Quantity = metrics.Hyperglycemia,
+                    IsWarning = metrics.Hyperglycemia >= 1
+                },
+                Insulin = new Insulin
+                {
+                    Quantity = metrics.Insulin
+                },
             };
 
             return metricsResponse;
