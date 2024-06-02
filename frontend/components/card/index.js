@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import {AddAlert, ErrorOutline, HelpOutline, Warning, WarningAmber} from "@mui/icons-material";
+import {ErrorOutline, HelpOutline} from "@mui/icons-material";
 import CustomTooltip from "@/components/tooltip";
 
 export const MetricCard = ({number, textIndicator, title, description, unit, tooltipContent, selectedOption, loading, isWarning}) => {
