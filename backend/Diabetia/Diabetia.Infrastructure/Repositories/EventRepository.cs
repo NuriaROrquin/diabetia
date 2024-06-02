@@ -20,7 +20,6 @@ namespace Diabetia.Infrastructure.Repositories
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
             var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
 
-            // 1- Guardar el evento
             bool IsDone = EventDate <= DateTime.Now ? true : false;
             var NewEvent = new CargaEvento
             {
@@ -37,7 +36,6 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
             int IdLoadEvent = NewEvent.Id;
 
-            // 2- Guardar evento Act. Fisica
             TimeSpan difference = FinishTime - IniciateTime;
             double totalMinutes = difference.TotalMinutes;
             int eventDuration = (int)Math.Ceiling(totalMinutes);

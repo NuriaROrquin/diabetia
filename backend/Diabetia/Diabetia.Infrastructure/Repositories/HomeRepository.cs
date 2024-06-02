@@ -18,104 +18,123 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
 
-        public async Task<int> GetPhysicalActivity(string Email, int IdEvent)
+        public async Task<int?> GetPhysicalActivity(string email, int idEvent)
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
-            // Buscar todos los registros en CargaEvento que coincidan con el IdUsuario y el IdEvento
-            int TotalPhysicalActivity = (int)(from eaf in _context.EventoActividadFisicas
-                                         join ce in _context.CargaEventos
-                                         on eaf.IdCargaEvento equals ce.Id
-                                         where ce.IdPaciente == patient.Id && ce.IdTipoEvento == IdEvent
-                                         select eaf.Duracion)
-                                         .Sum();
+            
+            var totalPhysicalActivity = await _context.EventoActividadFisicas
+                    .Join(_context.CargaEventos,
+                            eaf => eaf.IdCargaEvento,
+                            ce => ce.Id,
+                            (eaf, ce) => new { eaf, ce })
+                    .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent)
+                    .SumAsync(joined => joined.eaf.Duracion);
 
-            return TotalPhysicalActivity;
-
+            return totalPhysicalActivity;
          }
         
 
-        public async Task<int> GetChMetrics(string Email, int IdEvent)
+        public async Task<decimal?> GetChMetrics(string email, int idEvent)
         {
-            var user =  _context.Usuarios.FirstOrDefault(u => u.Email == Email);
-            var patient =  _context.Pacientes.FirstOrDefault(u => u.IdUsuario == user.Id);
-            // Buscar todos los registros en CargaEvento que coincidan con el IdUsuario y el IdEvento
-            int TotalCh = (int)(from ec in _context.EventoComida
-                                              join ce in _context.CargaEventos
-                                              on ec.IdCargaEvento equals ce.Id
-                                              where ce.IdPaciente == patient.Id && ce.IdTipoEvento == IdEvent
-                                select ec.Carbohidratos)
-                                              .Sum();
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) return 0;
 
-            return TotalCh;
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
+            if (patient == null) return 0;
+
+            var totalCh = await _context.EventoComida
+                .Join(_context.CargaEventos,
+                      ec => ec.IdCargaEvento,
+                      ce => ce.Id,
+                      (ec, ce) => new { ec, ce })
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent)
+                .SumAsync(joined => joined.ec.Carbohidratos);
+
+            return totalCh;
         }
 
-        public async Task<int> GetGlucose(string Email, int IdEvent)
+        public async Task<int> GetGlucose(string email, int IdEvent)
         {
-            var user = _context.Usuarios.FirstOrDefault(u => u.Email == Email);
-            var patient = _context.Pacientes.FirstOrDefault(p => p.IdUsuario == user.Id);
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
 
-            var LastRegister = (from eg in _context.EventoGlucosas
-                                join ce in _context.CargaEventos
-                                on eg.IdCargaEvento equals ce.Id
-                                where ce.IdPaciente == patient.Id
-                                orderby ce.Id descending
-                                select eg.Glucemia).FirstOrDefault(); ;
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
 
-            int LastGlucoseRegister = (int)LastRegister;
+            var lastRegister = await _context.EventoGlucosas
+                .Join(_context.CargaEventos,
+                      eg => eg.IdCargaEvento,
+                      ce => ce.Id,
+                      (eg, ce) => new { eg, ce })
+                .Where(joined => joined.ce.IdPaciente == patient.Id)
+                .OrderByDescending(joined => joined.ce.Id)
+                .Select(joined => joined.eg.Glucemia)
+                .FirstOrDefaultAsync();
 
-            return LastGlucoseRegister;
+            if (lastRegister == null) return 0;
+
+            int lastGlucoseRegister = (int)lastRegister;
+
+            return lastGlucoseRegister;
         }
 
-        public async Task<int> GetHypoglycemia(string Email)
+        public async Task<int> GetHypoglycemia(string email)
         {
             int hipo = (int)GlucoseEnum.HIPOGLUCEMIA;
-            var user = _context.Usuarios.FirstOrDefault(u => u.Email == Email);
-            var patient = _context.Pacientes.FirstOrDefault(p => p.IdUsuario == user.Id);
 
-            var Hipoglycemias = await (from eg in _context.EventoGlucosas
-                                       join ce in _context.CargaEventos
-                                       on eg.IdCargaEvento equals ce.Id
-                                       where ce.IdPaciente == patient.Id && eg.Glucemia < hipo
-                                       select eg).CountAsync();
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) return 0;
 
-            int TotalHipoglycemias = (int)Hipoglycemias; 
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
 
-            return TotalHipoglycemias;
+            var totalHipoglycemias = await _context.EventoGlucosas
+                .Join(_context.CargaEventos,
+                      eg => eg.IdCargaEvento,
+                      ce => ce.Id,
+                      (eg, ce) => new { eg, ce })
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.eg.Glucemia < hipo)
+                .CountAsync();
+
+            return totalHipoglycemias;
         }
 
-        public async Task<int> GetHyperglycemia(string Email)
+        public async Task<int> GetHyperglycemia(string email)
         {
             int hiper = (int)GlucoseEnum.HIPERGLUCEMIA;
-            var user = _context.Usuarios.FirstOrDefault(u => u.Email == Email);
-            var patient = _context.Pacientes.FirstOrDefault(p => p.IdUsuario == user.Id);
 
-            var Hiperglycemias = await (from eg in _context.EventoGlucosas
-                                        join ce in _context.CargaEventos
-                                        on eg.IdCargaEvento equals ce.Id
-                                        where ce.IdPaciente == patient.Id && eg.Glucemia > hiper
-                                        select eg).CountAsync();
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) return 0;
 
-            int TotalHiperglycemias = (int)Hiperglycemias;
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
+            if (patient == null) return 0;
 
-            return TotalHiperglycemias;
+            var totalHiperglycemias = await _context.EventoGlucosas
+                .Join(_context.CargaEventos,
+                      eg => eg.IdCargaEvento,
+                      ce => ce.Id,
+                      (eg, ce) => new { eg, ce })
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.eg.Glucemia > hiper)
+                .CountAsync();
+
+            return totalHiperglycemias;
         }
 
-        public async Task<int> GetInsulin(string Email, int IdEvent)
+        public async Task<int?> GetInsulin(string email, int idEvent)
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) return 0; 
 
-            var InsulinPerDay = (from ei in _context.EventoInsulinas
-                                 join ce in _context.CargaEventos
-                                 on ei.IdCargaEvento equals ce.Id
-                                 where ce.IdPaciente == patient.Id && ce.IdTipoEvento == IdEvent
-                                 select ei.InsulinaInyectada)
-                                         .Sum();
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
+            if (patient == null) return 0; 
 
-            int UnitsOfInsulinPerDay = (int)InsulinPerDay;
+            var unitsOfInsulinPerDay = await _context.EventoInsulinas
+                .Join(_context.CargaEventos,
+                      ei => ei.IdCargaEvento,
+                      ce => ce.Id,
+                      (ei, ce) => new { ei, ce })
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent)
+                .SumAsync(joined => joined.ei.InsulinaInyectada);
 
-            return UnitsOfInsulinPerDay;
+            return unitsOfInsulinPerDay;
         }
     }
         

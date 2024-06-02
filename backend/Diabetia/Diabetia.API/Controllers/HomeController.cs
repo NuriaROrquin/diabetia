@@ -30,23 +30,17 @@ namespace Diabetia.API.Controllers
         [HttpPost("metrics")]
         public async Task<MetricsResponse> ShowAllMetrics([FromBody] MetricsRequest request)
         {
+            Metrics metrics = await _homeUseCase.ShowMetrics(request.Email);
 
-            MetricsResponse metricsResponse = new MetricsResponse();
-            Metrics metrics = new Metrics();
-
-            metrics = await _homeUseCase.ShowMetrics(request.Email);
-
-            metricsResponse.ChMetrics = metrics.Carbohydrates;
-
-            metricsResponse.PhysicalActivity = metrics.PhysicalActivity;
-
-            metricsResponse.Glycemia = metrics.Glycemia;
-
-            metricsResponse.Hypoglycemia = metrics.Hypoglycemia;
-
-            metricsResponse.Hyperglycemia = metrics.Hyperglycemia;
-
-            metricsResponse.Insulin = metrics.Insulin;
+            MetricsResponse metricsResponse = new MetricsResponse
+            {
+                ChMetrics = metrics.Carbohydrates,
+                PhysicalActivity = metrics.PhysicalActivity,
+                Glycemia = metrics.Glycemia,
+                Hypoglycemia = metrics.Hypoglycemia,
+                Hyperglycemia = metrics.Hyperglycemia,
+                Insulin = metrics.Insulin,
+            };
 
             return metricsResponse;
         }

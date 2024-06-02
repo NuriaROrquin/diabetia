@@ -45,7 +45,7 @@ const ExerciseEvent = () => {
             "freeNote": notes,
             "physicalActivity": selectedOption.id,
             "iniciateTime": start,
-            "finishTime": start
+            "finishTime": end
         }
 
         addPhysicalEvent(data).then(() =>

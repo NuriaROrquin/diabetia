@@ -18,23 +18,21 @@ namespace Diabetia.Application.UseCases
 
         public async Task<Metrics> ShowMetrics(string Email)
         {
+            Metrics metrics = new Metrics();
 
+            metrics.PhysicalActivity = await _homeRepository.GetPhysicalActivity(Email, (int)TypeEventEnum.ACTIVIDADFISICA);
 
-            Metrics Metrics = new Metrics();
+            metrics.Carbohydrates = await _homeRepository.GetChMetrics(Email, (int)TypeEventEnum.COMIDA);
 
-            Metrics.PhysicalActivity = await _homeRepository.GetPhysicalActivity(Email, (int)TypeEventEnum.ACTIVIDADFISICA);
+            metrics.Glycemia = await _homeRepository.GetGlucose(Email, (int)TypeEventEnum.GLUCOSA);
 
-            Metrics.Carbohydrates = await _homeRepository.GetChMetrics(Email, (int)TypeEventEnum.COMIDA);
+            metrics.Hyperglycemia =  await _homeRepository.GetHyperglycemia(Email);
 
-            Metrics.Glycemia = await _homeRepository.GetGlucose(Email, (int)TypeEventEnum.GLUCOSA);
+            metrics.Hypoglycemia = await _homeRepository.GetHypoglycemia(Email);
 
-            Metrics.Hyperglycemia =  await _homeRepository.GetHyperglycemia(Email);
+            metrics.Insulin = await _homeRepository.GetInsulin(Email, (int)TypeEventEnum.INSULINA);
 
-            Metrics.Hypoglycemia = await _homeRepository.GetHypoglycemia(Email);
-
-            Metrics.Insulin = await _homeRepository.GetInsulin(Email, (int)TypeEventEnum.INSULINA);
-
-            return Metrics;
+            return metrics;
 
             
         }
