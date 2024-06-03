@@ -80,7 +80,7 @@ namespace Diabetia.Infrastructure.Repositories
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             if (user != null)
             {
-                user.Username = username;
+                user.Username = username.ToLower();
                 await _context.SaveChangesAsync();
             }
             else
@@ -105,5 +105,14 @@ namespace Diabetia.Infrastructure.Repositories
 
         }
 
+        public async Task<bool> CheckUsernameOnDatabase(string username)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == username.ToLower());
+            if (user != null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

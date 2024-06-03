@@ -37,6 +37,11 @@ namespace Diabetia.Application.UseCases
 
         public async Task ConfirmForgotPasswordAsync(string username, string confirmationCode, string password)
         {
+            bool checkUser = await _authRepository.CheckUsernameOnDatabase(username);
+            if (!checkUser)
+            {
+                throw new UsernameNotFoundException();
+            }
             await _apiCognitoProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password);
         }
     }

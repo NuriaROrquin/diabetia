@@ -13,5 +13,7 @@
         public Task SetUserStateActiveAsync(string email);
 
         public Task <bool> GetUserStateAsync(string email);
+
+        public Task <bool> CheckUsernameOnDatabase(string username);
     }
 }

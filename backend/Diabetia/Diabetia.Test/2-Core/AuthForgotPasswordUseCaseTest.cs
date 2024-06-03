@@ -77,5 +77,48 @@ namespace Diabetia.Test._2_Core
             // Act & Assert
             await Assert.ThrowsAsync<UsernameNotFoundException>(() => forgotPasswordUseCase.ForgotPasswordEmailAsync(email));
         }
+
+        // Confirm Forgot Password Test
+
+        [Fact]
+        public async Task ForgotPasswordUseCase_WhenCalledWithValidData_ShouldChangePasswordSuccessfully()
+        {
+            // Arrange
+            var username = "testUsername";
+            var confirmationCode = "123456";
+            var password = "testPassword";
+
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeAuthRepository = A.Fake<IAuthRepository>();
+
+            A.CallTo(() => fakeAuthRepository.CheckUsernameOnDatabase(username)).Returns(true);
+
+            A.CallTo(() => fakeAuthProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
+
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository);
+
+            // Act
+            await forgotPasswordUseCase.ConfirmForgotPasswordAsync(username, confirmationCode, password);
+
+            // Asserts
+            A.CallTo(() => fakeAuthProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task ForgotPasswordUseCase_GivenNotRegisteredUsername_ShouldThrowUsernameNotFoundException()
+        {
+            // Arrange
+            var username = "testUsername";
+            var confirmationCode = "123456";
+            var password = "testPassword";
+
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeAuthRepository = A.Fake<IAuthRepository>();
+
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository);
+
+            // Act & Assert
+            await Assert.ThrowsAsync<UsernameNotFoundException>(() => forgotPasswordUseCase.ConfirmForgotPasswordAsync(username, confirmationCode, password));
+        }
     }
 }
