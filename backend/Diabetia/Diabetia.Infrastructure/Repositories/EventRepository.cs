@@ -197,5 +197,38 @@ namespace Diabetia.Infrastructure.Repositories
             return glucoseEvents;
         }
 
+        public async Task<IEnumerable<InsulinEvent>> GetInsulin(int patientId)
+        {
+            var insulinEvents = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoInsulinas,
+                      joined => joined.CargaEvento.Id,
+                      ei => ei.IdCargaEvento,
+                      (joined, ei) => new { joined.CargaEvento, joined.TipoEvento, EventoInsulina = ei })
+                .Join(_context.InsulinaPacientes,
+                      joined => joined.EventoInsulina.IdInsulinaPaciente,
+                      ip => ip.Id,
+                      (joined, ip) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, InsulinaPaciente = ip })
+                .Join(_context.TipoInsulinas,
+                      joined => joined.InsulinaPaciente.IdTipoInsulina,
+                      ti => ti.Id,
+                      (joined, ti) => new InsulinEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = joined.TipoEvento.Tipo,
+                          InsulinType = ti.Nombre,
+                          Dosage = joined.EventoInsulina.InsulinaInyectada
+                      })
+                .ToListAsync();
+
+            return insulinEvents;
+        }
+
     }
 }

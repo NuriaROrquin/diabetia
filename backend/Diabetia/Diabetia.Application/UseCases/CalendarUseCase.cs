@@ -25,6 +25,7 @@ namespace Diabetia.Application.UseCases
             var foodEvents = await _eventRepository.GetFoods(patient.Id);
             var examEvents = await _eventRepository.GetExams(patient.Id);
             var glucoseEvents = await _eventRepository.GetGlycemia(patient.Id);
+            var insulinEvents = await _eventRepository.GetInsulin(patient.Id);
 
 
             foreach (var physicalActivityEvent in physicalActivityEvents)
@@ -99,6 +100,23 @@ namespace Diabetia.Application.UseCases
                     Time = glucoseEvent.DateEvent.ToString("hh:mm tt"),
                     Title = glucoseEvent.Title,
                     AdditionalInfo = glucoseEvent.GlucoseLevel.ToString()
+                });
+            }
+
+            foreach (var insulinEvent in insulinEvents)
+            {
+                string eventDate = insulinEvent.DateEvent.ToString("yyyy-MM-dd");
+
+                if (!eventsByDate.ContainsKey(eventDate))
+                {
+                    eventsByDate[eventDate] = new List<EventItem>();
+                }
+
+                eventsByDate[eventDate].Add(new EventItem
+                {
+                    Time = insulinEvent.DateEvent.ToString("hh:mm tt"),
+                    Title = insulinEvent.Title,
+                    AdditionalInfo = $"Dosis: {insulinEvent.Dosage} - {insulinEvent.InsulinType}"
                 });
             }
 
