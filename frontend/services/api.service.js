@@ -100,6 +100,19 @@ export const secondStep = (data) => {
         );
 }
 
+export const getUserInfo = (data) => {
+    return axios
+        .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/Profile/getUserInfo?email=${data.email}`)
+}
+
+export const getPatientInfo = (data) => {
+    return axios
+        .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/Profile/getPatientInfo?email=${data.email}`)
+}
+}
+
 export const getAllEvents = (data) => {
     return axios
         .post(

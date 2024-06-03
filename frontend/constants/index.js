@@ -298,3 +298,41 @@ export const GENDER = [
         "key": 'X'
     }
 ]
+
+export const INFO_PROFILE = [
+    {
+        "title": 'Datos personales',
+        "link": '/profile/step-1'
+    },
+    {
+        "title": 'Información del paciente',
+        "link": '/profile/step-2'
+    },
+    {
+        "title": 'Datos de actividad física y salud',
+        "link": '/profile/step-3'
+    },
+    {
+        "title": 'Dispositivos y sensores',
+        "link": '/profile/step-4'
+    }
+]
+
+export const STEPS = [
+    {
+        title: 'Datos personales',
+        url: '/profile/step-1'
+    },
+    {
+        title: 'Datos del paciente',
+        url: '/profile/step-2'
+    },
+    {
+        title: 'Actividad física y salud',
+        url: '/profile/step-3'
+    },
+    {
+        title: 'Dispositivos y sensores',
+        url: '/profile/step-4'
+    }
+];

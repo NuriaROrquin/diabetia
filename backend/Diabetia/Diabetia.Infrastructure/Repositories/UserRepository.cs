@@ -16,6 +16,13 @@ namespace Diabetia.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<Usuario> GetUserInfo(string userName)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == userName);
+
+            return user;
+        }
+
         public async Task CompleteUserInfo(string name, string email, string gender, string lastname, int weight, string phone, DateOnly birthdate)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
@@ -156,11 +163,128 @@ namespace Diabetia.Infrastructure.Repositories
 
         }
 
-        public async Task<Usuario> GetUserInfo(string userName)
+            public async Task<User> GetEditUserInfo(string email)
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == userName);
+            
+            var userInfo = await _context.Usuarios
+                .Where(u => u.Email == email)
+                .Select(u => new
+                {
+                    Name = u.NombreCompleto,
+                    Birthdate = u.FechaNacimiento,
+                    Gender = u.Genero,
+                    Phone = u.Telefono,
+                    UserId = u.Id
+                })
+                .FirstOrDefaultAsync();
+            string[] nombreApellido = userInfo.Name.Split(' ');
+            string nombre = nombreApellido.Length > 0 ? nombreApellido[0] : "";
+            string apellido = nombreApellido.Length > 1 ? string.Join(" ", nombreApellido.Skip(1)) : "";
 
-            return user;
+                var pacienteInfo = await _context.Pacientes
+                .Where(p => p.IdUsuario == userInfo.UserId)
+                .Select(p => new
+                {
+                    Peso = p.Peso,
+                })
+                .FirstOrDefaultAsync();
+
+                var user = new User
+                {
+                    Name = nombre,
+                    LastName = apellido,
+                    BirthDate = userInfo.Birthdate,
+                    Gender = userInfo.Gender,
+                    Phone = userInfo.Phone,
+                    Weight = pacienteInfo.Peso
+                };
+
+                return user;
+     
+        }
+
+        public async Task<Patient> GetPatientInfo(string email)
+        {
+
+            var userInfo = await _context.Usuarios
+                .Where(u => u.Email == email)
+                .Select(u => new
+                {
+                    UserId = u.Id
+                })
+                .FirstOrDefaultAsync();
+
+            var pacienteInfo = await _context.Pacientes
+            .Where(p => p.IdUsuario == userInfo.UserId)
+            .Select(p => new
+            {
+                TypeDiabetes = p.IdTipoDiabetes,
+                UseInsuline = p.UsaInsulina,
+                Id = p.Id
+            })
+            .FirstOrDefaultAsync();
+
+            var insulinaPaciente = await _context.InsulinaPacientes
+            .Where(i => i.IdPaciente == pacienteInfo.Id)
+            .Select(i => new
+            {
+                TypeInsuline = i.IdTipoInsulina,
+                Frequency = i.Frecuencia
+            })
+            .FirstOrDefaultAsync();
+
+            var patient = new Patient
+            {
+                TypeDiabetes = pacienteInfo.TypeDiabetes,
+                UseInsuline = pacienteInfo.UseInsuline,
+                TypeInsuline = insulinaPaciente.TypeInsuline,
+                Frequency = insulinaPaciente.Frequency
+            };
+
+            return patient;
+
+        }
+
+        public async Task<Patient> GetPhysicalInfo(string email)
+        {
+
+            var userInfo = await _context.Usuarios
+                .Where(u => u.Email == email)
+                .Select(u => new
+                {
+                    UserId = u.Id
+                })
+                .FirstOrDefaultAsync();
+
+            var pacienteInfo = await _context.Pacientes
+            .Where(p => p.IdUsuario == userInfo.UserId)
+            .Select(p => new
+            {
+                TypeDiabetes = p.IdTipoDiabetes,
+                UseInsuline = p.UsaInsulina,
+                Id = p.Id
+            })
+            .FirstOrDefaultAsync();
+
+            var insulinaPaciente = await _context.InsulinaPacientes
+            .Where(i => i.IdPaciente == pacienteInfo.Id)
+            .Select(i => new
+            {
+                TypeInsuline = i.IdTipoInsulina,
+                Frequency = i.Frecuencia
+            })
+            .FirstOrDefaultAsync();
+
+            var patient = new Patient
+            {
+                TypeDiabetes = pacienteInfo.TypeDiabetes,
+                UseInsuline = pacienteInfo.UseInsuline,
+                TypeInsuline = insulinaPaciente.TypeInsuline,
+                Frequency = insulinaPaciente.Frequency
+            };
+
+            return patient;
+
         }
 
         public async Task<Paciente> GetPatient(string email)

@@ -1,4 +1,5 @@
 ﻿
+using Diabetia.Domain.Entities;
 using Diabetia.Domain.Models;
 
 namespace Diabetia.Domain.Services
@@ -11,6 +12,9 @@ namespace Diabetia.Domain.Services
         public Task<bool> GetInformationCompleted(string username);
         public Task CompletePhysicalUserInfo(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica, int duracion);
         public Task CompleteDeviceslUserInfo(string email, bool tieneDispositivo, int? idDispositivo, int? frecuencia);
+        public Task<User> GetEditUserInfo(string email);
+        public Task<Patient> GetPatientInfo(string email);
+        public Task<Patient> GetPhysicalInfo(string email);
         public Task<Paciente> GetPatient(string email);
     }
 }

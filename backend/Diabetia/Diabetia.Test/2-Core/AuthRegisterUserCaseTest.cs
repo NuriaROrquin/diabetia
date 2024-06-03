@@ -1,15 +1,6 @@
-﻿using Amazon.CognitoIdentityProvider.Model;
-using Amazon.CognitoIdentityProvider;
-using FakeItEasy;
-using Infrastructure.Provider;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FakeItEasy;
 using Diabetia.Domain.Services;
 using Diabetia.Domain.Repositories;
-using System.Net;
 using Diabetia.Application.UseCases;
 
 namespace Diabetia.Test.Core
@@ -36,8 +27,9 @@ namespace Diabetia.Test.Core
 
             // Asserts
             A.CallTo(() => fakeAuthProvider.RegisterUserAsync(username, password, email)).MustHaveHappenedOnceExactly();
-
             A.CallTo(() => fakeAuthRepository.SaveUserHashAsync(username, email, hashCode)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeAuthRepository.SaveUserUsernameAsync(email, username)).MustHaveHappenedOnceExactly();
+
         }
 
         [Fact]
@@ -53,6 +45,7 @@ namespace Diabetia.Test.Core
 
             A.CallTo(() => fakeAuthRepository.GetUserHashAsync(email)).Returns(Task.FromResult(hashCode));
             A.CallTo(() => fakeAuthProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode)).Returns(Task.FromResult(true));
+            A.CallTo(() => fakeAuthRepository.SetUserStateActiveAsync(email));
 
             var registerUseCase = new AuthRegisterUseCase(fakeAuthProvider, fakeAuthRepository);
 
@@ -63,6 +56,8 @@ namespace Diabetia.Test.Core
             A.CallTo(() => fakeAuthProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode)).MustHaveHappenedOnceExactly();
 
             A.CallTo(() => fakeAuthRepository.GetUserHashAsync(email)).MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeAuthRepository.SetUserStateActiveAsync(email)).MustHaveHappenedOnceExactly();
         }
     }
 }

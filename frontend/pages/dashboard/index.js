@@ -7,7 +7,6 @@ import {ContainerTitles, SubtitleSection, TitleSection} from "../../components/t
 import {Timeline} from "../../components/timeline";
 import {Section} from "../../components/section";
 import {OrangeLink} from "../../components/link";
-import { Tooltip } from '@mui/material';
 import {getMetrics, login} from "../../services/api.service";
 import {useCookies} from "react-cookie";
 import CustomTooltip from "@/components/tooltip";
