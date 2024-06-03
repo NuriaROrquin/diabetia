@@ -30,6 +30,12 @@ namespace Diabetia.API.Controllers
             return await _dataUserUseCase.GetUserInfo(email);
         }
 
+        [HttpGet("getPatientInfo")]
+        public async Task<Patient> GetPatientInfo([FromQuery] string email)
+        {
+            return await _dataUserUseCase.GetPatientInfo(email);
+        }
+
 
     }
 }

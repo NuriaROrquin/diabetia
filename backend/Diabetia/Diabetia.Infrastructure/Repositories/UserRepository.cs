@@ -195,6 +195,48 @@ namespace Diabetia.Infrastructure.Repositories
                 return user;
      
         }
+
+        public async Task<Patient> GetPatientInfo(string email)
+        {
+
+            var userInfo = await _context.Usuarios
+                .Where(u => u.Email == email)
+                .Select(u => new
+                {
+                    UserId = u.Id
+                })
+                .FirstOrDefaultAsync();
+
+            var pacienteInfo = await _context.Pacientes
+            .Where(p => p.IdUsuario == userInfo.UserId)
+            .Select(p => new
+            {
+                TypeDiabetes = p.IdTipoDiabetes,
+                UseInsuline = p.UsaInsulina,
+                Id = p.Id
+            })
+            .FirstOrDefaultAsync();
+
+            var insulinaPaciente = await _context.InsulinaPacientes
+            .Where(i => i.IdPaciente == pacienteInfo.Id)
+            .Select(i => new
+            {
+                TypeInsuline = i.IdTipoInsulina,
+                Frequency = i.Frecuencia
+            })
+            .FirstOrDefaultAsync();
+
+            var patient = new Patient
+            {
+                TypeDiabetes = pacienteInfo.TypeDiabetes,
+                UseInsuline = pacienteInfo.UseInsuline,
+                TypeInsuline = insulinaPaciente.TypeInsuline,
+                Frequency = insulinaPaciente.Frequency
+            };
+
+            return patient;
+
+        }
     }
 }
 

@@ -19,4 +19,13 @@ namespace Diabetia.Domain.Entities
         public DateOnly? BirthDate { get; set; }
 
     }
+
+    public class Patient : User
+    {
+        public int? TypeDiabetes { get; set; }
+        public bool? UseInsuline { get; set; }
+        public int? TypeInsuline { get; set; }
+        public int? Frequency { get; set; }
+
+    }
 }
