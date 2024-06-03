@@ -18,8 +18,6 @@ namespace Diabetia.Application.UseCases
 
         public async Task<Metrics> ShowMetrics(string Email)
         {
-
-
             Metrics Metrics = new Metrics();
 
             Metrics.PhysicalActivity = await _homeRepository.GetPhysicalActivity(Email, (int)TypeEventEnum.ACTIVIDADFISICA);
@@ -35,9 +33,6 @@ namespace Diabetia.Application.UseCases
             Metrics.Insulin = await _homeRepository.GetInsulin(Email, (int)TypeEventEnum.INSULINA);
 
             return Metrics;
-
-            
         }
-
     }
 }
