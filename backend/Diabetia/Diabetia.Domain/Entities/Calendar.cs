@@ -20,7 +20,7 @@ namespace Diabetia.Domain.Entities
     {
         public string Time { get; set; }
         public string Title { get; set; }
-        public string Ingredients { get; set; }
+        public string AdditionalInfo { get; set; }
 
     }
 }

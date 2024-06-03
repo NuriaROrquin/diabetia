@@ -1,9 +1,4 @@
-﻿using Diabetia.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Diabetia.Domain.Entities.Events;
 
 namespace Diabetia.Domain.Repositories
 {
@@ -16,5 +11,9 @@ namespace Diabetia.Domain.Repositories
         public Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId);
 
         public Task<IEnumerable<FoodEvent>> GetFoods(int patientId);
+
+        public Task<IEnumerable<ExamEvent>> GetExams(int patientId);
+
+        public Task<IEnumerable<GlucoseEvent>> GetGlycemia(int patientId);
     }
 }

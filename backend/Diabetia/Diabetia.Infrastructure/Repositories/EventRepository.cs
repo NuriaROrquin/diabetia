@@ -1,9 +1,8 @@
-﻿using Amazon.CognitoIdentityProvider.Model;
-using Diabetia.Infrastructure.EF;
+﻿using Diabetia.Infrastructure.EF;
 using Diabetia.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
-using Diabetia.Domain.Entities;
+using Diabetia.Domain.Entities.Events;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -151,7 +150,52 @@ namespace Diabetia.Infrastructure.Repositories
             return foodEvents;
         }
 
-        
+        public async Task<IEnumerable<ExamEvent>> GetExams(int patientId)
+        {
+            var examEvents = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId)
+                .Join(_context.TipoEventos,
+                        ce => ce.IdTipoEvento,
+                        te => te.Id,
+                        (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoEstudios,
+                        joined => joined.CargaEvento.Id,
+                        ee => ee.IdCargaEvento,
+                        (joined, ee) => new ExamEvent
+                        {
+                            IdEvent = joined.CargaEvento.Id,
+                            IdEventType = joined.TipoEvento.Id,
+                            DateEvent = joined.CargaEvento.FechaEvento,
+                            Title = ee.TipoEstudio ?? joined.TipoEvento.Tipo
+                        })
+                .ToListAsync();
+
+            return examEvents;
+        }
+
+        public async Task<IEnumerable<GlucoseEvent>> GetGlycemia(int patientId)
+        {
+            var glucoseEvents = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoGlucosas,
+                      joined => joined.CargaEvento.Id,
+                      eg => eg.IdCargaEvento,
+                      (joined, eg) => new GlucoseEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = joined.TipoEvento.Tipo,
+                          GlucoseLevel = eg.Glucemia
+                      })
+                .ToListAsync();
+
+            return glucoseEvents;
+        }
 
     }
 }

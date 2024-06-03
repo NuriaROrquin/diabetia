@@ -1,9 +1,5 @@
 ﻿using Diabetia.Domain.Services;
 using Diabetia.Domain.Entities;
-using Diabetia.Common.Utilities;
-using System.Numerics;
-using System.Reflection;
-using System.Xml.Linq;
 using Diabetia.Domain.Repositories;
 
 namespace Diabetia.Application.UseCases
@@ -27,6 +23,9 @@ namespace Diabetia.Application.UseCases
 
             var physicalActivityEvents = await _eventRepository.GetPhysicalActivity(patient.Id);
             var foodEvents = await _eventRepository.GetFoods(patient.Id);
+            var examEvents = await _eventRepository.GetExams(patient.Id);
+            var glucoseEvents = await _eventRepository.GetGlycemia(patient.Id);
+
 
             foreach (var physicalActivityEvent in physicalActivityEvents)
             {
@@ -66,7 +65,40 @@ namespace Diabetia.Application.UseCases
                 {
                     Time = foodEvent.DateEvent.ToString("hh:mm tt"),
                     Title = foodEvent.Title,
-                    Ingredients = foodEvent.Ingredients
+                    AdditionalInfo = foodEvent.Ingredients
+                });
+            }
+
+            foreach (var examEvent in examEvents)
+            {
+                string eventDate = examEvent.DateEvent.ToString("yyyy-MM-dd");
+
+                if (!eventsByDate.ContainsKey(eventDate))
+                {
+                    eventsByDate[eventDate] = new List<EventItem>();
+                }
+
+                eventsByDate[eventDate].Add(new EventItem
+                {
+                    Time = examEvent.DateEvent.ToString("hh:mm tt"),
+                    Title = examEvent.Title
+                });
+            }
+
+            foreach (var glucoseEvent in glucoseEvents)
+            {
+                string eventDate = glucoseEvent.DateEvent.ToString("yyyy-MM-dd");
+
+                if (!eventsByDate.ContainsKey(eventDate))
+                {
+                    eventsByDate[eventDate] = new List<EventItem>();
+                }
+
+                eventsByDate[eventDate].Add(new EventItem
+                {
+                    Time = glucoseEvent.DateEvent.ToString("hh:mm tt"),
+                    Title = glucoseEvent.Title,
+                    AdditionalInfo = glucoseEvent.GlucoseLevel.ToString()
                 });
             }
 
