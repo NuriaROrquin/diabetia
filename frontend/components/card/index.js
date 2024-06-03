@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import {HelpOutline} from "@mui/icons-material";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import FolderSharedOutlinedIcon from '@mui/icons-material/FolderSharedOutlined';
 import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
@@ -8,7 +7,6 @@ import DirectionsRunOutlinedIcon from '@mui/icons-material/DirectionsRunOutlined
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
 import CustomTooltip from "@/components/tooltip";
 import {ErrorOutline, HelpOutline} from "@mui/icons-material";
-import CustomTooltip from "@/components/tooltip";
 
 const getIconComponent = (title) => {
     switch (title) {
