@@ -1,6 +1,7 @@
 ﻿using Diabetia.Domain.Services;
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Repositories;
+using Diabetia.Domain.Entities.Events;
 
 namespace Diabetia.Application.UseCases
 {
@@ -26,6 +27,18 @@ namespace Diabetia.Application.UseCases
             var examEvents = await _eventRepository.GetExams(patient.Id);
             var glucoseEvents = await _eventRepository.GetGlycemia(patient.Id);
             var insulinEvents = await _eventRepository.GetInsulin(patient.Id);
+            var healthEvents = await _eventRepository.GetHealth(patient.Id);
+            var medicalVisitEvents = await _eventRepository.GetMedicalVisit(patient.Id);
+
+
+            var groupedFoodEvents = foodEvents
+                .GroupBy(fe => new { fe.DateEvent })
+                .Select(g => new
+                {
+                    DateEvent = g.Key.DateEvent,
+                    Title = "Comida",
+                    Ingredients = string.Join(", ", g.Select(fe => fe.IngredientName))
+                });
 
 
             foreach (var physicalActivityEvent in physicalActivityEvents)
@@ -43,15 +56,6 @@ namespace Diabetia.Application.UseCases
                     Title = physicalActivityEvent.Title
                 });
             }
-
-            var groupedFoodEvents = foodEvents
-                .GroupBy(fe => new { fe.DateEvent })
-                .Select(g => new
-                {
-                    DateEvent = g.Key.DateEvent,
-                    Title = "Comida",
-                    Ingredients = string.Join(", ", g.Select(fe => fe.IngredientName))
-                });
 
             foreach (var foodEvent in groupedFoodEvents)
             {
@@ -117,6 +121,39 @@ namespace Diabetia.Application.UseCases
                     Time = insulinEvent.DateEvent.ToString("hh:mm tt"),
                     Title = insulinEvent.Title,
                     AdditionalInfo = $"Dosis: {insulinEvent.Dosage} - {insulinEvent.InsulinType}"
+                });
+            }
+
+            foreach (var healthEvent in healthEvents)
+            {
+                string eventDate = healthEvent.DateEvent.ToString("yyyy-MM-dd");
+
+                if (!eventsByDate.ContainsKey(eventDate))
+                {
+                    eventsByDate[eventDate] = new List<EventItem>();
+                }
+
+                eventsByDate[eventDate].Add(new EventItem
+                {
+                    Time = healthEvent.DateEvent.ToString("hh:mm tt"),
+                    Title = healthEvent.Title,
+                });
+            }
+
+            foreach (var medicalVisitEvent in medicalVisitEvents)
+            {
+                string eventDate = medicalVisitEvent.DateEvent.ToString("yyyy-MM-dd");
+
+                if (!eventsByDate.ContainsKey(eventDate))
+                {
+                    eventsByDate[eventDate] = new List<EventItem>();
+                }
+
+                eventsByDate[eventDate].Add(new EventItem
+                {
+                    Time = medicalVisitEvent.DateEvent.ToString("hh:mm tt"),
+                    Title = medicalVisitEvent.Title,
+                    AdditionalInfo = medicalVisitEvent.Description
                 });
             }
 

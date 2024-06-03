@@ -17,5 +17,11 @@ namespace Diabetia.Domain.Repositories
         public Task<IEnumerable<GlucoseEvent>> GetGlycemia(int patientId);
 
         public Task<IEnumerable<InsulinEvent>> GetInsulin(int patientId);
+
+        public Task<IEnumerable<HealthEvent>> GetHealth(int patientId);
+
+        public Task<IEnumerable<MedicalVisitEvent>> GetMedicalVisit(int patientId);
+
+
     }
 }

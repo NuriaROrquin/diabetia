@@ -230,5 +230,56 @@ namespace Diabetia.Infrastructure.Repositories
             return insulinEvents;
         }
 
+        public async Task<IEnumerable<HealthEvent>> GetHealth(int patientId)
+        {
+            var healthEvents = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoSaluds,
+                      joined => joined.CargaEvento.Id,
+                      es => es.IdCargaEvento,
+                      (joined, es) => new { joined.CargaEvento, joined.TipoEvento, EventoSalud = es })
+                .Join(_context.Enfermedads,
+                      joined => joined.EventoSalud.IdEnfermedad,
+                      e => e.Id,
+                      (joined, e) => new HealthEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = e.Nombre
+                      })
+                .ToListAsync();
+
+            return healthEvents;
+        }
+
+        public async Task<IEnumerable<MedicalVisitEvent>> GetMedicalVisit(int patientId)
+        {
+            var medicalVisitEvents = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoVisitaMedicas,
+                      joined => joined.CargaEvento.Id,
+                      evm => evm.IdCargaEvento,
+                      (joined, evm) => new MedicalVisitEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = joined.TipoEvento.Tipo,
+                          Description = evm.Descripcion,
+                      })
+                .ToListAsync();
+
+            return medicalVisitEvents;
+        }
+
     }
 }
