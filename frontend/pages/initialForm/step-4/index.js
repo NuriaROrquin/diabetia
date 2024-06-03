@@ -4,7 +4,8 @@ import {
     ACTIVITY_FREQUENCY,
     TYPE_EXERCISES,
     ACTIVITY_HOURS_WEEK,
-    TYPE_ILLNESS
+    TYPE_ILLNESS,
+    TYPE_DEVICES
 } from "../../../constants";
 import {useState} from "react";
 import {OrangeLink} from "../../../components/link";
@@ -20,26 +21,24 @@ import {useRouter} from "next/router";
 
 const InitialFormStep4 = () => {
     const [error, setError] = useState(false);
-    const [selectedOptionActivityFrequency, setSelectedOptionActivityFrequency] = useState(null);
+    const [selectedOptionDevices, setSelectedOptionDevices] = useState(null);
     const [selectedOptionActivity, setSelectedOptionActivity] = useState(null);
     const [selectedOptionActivityHoursWeek, setSelectedOptionActivityHoursWeek] = useState(null);
     const [selectedOptionIllness, setSelectedOptionIllness] = useState(null);
-    const [isOpenActivityFrequency, setIsOpenActivityFrequency] = useState(false);
+    const [isOpenDevices, setIsOpenDevices] = useState(false);
     const [isOpenActivity, setIsOpenActivity] = useState(false);
     const [isOpenActivityHoursWeek, setIsOpenActivityHoursWeek] = useState(false);
     const [isOpenIllness, setIsOpenIllness] = useState(false);
     const router = useRouter();
-    const [activity, setActivity] = useState(false);
+    const [device, setDevice] = useState(false);
     const [illness, setIllness] = useState(false);
-    const [reminder, setReminder] = useState(false);
-    const [hour, setHour] = useState();
     const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
     const email = cookies.email
 
 
-    const handleOptionClickActivityFrequency = (option) => {
-        setSelectedOptionActivityFrequency(option);
-        setIsOpenActivityFrequency(false);
+    const handleOptionClickDevices = (option) => {
+        setSelectedOptionDevices(option);
+        setIsOpenActivityDevices(false);
     };
 
     const handleOptionClickActivity = (option) => {
@@ -101,18 +100,18 @@ const InitialFormStep4 = () => {
                                 </Step>
                             ))}
                         </Stepper>
-                        <TitleSection className="w-full !text-blue-secondary">Actividad Física y Salud</TitleSection>
+                        <TitleSection className="w-full !text-blue-secondary">Dispositivos y Sensores</TitleSection>
 
                     </div>
-                    <CustomSwitch label="¿Hacés Actividad Física?" id="activity" onChange={() => setActivity(!activity)}
+                    <CustomSwitch label="¿Tenés dispositivo para medir la glucosa?" id="device" onChange={() => setDevice(!device)}
                                   width="w-1/3"/>
 
-                    {activity && (
+                    {device && (
                         <>
-                            <Select label="¿Con qué frecuencia?" placeholder="Indica qué días realizas"
-                                    options={ACTIVITY_FREQUENCY} selectedOption={selectedOptionActivityFrequency}
-                                    handleOptionClick={handleOptionClickActivityFrequency}
-                                    setIsOpen={setIsOpenActivityFrequency} isOpen={isOpenActivityFrequency}
+                            <Select label="¿Qué tipo es?" placeholder="Indica qué tipo utilizas"
+                                    options={TYPE_DEVICES} selectedOption={selectedOptionDevices}
+                                    handleOptionClick={handleOptionClickDevices}
+                                    setIsOpen={setIsOpenDevices} isOpen={isOpenDevices}
                                     width="w-1/3"/>
 
                             <Select label="¿Qué tipo de actividad fisica realizas?" placeholder="Indica qué actividad realizas"

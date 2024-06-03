@@ -400,3 +400,4 @@ export const TYPE_ILLNESS = [
         "title": "Artritis"
     }
 ]
+
