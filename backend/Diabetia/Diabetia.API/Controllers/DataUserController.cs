@@ -56,13 +56,6 @@ namespace Diabetia.API.Controllers
             return Ok();
         }
 
-        [HttpGet("getUserInfo")]
-        public async Task<User> GetUserInfo([FromQuery] string email)
-        {
-            return await _dataUserUseCase.GetUserInfo(email);
-        }
-
-
     }
 }
 
