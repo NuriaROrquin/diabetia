@@ -1,7 +1,27 @@
 import Link from "next/link";
 import Image from "next/image";
 import {HelpOutline} from "@mui/icons-material";
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import FolderSharedOutlinedIcon from '@mui/icons-material/FolderSharedOutlined';
+import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
+import DirectionsRunOutlinedIcon from '@mui/icons-material/DirectionsRunOutlined';
+import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
 import CustomTooltip from "@/components/tooltip";
+
+const getIconComponent = (title) => {
+    switch (title) {
+        case 'Datos personales':
+            return ContactMailOutlinedIcon;
+        case 'Información del paciente':
+            return MedicalInformationOutlinedIcon;
+        case 'Datos de actividad física y salud':
+            return DirectionsRunOutlinedIcon;
+        case 'Dispositivos y sensores':
+            return FolderSharedOutlinedIcon;
+        default:
+            return null;
+    }
+};
 
 export const MetricCard = ({number, textIndicator, title, description, unit, color="blue", tooltipContent, selectedOption, loading, state}) => {
 
@@ -87,19 +107,24 @@ export const EventCard = ({events}) => {
 
 export const ProfileCard = ({ editInfo }) => {
     return (
-        <div className="flex w-full">
-            {editInfo && editInfo.map((item) => (
-                <div key={item.title} className="w-1/5 h-52 bg-gray-200 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:-translate-y-2">
-                    <Link href={item.link || ""}>
-                        <div className="absolute top-0 h-full w-full p-2 bg-blue-primary bg-opacity-55 text-white text-center text-2xl font-bold flex flex-col justify-center items-center">
-                            <div className="mb-2">
-                                <img src={item.icon} alt={`${item.title} icon`} className="w-12 h-12" />
+        <div className="ml-4">
+            {editInfo && editInfo.map((item) => {
+                const IconComponent = getIconComponent(item.title);
+                return (
+                    <div key={item.title} className="bg-white rounded-lg overflow-hidden shadow-lg p-2 mb-4">
+                        <Link href={item.link || ""} className="flex items-center p-6">
+                            {IconComponent && <IconComponent className="text-orange-primary text-4xl mr-8" />}
+                            <div>
+                                <span className="text-blue-primary text-lg">{item.title}</span>
                             </div>
-                            <span>{item.title}</span>
-                        </div>
-                    </Link>
-                </div>
-            ))}
+                            <div className="ml-auto">
+                                <EditOutlinedIcon className="text-blue-primary mr-8" />
+                            </div>
+                        </Link>
+                    </div>
+                );
+            })}
         </div>
     );
 };
+

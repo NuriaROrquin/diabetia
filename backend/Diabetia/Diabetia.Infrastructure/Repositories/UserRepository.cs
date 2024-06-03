@@ -154,11 +154,44 @@ namespace Diabetia.Infrastructure.Repositories
 
         }
 
-        public async Task<Usuario> GetUserInfo(string userName)
+        public async Task<User> GetUserInfo(string email)
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == userName);
+            
+            var userInfo = await _context.Usuarios
+                .Where(u => u.Email == email)
+                .Select(u => new
+                {
+                    Name = u.NombreCompleto,
+                    Birthdate = u.FechaNacimiento,
+                    Gender = u.Genero,
+                    Phone = u.Telefono,
+                    UserId = u.Id
+                })
+                .FirstOrDefaultAsync();
+            string[] nombreApellido = userInfo.Name.Split(' ');
+            string nombre = nombreApellido.Length > 0 ? nombreApellido[0] : "";
+            string apellido = nombreApellido.Length > 1 ? string.Join(" ", nombreApellido.Skip(1)) : "";
 
-            return user;
+                var pacienteInfo = await _context.Pacientes
+                .Where(p => p.IdUsuario == userInfo.UserId)
+                .Select(p => new
+                {
+                    Peso = p.Peso,
+                })
+                .FirstOrDefaultAsync();
+
+                var user = new User
+                {
+                    Name = nombre,
+                    LastName = apellido,
+                    BirthDate = userInfo.Birthdate,
+                    Gender = userInfo.Gender,
+                    Phone = userInfo.Phone,
+                    Weight = pacienteInfo.Peso
+                };
+
+                return user;
+     
         }
     }
 }

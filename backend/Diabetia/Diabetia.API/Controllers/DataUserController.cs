@@ -1,4 +1,5 @@
 using Diabetia.Application.UseCases;
+using Diabetia.Domain.Entities;
 using Diabetia.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
@@ -53,6 +54,12 @@ namespace Diabetia.API.Controllers
             await _dataUserUseCase.FourthStep(request.Email, request.TieneDispositivo, request.IdDispositivo, request.Frecuencia);
 
             return Ok();
+        }
+
+        [HttpGet("getUserInfo")]
+        public async Task<User> GetUserInfo([FromQuery] string email)
+        {
+            return await _dataUserUseCase.GetUserInfo(email);
         }
 
 

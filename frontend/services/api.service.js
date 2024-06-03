@@ -99,3 +99,9 @@ export const secondStep = (data) => {
             data
         );
 }
+
+export const getUserInfo = (data) => {
+    return axios
+        .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/Profile/getUserInfo?email=${data.email}`)
+}

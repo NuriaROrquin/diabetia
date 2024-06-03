@@ -1,4 +1,5 @@
-﻿using Diabetia.Domain.Models;
+﻿using Diabetia.Domain.Entities;
+using Diabetia.Domain.Models;
 using Diabetia.Domain.Services;
 
 namespace Diabetia.Application.UseCases
@@ -29,6 +30,11 @@ namespace Diabetia.Application.UseCases
         public async Task FourthStep(string email, bool tieneDispositivo, int? idDispositivo, int? frecuencia)
         {
             await _userRepository.CompleteDeviceslUserInfo(email, tieneDispositivo, idDispositivo, frecuencia);
+        }
+
+        public async Task<User> GetUserInfo(string email)
+        {
+            return await _userRepository.GetUserInfo(email);
         }
     }
 }
