@@ -1,6 +1,6 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
-import {GENDER, TYPE_EVENTS} from "../../../constants";
+import {GENDER, STEPS} from "../../../constants";
 import {InputWithLabel} from "../../../components/input";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
@@ -24,6 +24,8 @@ const ProfileFormStep1 = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [userInfo, setUserInfo] = useState(null);
+
+    console.log(date)
 
     useEffect(() => {
         const email = cookies.email;
@@ -71,7 +73,7 @@ const ProfileFormStep1 = () => {
         firstStep({name, birthdate, email, gender, phone, weight, lastname})
             .then((res) => {
                 if(res){
-                    router.push("/initialForm/step-2")
+                    router.push("/profile/step-1")
                 }
             })
             .catch((error) => {
@@ -79,12 +81,7 @@ const ProfileFormStep1 = () => {
             });
     }
 
-    const steps = [
-        'Datos personales',
-        'Datos del paciente',
-        'Actividad física y salud',
-        'Dispositivos y sensores',
-    ];
+
 
     return(
         <Section className="pt-12">
@@ -94,9 +91,9 @@ const ProfileFormStep1 = () => {
                     className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
                     <div className="flex flex-col w-full gap-12">
                         <Stepper activeStep={0} alternativeLabel>
-                            {steps.map((label) => (
-                                <Step key={label}>
-                                    <StepLabel>{label}</StepLabel>
+                            {STEPS.map((step, index) => (
+                                <Step key={index}>
+                                    <StepLabel>{step.title}</StepLabel>
                                 </Step>
                             ))}
                         </Stepper>

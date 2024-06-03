@@ -317,3 +317,22 @@ export const INFO_PROFILE = [
         "link": '/devices'
     }
 ]
+
+export const STEPS = [
+    {
+        title: 'Datos personales',
+        url: 'profile/personal-data'
+    },
+    {
+        title: 'Datos del paciente',
+        url: 'profile/patient-data'
+    },
+    {
+        title: 'Actividad física y salud',
+        url: 'profile/physical-activity'
+    },
+    {
+        title: 'Dispositivos y sensores',
+        url: 'profile/devices-and-sensors'
+    }
+];
