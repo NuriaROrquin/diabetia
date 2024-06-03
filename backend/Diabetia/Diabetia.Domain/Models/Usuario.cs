@@ -25,6 +25,8 @@ namespace Diabetia.Domain.Models
         public bool? EstaActivo { get; set; }
         public string? Hash { get; set; }
         public string? Username { get; set; }
+        public int? IntentosFallidos { get; set; }
+        public int? StepCompleted { get; set; }
 
         public virtual Rol IdRolNavigation { get; set; } = null!;
         public virtual ICollection<EncargadoLegal> EncargadoLegals { get; set; }

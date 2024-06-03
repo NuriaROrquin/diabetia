@@ -28,7 +28,7 @@ export const DASHBOARD_INDICATORS = [
     {
         "textIndicator": "Carbohidratos",
         "color": "blue",
-        "key": "chMetrics",
+        "key": "carbohidrates",
         "unit": "G",
         "title": "En total",
         "description": "Cuando cargues una comida, este número se verá afectado.",

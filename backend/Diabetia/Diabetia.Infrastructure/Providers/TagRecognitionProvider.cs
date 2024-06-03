@@ -30,8 +30,8 @@ namespace Diabetia.Infrastructure.Providers
 
         public async Task<string> GetChFromDocument(string ocrRequest)
         {
-            string awsAccessKey = _configuration["awsAccessKey"];
-            string awsSecretKey = _configuration["awsSecretKey"];
+            string awsAccessKey = _configuration["AWS_ACCESS_KEY_ID"];
+            string awsSecretKey = _configuration["AWS_SECRET_ACCESS_KEY"];
             var region = RegionEndpoint.USEast2;
             var uniqueId = getUniqueId();
 

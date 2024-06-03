@@ -7,10 +7,10 @@ namespace Diabetia.Domain.Models
     {
         public int Id { get; set; }
         public int IdCargaEvento { get; set; }
-        public int? IdActividadRegistrada { get; set; }
-        public int? Duracion { get; set; }
+        public int IdActividadFisica { get; set; }
+        public int Duracion { get; set; }
 
-        public virtual PacienteActividadFisica? IdActividadRegistradaNavigation { get; set; }
+        public virtual ActividadFisica IdActividadFisicaNavigation { get; set; } = null!;
         public virtual CargaEvento IdCargaEventoNavigation { get; set; } = null!;
     }
 }

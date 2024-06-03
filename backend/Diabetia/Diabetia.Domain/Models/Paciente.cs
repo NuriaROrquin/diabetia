@@ -18,7 +18,7 @@ namespace Diabetia.Domain.Models
 
         public int Id { get; set; }
         public int IdUsuario { get; set; }
-        public int IdTipoDiabetes { get; set; }
+        public int? IdTipoDiabetes { get; set; }
         public int? Peso { get; set; }
         public int? Altura { get; set; }
         public bool? UsaInsulina { get; set; }
@@ -29,7 +29,7 @@ namespace Diabetia.Domain.Models
         public int IdSensibilidadInsulina { get; set; }
 
         public virtual SensibilidadInsulina IdSensibilidadInsulinaNavigation { get; set; } = null!;
-        public virtual TipoDiabete IdTipoDiabetesNavigation { get; set; } = null!;
+        public virtual TipoDiabete? IdTipoDiabetesNavigation { get; set; }
         public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
         public virtual ICollection<CargaEvento> CargaEventos { get; set; }
         public virtual ICollection<DispositivoPaciente> DispositivoPacientes { get; set; }

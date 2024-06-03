@@ -2,7 +2,6 @@
 using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
-using System.Data;
 
 namespace Diabetia.Application.UseCases
 {
@@ -17,9 +16,15 @@ namespace Diabetia.Application.UseCases
         }
         public async Task Register(string username, string email, string password)
         {
+            if (!EmailValidator.IsValidEmail(email))
+            {
+                throw new InvalidEmailException();
+            }
             string hashCode = await _apiCognitoProvider.RegisterUserAsync(username, password, email);
             await _authRepository.SaveUserHashAsync(username,email,hashCode);
+            await _authRepository.SaveUserUsernameAsync(email, username);
         }
+        
         public async Task<bool> ConfirmEmailVerification(string username, string email, string confirmationCode)
         {
             if (!EmailValidator.IsValidEmail(email))
@@ -33,6 +38,7 @@ namespace Diabetia.Application.UseCases
                 throw new InvalidOperationException();
             }
             bool response = await _apiCognitoProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode);
+            await _authRepository.SetUserStateActiveAsync(email);
             return response;
         }
     }

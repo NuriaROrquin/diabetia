@@ -21,6 +21,7 @@ builder.Services.AddDbContext<diabetiaContext>();
 builder.Services.AddScoped<AuthLoginUseCase>();
 builder.Services.AddScoped<AuthRegisterUseCase>();
 builder.Services.AddScoped<AuthForgotPasswordUseCase>();
+builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<DataUserUseCase>();
 builder.Services.AddScoped<TagDetectionUseCase>();
 builder.Services.AddScoped<TagCalculateUseCase>();

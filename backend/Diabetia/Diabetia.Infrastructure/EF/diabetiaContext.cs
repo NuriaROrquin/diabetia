@@ -187,7 +187,6 @@ namespace Diabetia.Infrastructure.EF
                 entity.HasOne(d => d.IdDispositivoNavigation)
                     .WithMany(p => p.DispositivoPacientes)
                     .HasForeignKey(d => d.IdDispositivo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("dispositivo_paciente_ibfk_2");
 
                 entity.HasOne(d => d.IdPacienteNavigation)
@@ -266,7 +265,7 @@ namespace Diabetia.Infrastructure.EF
 
                 entity.UseCollation("utf8mb4_general_ci");
 
-                entity.HasIndex(e => e.IdActividadRegistrada, "id_actividad_registrada");
+                entity.HasIndex(e => e.IdActividadFisica, "id_actividad_registrada");
 
                 entity.HasIndex(e => e.IdCargaEvento, "id_carga_evento");
 
@@ -274,14 +273,15 @@ namespace Diabetia.Infrastructure.EF
 
                 entity.Property(e => e.Duracion).HasColumnName("duracion");
 
-                entity.Property(e => e.IdActividadRegistrada).HasColumnName("id_actividad_registrada");
+                entity.Property(e => e.IdActividadFisica).HasColumnName("id_actividad_fisica");
 
                 entity.Property(e => e.IdCargaEvento).HasColumnName("id_carga_evento");
 
-                entity.HasOne(d => d.IdActividadRegistradaNavigation)
+                entity.HasOne(d => d.IdActividadFisicaNavigation)
                     .WithMany(p => p.EventoActividadFisicas)
-                    .HasForeignKey(d => d.IdActividadRegistrada)
-                    .HasConstraintName("evento_actividad_fisica_ibfk_2");
+                    .HasForeignKey(d => d.IdActividadFisica)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_evento_actividad_fisica");
 
                 entity.HasOne(d => d.IdCargaEventoNavigation)
                     .WithMany(p => p.EventoActividadFisicas)
@@ -814,7 +814,6 @@ namespace Diabetia.Infrastructure.EF
                 entity.HasOne(d => d.IdTipoDiabetesNavigation)
                     .WithMany(p => p.Pacientes)
                     .HasForeignKey(d => d.IdTipoDiabetes)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("paciente_ibfk_2");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
@@ -1232,6 +1231,10 @@ namespace Diabetia.Infrastructure.EF
                     .HasColumnName("id_rol")
                     .HasDefaultValueSql("'1'");
 
+                entity.Property(e => e.IntentosFallidos)
+                    .HasColumnName("intentosFallidos")
+                    .HasDefaultValueSql("'0'");
+
                 entity.Property(e => e.NombreCompleto)
                     .HasMaxLength(255)
                     .HasColumnName("nombre_completo");
@@ -1239,6 +1242,8 @@ namespace Diabetia.Infrastructure.EF
                 entity.Property(e => e.Pais)
                     .HasMaxLength(255)
                     .HasColumnName("pais");
+
+                entity.Property(e => e.StepCompleted).HasColumnName("stepCompleted");
 
                 entity.Property(e => e.Telefono)
                     .HasMaxLength(30)

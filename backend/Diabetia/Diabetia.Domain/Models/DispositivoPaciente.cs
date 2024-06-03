@@ -15,7 +15,7 @@ namespace Diabetia.Domain.Models
         public int? IdDispositivo { get; set; }
         public int? Frecuencia { get; set; }
 
-        public virtual Dispositivo IdDispositivoNavigation { get; set; } = null!;
+        public virtual Dispositivo? IdDispositivoNavigation { get; set; }
         public virtual Paciente IdPacienteNavigation { get; set; } = null!;
         public virtual ICollection<EventoGlucosa> EventoGlucosas { get; set; }
     }
