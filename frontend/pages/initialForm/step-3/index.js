@@ -1,8 +1,6 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
 import {
-    TYPE_INSULIN,
-    TYPE_DIABETES,
     ACTIVITY_FREQUENCY,
     TYPE_EXERCISES,
     ACTIVITY_HOURS_WEEK,
@@ -22,19 +20,14 @@ import {useRouter} from "next/router";
 
 const InitialFormStep3 = () => {
     const [error, setError] = useState(false);
-    const [isOpenTipoDiabetes, setIsOpenTipoDiabetes] = useState(false);
-    const [selectedOptionTipoDiabetes, setSelectedOptionTipoDiabetes] = useState(null);
-    const [isOpenTipoInsulina, setIsOpenTipoInsulina] = useState(false);
     const [selectedOptionActivityFrequency, setSelectedOptionActivityFrequency] = useState(null);
     const [selectedOptionActivity, setSelectedOptionActivity] = useState(null);
     const [selectedOptionActivityHoursWeek, setSelectedOptionActivityHoursWeek] = useState(null);
     const [selectedOptionIllness, setSelectedOptionIllness] = useState(null);
-    //const [isOpenFrecuenciaInsulina, setIsOpenFrecuenciaInsulina] = useState(false);
     const [isOpenActivityFrequency, setIsOpenActivityFrequency] = useState(false);
     const [isOpenActivity, setIsOpenActivity] = useState(false);
     const [isOpenActivityHoursWeek, setIsOpenActivityHoursWeek] = useState(false);
     const [isOpenIllness, setIsOpenIllness] = useState(false);
-    const [selectedOptionTipoInsulina, setSelectedOptionTipoInsulina] = useState(null);
     const router = useRouter();
     const [activity, setActivity] = useState(false);
     const [illness, setIllness] = useState(false);
@@ -43,15 +36,6 @@ const InitialFormStep3 = () => {
     const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
     const email = cookies.email
 
-    const handleOptionClick = (option) => {
-        setSelectedOptionTipoDiabetes(option);
-        setIsOpenTipoDiabetes(false);
-    };
-
-    const handleOptionClickTipoInsulina = (option) => {
-        setSelectedOptionTipoInsulina(option);
-        setIsOpenTipoInsulina(false);
-    };
 
     const handleOptionClickActivityFrequency = (option) => {
         setSelectedOptionActivityFrequency(option);
@@ -82,19 +66,18 @@ const InitialFormStep3 = () => {
 
 
     const handleSubmit = () => {
-        const typeDiabetes = selectedOptionTipoDiabetes.id;
-        const useInsuline = insuline;
-        const typeInsuline = selectedOptionTipoInsulina.id;
-        const frequency = selectedOptionFrecuenciaInsulina.id;
-        const needsReminder = reminder;
-        const hourReminder = hour ? hour.format('HH:mm') : null;
+        const haceActividadFisica = activity;
+        const frequency = selectedOptionActivityFrequency.id;
+        const idActividadFisica = selectedOptionActivity.id;
+        const duracion = selectedOptionActivityHoursWeek.id;
 
-        secondStep({email, typeDiabetes, useInsuline, typeInsuline, frequency, needsReminder, hourReminder})
+
+        thirdStep({email, haceActividadFisica, frequency, idActividadFisica, duracion})
             .then((res) => {
-            if(res){
-                router.push("/initialForm/step-4")
-            }
-        })
+                if(res){
+                    router.push("/initialForm/step-4")
+                }
+            })
             .catch((error) => {
                 console.error('Error in secondStep:', error);
                 error.response ? setError(error.response) : setError("Hubo un error")
