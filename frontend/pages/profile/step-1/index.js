@@ -111,7 +111,7 @@ const ProfileFormStep1 = () => {
                             label="Fecha de nacimiento"
                             value={date}
                             onChange={(newDate) => setDate(newDate)}
-                            defaultValue={date}
+                            defaultDate={date}
                             width="w-1/3"
                         />
                     )}
