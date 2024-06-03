@@ -321,18 +321,18 @@ export const INFO_PROFILE = [
 export const STEPS = [
     {
         title: 'Datos personales',
-        url: 'profile/step-1'
+        url: '/profile/step-1'
     },
     {
         title: 'Datos del paciente',
-        url: 'profile/step-2'
+        url: '/profile/step-2'
     },
     {
         title: 'Actividad física y salud',
-        url: 'profile/step-3'
+        url: '/profile/step-3'
     },
     {
         title: 'Dispositivos y sensores',
-        url: 'profile/step-4'
+        url: '/profile/step-4'
     }
 ];

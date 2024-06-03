@@ -94,7 +94,7 @@ const ProfileFormStep1 = () => {
                             {STEPS.map((step, index) => (
                                 <Step key={index}>
 
-                                        <StepLabel><NavLink href={step.url} text={step.title} className="!no-underline !text-gray-secondary"/></StepLabel>
+                                        <StepLabel><NavLink href={step.url} text={step.title} className="!no-underline !text-gray-secondary text-sm"/></StepLabel>
 
                                 </Step>
                             ))}
