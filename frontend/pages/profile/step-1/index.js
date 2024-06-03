@@ -6,13 +6,12 @@ import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomDatePicker} from "../../../components/pickers";
 import {useRouter} from "next/router";
-import {Step, StepLabel, Stepper} from "@mui/material";
+import {Step, StepLabel, Stepper, Link} from "@mui/material";
 import {useCookies} from "react-cookie";
 import {Select} from "@/components/selector";
 import {getUserInfo, firstStep} from "../../../services/api.service";
 import {useEffect, useState} from "react";
-
-
+import {NavLink} from "../../../components/link"
 
 
 const ProfileFormStep1 = () => {
@@ -87,13 +86,16 @@ const ProfileFormStep1 = () => {
         <Section className="pt-12">
             <div className="container items-center flex w-full justify-center flex-col">
                 {/* FORMULARIO */}
+                {date && (
                 <div
                     className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
                     <div className="flex flex-col w-full gap-12">
                         <Stepper activeStep={0} alternativeLabel>
                             {STEPS.map((step, index) => (
                                 <Step key={index}>
-                                    <StepLabel>{step.title}</StepLabel>
+
+                                        <StepLabel><NavLink href={step.url} text={step.title} className="!no-underline !text-gray-secondary"/></StepLabel>
+
                                 </Step>
                             ))}
                         </Stepper>
@@ -103,15 +105,13 @@ const ProfileFormStep1 = () => {
 
                     <InputWithLabel label="Nombre" id="name" defaultValue={userInfo && userInfo.name} width="w-1/3"/>
                     <InputWithLabel label="Apellido" defaultValue={userInfo && userInfo.lastName} id="lastname" width="w-1/3"/>
-                    {date && (
-                        <CustomDatePicker
-                            label="Fecha de nacimiento"
-                            value={date}
-                            onChange={(newDate) => setDate(newDate)}
-                            defaultDate={date}
-                            width="w-1/3"
-                        />
-                    )}
+                    <CustomDatePicker
+                        label="Fecha de nacimiento"
+                        value={date}
+                        onChange={(newDate) => setDate(newDate)}
+                        defaultDate={date}
+                        width="w-1/3"
+                    />
                     <InputWithLabel label="Peso" defaultValue={userInfo && userInfo.weight} id="weight" width="w-1/3"/>
                     <Select label="Genero" defaultValue={userInfo && userInfo.gender} id="gender" options={GENDER}
                             selectedOption={selectedOption}
@@ -123,6 +123,7 @@ const ProfileFormStep1 = () => {
 
                     <ButtonOrange onClick={handleSubmit} label="Actualizar" width="w-1/3"/>
                 </div>
+                )}
             </div>
         </Section>
     )
