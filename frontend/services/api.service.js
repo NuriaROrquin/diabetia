@@ -107,3 +107,11 @@ export const thirdStep = (data) => {
             data
         );
 }
+
+export const fourthStep = (data) => {
+    return axios
+        .put(
+            `${process.env.NEXT_PUBLIC_API_URL}/Data/fourthStep`,
+            data
+        );
+}

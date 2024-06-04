@@ -142,7 +142,7 @@ namespace Diabetia.Infrastructure.Repositories
                         IdDispositivo = idDispositivo,
                         Frecuencia = frecuencia
                     };
-                    _context.DispositivoPacientes.Add(pac_div);
+                    _context.DispositivoPacientes.Add(pac_new);
                 }
             }
             else

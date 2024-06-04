@@ -1,10 +1,6 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
 import {
-    ACTIVITY_FREQUENCY,
-    TYPE_EXERCISES,
-    ACTIVITY_HOURS_WEEK,
-    TYPE_ILLNESS,
     TYPE_DEVICES, MANY_MEASUREMENTS
 } from "../../../constants";
 import {useState} from "react";
@@ -16,14 +12,13 @@ import {ButtonOrange} from "../../../components/button";
 import {CustomTimePicker} from "../../../components/pickers";
 import {useCookies} from "react-cookie";
 import {Step, StepLabel, Stepper} from "@mui/material";
-import {secondStep} from "../../../services/api.service";
+import {fourthStep} from "../../../services/api.service";
 import {useRouter} from "next/router";
 
 const InitialFormStep4 = () => {
     const [error, setError] = useState(false);
     const [selectedOptionDevices, setSelectedOptionDevices] = useState(null);
     const [selectedOptionManyMeasurements, setSelectedOptionManyMeasurements] = useState(null);
-    const [selectedOptionActivityHoursWeek, setSelectedOptionActivityHoursWeek] = useState(null);
     const [isOpenDevices, setIsOpenDevices] = useState(false);
     const [isOpenManyMeasurements, setIsOpenManyMeasurements] = useState(false);
     const router = useRouter();
@@ -54,18 +49,19 @@ const InitialFormStep4 = () => {
 
 
     const handleSubmit = () => {
-        const IdDispositivo = device;
-        const frequency = sselectedOptionManyMeasurements.id;
+        const tieneDispositivo = device;
+        const idDispositivo = selectedOptionDevices.id ;
+        const frecuencia = selectedOptionManyMeasurements.id;
 
 
-        thirdStep({email, IdDispositivo, frequency})
+        fourthStep({email, tieneDispositivo, idDispositivo, frecuencia})
             .then((res) => {
                 if(res){
-                    router.push("/initialForm/step-4")
+                    router.push("/dashboard")
                 }
             })
             .catch((error) => {
-                console.error('Error in secondStep:', error);
+                console.error('Error in fourthStep:', error);
                 error.response ? setError(error.response) : setError("Hubo un error")
             });
     }

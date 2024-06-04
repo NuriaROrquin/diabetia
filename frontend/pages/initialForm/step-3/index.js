@@ -10,9 +10,7 @@ import {useState} from "react";
 import {OrangeLink} from "../../../components/link";
 import {CustomSwitch} from "../../../components/input";
 import {Select} from "../../../components/selector";
-import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
-import {CustomTimePicker} from "../../../components/pickers";
 import {useCookies} from "react-cookie";
 import {Step, StepLabel, Stepper} from "@mui/material";
 import {thirdStep} from "../../../services/api.service";
@@ -79,7 +77,7 @@ const InitialFormStep3 = () => {
                 }
             })
             .catch((error) => {
-                console.error('Error in secondStep:', error);
+                console.error('Error in thirdStep:', error);
                 error.response ? setError(error.response) : setError("Hubo un error")
             });
     }
