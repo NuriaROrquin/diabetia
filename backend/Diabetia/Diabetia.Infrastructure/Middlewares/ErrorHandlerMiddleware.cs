@@ -17,6 +17,7 @@ namespace Diabetia.Infrastructure.Middlewares
             _next = next;
             _logger = logger;
         }
+
         public async Task Invoke(HttpContext context)
         {
             try
@@ -38,6 +39,10 @@ namespace Diabetia.Infrastructure.Middlewares
             if (ex is UsernameExistsException)
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.Conflict, "El usuario ya está registrado");
+            }
+            else if (ex is NotAuthorizedException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Usuario o contraseña incorrectos");
             }
             else if (ex is InvalidPasswordException)
             {
@@ -73,17 +78,13 @@ namespace Diabetia.Infrastructure.Middlewares
             }
 
             // Change Password Exceptions
-            else if (ex is InvalidPasswordException)
-            {
-                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La contraseña ingresada no es válida");
-            }
             else if (ex is UserNotConfirmedException)
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario aún no se encuentra confirmado");
             }
 
             // Forgot Password Exceptions
-            else if (ex is UserNotAuthorizedException)
+            else if (ex is UserNotAuthorizedException) // Tambien del Login
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario no se encuentra autenticado");
             }
@@ -97,13 +98,23 @@ namespace Diabetia.Infrastructure.Middlewares
             }
 
             // Confirm Forgot Password Exceptions
-            else if (ex is ExpiredCodeException)
-            {
-                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Código expirado");
-            }
             else if (ex is TooManyFailedAttemptsException)
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Alcanzó el número máximo de intentos");
+            }
+            // Login Exceptions
+            else if (ex is PasswordResetRequiredException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La contraseña ingresada caducó, necesita renovarla");
+            }
+            else if (ex is Amazon.CognitoIdentityProvider.Model.NotAuthorizedException) // Asegúrate de que esta línea está correcta
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Usuario o contraseña incorrectos");
+            }
+            else if (ex is Amazon.Runtime.Internal.HttpErrorResponseException httpEx &&
+             httpEx.InnerException is Amazon.CognitoIdentityProvider.Model.NotAuthorizedException cognitoEx)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Usuario o contraseña incorrectos");
             }
             else
             {

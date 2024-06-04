@@ -78,7 +78,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> GetInformationCompleted(string username)
+        public async Task<bool> GetStatusInformationCompletedAsync(string username)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
             var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
@@ -193,7 +193,22 @@ namespace Diabetia.Infrastructure.Repositories
                 };
 
                 return user;
-     
+        }
+
+        public async Task<User> GetUserInformationFromUsernameAsync (string username)
+        {
+            Usuario user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
+            if (user != null) {
+                User userToReturn = new User
+                {
+                    Name = user.NombreCompleto,
+                    Email = user.Email,
+                    BirthDate = user.FechaNacimiento,
+                    Gender = user.Genero,
+                };
+                return userToReturn;
+            }
+            return null;
         }
     }
 }
