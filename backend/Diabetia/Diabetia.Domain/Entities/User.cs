@@ -26,6 +26,13 @@ namespace Diabetia.Domain.Entities
         public bool? UseInsuline { get; set; }
         public int? TypeInsuline { get; set; }
         public int? Frequency { get; set; }
+        public bool? PracticeSport { get; set; }
+        public List<DayOfWeek>? DaysOfWeek { get; set; }
+        public string? Sport { get; set; }
+        public int? HoursPerWeek { get; set; }
+        public bool? PreExistingIllness { get; set; }
+        public List<PreExistingIllness>? PreExistingIllness { get; set; }
+
 
     }
 }
