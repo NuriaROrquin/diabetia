@@ -27,7 +27,7 @@ namespace Diabetia.Test._2_Core
                 {
                     AccessToken = "fakeAccessToken"
                 }
-            }; ;
+            };
             var expectedUser = new User
             {
                 Email = "testEmail@gmail.com"
@@ -35,7 +35,7 @@ namespace Diabetia.Test._2_Core
 
             A.CallTo(() => fakeAuthRepository.CheckUsernameOnDatabaseAsync(username)).Returns(true);
 
-            A.CallTo(() => fakeAuthProvider.LoginUserAsync(username, password)).Returns(Task.FromResult(expectedTokenResponse)); ;
+            A.CallTo(() => fakeAuthProvider.LoginUserAsync(username, password)).Returns(Task.FromResult(expectedTokenResponse));
 
             A.CallTo(() => fakeUserRepository.GetUserInformationFromUsernameAsync(username)).Returns(Task.FromResult(expectedUser));
 
@@ -63,31 +63,62 @@ namespace Diabetia.Test._2_Core
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeUserRepository = A.Fake<IUserRepository>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
-            //var expectedTokenResponse = new InitiateAuthResponse
-            //{
-            //    AuthenticationResult = new AuthenticationResultType
-            //    {
-            //        AccessToken = "fakeAccessToken"
-            //    }
-            //}; ;
-            //var expectedUser = new User
-            //{
-            //    Email = "testEmail@gmail.com"
-            //};
 
             A.CallTo(() => fakeAuthRepository.CheckUsernameOnDatabaseAsync(username)).Returns(false);
-
-            //A.CallTo(() => fakeAuthProvider.LoginUserAsync(username, password)).Returns(Task.FromResult(expectedTokenResponse)); ;
-
-            //A.CallTo(() => fakeUserRepository.GetUserInformationFromUsernameAsync(username)).Returns(Task.FromResult(expectedUser));
-
-            //A.CallTo(() => fakeUserRepository.GetStatusInformationCompletedAsync(username)).Returns(true);
-
 
             var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository);
 
             // Assert
-            await Assert.ThrowsAsync<UserNotFoundException>(() => userLoginUseCase.UserLoginAsync(username, password));
+            await Assert.ThrowsAsync<UsernameNotFoundException>(() => userLoginUseCase.UserLoginAsync(username, password));
+        }
+
+        [Fact]
+        public async Task AuthLoginUseCase_GivenInvalidUsernameOrPassword_ThrowsUserNotAuthorizedException()
+        {
+            // Arrange
+            var username = "invalidUsername";
+            var password = "testPassword";
+
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeUserRepository = A.Fake<IUserRepository>();
+            var fakeAuthRepository = A.Fake<IAuthRepository>();
+
+            A.CallTo(() => fakeAuthRepository.CheckUsernameOnDatabaseAsync(username)).Returns(true);
+
+            var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository);
+
+            // Assert % Act
+            await Assert.ThrowsAsync<UserNotAuthorizedException>(() => userLoginUseCase.UserLoginAsync(username, password));
+        }
+
+        [Fact]
+        public async Task AuthLoginUseCase_GivenValidUsernameNotInformation_ThrowsNoInformationUserException()
+        {
+            // Arrange
+            var username = "invalidUsername";
+            var password = "testPassword";
+            var expectedTokenResponse = new InitiateAuthResponse
+            {
+                AuthenticationResult = new AuthenticationResultType
+                {
+                    AccessToken = "fakeAccessToken"
+                }
+            };
+
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeUserRepository = A.Fake<IUserRepository>();
+            var fakeAuthRepository = A.Fake<IAuthRepository>();
+
+            A.CallTo(() => fakeAuthRepository.CheckUsernameOnDatabaseAsync(username)).Returns(true);
+
+            A.CallTo(() => fakeAuthProvider.LoginUserAsync(username, password)).Returns(Task.FromResult(expectedTokenResponse));
+
+            A.CallTo(() => fakeUserRepository.GetUserInformationFromUsernameAsync(username)).Returns<User>(null);
+
+            var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository);
+
+            // Assert & Act
+            await Assert.ThrowsAsync<NoInformationUserException>(() => userLoginUseCase.UserLoginAsync(username, password));
         }
     }
 }

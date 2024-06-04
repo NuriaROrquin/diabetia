@@ -107,6 +107,11 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La contraseña ingresada caducó, necesita renovarla");
             }
+            else if (ex is NoInformationUserException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Información del usuario no encontrada");
+            }
+
             else if (ex is Amazon.CognitoIdentityProvider.Model.NotAuthorizedException) // Asegúrate de que esta línea está correcta
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Usuario o contraseña incorrectos");

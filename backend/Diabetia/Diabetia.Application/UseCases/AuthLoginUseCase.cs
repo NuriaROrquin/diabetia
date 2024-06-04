@@ -34,7 +34,7 @@ namespace Diabetia.Application.UseCases
             var userInformation = await _userRepository.GetUserInformationFromUsernameAsync(username);
             if (userInformation == null)
             {
-                throw new UsernameNotFoundException();
+                throw new NoInformationUserException();
             }
             var email = userInformation.Email;
             User user = new User
