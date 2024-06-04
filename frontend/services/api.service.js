@@ -99,3 +99,11 @@ export const secondStep = (data) => {
             data
         );
 }
+
+export const thirdStep = (data) => {
+    return axios
+        .put(
+            `${process.env.NEXT_PUBLIC_API_URL}/Data/thirdStep`,
+            data
+        );
+}

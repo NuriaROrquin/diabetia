@@ -15,7 +15,7 @@ import {ButtonOrange} from "../../../components/button";
 import {CustomTimePicker} from "../../../components/pickers";
 import {useCookies} from "react-cookie";
 import {Step, StepLabel, Stepper} from "@mui/material";
-import {secondStep} from "../../../services/api.service";
+import {thirdStep} from "../../../services/api.service";
 import {useRouter} from "next/router";
 
 const InitialFormStep3 = () => {
