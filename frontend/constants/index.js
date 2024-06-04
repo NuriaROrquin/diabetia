@@ -401,3 +401,29 @@ export const TYPE_ILLNESS = [
     }
 ]
 
+export const MANY_MEASUREMENTS = [
+    {
+        "id": 1,
+        "title": "1 vez"
+    },
+    {
+        "id": 2,
+        "title": "2 veces"
+    },
+    {
+        "id": 3,
+        "title": "3 veces"
+    },
+    {
+        "id": 4,
+        "title": "4 veces"
+    },
+    {
+        "id": 5,
+        "title": "5 veces"
+    },
+    {
+        "id": 6,
+        "title": "6 veces"
+    }
+]

@@ -5,7 +5,7 @@ import {
     TYPE_EXERCISES,
     ACTIVITY_HOURS_WEEK,
     TYPE_ILLNESS,
-    TYPE_DEVICES
+    TYPE_DEVICES, MANY_MEASUREMENTS
 } from "../../../constants";
 import {useState} from "react";
 import {OrangeLink} from "../../../components/link";
@@ -22,39 +22,28 @@ import {useRouter} from "next/router";
 const InitialFormStep4 = () => {
     const [error, setError] = useState(false);
     const [selectedOptionDevices, setSelectedOptionDevices] = useState(null);
-    const [selectedOptionActivity, setSelectedOptionActivity] = useState(null);
+    const [selectedOptionManyMeasurements, setSelectedOptionManyMeasurements] = useState(null);
     const [selectedOptionActivityHoursWeek, setSelectedOptionActivityHoursWeek] = useState(null);
-    const [selectedOptionIllness, setSelectedOptionIllness] = useState(null);
     const [isOpenDevices, setIsOpenDevices] = useState(false);
-    const [isOpenActivity, setIsOpenActivity] = useState(false);
-    const [isOpenActivityHoursWeek, setIsOpenActivityHoursWeek] = useState(false);
-    const [isOpenIllness, setIsOpenIllness] = useState(false);
+    const [isOpenManyMeasurements, setIsOpenManyMeasurements] = useState(false);
     const router = useRouter();
     const [device, setDevice] = useState(false);
-    const [illness, setIllness] = useState(false);
     const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
+    const [reminder, setReminder] = useState(false);
+    const [hour, setHour] = useState();
     const email = cookies.email
 
 
     const handleOptionClickDevices = (option) => {
         setSelectedOptionDevices(option);
-        setIsOpenActivityDevices(false);
+        setIsOpenDevices(false);
     };
 
-    const handleOptionClickActivity = (option) => {
-        setSelectedOptionActivity(option);
-        setIsOpenActivity(false);
+    const handleOptionClickManyMeasurements = (option) => {
+        setSelectedOptionManyMeasurements(option);
+        setIsOpenManyMeasurements(false);
     };
 
-    const handleOptionClickActivityHoursWeek = (option) => {
-        setSelectedOptionActivityHoursWeek(option);
-        setIsOpenActivityHoursWeek(false);
-    };
-
-    const handleOptionClickIllness = (option) => {
-        setSelectedOptionIllness(option);
-        setIsOpenIllness(false);
-    };
 
     const steps = [
         'Datos personales',
@@ -65,13 +54,11 @@ const InitialFormStep4 = () => {
 
 
     const handleSubmit = () => {
-        const haceActividadFisica = activity;
-        const frequency = selectedOptionActivityFrequency.id;
-        const idActividadFisica = selectedOptionActivity.id;
-        const duracion = selectedOptionActivityHoursWeek.id;
+        const IdDispositivo = device;
+        const frequency = sselectedOptionManyMeasurements.id;
 
 
-        thirdStep({email, haceActividadFisica, frequency, idActividadFisica, duracion})
+        thirdStep({email, IdDispositivo, frequency})
             .then((res) => {
                 if(res){
                     router.push("/initialForm/step-4")
@@ -103,6 +90,8 @@ const InitialFormStep4 = () => {
                         <TitleSection className="w-full !text-blue-secondary">Dispositivos y Sensores</TitleSection>
 
                     </div>
+
+
                     <CustomSwitch label="¿Tenés dispositivo para medir la glucosa?" id="device" onChange={() => setDevice(!device)}
                                   width="w-1/3"/>
 
@@ -114,33 +103,30 @@ const InitialFormStep4 = () => {
                                     setIsOpen={setIsOpenDevices} isOpen={isOpenDevices}
                                     width="w-1/3"/>
 
-                            <Select label="¿Qué tipo de actividad fisica realizas?" placeholder="Indica qué actividad realizas"
-                                    options={TYPE_EXERCISES} selectedOption={selectedOptionActivity}
-                                    handleOptionClick={handleOptionClickActivity}
-                                    setIsOpen={setIsOpenActivity} isOpen={isOpenActivity}
+                            <Select label="¿Cuántas veces por día hacés mediciones?" placeholder="Indica cuantas mediciones realizas"
+                                    options={MANY_MEASUREMENTS} selectedOption={selectedOptionManyMeasurements}
+                                    handleOptionClick={handleOptionClickManyMeasurements}
+                                    setIsOpen={setIsOpenManyMeasurements} isOpen={isOpenManyMeasurements}
                                     width="w-1/3"/>
 
-                            <Select label="Cantidad de horas por semana" placeholder="Indica las horas semanales"
-                                    options={ACTIVITY_HOURS_WEEK} selectedOption={selectedOptionActivityHoursWeek}
-                                    handleOptionClick={handleOptionClickActivityHoursWeek}
-                                    setIsOpen={setIsOpenActivityHoursWeek} isOpen={isOpenActivityHoursWeek}
-                                    width="w-1/3"/>
 
-                            <CustomSwitch label="¿Tenés alguna enfermedad preexistente?" id="illness" onChange={() => setIllness(!illness)}
-                                          width="w-1/3"/>
-                            {illness && (
-                                <>
-                                    <Select label="¿Cuál/es?" placeholder="Indica cual"
-                                            options={TYPE_ILLNESS} selectedOption={selectedOptionIllness}
-                                            handleOptionClick={handleOptionClickIllness}
-                                            setIsOpen={setIsOpenIllness} isOpen={isOpenIllness}
-                                            width="w-1/3"/>
-                                </>
+
+                            <CustomSwitch label="¿Querés un recordatorio de aplicación?" id="reminder"
+                                          onChange={() => setReminder(!reminder)} width="w-1/3"/>
+                            {reminder && (
+                            <CustomTimePicker
+                                label="Hora del recordatorio"
+                                value={hour}
+                                onChange={(e) => setHour(e)}
+                                defaultValue={dayjs()}
+                                width="w-1/3"
+                                className={reminder ? '' : 'hidden'}
+                            />
                             )}
                         </>
                     )}
 
-                    <OrangeLink href="/initialForm/step-2" label="Atrás" width="w-1/3"/>
+                    <OrangeLink href="/initialForm/step-3" label="Atrás" width="w-1/3"/>
                     <ButtonOrange onClick={handleSubmit} label="Finalizar" width="w-1/3"/>
                 </div>
             </div>
