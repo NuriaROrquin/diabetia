@@ -11,6 +11,10 @@ namespace Diabetia.Application.UseCases
         {
             _userRepository = userRepository;
         }
+        public async Task<Usuario> GetUserInfo(string userName)
+        {
+            return await _userRepository.GetUserInfo(userName);
+        }
         public async Task FirstStep(string name, string email, string gender, string lastname, int weight, string phone, DateOnly birthdate)
         {
             await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone, birthdate);
@@ -32,9 +36,19 @@ namespace Diabetia.Application.UseCases
             await _userRepository.CompleteDeviceslUserInfo(email, tieneDispositivo, idDispositivo, frecuencia);
         }
 
-        public async Task<User> GetUserInfo(string email)
+        public async Task<User> GetEditUserInfo(string email)
         {
-            return await _userRepository.GetUserInfo(email);
+            return await _userRepository.GetEditUserInfo(email);
+        }
+
+        public async Task<Patient> GetPatientInfo(string email)
+        {
+            return await _userRepository.GetPatientInfo(email);
+        }
+
+        public async Task<Patient> GetPhysicalInfo(string email)
+        {
+            return await _userRepository.GetPhysicalInfo(email);
         }
     }
 }
