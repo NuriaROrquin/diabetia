@@ -427,3 +427,49 @@ export const MANY_MEASUREMENTS = [
         "title": "6 veces"
     }
 ]
+
+export const TYPE_INGREDIENTS = [
+    {
+        "id": 1,
+        "title": "Milanesa"
+    },
+    {
+        "id": 2,
+        "title": "Brocoli"
+    },
+    {
+        "id": 3,
+        "title": "Arroz"
+    },
+    {
+        "id": 4,
+        "title": "Papa"
+    },
+    {
+        "id": 5,
+        "title": "Lechuga"
+    },
+    {
+        "id": 6,
+        "title": "Tomate"
+    },
+    {
+        "id": 7,
+        "title": "Pechuga de pollo"
+    }
+]
+
+export const TYPE_UNITOFMEASUREMENT = [
+    {
+        "id": 1,
+        "title": "gr"
+    },
+    {
+        "id": 2,
+        "title": "ml"
+    },
+    {
+        "id": 3,
+        "title": "porcion"
+    }
+]
