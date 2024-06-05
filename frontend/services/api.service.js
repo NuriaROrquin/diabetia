@@ -111,3 +111,11 @@ export const getPatientInfo = (data) => {
         .get(
             `${process.env.NEXT_PUBLIC_API_URL}/Profile/getPatientInfo?email=${data.email}`)
 }
+
+export const getAllEvents = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Calendar/events`,
+            data
+        );
+}

@@ -3,26 +3,22 @@ import {CustomProvider, Badge, Popover, Whisper} from 'rsuite';
 import Calendar from 'rsuite/Calendar';
 import 'rsuite/Calendar/styles/index.css';
 import "rsuite/dist/rsuite.min.css";
-import { format, getDay, getDate, getMonth, getYear } from 'date-fns';
 import es_AR from 'rsuite/locales/es_AR';
+import {useCallback} from "react";
 
 
-function getTodoList(date) {
-    const todoLists = {
-        '2024-05-22': [
-            { time: '08:40 pm', title: 'Comida' },
-            { time: '03:00 pm', title: 'Ejercicio' },
-        ],
-    };
+export const CustomCalendar = ({events}) => {
 
-    const formattedDate = date.toISOString().split('T')[0];
-    return todoLists[formattedDate] || [];
-}
+    function getTodoList(date) {
+        const todoLists = events;
 
-export const CustomCalendar = () => {
+        const formattedDate = date.toISOString().split('T')[0];
+        return todoLists[formattedDate] || [];
+    }
 
-    function renderCell(date) {
+    const renderCell = useCallback((date) => {
         const list = getTodoList(date);
+
         const displayList = list.filter((item, index) => index < 2);
 
         if (list.length) {
@@ -59,7 +55,7 @@ export const CustomCalendar = () => {
         }
 
         return null;
-    }
+    }, [events]);
 
     return (
         <div className="container">

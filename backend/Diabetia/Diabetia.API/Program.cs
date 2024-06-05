@@ -29,6 +29,7 @@ builder.Services.AddScoped<AddPhysicalEventUseCase>();
 builder.Services.AddScoped<AddGlucoseEventUseCase>();
 builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();
+builder.Services.AddScoped<CalendarUseCase>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();

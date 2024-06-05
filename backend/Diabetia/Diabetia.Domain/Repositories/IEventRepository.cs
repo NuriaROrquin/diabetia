@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Diabetia.Domain.Entities.Events;
 
 namespace Diabetia.Domain.Repositories
 {
@@ -11,5 +7,21 @@ namespace Diabetia.Domain.Repositories
         public Task AddPhysicalActivityEvent(string Email, int KindEvent, DateTime EventDate, String FreeNote, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime);
 
         public Task AddGlucoseEvent(string Email, int KindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition);
+
+        public Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId);
+
+        public Task<IEnumerable<FoodEvent>> GetFoods(int patientId);
+
+        public Task<IEnumerable<ExamEvent>> GetExams(int patientId);
+
+        public Task<IEnumerable<GlucoseEvent>> GetGlycemia(int patientId);
+
+        public Task<IEnumerable<InsulinEvent>> GetInsulin(int patientId);
+
+        public Task<IEnumerable<HealthEvent>> GetHealth(int patientId);
+
+        public Task<IEnumerable<MedicalVisitEvent>> GetMedicalVisit(int patientId);
+
+
     }
 }
