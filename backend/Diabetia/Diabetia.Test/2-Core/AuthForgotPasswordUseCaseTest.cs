@@ -18,7 +18,7 @@ namespace Diabetia.Test._2_Core
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
 
-            A.CallTo(() => fakeAuthRepository.GetUsernameByEmail(email)).Returns(username);
+            A.CallTo(() => fakeAuthRepository.GetUsernameByEmailAsync(email)).Returns(username);
             A.CallTo(() => fakeAuthRepository.GetUserStateAsync(email)).Returns(state);
 
             A.CallTo(() => fakeAuthProvider.ForgotPasswordRecoverAsync(username));
@@ -55,7 +55,7 @@ namespace Diabetia.Test._2_Core
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
 
-            A.CallTo(() => fakeAuthRepository.GetUsernameByEmail(email)).Returns(username);
+            A.CallTo(() => fakeAuthRepository.GetUsernameByEmailAsync(email)).Returns(username);
             var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository);
 
             // Act & Assert
@@ -91,7 +91,7 @@ namespace Diabetia.Test._2_Core
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
 
-            A.CallTo(() => fakeAuthRepository.CheckUsernameOnDatabase(username)).Returns(true);
+            A.CallTo(() => fakeAuthRepository.CheckUsernameOnDatabaseAsync(username)).Returns(true);
 
             A.CallTo(() => fakeAuthProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
 

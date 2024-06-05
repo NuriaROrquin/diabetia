@@ -22,7 +22,7 @@ namespace Diabetia.Application.UseCases
             {
                 throw new InvalidEmailException();
             }
-            string username = await _authRepository.GetUsernameByEmail(email);
+            string username = await _authRepository.GetUsernameByEmailAsync(email);
             if (username == "")
             {
                 throw new UsernameNotFoundException();
@@ -37,7 +37,7 @@ namespace Diabetia.Application.UseCases
 
         public async Task ConfirmForgotPasswordAsync(string username, string confirmationCode, string password)
         {
-            bool checkUser = await _authRepository.CheckUsernameOnDatabase(username);
+            bool checkUser = await _authRepository.CheckUsernameOnDatabaseAsync(username);
             if (!checkUser)
             {
                 throw new UsernameNotFoundException();

@@ -15,7 +15,7 @@ namespace Diabetia.Infrastructure.Repositories
             this._context = context;
         }
 
-        public async Task <string> GetUsernameByEmail(string email)
+        public async Task <string> GetUsernameByEmailAsync(string email)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             if (user != null)
@@ -105,7 +105,7 @@ namespace Diabetia.Infrastructure.Repositories
 
         }
 
-        public async Task<bool> CheckUsernameOnDatabase(string username)
+        public async Task<bool> CheckUsernameOnDatabaseAsync(string username)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == username.ToLower());
             if (user != null)
@@ -113,6 +113,20 @@ namespace Diabetia.Infrastructure.Repositories
                 return true;
             }
             return false;
+        }
+
+        public async Task ResetUserAttemptsAsync(string username)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == username.ToLower());
+            if (user != null)
+            {
+                user.IntentosFallidos = 0;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"No se encontró un usuario con el nombre {username}.");
+            }
         }
     }
 }
