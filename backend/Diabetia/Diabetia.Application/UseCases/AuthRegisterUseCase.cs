@@ -20,6 +20,10 @@ namespace Diabetia.Application.UseCases
             {
                 throw new InvalidEmailException();
             }
+            if (await _authRepository.CheckEmailOnDatabaseAsync(email))
+            {
+                throw new EmailAlreadyExistsException();
+            }
             string hashCode = await _apiCognitoProvider.RegisterUserAsync(username, password, email);
             await _authRepository.SaveUserHashAsync(username,email,hashCode);
             await _authRepository.SaveUserUsernameAsync(email, username);

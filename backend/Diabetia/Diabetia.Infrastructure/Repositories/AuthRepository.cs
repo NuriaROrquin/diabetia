@@ -128,5 +128,15 @@ namespace Diabetia.Infrastructure.Repositories
                 throw new KeyNotFoundException($"No se encontró un usuario con el nombre {username}.");
             }
         }
+
+        public async Task<bool> CheckEmailOnDatabaseAsync(string email)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (user != null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

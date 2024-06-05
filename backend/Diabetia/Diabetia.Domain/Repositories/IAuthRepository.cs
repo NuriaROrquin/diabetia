@@ -16,6 +16,8 @@
 
         public Task <bool> CheckUsernameOnDatabaseAsync(string username);
 
+        public Task <bool> CheckEmailOnDatabaseAsync(string email);
+
         public Task ResetUserAttemptsAsync(string username);
     }
 }

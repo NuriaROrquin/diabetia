@@ -76,6 +76,10 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Operación inválida");
             }
+            else if (ex is EmailAlreadyExistsException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El email ya se encuentra registrado");
+            }
 
             // Change Password Exceptions
             else if (ex is UserNotConfirmedException)
