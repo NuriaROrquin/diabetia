@@ -92,8 +92,12 @@ namespace Diabetia.Test.Core
             var fakeAuthRepository = A.Fake<IAuthRepository>();
             var fakeEmailValidator = A.Fake<IEmailValidator>();
 
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).Returns(true);
+
             A.CallTo(() => fakeAuthRepository.GetUserHashAsync(email)).Returns(Task.FromResult(hashCode));
+
             A.CallTo(() => fakeAuthProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode)).Returns(Task.FromResult(true));
+
             A.CallTo(() => fakeAuthRepository.SetUserStateActiveAsync(email));
 
             var registerUseCase = new AuthRegisterUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
@@ -101,12 +105,62 @@ namespace Diabetia.Test.Core
             // Act
             await registerUseCase.ConfirmEmailVerification(username, email, confirmationCode);
 
-            //// Asserts
+            // Asserts
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).MustHaveHappenedOnceExactly();
+
             A.CallTo(() => fakeAuthProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode)).MustHaveHappenedOnceExactly();
 
             A.CallTo(() => fakeAuthRepository.GetUserHashAsync(email)).MustHaveHappenedOnceExactly();
 
             A.CallTo(() => fakeAuthRepository.SetUserStateActiveAsync(email)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task RegisterUseCase_GivenEmailInvalidEmail_ThrowsInvalidEmailException()
+        {
+            var username = "testUser";
+            var email = "test@user.com";
+            var confirmationCode = "123456";
+
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeAuthRepository = A.Fake<IAuthRepository>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
+
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).Returns(false);
+
+            var registerUseCase = new AuthRegisterUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
+
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidEmailException>(() => registerUseCase.ConfirmEmailVerification(username, email, confirmationCode));
+
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task RegisterUseCase_GivenValidEmailNotExistsOnDatabase_ThrowsInvalidOperationException()
+        {
+            var username = "testUser";
+            var email = "test@user.com";
+            var confirmationCode = "123456";
+            var hashCode = "";
+
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeAuthRepository = A.Fake<IAuthRepository>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
+
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).Returns(true);
+
+            A.CallTo(() => fakeAuthRepository.GetUserHashAsync(email)).Returns(hashCode);
+
+            var registerUseCase = new AuthRegisterUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
+
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(() => registerUseCase.ConfirmEmailVerification(username, email, confirmationCode));
+
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).MustHaveHappenedOnceExactly();
+
+            A.CallTo(() => fakeAuthRepository.GetUserHashAsync(email)).MustHaveHappenedOnceExactly();
+
         }
     }
 }
