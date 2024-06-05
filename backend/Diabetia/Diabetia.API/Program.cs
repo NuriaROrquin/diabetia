@@ -1,12 +1,14 @@
 using Amazon.CognitoIdentity.Model;
 using Amazon.CognitoIdentityProvider;
 using Diabetia.Application.UseCases;
+using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Infrastructure.EF;
 using Diabetia.Infrastructure.Middlewares;
 using Diabetia.Infrastructure.Providers;
 using Diabetia.Infrastructure.Repositories;
+using Diabetia.Interfaces;
 using Infrastructure.Provider;
 using Microsoft.AspNetCore.Authentication.Certificate;
 
@@ -31,6 +33,7 @@ builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();
 builder.Services.AddScoped<CalendarUseCase>();
 
+builder.Services.AddScoped<IEmailValidator, EmailValidator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
