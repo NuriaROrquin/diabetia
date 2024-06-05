@@ -2,7 +2,7 @@ import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
 import {TYPE_EVENTS, TYPE_INGREDIENTS, TYPE_UNITOFMEASUREMENT} from "../../../constants";
 import {capitalizeFirstLetter} from "../../../helpers";
-import {useState} from "react";
+import React, {useState} from "react";
 import {BlueLink, OrangeLink} from "../../../components/link";
 import {InputWithLabel} from "../../../components/input";
 import {Select} from "../../../components/selector";
@@ -12,6 +12,7 @@ import {CustomDatePicker, CustomTimePicker} from "../../../components/pickers";
 import {addPhysicalEvent} from "../../../services/api.service";
 import {useRouter} from "next/router";
 import {useCookies} from "react-cookie";
+
 
 const ExerciseEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 3)[0].title;
@@ -24,45 +25,31 @@ const ExerciseEvent = () => {
     const [date, setDate] = useState()
     const [Hour, setHour] = useState()
     const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
+    const [ingredients, setIngredients] = useState([{ ingredient: '', quantity: '', unit: '' }]);
 
-    const [ingredientes, setIngredientes] = useState([]);
 
     const router = useRouter();
 
-    const handleAgregarIngrediente = () => {
-        setIngredientes([...ingredientes, { ingrediente: '', cantidad: '', unidad: '' }]);
+    const handleOptionClickIngredients = (option, index) => {
+        const newIngredients = [...ingredients];
+        newIngredients[index].ingredient = option;
+        setIngredients(newIngredients);
     };
 
-    const handleChangeIngrediente = (index, campo, valor) => {
-        const nuevosIngredientes = [...ingredientes];
-        nuevosIngredientes[index][campo] = valor;
-        setIngredientes(nuevosIngredientes);
+    const handleOptionClickUnit = (option, index) => {
+        const newIngredients = [...ingredients];
+        newIngredients[index].unit = option;
+        setIngredients(newIngredients);
     };
 
-    const handleEliminarIngrediente = (index) => {
-        const nuevosIngredientes = [...ingredientes];
-        nuevosIngredientes.splice(index, 1);
-        setIngredientes(nuevosIngredientes);
-    };
-
-    const handleOptionClickIngredients = (option) => {
-        setSelectedOptionIngredients(option);
-        setIsOpenIngredients(false);
-    };
-
-    const handleOptionClickUnit = (option) => {
-        setSelectedOptionUnit(option);
-        setIsOpenUnit(false);
+    const handleChangeQuantity = (event, index) => {
+        const newIngredients = [...ingredients];
+        newIngredients[index].quantity = event.target.value;
+        setIngredients(newIngredients);
     };
 
     const handleSubmit = () => {
-        const exercise = selectedOption;
-        const dateFormatted = date ? date.format('DD-MM-YYYY') : null;
-        const start = startHour ? startHour.format('HH:mm:ss') : null;
-        const end = endHour ? endHour.format('HH:mm:ss') : null;
-        const notes = document.getElementById("notes").value;
         const email = cookies.email;
-
         const data = {
             "email": email,
             "idKindEvent": 4,
@@ -78,22 +65,21 @@ const ExerciseEvent = () => {
         )
     }
 
+    const handleAddIngredient = () => {
+        setIngredients([...ingredients, { ingredient: '', quantity: '', unit: '' }]);
+    };
+
     return(
         <Section className="pt-12">
             <div className="container items-center flex w-full justify-center flex-col">
                 <TitleSection className="text-white">¿Qué evento querés cargar?</TitleSection>
                 <div className="flex w-full flex-wrap gap-y-6 gap-x-24 justify-center mt-8">
-                    {TYPE_EVENTS.map((event) => {
-                        return(
-                            <>
-                                {event.title === eventSelected ?
-                                    <OrangeLink key={event.title} label={capitalizeFirstLetter(event.title)} width="w-1/6" href={event.link} />
-                                    :
-                                    <BlueLink key={event.title} label={capitalizeFirstLetter(event.title)} width="w-1/6" href={event.link} />
-                                }
-                            </>
-                        )
-                    })}
+                    {TYPE_EVENTS.map((event) => (
+                        event.title === eventSelected ?
+                            <OrangeLink key={event.title} label={capitalizeFirstLetter(event.title)} width="w-1/6" href={event.link} />
+                            :
+                            <BlueLink key={event.title} label={capitalizeFirstLetter(event.title)} width="w-1/6" href={event.link} />
+                    ))}
                 </div>
 
                 {/* FORMULARIO */}
@@ -103,7 +89,7 @@ const ExerciseEvent = () => {
                         value={date}
                         onChange={(e) => setDate(e)}
                         defaultValue={dayjs()}
-                        width="w-1/2"
+                        width="w-1/3"
                     />
 
                     <CustomTimePicker
@@ -114,44 +100,43 @@ const ExerciseEvent = () => {
                         width="w-1/3"
                     />
 
-
-                    {ingredientes.map((ingrediente, index) => (
-                        <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                    {ingredients.map((ingredient, index) => (
+                        // eslint-disable-next-line react/jsx-no-undef
+                        <React.Fragment key={index}>
                             <Select
                                 label="Ingrediente"
                                 placeholder="Elegí un ingrediente"
                                 options={TYPE_INGREDIENTS}
-                                selectedOption={ingrediente.ingrediente}
-                                handleOptionClick={(selected) => handleChangeIngrediente(index, 'ingrediente', selected)}
+                                selectedOption={ingredient.ingredient}
+                                handleOptionClick={(option) => handleOptionClickIngredients(option, index)}
+                                setIsOpen={() => {}} // Si necesitas que el Select se abra/cierre, deberías manejarlo aquí
+                                isOpen={false} // Si necesitas que el Select se abra/cierre, deberías manejarlo aquí
                                 width="w-1/3"
                             />
-                            <div style={{ margin: '0 1rem' }} /> {/* Espacio entre elementos */}
+
                             <InputWithLabel
                                 label="Cantidad del ingrediente"
                                 placeholder="Escribí la cantidad"
-                                value={ingrediente.cantidad}
-                                onChange={(event) => handleChangeIngrediente(index, 'cantidad', event.target.value)}
+                                value={ingredient.quantity}
+                                onChange={(event) => handleChangeQuantity(event, index)}
                                 width="w-1/5"
                             />
-                            <div style={{ margin: '0 1rem' }} /> {/* Espacio entre elementos */}
+
                             <Select
                                 label="Unidad de medida"
                                 placeholder="Elegí la unidad de medida"
                                 options={TYPE_UNITOFMEASUREMENT}
-                                selectedOption={ingrediente.unidad}
-                                handleOptionClick={(selected) => handleChangeIngrediente(index, 'unidad', selected)}
-                                width="w-1/3"
+                                selectedOption={ingredient.unit}
+                                handleOptionClick={(option) => handleOptionClickUnit(option, index)}
+                                setIsOpen={() => {}} // Si necesitas que el Select se abra/cierre, deberías manejarlo aquí
+                                isOpen={false} // Si necesitas que el Select se abra/cierre, deberías manejarlo aquí
+                                width="w-1/5"
                             />
-                            <div style={{ margin: '0 1rem' }} /> {/* Espacio entre elementos */}
-                            <button type="button" onClick={() => handleEliminarIngrediente(index)}>
-                                Eliminar
-                            </button>
-                        </div>
+                        </React.Fragment>
                     ))}
-                    <button type="button" onClick={handleAgregarIngrediente}>
-                        Agregar Ingrediente
-                    </button>
 
+                    <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3"/>
+                    <button type="button" onClick={handleAddIngredient}>Agregar Ingrediente</button>
                 </div>
             </div>
         </Section>
