@@ -47,7 +47,7 @@ namespace Diabetia.Infrastructure.Repositories
                 user.FechaNacimiento = birthdate;
                 _context.Usuarios.Update(user);
             }
-           
+
             await _context.SaveChangesAsync();
         }
 
@@ -81,7 +81,7 @@ namespace Diabetia.Infrastructure.Repositories
                 }
 
             }
-                
+
             await _context.SaveChangesAsync();
         }
 
@@ -163,9 +163,8 @@ namespace Diabetia.Infrastructure.Repositories
 
         }
 
-            public async Task<User> GetEditUserInfo(string email)
+        public async Task<User> GetEditUserInfo(string email)
         {
-            
             var userInfo = await _context.Usuarios
                 .Where(u => u.Email == email)
                 .Select(u => new
@@ -181,26 +180,25 @@ namespace Diabetia.Infrastructure.Repositories
             string nombre = nombreApellido.Length > 0 ? nombreApellido[0] : "";
             string apellido = nombreApellido.Length > 1 ? string.Join(" ", nombreApellido.Skip(1)) : "";
 
-                var pacienteInfo = await _context.Pacientes
-                .Where(p => p.IdUsuario == userInfo.UserId)
-                .Select(p => new
-                {
-                    Peso = p.Peso,
-                })
-                .FirstOrDefaultAsync();
+            var pacienteInfo = await _context.Pacientes
+            .Where(p => p.IdUsuario == userInfo.UserId)
+            .Select(p => new
+            {
+                Peso = p.Peso,
+            })
+            .FirstOrDefaultAsync();
 
-                var user = new User
-                {
-                    Name = nombre,
-                    LastName = apellido,
-                    BirthDate = userInfo.Birthdate,
-                    Gender = userInfo.Gender,
-                    Phone = userInfo.Phone,
-                    Weight = pacienteInfo.Peso
-                };
+            var user = new User
+            {
+                Name = nombre,
+                LastName = apellido,
+                BirthDate = userInfo.Birthdate,
+                Gender = userInfo.Gender,
+                Phone = userInfo.Phone,
+                Weight = pacienteInfo.Peso
+            };
 
-                return user;
-     
+            return user;
         }
 
         public async Task<Patient> GetPatientInfo(string email)
