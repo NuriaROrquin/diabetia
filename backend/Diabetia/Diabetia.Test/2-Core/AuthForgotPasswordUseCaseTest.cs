@@ -2,6 +2,7 @@
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
+using Diabetia.Interfaces;
 using FakeItEasy;
 
 namespace Diabetia.Test._2_Core
@@ -17,13 +18,14 @@ namespace Diabetia.Test._2_Core
             var state = true;
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
 
             A.CallTo(() => fakeAuthRepository.GetUsernameByEmailAsync(email)).Returns(username);
             A.CallTo(() => fakeAuthRepository.GetUserStateAsync(email)).Returns(state);
 
             A.CallTo(() => fakeAuthProvider.ForgotPasswordRecoverAsync(username));
 
-            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository);
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
 
             // Act
             await forgotPasswordUseCase.ForgotPasswordEmailAsync(email);
@@ -39,8 +41,9 @@ namespace Diabetia.Test._2_Core
             var invalidEmail = "invalidEmail";
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
 
-            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository);
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
 
             // Act & Assert
             await Assert.ThrowsAsync<InvalidEmailException>(() => forgotPasswordUseCase.ForgotPasswordEmailAsync(invalidEmail));
@@ -54,9 +57,10 @@ namespace Diabetia.Test._2_Core
             var username = "testUsername";
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
 
             A.CallTo(() => fakeAuthRepository.GetUsernameByEmailAsync(email)).Returns(username);
-            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository);
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
 
             // Act & Assert
             await Assert.ThrowsAsync<UserNotAuthorizedException>(() => forgotPasswordUseCase.ForgotPasswordEmailAsync(email));
@@ -70,9 +74,10 @@ namespace Diabetia.Test._2_Core
             var state = true;
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
 
             A.CallTo(() => fakeAuthRepository.GetUserStateAsync(email)).Returns(state);
-            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository);
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
 
             // Act & Assert
             await Assert.ThrowsAsync<UsernameNotFoundException>(() => forgotPasswordUseCase.ForgotPasswordEmailAsync(email));
@@ -90,12 +95,13 @@ namespace Diabetia.Test._2_Core
 
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
 
             A.CallTo(() => fakeAuthRepository.CheckUsernameOnDatabaseAsync(username)).Returns(true);
 
             A.CallTo(() => fakeAuthProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
 
-            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository);
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
 
             // Act
             await forgotPasswordUseCase.ConfirmForgotPasswordAsync(username, confirmationCode, password);
@@ -114,8 +120,9 @@ namespace Diabetia.Test._2_Core
 
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
 
-            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository);
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
 
             // Act & Assert
             await Assert.ThrowsAsync<UsernameNotFoundException>(() => forgotPasswordUseCase.ConfirmForgotPasswordAsync(username, confirmationCode, password));
