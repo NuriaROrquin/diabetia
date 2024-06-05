@@ -1,4 +1,5 @@
 ﻿using Diabetia.Domain.Entities;
+using Diabetia.Domain.Models;
 
 namespace Diabetia.Domain.Services
 {
