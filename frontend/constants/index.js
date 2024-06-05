@@ -473,3 +473,31 @@ export const TYPE_UNITOFMEASUREMENT = [
         "title": "porcion"
     }
 ]
+
+export const TYPE_REMINDERTIME = [
+    {
+        "id": 1,
+        "title": "1 semana"
+    },
+    {
+        "id": 2,
+        "title": "2 semanas"
+    },
+    {
+        "id": 3,
+        "title": "3 semanas"
+    },
+    {
+        "id": 4,
+        "title": "1 mes"
+    },
+    {
+        "id": 5,
+        "title": "2 meses"
+    },
+    {
+        "id": 6,
+        "title": "3 meses"
+    },
+    
+]
