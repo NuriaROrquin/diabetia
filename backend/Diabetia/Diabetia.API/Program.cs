@@ -1,5 +1,6 @@
 using Amazon.CognitoIdentity.Model;
 using Amazon.CognitoIdentityProvider;
+using Diabetia.API.Controllers;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
@@ -27,6 +28,7 @@ builder.Services.AddScoped<TagDetectionUseCase>();
 builder.Services.AddScoped<TagCalculateUseCase>();
 builder.Services.AddScoped<AddPhysicalEventUseCase>();
 builder.Services.AddScoped<AddGlucoseEventUseCase>();
+builder.Services.AddScoped<AddInsulinEventUseCase>();
 builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();
 
