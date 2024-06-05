@@ -23,9 +23,12 @@ namespace Diabetia.API.Controllers
 
 
         [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] AuthLoginRequest request)
         {
-            var user = await _loginUseCase.Login(request.username, request.password);
+            var user = await _loginUseCase.UserLoginAsync(request.username, request.password);
 
             if (user.Token != null)
             {
@@ -39,7 +42,7 @@ namespace Diabetia.API.Controllers
             }
             else
             {
-                return BadRequest("Usuario o contraseï¿½a invalidos");
+                return BadRequest("Usuario o contraseña invalidos");
             }
             
         }
@@ -90,6 +93,9 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("passwordRecoverCode")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] AuthConfirmPasswordRecoverRequest request)
         {
             await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.Username, request.ConfirmationCode, request.Password);

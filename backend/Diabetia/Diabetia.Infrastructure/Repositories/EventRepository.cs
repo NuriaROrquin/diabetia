@@ -1,8 +1,8 @@
-﻿using Amazon.CognitoIdentityProvider.Model;
-using Diabetia.Infrastructure.EF;
+﻿using Diabetia.Infrastructure.EF;
 using Diabetia.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
+using Diabetia.Domain.Entities.Events;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -124,5 +124,197 @@ namespace Diabetia.Infrastructure.Repositories
             _context.EventoInsulinas.Add(NewInsulinEvent);
             await _context.SaveChangesAsync();
         }
+        public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId)
+        {
+            var physicalActivityEvents = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId)
+                .Join(_context.TipoEventos,
+                    ce => ce.IdTipoEvento,
+                    te => te.Id,
+                    (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoActividadFisicas,
+                    joined => joined.CargaEvento.Id,
+                    eaf => eaf.IdCargaEvento,
+                    (joined, eaf) => new { joined.CargaEvento, joined.TipoEvento, EventoActividadFisica = eaf })
+                .Join(_context.ActividadFisicas,
+                    joined => joined.EventoActividadFisica.IdActividadFisica,
+                    af => af.Id,
+                    (joined, af) => new PhysicalActivityEvent
+                    {
+                        IdEvent = joined.EventoActividadFisica.Id,
+                        IdEventType = joined.TipoEvento.Id,
+                        IdPhysicalEducationEvent = joined.EventoActividadFisica.IdActividadFisica,
+                        DateEvent = joined.CargaEvento.FechaEvento,
+                        Title = joined.TipoEvento.Tipo,
+                        Duration = joined.EventoActividadFisica.Duracion
+                    })
+                .ToListAsync();
+
+            return physicalActivityEvents;
+        }
+
+        public async Task<IEnumerable<FoodEvent>> GetFoods(int patientId)
+        {
+            var foodEvents = await _context.CargaEventos
+               .Where(ce => ce.IdPaciente == 3)
+               .Join(_context.TipoEventos,
+                   ce => ce.IdTipoEvento,
+                   te => te.Id,
+                   (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+               .Join(_context.EventoComida,
+                   joined => joined.CargaEvento.Id,
+                   ec => ec.IdCargaEvento,
+                   (joined, ec) => new { joined.CargaEvento, joined.TipoEvento, EventoComida = ec })
+               .Join(_context.IngredienteComida,
+                   joined => joined.EventoComida.Id,
+                   ic => ic.IdEventoComida,
+                   (joined, ic) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoComida, IngredienteComida = ic })
+               .Join(_context.Ingredientes,
+                   joined => joined.IngredienteComida.IdIngrediente,
+                   i => i.Id,
+                   (joined, i) => new FoodEvent
+                   {
+                       IdEvent = joined.CargaEvento.Id,
+                       IdEventType = joined.TipoEvento.Id,
+                       DateEvent = joined.CargaEvento.FechaEvento,
+                       Title = joined.TipoEvento.Tipo,
+                       IngredientName = i.Nombre,
+                   })
+               .ToListAsync();
+
+            return foodEvents;
+        }
+
+        public async Task<IEnumerable<ExamEvent>> GetExams(int patientId)
+        {
+            var examEvents = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId)
+                .Join(_context.TipoEventos,
+                        ce => ce.IdTipoEvento,
+                        te => te.Id,
+                        (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoEstudios,
+                        joined => joined.CargaEvento.Id,
+                        ee => ee.IdCargaEvento,
+                        (joined, ee) => new ExamEvent
+                        {
+                            IdEvent = joined.CargaEvento.Id,
+                            IdEventType = joined.TipoEvento.Id,
+                            DateEvent = joined.CargaEvento.FechaEvento,
+                            Title = ee.TipoEstudio ?? joined.TipoEvento.Tipo
+                        })
+                .ToListAsync();
+
+            return examEvents;
+        }
+
+        public async Task<IEnumerable<GlucoseEvent>> GetGlycemia(int patientId)
+        {
+            var glucoseEvents = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoGlucosas,
+                      joined => joined.CargaEvento.Id,
+                      eg => eg.IdCargaEvento,
+                      (joined, eg) => new GlucoseEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = joined.TipoEvento.Tipo,
+                          GlucoseLevel = eg.Glucemia
+                      })
+                .ToListAsync();
+
+            return glucoseEvents;
+        }
+
+        public async Task<IEnumerable<InsulinEvent>> GetInsulin(int patientId)
+        {
+            var insulinEvents = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoInsulinas,
+                      joined => joined.CargaEvento.Id,
+                      ei => ei.IdCargaEvento,
+                      (joined, ei) => new { joined.CargaEvento, joined.TipoEvento, EventoInsulina = ei })
+                .Join(_context.InsulinaPacientes,
+                      joined => joined.EventoInsulina.IdInsulinaPaciente,
+                      ip => ip.Id,
+                      (joined, ip) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, InsulinaPaciente = ip })
+                .Join(_context.TipoInsulinas,
+                      joined => joined.InsulinaPaciente.IdTipoInsulina,
+                      ti => ti.Id,
+                      (joined, ti) => new InsulinEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = joined.TipoEvento.Tipo,
+                          InsulinType = ti.Nombre,
+                          Dosage = joined.EventoInsulina.InsulinaInyectada
+                      })
+                .ToListAsync();
+
+            return insulinEvents;
+        }
+
+        public async Task<IEnumerable<HealthEvent>> GetHealth(int patientId)
+        {
+            var healthEvents = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoSaluds,
+                      joined => joined.CargaEvento.Id,
+                      es => es.IdCargaEvento,
+                      (joined, es) => new { joined.CargaEvento, joined.TipoEvento, EventoSalud = es })
+                .Join(_context.Enfermedads,
+                      joined => joined.EventoSalud.IdEnfermedad,
+                      e => e.Id,
+                      (joined, e) => new HealthEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = e.Nombre
+                      })
+                .ToListAsync();
+
+            return healthEvents;
+        }
+
+        public async Task<IEnumerable<MedicalVisitEvent>> GetMedicalVisit(int patientId)
+        {
+            var medicalVisitEvents = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoVisitaMedicas,
+                      joined => joined.CargaEvento.Id,
+                      evm => evm.IdCargaEvento,
+                      (joined, evm) => new MedicalVisitEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = joined.TipoEvento.Tipo,
+                          Description = evm.Descripcion,
+                      })
+                .ToListAsync();
+
+            return medicalVisitEvents;
+        }
+
     }
 }

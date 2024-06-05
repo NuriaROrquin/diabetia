@@ -47,7 +47,7 @@ namespace Diabetia.Infrastructure.Repositories
                 user.FechaNacimiento = birthdate;
                 _context.Usuarios.Update(user);
             }
-           
+
             await _context.SaveChangesAsync();
         }
 
@@ -81,11 +81,11 @@ namespace Diabetia.Infrastructure.Repositories
                 }
 
             }
-                
+
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> GetInformationCompleted(string username)
+        public async Task<bool> GetStatusInformationCompletedAsync(string username)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
             var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
@@ -163,9 +163,8 @@ namespace Diabetia.Infrastructure.Repositories
 
         }
 
-            public async Task<User> GetEditUserInfo(string email)
+        public async Task<User> GetEditUserInfo(string email)
         {
-            
             var userInfo = await _context.Usuarios
                 .Where(u => u.Email == email)
                 .Select(u => new
@@ -181,26 +180,41 @@ namespace Diabetia.Infrastructure.Repositories
             string nombre = nombreApellido.Length > 0 ? nombreApellido[0] : "";
             string apellido = nombreApellido.Length > 1 ? string.Join(" ", nombreApellido.Skip(1)) : "";
 
-                var pacienteInfo = await _context.Pacientes
-                .Where(p => p.IdUsuario == userInfo.UserId)
-                .Select(p => new
-                {
-                    Peso = p.Peso,
-                })
-                .FirstOrDefaultAsync();
+            var pacienteInfo = await _context.Pacientes
+            .Where(p => p.IdUsuario == userInfo.UserId)
+            .Select(p => new
+            {
+                Peso = p.Peso,
+            })
+            .FirstOrDefaultAsync();
 
-                var user = new User
-                {
-                    Name = nombre,
-                    LastName = apellido,
-                    BirthDate = userInfo.Birthdate,
-                    Gender = userInfo.Gender,
-                    Phone = userInfo.Phone,
-                    Weight = pacienteInfo.Peso
-                };
+            var user = new User
+            {
+                Name = nombre,
+                LastName = apellido,
+                BirthDate = userInfo.Birthdate,
+                Gender = userInfo.Gender,
+                Phone = userInfo.Phone,
+                Weight = pacienteInfo.Peso
+            };
 
                 return user;
-     
+        }
+
+        public async Task<User> GetUserInformationFromUsernameAsync (string username)
+        {
+            Usuario user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
+            if (user != null) {
+                User userToReturn = new User
+                {
+                    Name = user.NombreCompleto,
+                    Email = user.Email,
+                    BirthDate = user.FechaNacimiento,
+                    Gender = user.Genero,
+                };
+                return userToReturn;
+            }
+            return null;
         }
 
         public async Task<Patient> GetPatientInfo(string email)
@@ -285,6 +299,14 @@ namespace Diabetia.Infrastructure.Repositories
 
             return patient;
 
+        }
+
+        public async Task<Paciente> GetPatient(string email)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
+
+            return patient;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Diabetia.Application.Exceptions;
-using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
+using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases
 {
@@ -9,16 +9,22 @@ namespace Diabetia.Application.UseCases
     {
         private readonly IAuthRepository _authRepository;
         private readonly IAuthProvider _apiCognitoProvider;
-        public AuthRegisterUseCase(IAuthProvider apiCognitoProvider, IAuthRepository authRepository)
+        private readonly IEmailValidator _emailValidator;
+        public AuthRegisterUseCase(IAuthProvider apiCognitoProvider, IAuthRepository authRepository, IEmailValidator emailValidator)
         {
             _apiCognitoProvider = apiCognitoProvider;
             _authRepository = authRepository;
+            _emailValidator = emailValidator;
         }
         public async Task Register(string username, string email, string password)
         {
-            if (!EmailValidator.IsValidEmail(email))
+            if (!_emailValidator.IsValidEmail(email))
             {
                 throw new InvalidEmailException();
+            }
+            if (await _authRepository.CheckEmailOnDatabaseAsync(email))
+            {
+                throw new EmailAlreadyExistsException();
             }
             string hashCode = await _apiCognitoProvider.RegisterUserAsync(username, password, email);
             await _authRepository.SaveUserHashAsync(username,email,hashCode);
@@ -27,7 +33,7 @@ namespace Diabetia.Application.UseCases
         
         public async Task<bool> ConfirmEmailVerification(string username, string email, string confirmationCode)
         {
-            if (!EmailValidator.IsValidEmail(email))
+            if (!_emailValidator.IsValidEmail(email))
             {
                 throw new InvalidEmailException();
             }
