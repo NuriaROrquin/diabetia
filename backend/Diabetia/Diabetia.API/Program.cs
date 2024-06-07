@@ -27,7 +27,7 @@ builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<DataUserUseCase>();
 builder.Services.AddScoped<TagDetectionUseCase>();
 builder.Services.AddScoped<TagCalculateUseCase>();
-builder.Services.AddScoped<AddPhysicalEventUseCase>();
+builder.Services.AddScoped<EventPhysicalActivityUseCase>();
 builder.Services.AddScoped<AddGlucoseEventUseCase>();
 builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();

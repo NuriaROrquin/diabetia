@@ -3,6 +3,7 @@ using Diabetia.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities.Events;
+using Diabetia.Application.Exceptions;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -48,7 +49,50 @@ namespace Diabetia.Infrastructure.Repositories
 
             _context.EventoActividadFisicas.Add(NewPhysicalEvent);
             await _context.SaveChangesAsync();
+        }
 
+        public async Task EditPhysicalActivityEvent(string Email, int EventId, DateTime EventDate, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime, string FreeNote)
+        {
+            var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == EventId);
+            if (@event == null)
+            {
+                throw new EventNotFoundException("Evento no encontrado.");
+            }
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            if (user == null)
+            {
+                throw new UserEventNotFoundException("Usuario no encontrado con el evento relacionado.");
+            }
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
+            if (patient == null)
+            {
+                throw new PatientNotFoundException("El usuario no tiene el paciente relacionado.");
+            }
+            if (@event.IdPaciente != patient.Id)
+            {
+                throw new EventNotRelatedWithPatientException("El evento no se encuentra relacionado al paciente");
+            }
+
+            @event.FechaEvento = EventDate;
+            @event.FueRealizado = EventDate <= DateTime.Now ? true : false;
+            @event.NotaLibre = FreeNote;
+
+            var physicalEvent = await _context.EventoActividadFisicas.FirstOrDefaultAsync(pe => pe.IdCargaEvento == EventId);
+            if (physicalEvent == null)
+            {
+                throw new PhysicalEventNotRelatedWithEventException("No se encontró el evento físico relacionado.");
+            }
+
+            TimeSpan difference = FinishTime - IniciateTime;
+            double totalMinutes = difference.TotalMinutes;
+            int eventDuration = (int)Math.Ceiling(totalMinutes);
+
+            physicalEvent.IdActividadFisica = PhysicalActivity;
+            physicalEvent.Duracion = eventDuration;
+
+            _context.CargaEventos.Update(@event);
+            _context.EventoActividadFisicas.Update(physicalEvent);
+            await _context.SaveChangesAsync();
         }
 
         public async Task AddGlucoseEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition)
