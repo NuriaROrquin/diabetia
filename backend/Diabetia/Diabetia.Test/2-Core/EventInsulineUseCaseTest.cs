@@ -39,25 +39,25 @@ namespace Diabetia.Test._2_Core
         [Fact]
         public async Task EditInsulinEventWithCorrectArguments()
         {
-            var fakeEventRepository = A.Fake<IEventRepository>();
-            var eventInsulinUseCase = new EventInsulinUseCase(fakeEventRepository);
+            var FakeEventRepository = A.Fake<IEventRepository>();
+            var EventInsulinUseCase = new EventInsulinUseCase(FakeEventRepository);
 
-            int idEvent = 123;
-            string email = "example@example.com";
-            DateTime eventDate = DateTime.Now;
-            string freeNote = "Some updated note";
-            int insulin = 20;
-
-
-            await eventInsulinUseCase.EditInsulinEvent(idEvent, email, eventDate, freeNote, insulin);
+            int IdEvent = 123;
+            string Email = "example@example.com";
+            DateTime EventDate = DateTime.Now;
+            string FreeNote = "Some updated note";
+            int Insulin = 20;
 
 
-            A.CallTo(() => fakeEventRepository.EditInsulinEvent(
-                idEvent,
-                email,
-                eventDate,
-                freeNote,
-                insulin)).MustHaveHappenedOnceExactly();
+            await EventInsulinUseCase.EditInsulinEvent(IdEvent, Email, EventDate, FreeNote, Insulin);
+
+
+            A.CallTo(() => FakeEventRepository.EditInsulinEvent(
+                IdEvent,
+                Email,
+                EventDate,
+                FreeNote,
+                Insulin)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
