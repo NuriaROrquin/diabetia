@@ -35,129 +35,73 @@ namespace Diabetia.Application.UseCases
                 .GroupBy(fe => new { fe.DateEvent })
                 .Select(g => new
                 {
-                    DateEvent = g.Key.DateEvent,
+                    g.Key.DateEvent,
                     Title = "Comida",
                     Ingredients = string.Join(", ", g.Select(fe => fe.IngredientName))
                 });
 
-
-            foreach (var physicalActivityEvent in physicalActivityEvents)
+            AddEventsToDictionary(eventsByDate, physicalActivityEvents, e => e.DateEvent, e => new EventItem
             {
-                string eventDate = physicalActivityEvent.DateEvent.ToString("yyyy-MM-dd");
+                Time = e.DateEvent.ToString("hh:mm tt"),
+                Title = e.Title
+            });
 
-                if (!eventsByDate.ContainsKey(eventDate))
-                {
-                    eventsByDate[eventDate] = new List<EventItem>();
-                }
-
-                eventsByDate[eventDate].Add(new EventItem
-                {
-                    Time = physicalActivityEvent.DateEvent.ToString("hh:mm tt"),
-                    Title = physicalActivityEvent.Title
-                });
-            }
-
-            foreach (var foodEvent in groupedFoodEvents)
+            AddEventsToDictionary(eventsByDate, groupedFoodEvents, e => e.DateEvent, e => new EventItem
             {
-                string eventDate = foodEvent.DateEvent.ToString("yyyy-MM-dd");
+                Time = e.DateEvent.ToString("hh:mm tt"),
+                Title = e.Title,
+                AdditionalInfo = e.Ingredients
+            });
 
-                if (!eventsByDate.ContainsKey(eventDate))
-                {
-                    eventsByDate[eventDate] = new List<EventItem>();
-                }
-
-                eventsByDate[eventDate].Add(new EventItem
-                {
-                    Time = foodEvent.DateEvent.ToString("hh:mm tt"),
-                    Title = foodEvent.Title,
-                    AdditionalInfo = foodEvent.Ingredients
-                });
-            }
-
-            foreach (var examEvent in examEvents)
+            AddEventsToDictionary(eventsByDate, examEvents, e => e.DateEvent, e => new EventItem
             {
-                string eventDate = examEvent.DateEvent.ToString("yyyy-MM-dd");
+                Time = e.DateEvent.ToString("hh:mm tt"),
+                Title = e.Title
+            });
 
-                if (!eventsByDate.ContainsKey(eventDate))
-                {
-                    eventsByDate[eventDate] = new List<EventItem>();
-                }
-
-                eventsByDate[eventDate].Add(new EventItem
-                {
-                    Time = examEvent.DateEvent.ToString("hh:mm tt"),
-                    Title = examEvent.Title
-                });
-            }
-
-            foreach (var glucoseEvent in glucoseEvents)
+            AddEventsToDictionary(eventsByDate, glucoseEvents, e => e.DateEvent, e => new EventItem
             {
-                string eventDate = glucoseEvent.DateEvent.ToString("yyyy-MM-dd");
+                Time = e.DateEvent.ToString("hh:mm tt"),
+                Title = e.Title,
+                AdditionalInfo = e.GlucoseLevel.ToString()
+            });
 
-                if (!eventsByDate.ContainsKey(eventDate))
-                {
-                    eventsByDate[eventDate] = new List<EventItem>();
-                }
-
-                eventsByDate[eventDate].Add(new EventItem
-                {
-                    Time = glucoseEvent.DateEvent.ToString("hh:mm tt"),
-                    Title = glucoseEvent.Title,
-                    AdditionalInfo = glucoseEvent.GlucoseLevel.ToString()
-                });
-            }
-
-            foreach (var insulinEvent in insulinEvents)
+            AddEventsToDictionary(eventsByDate, insulinEvents, e => e.DateEvent, e => new EventItem
             {
-                string eventDate = insulinEvent.DateEvent.ToString("yyyy-MM-dd");
+                Time = e.DateEvent.ToString("hh:mm tt"),
+                Title = e.Title,
+                AdditionalInfo = $"Dosis: {e.Dosage} - {e.InsulinType}"
+            });
 
-                if (!eventsByDate.ContainsKey(eventDate))
-                {
-                    eventsByDate[eventDate] = new List<EventItem>();
-                }
-
-                eventsByDate[eventDate].Add(new EventItem
-                {
-                    Time = insulinEvent.DateEvent.ToString("hh:mm tt"),
-                    Title = insulinEvent.Title,
-                    AdditionalInfo = $"Dosis: {insulinEvent.Dosage} - {insulinEvent.InsulinType}"
-                });
-            }
-
-            foreach (var healthEvent in healthEvents)
+            AddEventsToDictionary(eventsByDate, healthEvents, e => e.DateEvent, e => new EventItem
             {
-                string eventDate = healthEvent.DateEvent.ToString("yyyy-MM-dd");
+                Time = e.DateEvent.ToString("hh:mm tt"),
+                Title = e.Title
+            });
 
-                if (!eventsByDate.ContainsKey(eventDate))
-                {
-                    eventsByDate[eventDate] = new List<EventItem>();
-                }
-
-                eventsByDate[eventDate].Add(new EventItem
-                {
-                    Time = healthEvent.DateEvent.ToString("hh:mm tt"),
-                    Title = healthEvent.Title,
-                });
-            }
-
-            foreach (var medicalVisitEvent in medicalVisitEvents)
+            AddEventsToDictionary(eventsByDate, medicalVisitEvents, e => e.DateEvent, e => new EventItem
             {
-                string eventDate = medicalVisitEvent.DateEvent.ToString("yyyy-MM-dd");
-
-                if (!eventsByDate.ContainsKey(eventDate))
-                {
-                    eventsByDate[eventDate] = new List<EventItem>();
-                }
-
-                eventsByDate[eventDate].Add(new EventItem
-                {
-                    Time = medicalVisitEvent.DateEvent.ToString("hh:mm tt"),
-                    Title = medicalVisitEvent.Title,
-                    AdditionalInfo = medicalVisitEvent.Description
-                });
-            }
+                Time = e.DateEvent.ToString("hh:mm tt"),
+                Title = e.Title,
+                AdditionalInfo = e.Description
+            });
 
             return eventsByDate;
+        }
+
+        private void AddEventsToDictionary<T>(Dictionary<string, List<EventItem>> dictionary, IEnumerable<T> events, Func<T, DateTime> getDate, Func<T, EventItem> createEventItem)
+        {
+            foreach (var evt in events)
+            {
+                string eventDate = getDate(evt).ToString("yyyy-MM-dd");
+
+                if (!dictionary.ContainsKey(eventDate))
+                {
+                    dictionary[eventDate] = new List<EventItem>();
+                }
+
+                dictionary[eventDate].Add(createEventItem(evt));
+            }
         }
 
     }
