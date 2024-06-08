@@ -271,6 +271,12 @@ namespace Diabetia.Infrastructure.Repositories
             // Guardar los cambios en el contexto
             await _context.SaveChangesAsync();
         }
+
+        public async Task AddHealthStudiesEvent(string Email, int IdKindEvent, DateTime EventDate, string File, string HealthStudyName, bool? Reminder, DateTime? ReminderDate)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+        }
         public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId)
         {
             var physicalActivityEvents = await _context.CargaEventos

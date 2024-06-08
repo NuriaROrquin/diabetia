@@ -13,13 +13,15 @@ namespace Diabetia.API.Controllers
         private readonly EventPhysicalActivityUseCase _eventPhysicalActivityUseCase;
         private readonly EventGlucoseUseCase _eventGlucosetUseCase;
         private readonly EventInsulinUseCase _eventInsulintUseCase;
+        private readonly EventHealthStudiesUseCase _eventHealthStudiesUseCase;
 
 
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase)
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventHealthStudiesUseCase eventHealthStudiesUseCase)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
             _eventGlucosetUseCase = evemtGlucoseUseCase;
             _eventInsulintUseCase = eventInsulinUseCase;
+            _eventHealthStudiesUseCase = eventHealthStudiesUseCase;
         }
 
         [HttpPost("AddPhysicalEvent")]
@@ -77,6 +79,13 @@ namespace Diabetia.API.Controllers
         {
             await _eventInsulintUseCase.DeleteInsulinEvent(request.IdEvent.Value, request.Email);
             return Ok("Evento eliminado correctamente");
+        }
+
+        [HttpPost("AddHealthStudiesEvent")]
+        public async Task<IActionResult> AddHealthStudiesEvent([FromBody] EventAddHealthStudiesRequest request)
+        {
+            await _eventHealthStudiesUseCase.AddHealthStudiesEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.PhysicalActivity, request.IniciateTime, request.FinishTime);
+            return Ok();
         }
     }
 }
