@@ -5,7 +5,7 @@ namespace Diabetia.Common.Utilities
 {
     public class EmailValidator : IEmailValidator
     {
-        public bool IsValidEmail(string email) // Cambia a un método de instancia
+        public bool IsValidEmail(string email) 
         {
             if (string.IsNullOrWhiteSpace(email))
             {

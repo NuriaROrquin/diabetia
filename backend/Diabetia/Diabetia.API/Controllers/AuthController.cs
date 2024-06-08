@@ -79,7 +79,7 @@ namespace Diabetia.API.Controllers
         public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] AuthChangePasswordRequest request)
         {
             await _changePasswordUseCase.ChangeUserPasswordAsync(request.AccessToken, request.PreviousPassword, request.NewPassword);
-            return Ok("Contraseï¿½a cambiada exitosamente");
+            return Ok("Contraseña cambiada exitosamente");
         }
         
         [HttpPost("passwordRecover")]
