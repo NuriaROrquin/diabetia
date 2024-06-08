@@ -68,5 +68,21 @@ namespace Diabetia.Test._2_Core
                 IdFoodEvent,
                 PostFoodMedition)).MustHaveHappenedOnceExactly();
         }
+
+        [Fact]
+        public async Task DeleteGlucoseEventTest()
+        {
+            var FakeEventRepository = A.Fake<IEventRepository>();
+            var EventGlucoseUseCase = new EventGlucoseUseCase(FakeEventRepository);
+
+            int IdEvent = 12; 
+            string Email = "example@example.com";
+
+            await EventGlucoseUseCase.DeleteGlucoseEvent(IdEvent, Email);
+
+            A.CallTo(() => FakeEventRepository.DeleteGlucoseEvent(
+                IdEvent,
+                Email)).MustHaveHappenedOnceExactly();
+        }
     }
 }
