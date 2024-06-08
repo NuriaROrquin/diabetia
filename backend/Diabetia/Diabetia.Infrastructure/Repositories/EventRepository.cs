@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities.Events;
 using Diabetia.Application.Exceptions;
+using Diabetia.Domain.Entities;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -130,7 +131,33 @@ namespace Diabetia.Infrastructure.Repositories
 
             _context.EventoGlucosas.Add(NewGlucoseEvent);
             await _context.SaveChangesAsync();
+        }
 
+        public async Task EditGlucoseEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition)
+        {
+
+            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
+            var CargaEvento = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
+            var EventoGlucosas = await _context.EventoGlucosas.FirstOrDefaultAsync(eg => eg.IdCargaEvento == CargaEvento.Id);
+            
+            // 1- Modificar el evento
+            bool IsDone = EventDate <= DateTime.Now ? true : false;
+
+            CargaEvento.FechaActual = DateTime.Now;
+            CargaEvento.FechaEvento = EventDate;
+            CargaEvento.NotaLibre = FreeNote;
+            CargaEvento.FueRealizado = IsDone;
+            CargaEvento.EsNotaLibre = false;            
+            
+            EventoGlucosas.Glucemia = Glucose;
+            EventoGlucosas.IdDispositivoPaciente = IdDevicePacient;
+            EventoGlucosas.IdEventoComida = IdFoodEvent;
+            EventoGlucosas.MedicionPostComida = PostFoodMedition;
+
+            _context.CargaEventos.Update(CargaEvento);
+            _context.EventoGlucosas.Update(EventoGlucosas);
+            await _context.SaveChangesAsync();
         }
 
         public async Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin)

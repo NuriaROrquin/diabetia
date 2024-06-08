@@ -14,5 +14,10 @@ namespace Diabetia.Application.UseCases
         {
             await _eventRepository.AddGlucoseEvent(Email, KindEvent, EventDate, FreeNote, Glucose, IdDevicePacient, IdFoodEvent, PostFoodMedition);
         }
+
+        public async Task EditGlucoseEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition)
+        {
+            await _eventRepository.EditGlucoseEvent(IdEvent, Email, EventDate, FreeNote, Glucose, IdDevicePacient, IdFoodEvent, PostFoodMedition);
+        }
     }
 }
