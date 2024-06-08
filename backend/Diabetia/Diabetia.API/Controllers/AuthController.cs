@@ -23,9 +23,12 @@ namespace Diabetia.API.Controllers
 
 
         [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] AuthLoginRequest request)
         {
-            var user = await _loginUseCase.Login(request.username, request.password);
+            var user = await _loginUseCase.UserLoginAsync(request.username, request.password);
 
             if (user.Token != null)
             {
@@ -39,7 +42,7 @@ namespace Diabetia.API.Controllers
             }
             else
             {
-                return BadRequest("Usuario o contraseï¿½a invalidos");
+                return BadRequest("Usuario o contraseña invalidos");
             }
             
         }
@@ -76,17 +79,23 @@ namespace Diabetia.API.Controllers
         public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] AuthChangePasswordRequest request)
         {
             await _changePasswordUseCase.ChangeUserPasswordAsync(request.AccessToken, request.PreviousPassword, request.NewPassword);
-            return Ok("Contraseï¿½a cambiada exitosamente");
+            return Ok("Contraseña cambiada exitosamente");
         }
         
         [HttpPost("passwordRecover")]
-        public async Task<IActionResult> PasswordEmailRecover([FromBody] AuthUserRequest request)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> PasswordEmailRecover([FromBody] AuthForgotPasswordRequest request)
         {
-            await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.Username);
-            return Ok("Usuario registrado exitosamente");
+            await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.Email);
+            return Ok("Código enviado exitosamente, revise su casilla de correo.");
         }
 
         [HttpPost("passwordRecoverCode")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] AuthConfirmPasswordRecoverRequest request)
         {
             await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.Username, request.ConfirmationCode, request.Password);

@@ -66,7 +66,7 @@ namespace Infrastructure.Provider
             return response.HttpStatusCode == HttpStatusCode.OK;
         }
 
-        public async Task<string> LoginUserAsync(string username, string password)
+        public async Task<InitiateAuthResponse> LoginUserAsync(string username, string password)
         {
             string secretHash = CalculateSecretHash(_clientId, _clientSecret, username);
 
@@ -83,8 +83,7 @@ namespace Infrastructure.Provider
             };
 
             var response = await _cognitoClient.InitiateAuthAsync(request);
-
-            return response.AuthenticationResult.AccessToken;
+            return response;
         }
 
         public async Task ForgotPasswordRecoverAsync(string username)

@@ -1,4 +1,5 @@
-﻿using Diabetia.Domain.Models;
+﻿using Diabetia.Domain.Entities;
+using Diabetia.Domain.Models;
 using Diabetia.Domain.Services;
 
 namespace Diabetia.Application.UseCases
@@ -9,6 +10,10 @@ namespace Diabetia.Application.UseCases
         public DataUserUseCase(IUserRepository userRepository)
         {
             _userRepository = userRepository;
+        }
+        public async Task<Usuario> GetUserInfo(string userName)
+        {
+            return await _userRepository.GetUserInfo(userName);
         }
         public async Task FirstStep(string name, string email, string gender, string lastname, int weight, string phone, DateOnly birthdate)
         {
@@ -29,6 +34,21 @@ namespace Diabetia.Application.UseCases
         public async Task FourthStep(string email, bool tieneDispositivo, int? idDispositivo, int? frecuencia)
         {
             await _userRepository.CompleteDeviceslUserInfo(email, tieneDispositivo, idDispositivo, frecuencia);
+        }
+
+        public async Task<User> GetEditUserInfo(string email)
+        {
+            return await _userRepository.GetEditUserInfo(email);
+        }
+
+        public async Task<Patient> GetPatientInfo(string email)
+        {
+            return await _userRepository.GetPatientInfo(email);
+        }
+
+        public async Task<Patient> GetPhysicalInfo(string email)
+        {
+            return await _userRepository.GetPhysicalInfo(email);
         }
     }
 }

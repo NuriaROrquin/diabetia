@@ -32,5 +32,5 @@ export function middleware(req){
 
 }
 
-const protectedRoutes = ["/dashboard", "/food", "/event", "/calendar", "/reports"];
+const protectedRoutes = ["/dashboard", "/food", "/event", "/calendar", "/reports", "/profile"];
 const authRoutes = ["/auth"];

@@ -1,9 +1,9 @@
 import {CircleRounded} from "@mui/icons-material";
 
-export const Timeline = ({events}) => {
+export const Timeline = ({events, className = "", limit = events.length}) => {
     return (
-        <div className="flex flex-col self-start">
-            {events && events.map((event, index) => (
+        <div className={`flex flex-col self-start ${className}`}>
+            {events && events.slice(0, limit).map((event, index) => (
                 <div key={index} className="flex container gap-5">
                     <div className="flex items-center min-w-12">
                         <span className="text-gray-primary font-medium text-base">{event.time}</span>
