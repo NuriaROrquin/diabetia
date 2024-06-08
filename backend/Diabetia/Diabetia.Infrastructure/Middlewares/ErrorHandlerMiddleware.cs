@@ -142,9 +142,21 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El evento no se encuentra relacionado al paciente");
             }
+            else if (ex is PatientInsulinRelationNotFoundException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El paciente no se encuentra relacionado a esta insulina"); 
+            }
             else if (ex is PhysicalEventNotMatchException)
             {
-                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La actividad física seleccionada es erronea");
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La actividad física seleccionada es errónea");
+            }
+            else if (ex is GlucoseEventNotMatchException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La carga de glucosa seleccionada es errónea.");
+            }
+            else if (ex is InsulinEventNotMatchException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La carga de insulina seleecionada es errónea.");
             }
             else
             {
