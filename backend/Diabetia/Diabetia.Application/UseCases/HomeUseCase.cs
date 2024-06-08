@@ -33,9 +33,6 @@ namespace Diabetia.Application.UseCases
             metrics.Insulin = await _homeRepository.GetInsulin(Email, (int)TypeEventEnum.INSULINA);
 
             return metrics;
-
-            
         }
-
     }
 }
