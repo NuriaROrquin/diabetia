@@ -18,11 +18,11 @@ export const register = (username, email, password) => {
         );
 }
 
-export const passwordRecover = (username) => {
+export const passwordRecover = (email) => {
     return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/passwordRecover`,
-            { username },
+            { email },
             { withCredentials: true }
         );
 }
