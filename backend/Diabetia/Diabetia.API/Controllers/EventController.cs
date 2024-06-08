@@ -14,9 +14,7 @@ namespace Diabetia.API.Controllers
         private readonly AddGlucoseEventUseCase _addGlucoseEventUseCase;
         private readonly AddInsulinEventUseCase _addInsulineEventUseCase;
 
-
-        public EventController(AddPhysicalEventUseCase addPhysicalEventUseCase, AddGlucoseEventUseCase addGlucoseEventUseCase, AddInsulinEventUseCase addInsulineEventUseCase)
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, AddGlucoseEventUseCase addGlucoseEventUseCase)
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, AddGlucoseEventUseCase addGlucoseEventUseCase, AddInsulinEventUseCase addInsulineEventUseCase)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
             _addGlucoseEventUseCase = addGlucoseEventUseCase;
