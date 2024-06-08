@@ -5,6 +5,7 @@ using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities.Events;
 using Diabetia.Application.Exceptions;
 using Diabetia.Domain.Entities;
+using Diabetia.Common.Utilities;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -140,7 +141,7 @@ namespace Diabetia.Infrastructure.Repositories
             var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
             var CargaEvento = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
             var EventoGlucosas = await _context.EventoGlucosas.FirstOrDefaultAsync(eg => eg.IdCargaEvento == CargaEvento.Id);
-            
+
             // 1- Modificar el evento
             bool IsDone = EventDate <= DateTime.Now ? true : false;
 
@@ -148,8 +149,8 @@ namespace Diabetia.Infrastructure.Repositories
             CargaEvento.FechaEvento = EventDate;
             CargaEvento.NotaLibre = FreeNote;
             CargaEvento.FueRealizado = IsDone;
-            CargaEvento.EsNotaLibre = false;            
-            
+            CargaEvento.EsNotaLibre = false;
+
             EventoGlucosas.Glucemia = Glucose;
             EventoGlucosas.IdDispositivoPaciente = IdDevicePacient;
             EventoGlucosas.IdEventoComida = IdFoodEvent;
@@ -219,11 +220,8 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteInsulinEvent(int IdEvent, string Email)
+        public async Task DeleteInsulinEvent(int IdEvent)
         {
-            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
-            var PatientInsulin = await _context.InsulinaPacientes.FirstOrDefaultAsync(ip => ip.IdPaciente == Patient.Id);
             var CargaEvento = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
             var EventoInsulina = await _context.EventoInsulinas.FirstOrDefaultAsync(ei => ei.IdCargaEvento == CargaEvento.Id);
 
@@ -424,6 +422,50 @@ namespace Diabetia.Infrastructure.Repositories
                 .ToListAsync();
 
             return medicalVisitEvents;
+        }
+
+        public async Task<TypeEventEnum> GetEventType(int idEvent)
+        {
+            var typeId = await _context.CargaEventos
+                .Where(ce => ce.Id == idEvent)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => te.Id)
+                .FirstOrDefaultAsync();
+
+            if (Enum.IsDefined(typeof(TypeEventEnum), typeId))
+            {
+                return (TypeEventEnum)typeId;
+            }
+            else
+            {
+                throw new InvalidOperationException("No existe el tipo de evento");
+            }
+        }
+
+        public async Task<GlucoseEvent> GetGlucoseEventById(int idEvent)
+        {
+            var glucoseEvent = await _context.CargaEventos
+                .Where(ce => ce.Id == idEvent)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoGlucosas,
+                      joined => joined.CargaEvento.Id,
+                      eg => eg.IdCargaEvento,
+                      (joined, eg) => new GlucoseEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = joined.TipoEvento.Tipo,
+                          GlucoseLevel = eg.Glucemia
+                      })
+                .FirstOrDefaultAsync();
+
+            return glucoseEvent;
         }
 
     }

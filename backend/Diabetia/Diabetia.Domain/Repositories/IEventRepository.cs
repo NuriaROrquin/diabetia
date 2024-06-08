@@ -1,5 +1,5 @@
-﻿using Diabetia.Domain.Entities.Events;
-using Diabetia.Common.Utilities;
+﻿using Diabetia.Common.Utilities;
+using Diabetia.Domain.Entities.Events;
 
 namespace Diabetia.Domain.Repositories
 {
@@ -34,6 +34,8 @@ namespace Diabetia.Domain.Repositories
         public Task<IEnumerable<MedicalVisitEvent>> GetMedicalVisit(int patientId);
 
         public Task<TypeEventEnum> GetEventType(int idEvent);
+
+        public Task<GlucoseEvent> GetGlucoseEventById(int idEvent);
 
     }
 }

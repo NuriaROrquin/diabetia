@@ -78,5 +78,16 @@ namespace Diabetia.API.Controllers
             await _addInsulinEventUseCase.DeleteInsulinEvent(request.IdEvent.Value, request.Email);
             return Ok();
         }
+
+        [HttpGet("GetEventType/{id}")]
+        public async Task<IActionResult> GetEventType(int id)
+        {
+            var eventType = await _getEventUseCase.GetEventType(id);
+            if (eventType == null)
+            {
+                return NotFound();
+            }
+            return Ok(eventType);
+        }
     }
 }
