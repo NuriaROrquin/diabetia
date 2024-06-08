@@ -119,3 +119,11 @@ export const getAllEvents = (data) => {
             data
         );
 }
+
+export const getEventsByDate = (date, email) => {
+    return axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/Calendar/eventsByDate`,
+        { date: date, email: email },
+        { headers: { 'Content-Type': 'application/json' } }
+    );
+}

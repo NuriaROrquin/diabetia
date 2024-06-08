@@ -22,13 +22,13 @@ namespace Diabetia.Application.UseCases
 
             var patient = await _userRepository.GetPatient(email);
 
-            var physicalActivityEvents = await _eventRepository.GetPhysicalActivity(patient.Id);
-            var foodEvents = await _eventRepository.GetFoods(patient.Id);
-            var examEvents = await _eventRepository.GetExams(patient.Id);
-            var glucoseEvents = await _eventRepository.GetGlycemia(patient.Id);
-            var insulinEvents = await _eventRepository.GetInsulin(patient.Id);
-            var healthEvents = await _eventRepository.GetHealth(patient.Id);
-            var medicalVisitEvents = await _eventRepository.GetMedicalVisit(patient.Id);
+            var physicalActivityEvents = await _eventRepository.GetPhysicalActivity(patient.Id, null);
+            var foodEvents = await _eventRepository.GetFoods(patient.Id, null);
+            var examEvents = await _eventRepository.GetExams(patient.Id, null);
+            var glucoseEvents = await _eventRepository.GetGlycemia(patient.Id, null);
+            var insulinEvents = await _eventRepository.GetInsulin(patient.Id, null);
+            var healthEvents = await _eventRepository.GetHealth(patient.Id, null);
+            var medicalVisitEvents = await _eventRepository.GetMedicalVisit(patient.Id, null);
 
 
             var groupedFoodEvents = foodEvents
@@ -89,6 +89,112 @@ namespace Diabetia.Application.UseCases
             return eventsByDate;
         }
 
+        public async Task<IEnumerable<EventItem>> GetAllEventsByDate(DateTime date, string email)
+        {
+
+            var patient = await _userRepository.GetPatient(email);
+
+            var physicalActivityEvents = await _eventRepository.GetPhysicalActivity(patient.Id, date);
+            var foodEvents = await _eventRepository.GetFoods(patient.Id, date);
+            var examEvents = await _eventRepository.GetExams(patient.Id, date);
+            var glucoseEvents = await _eventRepository.GetGlycemia(patient.Id, date);
+            var insulinEvents = await _eventRepository.GetInsulin(patient.Id, date);
+            var healthEvents = await _eventRepository.GetHealth(patient.Id, date);
+            var medicalVisitEvents = await _eventRepository.GetMedicalVisit(patient.Id, date);
+
+            var groupedFoodEvents = foodEvents
+                .GroupBy(fe => new { fe.DateEvent })
+                .Select(g => new
+                {
+                    g.Key.DateEvent,
+                    Title = "Comida",
+                    Ingredients = string.Join(", ", g.Select(fe => fe.IngredientName))
+                });
+
+            var events = new List<EventItem>();
+
+            foreach (var physicalActivityEvent in physicalActivityEvents)
+            {
+                var eventItem = new EventItem
+                {
+                    Time = physicalActivityEvent.DateEvent.ToString("hh:mm tt"),
+                    Title = physicalActivityEvent.Title,
+                };
+
+                events.Add(eventItem);
+            }
+
+            foreach (var foodEvent in foodEvents)
+            {
+                var eventItem = new EventItem
+                {
+                    Time = foodEvent.DateEvent.ToString("hh:mm tt"),
+                    Title = "Comida",
+                    AdditionalInfo = $"Ingredientes: {foodEvent.IngredientName}",
+                };
+
+                events.Add(eventItem);
+            }
+
+            foreach (var examEvent in examEvents)
+            {
+                var eventItem = new EventItem
+                {
+                    Time = examEvent.DateEvent.ToString("hh:mm tt"),
+                    Title = examEvent.Title,
+                };
+
+                events.Add(eventItem);
+            }
+
+            foreach (var glucoseEvent in glucoseEvents)
+            {
+                var eventItem = new EventItem
+                {
+                    Time = glucoseEvent.DateEvent.ToString("hh:mm tt"),
+                    Title = glucoseEvent.Title,
+                };
+
+                events.Add(eventItem);
+            }
+
+            foreach (var insulinEvent in insulinEvents)
+            {
+                var eventItem = new EventItem
+                {
+                    Time = insulinEvent.DateEvent.ToString("hh:mm tt"),
+                    Title = insulinEvent.Title,
+                };
+
+                events.Add(eventItem);
+            }
+
+            foreach (var healthEvent in healthEvents)
+            {
+                var eventItem = new EventItem
+                {
+                    Time = healthEvent.DateEvent.ToString("hh:mm tt"),
+                    Title = healthEvent.Title,
+                };
+
+                events.Add(eventItem);
+            }
+
+            foreach (var medicalVisitEvent in medicalVisitEvents)
+            {
+                var eventItem = new EventItem
+                {
+                    Time = medicalVisitEvent.DateEvent.ToString("hh:mm tt"),
+                    Title = medicalVisitEvent.Title,
+                    AdditionalInfo = medicalVisitEvent.Description,
+                };
+
+                events.Add(eventItem);
+            }
+
+            return events;
+        }
+
         private void AddEventsToDictionary<T>(Dictionary<string, List<EventItem>> dictionary, IEnumerable<T> events, Func<T, DateTime> getDate, Func<T, EventItem> createEventItem)
         {
             foreach (var evt in events)
@@ -103,6 +209,7 @@ namespace Diabetia.Application.UseCases
                 dictionary[eventDate].Add(createEventItem(evt));
             }
         }
+
 
     }
 }

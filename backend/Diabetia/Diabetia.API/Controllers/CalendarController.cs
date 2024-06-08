@@ -1,3 +1,4 @@
+using Amazon.Runtime.Internal;
 using Diabetia.API.DTO;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Entities;
@@ -23,6 +24,13 @@ namespace Diabetia.API.Controllers
         public async Task<Dictionary<string, List<EventItem>>> GetAllEvents([FromBody] CalendarRequest request)
         {
             var eventsByDate = await _calendarUseCase.GetAllEvents(request.Email);
+            return eventsByDate;
+        }
+
+        [HttpPost("eventsByDate")]
+        public async Task<IEnumerable<EventItem>> GetEventsByDate([FromBody] CalendarRequestByDay request)
+        {
+            var eventsByDate = await _calendarUseCase.GetAllEventsByDate(request.Date, request.Email);
             return eventsByDate;
         }
 

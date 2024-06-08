@@ -3,6 +3,7 @@ using Diabetia.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities.Events;
+using Diabetia.Common.Utilities;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -124,10 +125,18 @@ namespace Diabetia.Infrastructure.Repositories
             _context.EventoInsulinas.Add(NewInsulinEvent);
             await _context.SaveChangesAsync();
         }
-        public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId)
+
+        public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date = null)
         {
-            var physicalActivityEvents = await _context.CargaEventos
-                .Where(ce => ce.IdPaciente == patientId)
+            var query = _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId);
+
+            if (date.HasValue)
+            {
+                query = query.Where(ce => ce.FechaEvento.Date == date.Value.Date);
+            }
+
+            var physicalActivityEvents = await query
                 .Join(_context.TipoEventos,
                     ce => ce.IdTipoEvento,
                     te => te.Id,
@@ -153,10 +162,17 @@ namespace Diabetia.Infrastructure.Repositories
             return physicalActivityEvents;
         }
 
-        public async Task<IEnumerable<FoodEvent>> GetFoods(int patientId)
+        public async Task<IEnumerable<FoodEvent>> GetFoods(int patientId, DateTime? date = null)
         {
-            var foodEvents = await _context.CargaEventos
-               .Where(ce => ce.IdPaciente == 3)
+            var query = _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId);
+
+            if (date.HasValue)
+            {
+                query = query.Where(ce => ce.FechaEvento.Date == date.Value.Date);
+            }
+
+            var foodEvents = await query
                .Join(_context.TipoEventos,
                    ce => ce.IdTipoEvento,
                    te => te.Id,
@@ -185,10 +201,17 @@ namespace Diabetia.Infrastructure.Repositories
             return foodEvents;
         }
 
-        public async Task<IEnumerable<ExamEvent>> GetExams(int patientId)
+        public async Task<IEnumerable<ExamEvent>> GetExams(int patientId, DateTime? date = null)
         {
-            var examEvents = await _context.CargaEventos
-                .Where(ce => ce.IdPaciente == patientId)
+            var query = _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId);
+
+            if (date.HasValue)
+            {
+                query = query.Where(ce => ce.FechaEvento.Date == date.Value.Date);
+            }
+
+            var examEvents = await query
                 .Join(_context.TipoEventos,
                         ce => ce.IdTipoEvento,
                         te => te.Id,
@@ -208,10 +231,17 @@ namespace Diabetia.Infrastructure.Repositories
             return examEvents;
         }
 
-        public async Task<IEnumerable<GlucoseEvent>> GetGlycemia(int patientId)
+        public async Task<IEnumerable<GlucoseEvent>> GetGlycemia(int patientId, DateTime? date = null)
         {
-            var glucoseEvents = await _context.CargaEventos
-                .Where(ce => ce.IdPaciente == patientId)
+            var query = _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId);
+
+            if (date.HasValue)
+            {
+                query = query.Where(ce => ce.FechaEvento.Date == date.Value.Date);
+            }
+
+            var glucoseEvents = await query
                 .Join(_context.TipoEventos,
                       ce => ce.IdTipoEvento,
                       te => te.Id,
@@ -232,10 +262,17 @@ namespace Diabetia.Infrastructure.Repositories
             return glucoseEvents;
         }
 
-        public async Task<IEnumerable<InsulinEvent>> GetInsulin(int patientId)
+        public async Task<IEnumerable<InsulinEvent>> GetInsulin(int patientId, DateTime? date = null)
         {
-            var insulinEvents = await _context.CargaEventos
-                .Where(ce => ce.IdPaciente == patientId)
+            var query = _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId);
+
+            if (date.HasValue)
+            {
+                query = query.Where(ce => ce.FechaEvento.Date == date.Value.Date);
+            }
+
+            var insulinEvents = await query
                 .Join(_context.TipoEventos,
                       ce => ce.IdTipoEvento,
                       te => te.Id,
@@ -265,10 +302,17 @@ namespace Diabetia.Infrastructure.Repositories
             return insulinEvents;
         }
 
-        public async Task<IEnumerable<HealthEvent>> GetHealth(int patientId)
+        public async Task<IEnumerable<HealthEvent>> GetHealth(int patientId, DateTime? date = null)
         {
-            var healthEvents = await _context.CargaEventos
-                .Where(ce => ce.IdPaciente == patientId)
+            var query = _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId);
+
+            if (date.HasValue)
+            {
+                query = query.Where(ce => ce.FechaEvento.Date == date.Value.Date);
+            }
+
+            var healthEvents = await query
                 .Join(_context.TipoEventos,
                       ce => ce.IdTipoEvento,
                       te => te.Id,
@@ -292,10 +336,17 @@ namespace Diabetia.Infrastructure.Repositories
             return healthEvents;
         }
 
-        public async Task<IEnumerable<MedicalVisitEvent>> GetMedicalVisit(int patientId)
+        public async Task<IEnumerable<MedicalVisitEvent>> GetMedicalVisit(int patientId, DateTime? date = null)
         {
-            var medicalVisitEvents = await _context.CargaEventos
-                .Where(ce => ce.IdPaciente == patientId)
+            var query = _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId);
+
+            if (date.HasValue)
+            {
+                query = query.Where(ce => ce.FechaEvento.Date == date.Value.Date);
+            }
+
+            var medicalVisitEvents = await query
                 .Join(_context.TipoEventos,
                       ce => ce.IdTipoEvento,
                       te => te.Id,

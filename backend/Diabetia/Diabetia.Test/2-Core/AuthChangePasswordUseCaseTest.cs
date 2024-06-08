@@ -3,7 +3,7 @@ using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using FakeItEasy;
 
-namespace Diabetia.Test._2_Core
+namespace Diabetia_Core
 {
     public class AuthChangePasswordUseCaseTest
     {

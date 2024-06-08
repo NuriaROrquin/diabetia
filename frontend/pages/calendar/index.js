@@ -4,7 +4,7 @@ import {OrangeLink} from "../../components/link";
 import CustomTooltip from "@/components/tooltip";
 import {useEffect, useState} from "react";
 import {useCookies} from "react-cookie";
-import {getAllEvents} from "../../services/api.service";
+import {getAllEvents, getEventsByDate, getEventsByDay} from "../../services/api.service";
 
 const registrarEventoTooltipText = "Registrá un nuevo evento: mediciones de glucosa, actividad física, eventos de salud, visitas médicas, insulina, comida manual.";
 
@@ -24,13 +24,23 @@ export const CalendarPage = () => {
             });
     }, [email]);
 
+    const handleOnSelectDay = (e) => {
+        getEventsByDate(e.toISOString(), email)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((error) => {
+                setError(error.response?.data ? error.response.data : "Hubo un error");
+            });
+    }
+
     return (
         <Section className="pt-12 pb-6">
             <div className="w-full col-start-2 flex justify-self-center justify-center pb-6 text-white">
                 <span className="text-xl">Tu agenda de bienestar personal, todo en un mismo lugar</span>
             </div>
 
-            {eventList && <CustomCalendar events={eventList}/>}
+            {eventList && <CustomCalendar events={eventList} handleOnSelectDay={handleOnSelectDay}/>}
 
             <CustomTooltip title={registrarEventoTooltipText} arrow>
                 <div className="flex items-center justify-center pt-12">

@@ -7,7 +7,7 @@ using Diabetia.Domain.Services;
 using Diabetia.Infrastructure.Repositories;
 using FakeItEasy;
 
-namespace Diabetia.Test._2_Core
+namespace Diabetia_Core
 {
     public class AuthLoginUseCaseTest
     {
