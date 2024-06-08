@@ -20,7 +20,7 @@ namespace Diabetia.Application.UseCases
         {
             await _eventRepository.AddHealthStudiesEvent(Email, IdKindEvent, EventDate, File, HealthStudyName, Reminder, ReminderDate);
         }
-
+        /*
         public async Task EditHealthStudiesEvent(int IdEvent, string Email, int IdKindEvent, DateTime EventDate, string File, string HealthStudyName, bool? Reminder, DateTime? ReminderDate)
         {
             await _eventRepository.EditHealthStudiesEvent(IdEvent, Email, EventDate, File, HealthStudyName, Reminder, ReminderDate);
@@ -28,6 +28,6 @@ namespace Diabetia.Application.UseCases
         public async Task DeleteHealthStudiesEvent(int IdEvent, string Email)
         {
             await _eventRepository.DeleteHealthStudiesEvent(IdEvent, Email);
-        }
+        }*/
     }
 }
