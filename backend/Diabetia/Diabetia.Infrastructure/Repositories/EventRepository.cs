@@ -168,6 +168,45 @@ namespace Diabetia.Infrastructure.Repositories
             _context.EventoInsulinas.Add(NewInsulinEvent);
             await _context.SaveChangesAsync();
         }
+
+        public async Task EditInsulinEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, int Insulin)
+        {
+
+            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
+            var PatientInsulin = await _context.InsulinaPacientes.FirstOrDefaultAsync(ip => ip.IdPaciente == Patient.Id);
+            var CargaEvento = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
+            var EventoInsulina = await _context.EventoInsulinas.FirstOrDefaultAsync(ei => ei.IdCargaEvento == CargaEvento.Id);
+
+            // 1- Modificar el evento
+            bool IsDone = EventDate <= DateTime.Now ? true : false;
+            var FechaActual = DateTime.Now;
+            CargaEvento.FechaEvento = EventDate;
+            CargaEvento.NotaLibre = FreeNote;
+            CargaEvento.FueRealizado = IsDone;
+            CargaEvento.EsNotaLibre = false;
+
+            EventoInsulina.InsulinaInyectada = Insulin;
+
+            _context.EventoInsulinas.Update(EventoInsulina);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteInsulinEvent(int IdEvent, string Email)
+        {
+            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
+            var PatientInsulin = await _context.InsulinaPacientes.FirstOrDefaultAsync(ip => ip.IdPaciente == Patient.Id);
+            var CargaEvento = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
+            var EventoInsulina = await _context.EventoInsulinas.FirstOrDefaultAsync(ei => ei.IdCargaEvento == CargaEvento.Id);
+
+            // Eliminar el evento de carga
+            _context.EventoInsulinas.Remove(EventoInsulina);
+            _context.CargaEventos.Remove(CargaEvento);
+
+            // Guardar los cambios en el contexto
+            await _context.SaveChangesAsync();
+        }
         public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId)
         {
             var physicalActivityEvents = await _context.CargaEventos

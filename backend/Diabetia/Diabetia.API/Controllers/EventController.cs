@@ -12,14 +12,14 @@ namespace Diabetia.API.Controllers
     {
         private readonly EventPhysicalActivityUseCase _eventPhysicalActivityUseCase;
         private readonly AddGlucoseEventUseCase _addGlucoseEventUseCase;
-        private readonly AddInsulinEventUseCase _addInsulineEventUseCase;
+        private readonly AddInsulinEventUseCase _addInsulinEventUseCase;
 
 
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, AddGlucoseEventUseCase addGlucoseEventUseCase)
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, AddGlucoseEventUseCase addGlucoseEventUseCase, AddInsulinEventUseCase addInsulinEventUseCase)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
             _addGlucoseEventUseCase = addGlucoseEventUseCase;
-            _addInsulineEventUseCase = addInsulineEventUseCase;
+            _addInsulinEventUseCase = addInsulinEventUseCase;
         }
 
         [HttpPost("AddPhysicalEvent")]
@@ -47,8 +47,23 @@ namespace Diabetia.API.Controllers
         [HttpPost("AddInsulinEvent")]
         public async Task<IActionResult> AddInsulinEvent([FromBody] InsulinEventRequest request)
         {
-            await _addInsulineEventUseCase.AddInsulinEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.Insulin);
+            await _addInsulinEventUseCase.AddInsulinEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.Insulin);
             return Ok();
         }
+
+        [HttpPost("EditInsulinEvent")]
+        public async Task<IActionResult> EditInsulinEvent([FromBody] InsulinEventRequest request)
+        {
+            await _addInsulinEventUseCase.EditInsulinEvent(request.IdEvent.Value, request.Email, request.EventDate, request.FreeNote, request.Insulin);
+            return Ok();
+        }
+
+        [HttpPost("DeleteInsulinEvent")]
+        public async Task<IActionResult> DeleteInsulinEvent([FromBody] InsulinEventRequest request)
+        {
+            await _addInsulinEventUseCase.DeleteInsulinEvent(request.IdEvent.Value, request.Email);
+            return Ok();
+        }
+
     }
 }
