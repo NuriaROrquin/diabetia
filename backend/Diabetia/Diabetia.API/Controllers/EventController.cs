@@ -24,15 +24,22 @@ namespace Diabetia.API.Controllers
         [HttpPost("AddPhysicalEvent")]
         public async Task <IActionResult> AddPhysicalEvent([FromBody] EventAddPhysicalRequest request)
         {
-            await _eventPhysicalActivityUseCase.AddPhysicalEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.PhysicalActivity, request.IniciateTime, request.FinishTime);
+            await _eventPhysicalActivityUseCase.AddPhysicalEventAsync(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.PhysicalActivity, request.IniciateTime, request.FinishTime);
             return Ok();
         }
 
         [HttpPost("EditPhysicalEvent")]
-        public async Task<IActionResult> EditEventInformation([FromBody] EventEditPhysicalRequest request)
+        public async Task<IActionResult> EditPhysicalEvent([FromBody] EventEditPhysicalRequest request)
         {
-            await _eventPhysicalActivityUseCase.EditPhysicalEvent(request.Email, request.EventId, request.EventDate, request.PhysicalActivity, request.IniciateTime, request.FinishTime, request.FreeNote);
+            await _eventPhysicalActivityUseCase.EditPhysicalEventAsync(request.Email, request.EventId, request.EventDate, request.PhysicalActivity, request.IniciateTime, request.FinishTime, request.FreeNote);
             return Ok("Evento modificado correctamente"); ;
+        }
+
+        [HttpPost("DeletePhysicalEvent")]
+        public async Task<IActionResult> DeletePhysicalEvent([FromBody] EventDeletePhysicalRequest request)
+        {
+            await _eventPhysicalActivityUseCase.DeletePhysicalEventAsync(request.Email, request.EventId);
+            return Ok("Evento eliminado correctamente"); ;
         }
 
 

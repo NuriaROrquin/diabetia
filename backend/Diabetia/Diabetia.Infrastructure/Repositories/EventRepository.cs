@@ -16,7 +16,7 @@ namespace Diabetia.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddPhysicalActivityEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int IdPhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime)
+        public async Task AddPhysicalActivityEventAsync(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int IdPhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
             var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
@@ -51,7 +51,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task EditPhysicalActivityEvent(string Email, int EventId, DateTime EventDate, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime, string FreeNote)
+        public async Task EditPhysicalActivityEventAsync(string Email, int EventId, DateTime EventDate, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime, string FreeNote)
         {
             var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == EventId);
             if (@event == null)
@@ -92,6 +92,38 @@ namespace Diabetia.Infrastructure.Repositories
 
             _context.CargaEventos.Update(@event);
             _context.EventoActividadFisicas.Update(physicalEvent);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeletePhysicalActivityEventAsync(string Email, int EventId)
+        {
+            var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == EventId);
+            if (@event == null)
+            {
+                throw new EventNotFoundException();
+            }
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.Id == @event.IdPaciente);
+            if (patient == null)
+            {
+                throw new EventNotRelatedWithPatientException(); ;
+            }
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            if (user == null)
+            {
+                throw new UserEventNotFoundException();
+            }
+            if (user.Id != patient.IdUsuario)
+            {
+                throw new MismatchUserPatientException();
+            }
+            var physicalEvent = await _context.EventoActividadFisicas.FirstOrDefaultAsync(eaf => eaf.IdCargaEvento == EventId);
+            if (physicalEvent == null)
+            {
+                throw new PhysicalEventNotMatchException();
+            }
+
+            _context.EventoActividadFisicas.Remove(physicalEvent);
+            _context.CargaEventos.Remove(@event);
             await _context.SaveChangesAsync();
         }
 

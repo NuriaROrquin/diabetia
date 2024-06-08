@@ -24,7 +24,7 @@ public class EventRepositoryTests
         var freeNote = "Updated Note";
 
         // Act
-        await repository.EditPhysicalActivityEvent(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote);
+        await repository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote);
 
         // Assert
         mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
@@ -72,7 +72,7 @@ public class EventRepositoryTests
         // Act & Assert
 
         await Assert.ThrowsAsync<EventNotFoundException>(async () =>
-        await repository.EditPhysicalActivityEvent(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
+        await repository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
     }
 
     private Mock<diabetiaContext> CreateMockContextThrowEventException()
@@ -103,7 +103,7 @@ public class EventRepositoryTests
 
         // Act & Assert
         await Assert.ThrowsAsync<UserEventNotFoundException>(async () =>
-        await repository.EditPhysicalActivityEvent(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
+        await repository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
     }
 
     private Mock<diabetiaContext> CreateMockContextThrowUserException()
@@ -135,7 +135,7 @@ public class EventRepositoryTests
         // Act & Assert
 
         await Assert.ThrowsAsync<PatientNotFoundException>(async () =>
-        await repository.EditPhysicalActivityEvent(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
+        await repository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
     }
 
     private Mock<diabetiaContext> CreateMockContextThrowPatientException()
@@ -169,7 +169,7 @@ public class EventRepositoryTests
         // Act & Assert
 
         await Assert.ThrowsAsync<EventNotRelatedWithPatientException>(async () =>
-        await repository.EditPhysicalActivityEvent(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
+        await repository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
     }
 
     private Mock<diabetiaContext> CreateMockContextThrowEventPatientException()

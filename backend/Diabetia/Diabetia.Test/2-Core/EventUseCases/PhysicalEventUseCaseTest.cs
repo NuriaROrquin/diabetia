@@ -20,10 +20,10 @@ namespace Diabetia.Test._2_Core.EventUseCases
 
             var fakeEventPhysicalActivityUseCase = new EventPhysicalActivityUseCase(fakeEventRepository);
 
-            await fakeEventPhysicalActivityUseCase.EditPhysicalEvent(email, eventId, eventDate, physicalActivity,iniciateTime, finishTime, freeNote);
+            await fakeEventPhysicalActivityUseCase.EditPhysicalEventAsync(email, eventId, eventDate, physicalActivity,iniciateTime, finishTime, freeNote);
 
             // Act & Assert 
-            A.CallTo(() => fakeEventRepository.EditPhysicalActivityEvent(email, eventId, eventDate, physicalActivity, iniciateTime,finishTime,freeNote)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeEventRepository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime,finishTime,freeNote)).MustHaveHappenedOnceExactly();
         }
     }
 }
