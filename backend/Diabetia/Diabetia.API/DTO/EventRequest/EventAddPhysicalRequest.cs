@@ -1,15 +1,13 @@
-﻿namespace Diabetia.API.DTO
+﻿namespace Diabetia.API.DTO.EventRequest
 {
-    public class EventRequest
+    public class EventAddPhysicalRequest : EventRequest
     {
-        public string Email { get; set; }
         public int IdKindEvent { get; set; }
         public DateTime EventDate { get; set; }
         public string? FreeNote { get; set; }
         public int PhysicalActivity { get; set; }
         public TimeSpan IniciateTime { get; set; }
         public TimeSpan FinishTime { get; set; }
-
 
     }
 }

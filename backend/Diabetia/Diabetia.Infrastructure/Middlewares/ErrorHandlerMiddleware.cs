@@ -115,7 +115,6 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Información del usuario no encontrada");
             }
-
             else if (ex is Amazon.CognitoIdentityProvider.Model.NotAuthorizedException) // Asegúrate de que esta línea está correcta
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Usuario o contraseña incorrectos");
@@ -124,6 +123,28 @@ namespace Diabetia.Infrastructure.Middlewares
              httpEx.InnerException is Amazon.CognitoIdentityProvider.Model.NotAuthorizedException cognitoEx)
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Usuario o contraseña incorrectos");
+            }
+
+            // Event Exceptions
+            else if (ex is EventNotFoundException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Evento no encontrado");
+            }
+            else if (ex is UserEventNotFoundException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario no tiene el asociado el evento seleccionado");
+            }
+            else if (ex is PatientNotFoundException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario todavía no fue dado de alta como paciente");
+            }
+            else if (ex is EventNotRelatedWithPatientException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El evento no se encuentra relacionado al paciente");
+            }
+            else if (ex is PhysicalEventNotMatchException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La actividad física seleccionada es erronea");
             }
             else
             {
