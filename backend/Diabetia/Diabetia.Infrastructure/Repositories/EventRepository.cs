@@ -19,8 +19,15 @@ namespace Diabetia.Infrastructure.Repositories
         public async Task AddPhysicalActivityEventAsync(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int IdPhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            if (user == null)
+            {
+                throw new UserNotFoundOnDBException();
+            }
             var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
-
+            if (patient == null)
+            {
+                throw new PatientNotFoundException();
+            }
             bool IsDone = EventDate <= DateTime.Now ? true : false;
             var NewEvent = new CargaEvento
             {

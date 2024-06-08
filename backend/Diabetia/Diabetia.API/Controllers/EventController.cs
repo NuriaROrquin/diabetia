@@ -25,7 +25,7 @@ namespace Diabetia.API.Controllers
         public async Task <IActionResult> AddPhysicalEvent([FromBody] EventAddPhysicalRequest request)
         {
             await _eventPhysicalActivityUseCase.AddPhysicalEventAsync(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.PhysicalActivity, request.IniciateTime, request.FinishTime);
-            return Ok();
+            return Ok("Evento creado correctamente");
         }
 
         [HttpPost("EditPhysicalEvent")]

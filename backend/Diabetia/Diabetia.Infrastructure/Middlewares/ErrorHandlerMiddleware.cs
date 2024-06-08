@@ -150,6 +150,10 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario no posee el evento asociado");
             }
+            else if (ex is UserNotFoundOnDBException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario no se encuentra registrado");
+            }
 
             else
             {
