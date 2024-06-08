@@ -115,3 +115,31 @@ export const fourthStep = (data) => {
             data
         );
 }
+
+export const getUserInfo = (data) => {
+    return axios
+        .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/Profile/getUserInfo?email=${data.email}`)
+}
+
+export const getPatientInfo = (data) => {
+    return axios
+        .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/Profile/getPatientInfo?email=${data.email}`)
+}
+
+export const getAllEvents = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Calendar/events`,
+            data
+        );
+}
+
+export const getEventsByDate = (date, email) => {
+    return axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/Calendar/eventsByDate`,
+        { date: date, email: email },
+        { headers: { 'Content-Type': 'application/json' } }
+    );
+}

@@ -1,10 +1,25 @@
 import Link from "next/link";
 import Image from "next/image";
-import {ErrorOutline, HelpOutline} from "@mui/icons-material";
+import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
 import CustomTooltip from "@/components/tooltip";
+import {ErrorOutline, HelpOutline, EditOutlinedIcon, FolderSharedOutlinedIcon, ContactMailOutlinedIcon, DirectionsRunOutlinedIcon} from "@mui/icons-material";
+
+const getIconComponent = (title) => {
+    switch (title) {
+        case 'Datos personales':
+            return ContactMailOutlinedIcon;
+        case 'Información del paciente':
+            return MedicalInformationOutlinedIcon;
+        case 'Datos de actividad física y salud':
+            return DirectionsRunOutlinedIcon;
+        case 'Dispositivos y sensores':
+            return FolderSharedOutlinedIcon;
+        default:
+            return null;
+    }
+};
 
 export const MetricCard = ({number, textIndicator, title, description, unit, tooltipContent, selectedOption, loading, isWarning}) => {
-
     const getTextColor = () => {
         return isWarning === null ? 'text-blue-primary' : isWarning === false ? 'text-green-primary' : 'text-red-primary'
     }
@@ -74,3 +89,27 @@ export const EventCard = ({events}) => {
         </>
     )
 }
+
+export const ProfileCard = ({ editInfo }) => {
+    return (
+        <div className="ml-4">
+            {editInfo && editInfo.map((item) => {
+                const IconComponent = getIconComponent(item.title);
+                return (
+                    <div key={item.title} className="bg-white rounded-lg overflow-hidden shadow-lg p-2 mb-4">
+                        <Link href={item.link || ""} className="flex items-center p-6">
+                            {IconComponent && <IconComponent className="text-orange-primary text-4xl mr-8" />}
+                            <div>
+                                <span className="text-blue-primary text-lg">{item.title}</span>
+                            </div>
+                            <div className="ml-auto">
+                                <EditOutlinedIcon className="text-blue-primary mr-8" />
+                            </div>
+                        </Link>
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
+

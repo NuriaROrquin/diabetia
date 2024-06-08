@@ -7,7 +7,6 @@ import {ContainerTitles, SubtitleSection, TitleSection} from "../../components/t
 import {Timeline} from "../../components/timeline";
 import {Section} from "../../components/section";
 import {OrangeLink} from "../../components/link";
-import { Tooltip } from '@mui/material';
 import {getMetrics, login} from "../../services/api.service";
 import {useCookies} from "react-cookie";
 import CustomTooltip from "@/components/tooltip";
@@ -40,7 +39,6 @@ export const Home = () => {
 
     const registrarEventoTooltipText = "Registrá un nuevo evento: mediciones de glucosa, actividad física, eventos de salud, visitas médicas, insulina, comida manual.";
 
-    console.log(metrics)
     return (
         <>
         <Section>
@@ -64,7 +62,6 @@ export const Home = () => {
 
                 <div className="flex flex-wrap justify-between my-12 gap-x-1 gap-y-8">
                     {metrics && DASHBOARD_INDICATORS.map((data, index) => {
-                        console.log(metrics[data.key])
                         return (
                         <MetricCard
                             key={index}

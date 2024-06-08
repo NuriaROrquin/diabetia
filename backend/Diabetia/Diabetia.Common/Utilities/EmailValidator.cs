@@ -1,10 +1,11 @@
 ﻿using System.Text.RegularExpressions;
+using Diabetia.Interfaces;
 
 namespace Diabetia.Common.Utilities
 {
-    public class EmailValidator
+    public class EmailValidator : IEmailValidator
     {
-        public static bool IsValidEmail(string email)
+        public bool IsValidEmail(string email) 
         {
             if (string.IsNullOrWhiteSpace(email))
             {

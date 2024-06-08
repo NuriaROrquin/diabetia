@@ -1,4 +1,5 @@
 using Diabetia.Application.UseCases;
+using Diabetia.Domain.Entities;
 using Diabetia.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
@@ -54,7 +55,6 @@ namespace Diabetia.API.Controllers
 
             return Ok();
         }
-
 
     }
 }
