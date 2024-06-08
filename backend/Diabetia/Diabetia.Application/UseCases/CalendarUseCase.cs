@@ -117,6 +117,7 @@ namespace Diabetia.Application.UseCases
             {
                 var eventItem = new EventItem
                 {
+                    IdEvent = physicalActivityEvent.IdEvent,
                     Time = physicalActivityEvent.DateEvent.ToString("hh:mm tt"),
                     Title = physicalActivityEvent.Title,
                 };
@@ -128,6 +129,7 @@ namespace Diabetia.Application.UseCases
             {
                 var eventItem = new EventItem
                 {
+                    IdEvent = foodEvent.IdEvent,
                     Time = foodEvent.DateEvent.ToString("hh:mm tt"),
                     Title = "Comida",
                     AdditionalInfo = $"Ingredientes: {foodEvent.IngredientName}",
@@ -140,6 +142,7 @@ namespace Diabetia.Application.UseCases
             {
                 var eventItem = new EventItem
                 {
+                    IdEvent = examEvent.IdEvent,
                     Time = examEvent.DateEvent.ToString("hh:mm tt"),
                     Title = examEvent.Title,
                 };
@@ -151,6 +154,7 @@ namespace Diabetia.Application.UseCases
             {
                 var eventItem = new EventItem
                 {
+                    IdEvent = glucoseEvent.IdEvent,
                     Time = glucoseEvent.DateEvent.ToString("hh:mm tt"),
                     Title = glucoseEvent.Title,
                 };
@@ -162,6 +166,7 @@ namespace Diabetia.Application.UseCases
             {
                 var eventItem = new EventItem
                 {
+                    IdEvent = insulinEvent.IdEvent,
                     Time = insulinEvent.DateEvent.ToString("hh:mm tt"),
                     Title = insulinEvent.Title,
                 };
@@ -173,6 +178,7 @@ namespace Diabetia.Application.UseCases
             {
                 var eventItem = new EventItem
                 {
+                    IdEvent = healthEvent.IdEvent,
                     Time = healthEvent.DateEvent.ToString("hh:mm tt"),
                     Title = healthEvent.Title,
                 };
@@ -184,6 +190,7 @@ namespace Diabetia.Application.UseCases
             {
                 var eventItem = new EventItem
                 {
+                    IdEvent = medicalVisitEvent.IdEvent,
                     Time = medicalVisitEvent.DateEvent.ToString("hh:mm tt"),
                     Title = medicalVisitEvent.Title,
                     AdditionalInfo = medicalVisitEvent.Description,
