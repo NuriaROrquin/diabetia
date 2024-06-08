@@ -89,10 +89,9 @@ const InitialFormStep3 = () => {
 
 
                 {/* FORMULARIO */}
-                <div
-                    className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
+                <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
                     <div className="flex flex-col w-full gap-12">
-                        <Stepper activeStep={1} alternativeLabel>
+                        <Stepper activeStep={2} alternativeLabel>
                             {steps.map((label) => (
                                 <Step key={label}>
                                     <StepLabel>{label}</StepLabel>
@@ -102,45 +101,52 @@ const InitialFormStep3 = () => {
                         <TitleSection className="w-full !text-blue-secondary">Actividad Física y Salud</TitleSection>
 
                     </div>
-                    <CustomSwitch label="¿Hacés Actividad Física?" id="activity" onChange={() => setActivity(!activity)}
-                                  width="w-1/3"/>
 
-                    {activity && (
-                        <>
-                            <Select label="¿Con qué frecuencia?" placeholder="Indica qué días realizas"
-                                    options={ACTIVITY_FREQUENCY} selectedOption={selectedOptionActivityFrequency}
-                                    handleOptionClick={handleOptionClickActivityFrequency}
-                                    setIsOpen={setIsOpenActivityFrequency} isOpen={isOpenActivityFrequency}
-                                    width="w-1/3"/>
+                    <div className={`flex flex-wrap w-11/12 gap-4 ${activity ? "justify-between": "justify-items-start"}`}>
 
-                            <Select label="¿Qué tipo de actividad fisica realizas?" placeholder="Indica qué actividad realizas"
-                                    options={TYPE_EXERCISES} selectedOption={selectedOptionActivity}
-                                    handleOptionClick={handleOptionClickActivity}
-                                    setIsOpen={setIsOpenActivity} isOpen={isOpenActivity}
-                                    width="w-1/3"/>
+                     <CustomSwitch label="¿Hacés Actividad Física?" id="activity" onChange={() => setActivity(!activity)}
+                                  width="w-1/2"/>
 
-                            <Select label="Cantidad de horas por semana" placeholder="Indica las horas semanales"
-                                    options={ACTIVITY_HOURS_WEEK} selectedOption={selectedOptionActivityHoursWeek}
-                                    handleOptionClick={handleOptionClickActivityHoursWeek}
-                                    setIsOpen={setIsOpenActivityHoursWeek} isOpen={isOpenActivityHoursWeek}
-                                    width="w-1/3"/>
+                        {activity && (
+                            <>
+                                <Select label="¿Con qué frecuencia?" placeholder="Indica qué días realizas"
+                                        options={ACTIVITY_FREQUENCY} selectedOption={selectedOptionActivityFrequency}
+                                        handleOptionClick={handleOptionClickActivityFrequency}
+                                        setIsOpen={setIsOpenActivityFrequency} isOpen={isOpenActivityFrequency}
+                                        width="w-1/3"/>
 
-                            <CustomSwitch label="¿Tenés alguna enfermedad preexistente?" id="illness" onChange={() => setIllness(!illness)}
-                                          width="w-1/3"/>
-                            {illness && (
-                                <>
-                                    <Select label="¿Cuál/es?" placeholder="Indica cual"
-                                            options={TYPE_ILLNESS} selectedOption={selectedOptionIllness}
-                                            handleOptionClick={handleOptionClickIllness}
-                                            setIsOpen={setIsOpenIllness} isOpen={isOpenIllness}
-                                            width="w-1/3"/>
-                                </>
-                            )}
-                        </>
-                    )}
+                                <Select label="¿Qué tipo de actividad fisica realizas?" placeholder="Indica qué actividad realizas"
+                                        options={TYPE_EXERCISES} selectedOption={selectedOptionActivity}
+                                        handleOptionClick={handleOptionClickActivity}
+                                        setIsOpen={setIsOpenActivity} isOpen={isOpenActivity}
+                                        width="w-1/3"/>
 
-                    <OrangeLink href="/initialForm/step-2" label="Atrás" width="w-1/3"/>
-                    <ButtonOrange onClick={handleSubmit} label="Finalizar" width="w-1/3"/>
+                                <Select label="Cantidad de horas por semana" placeholder="Indica las horas semanales"
+                                        options={ACTIVITY_HOURS_WEEK} selectedOption={selectedOptionActivityHoursWeek}
+                                        handleOptionClick={handleOptionClickActivityHoursWeek}
+                                        setIsOpen={setIsOpenActivityHoursWeek} isOpen={isOpenActivityHoursWeek}
+                                        width="w-1/3"/>
+
+                                <CustomSwitch label="¿Tenés alguna enfermedad preexistente?" id="illness" onChange={() => setIllness(!illness)}
+                                              width="w-1/3"/>
+                                {illness && (
+                                    <>
+                                        <Select label="¿Cuál/es?" placeholder="Indica cual"
+                                                options={TYPE_ILLNESS} selectedOption={selectedOptionIllness}
+                                                handleOptionClick={handleOptionClickIllness}
+                                                setIsOpen={setIsOpenIllness} isOpen={isOpenIllness}
+                                                width="w-1/3"/>
+                                    </>
+                                )}
+                            </>
+                        )}
+                    </div>
+
+                    <div className="flex justify-around w-full">
+                        <OrangeLink href="/initialForm/step-2" label="Atrás" width="w-1/3"/>
+                        <ButtonOrange onClick={handleSubmit} label="Finalizar" width="w-1/3"/>
+                    </div>
+
                 </div>
             </div>
         </Section>

@@ -23,19 +23,19 @@ const GlycemiaEvent = () => {
 
 
     const handleSubmit = () => {
-        const device = selectedOption.id;
         const dateFormatted = date ? date.format('YYYY-MM-DD') : null;
-        const glycemiaMeasurement = document.getElementById("glycemiaMeasurement").value
+        const start = startHour ? startHour.format('HH:mm:ss') : null;
+        const insulineQuantity = document.getElementById("insulineQuantity").value
         const notes = document.getElementById("notes").value;
         const email = cookies.email;
 
         const data = {
             "email": email,
-            "idKindEvent": 3,
+            "idKindEvent": 4,
             "eventDate": dateFormatted,
             "freeNote": notes,
-            "glucose": glycemiaMeasurement,
-            "idDevicePatient": device ?? null,
+            "insulina_inyectada": insulineQuantity,
+            "hora": start ?? null
         }
 
         addGlucoseEvent(data).then(() =>
@@ -62,26 +62,29 @@ const GlycemiaEvent = () => {
                 </div>
 
                 {/* FORMULARIO */}
-                <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
-                    
-                    <CustomDatePicker
-                        label="Ingresá una fecha"
-                        value={date}
-                        onChange={(e) => setDate(e)}
-                        defaultValue={dayjs()}
-                        width="w-1/3"
-                    />
+                <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12 items-start">
+
+                    <div className="flex justify-between w-10/12">
+                        <CustomDatePicker
+                            label="Ingresá una fecha"
+                            value={date}
+                            onChange={(e) => setDate(e)}
+                            defaultValue={dayjs()}
+                            width="w-1/3"
+                        />
 
 
-                    <CustomTimePicker
-                        label="Hora de administración"
-                        value={Hour}
-                        onChange={setHour}
-                        defaultValue={dayjs()}
-                        width="w-1/3"
-                    />
-
-                    <InputWithLabel label="¿Cuantas unidades de insulina se inyectó?" placeholder="Escribí la cantidad de unidades administración"  id="glycemiaMeasurement" width="w-1/2"/>
+                        <CustomTimePicker
+                            label="Hora de administración"
+                            value={Hour}
+                            onChange={setHour}
+                            defaultValue={dayjs()}
+                            width="w-1/3"
+                        />
+                    </div>
+                    <div className="flex w-10/12 ">
+                        <InputWithLabel label="¿Cuantas unidades de insulina se inyectó?" placeholder="Escribí la cantidad de unidades administración"  id="insulineQuantity" width="w-1/2"/>
+                    </div>
 
                     <TextArea placeholder="Describí tus sensaciones, estado de ánimo y cualquier otro síntoma que pueda ser de ayuda para los profesionales" label="¿Cómo te sentís?" id="notes" width="w-10/12"/>
 

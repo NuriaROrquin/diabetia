@@ -99,36 +99,40 @@ const ReminderEvent = () => {
 
                     <InputWithLabel label="Ingresa el estudio a guardar" placeholder="¿De qué son los estudios?"  id="" width="w-1/3"/>
 
-                    <CustomSwitch label="¿Necesitás recordatorio para repetir estudio?" id="reminder" onChange={() => setReminder(!reminder)}
+                    <div className={`flex flex-wrap w-11/12 ${reminder ? "justify-between": "justify-items-start"}`}>
+
+                     <CustomSwitch label="¿Necesitás recordatorio para repetir estudio?" id="reminder" onChange={() => setReminder(!reminder)}
                                   width="w-1/2"/>
 
-                    {reminder && (
-                        <>
-                            <Select label="¿En cuanto tiempo?" placeholder="" 
-                            options={TYPE_REMINDERTIME} 
-                            selectedOption={selectedOption} 
-                            handleOptionClick={handleOptionClick} 
-                            setIsOpen={setIsOpen} isOpen={isOpen} 
-                            width="w-1/3"/>
+                        {reminder && (
+                            <>
+                                <Select label="¿En cuanto tiempo?" placeholder=""
+                                options={TYPE_REMINDERTIME}
+                                selectedOption={selectedOption}
+                                handleOptionClick={handleOptionClick}
+                                setIsOpen={setIsOpen} isOpen={isOpen}
+                                width="w-1/3"/>
 
-                            <div className="bg-white w-1/5 flex flex-col rounded-xl p-6 justify-center items-center"
-                            onClick={handleUploadClick}>
-                                <UploadFileOutlined className="text-orange-primary h-20 w-20"/>
-                                <span className="text-lg text-gray-primary font-semibold">Hacé click para subir un archivo</span>
-                                <span className="text-lg text-gray-primary">desde tu dispositivo</span>
-                            </div>
+                                <div className="bg-white w-full flex flex-col rounded-xl p-6 justify-center items-center"
+                                    onClick={handleUploadClick}>
+                                        <UploadFileOutlined className="text-orange-primary h-20 w-20"/>
+                                        <span className="text-lg text-gray-primary font-semibold">Hacé click para subir un archivo</span>
+                                        <span className="text-lg text-gray-primary">desde tu dispositivo</span>
+                                </div>
 
-                            <input
-                                type="file"
-                                ref={fileInputRef}
-                                style={{display: 'none'}}
-                                onChange={handleFileChange}
-                                />
-                        </>
-                    )}
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    style={{display: 'none'}}
+                                    onChange={handleFileChange}
+                                    />
+                            </>
+                        )}
+
+                    </div>
 
 
-                    <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-full"/>
+                    <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3"/>
 
                 </div>
             </div>

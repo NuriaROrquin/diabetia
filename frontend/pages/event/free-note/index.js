@@ -23,19 +23,17 @@ const ExerciseEvent = () => {
 
 
     const handleSubmit = () => {
+        const dateFormatted = date ? date.format('YYYY-MM-DD') : null;
         const start = startHour ? startHour.format('HH:mm:ss') : null;
-        const end = endHour ? endHour.format('HH:mm:ss') : null;
         const notes = document.getElementById("notes").value;
         const email = cookies.email;
 
         const data = {
             "email": email,
-            "idKindEvent": 4,
-            "eventDate": "2024-05-22T23:03:17.219Z",
+            "idKindEvent": 1,
+            "eventDate": dateFormatted,
             "freeNote": notes,
-            "physicalActivity": selectedOption.id,
-            "iniciateTime": start,
-            "finishTime": end
+            "hora": start ?? null
         }
 
         addPhysicalEvent(data).then(() =>
@@ -79,10 +77,10 @@ const ExerciseEvent = () => {
                         width="w-1/3"
                     />
 
-
                     <TextArea placeholder="Describí tus sensaciones, estado de ánimo y cualquier otro síntoma que pueda ser de ayuda para los profesionales" label="Nota Libre" id="notes" width="w-10/12"/>
 
                     <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3"/>
+
                 </div>
             </div>
         </Section>

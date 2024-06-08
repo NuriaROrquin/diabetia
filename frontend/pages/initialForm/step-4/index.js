@@ -76,7 +76,7 @@ const InitialFormStep4 = () => {
                 <div
                     className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
                     <div className="flex flex-col w-full gap-12">
-                        <Stepper activeStep={1} alternativeLabel>
+                        <Stepper activeStep={3} alternativeLabel>
                             {steps.map((label) => (
                                 <Step key={label}>
                                     <StepLabel>{label}</StepLabel>
@@ -87,40 +87,43 @@ const InitialFormStep4 = () => {
 
                     </div>
 
+                    <div className={`flex flex-wrap w-11/12 gap-4 ${device ? "justify-between": "justify-items-start"}`}>
 
-                    <CustomSwitch label="¿Tenés dispositivo para medir la glucosa?" id="device" onChange={() => setDevice(!device)}
-                                  width="w-1/3"/>
+                        <CustomSwitch label="¿Tenés dispositivo para medir la glucosa?" id="device" onChange={() => setDevice(!device)}
+                                      width="w-1/3"/>
 
-                    {device && (
-                        <>
-                            <Select label="¿Qué tipo es?" placeholder="Indica qué tipo utilizas"
-                                    options={TYPE_DEVICES} selectedOption={selectedOptionDevices}
-                                    handleOptionClick={handleOptionClickDevices}
-                                    setIsOpen={setIsOpenDevices} isOpen={isOpenDevices}
-                                    width="w-1/3"/>
+                        {device && (
+                            <>
+                                <Select label="¿Qué tipo es?" placeholder="Indica qué tipo utilizas"
+                                        options={TYPE_DEVICES} selectedOption={selectedOptionDevices}
+                                        handleOptionClick={handleOptionClickDevices}
+                                        setIsOpen={setIsOpenDevices} isOpen={isOpenDevices}
+                                        width="w-1/3"/>
 
-                            <Select label="¿Cuántas veces por día hacés mediciones?" placeholder="Indica cuantas mediciones realizas"
-                                    options={MANY_MEASUREMENTS} selectedOption={selectedOptionManyMeasurements}
-                                    handleOptionClick={handleOptionClickManyMeasurements}
-                                    setIsOpen={setIsOpenManyMeasurements} isOpen={isOpenManyMeasurements}
-                                    width="w-1/3"/>
+                                <Select label="¿Cuántas veces por día hacés mediciones?" placeholder="Indica cuantas mediciones realizas"
+                                        options={MANY_MEASUREMENTS} selectedOption={selectedOptionManyMeasurements}
+                                        handleOptionClick={handleOptionClickManyMeasurements}
+                                        setIsOpen={setIsOpenManyMeasurements} isOpen={isOpenManyMeasurements}
+                                        width="w-1/3"/>
 
 
-
-                            <CustomSwitch label="¿Querés un recordatorio de aplicación?" id="reminder"
-                                          onChange={() => setReminder(!reminder)} width="w-1/3"/>
-                            {reminder && (
-                            <CustomTimePicker
-                                label="Hora del recordatorio"
-                                value={hour}
-                                onChange={(e) => setHour(e)}
-                                defaultValue={dayjs()}
-                                width="w-1/3"
-                                className={reminder ? '' : 'hidden'}
-                            />
-                            )}
-                        </>
-                    )}
+                                <div className="flex justify-between w-full mt-4">
+                                    <CustomSwitch label="¿Querés un recordatorio de aplicación?" id="reminder"
+                                                  onChange={() => setReminder(!reminder)} width="w-1/3" checked={reminder}/>
+                                    {reminder && (
+                                    <CustomTimePicker
+                                        label="Hora del recordatorio"
+                                        value={hour}
+                                        onChange={(e) => setHour(e)}
+                                        defaultValue={dayjs()}
+                                        width="w-1/3"
+                                        className={reminder ? '' : 'hidden'}
+                                    />
+                                    )}
+                                </div>
+                            </>
+                        )}
+                    </div>
 
                     <OrangeLink href="/initialForm/step-3" label="Atrás" width="w-1/3"/>
                     <ButtonOrange onClick={handleSubmit} label="Finalizar" width="w-1/3"/>
