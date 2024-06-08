@@ -160,6 +160,21 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteGlucoseEvent(int IdEvent, string Email)
+        {
+            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
+            var CargaEvento = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
+            var EventoGlucosas = await _context.EventoGlucosas.FirstOrDefaultAsync(eg => eg.IdCargaEvento == CargaEvento.Id);
+
+            // Eliminar el evento de carga
+            _context.EventoGlucosas.Remove(EventoGlucosas);
+            _context.CargaEventos.Remove(CargaEvento);
+
+            // Guardar los cambios en el contexto
+            await _context.SaveChangesAsync();
+        }
+
         public async Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
