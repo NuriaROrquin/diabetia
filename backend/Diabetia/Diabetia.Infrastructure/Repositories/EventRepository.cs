@@ -80,7 +80,7 @@ namespace Diabetia.Infrastructure.Repositories
             var physicalEvent = await _context.EventoActividadFisicas.FirstOrDefaultAsync(pe => pe.IdCargaEvento == EventId);
             if (physicalEvent == null)
             {
-                throw new PhysicalEventNotMatchException("No se encontró el evento físico relacionado.");
+                throw new PhysicalEventNotMatchException();
             }
 
             TimeSpan difference = FinishTime - IniciateTime;
@@ -102,15 +102,15 @@ namespace Diabetia.Infrastructure.Repositories
             {
                 throw new EventNotFoundException();
             }
-            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.Id == @event.IdPaciente);
-            if (patient == null)
-            {
-                throw new EventNotRelatedWithPatientException(); ;
-            }
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
             if (user == null)
             {
                 throw new UserEventNotFoundException();
+            }
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.Id == @event.IdPaciente);
+            if (patient == null)
+            {
+                throw new EventNotRelatedWithPatientException(); ;
             }
             if (user.Id != patient.IdUsuario)
             {
