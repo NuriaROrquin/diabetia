@@ -1,7 +1,7 @@
 ﻿using Diabetia.Application.Exceptions;
-using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
+using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases
 {
@@ -10,19 +10,21 @@ namespace Diabetia.Application.UseCases
     
         private readonly IAuthProvider _apiCognitoProvider;
         private readonly IAuthRepository _authRepository;
-        public AuthForgotPasswordUseCase(IAuthProvider apiCognitoProvider, IAuthRepository authRepository)
+        private readonly IEmailValidator _emailValidator;
+        public AuthForgotPasswordUseCase(IAuthProvider apiCognitoProvider, IAuthRepository authRepository, IEmailValidator emailValidator)
         {
             _apiCognitoProvider = apiCognitoProvider;
             _authRepository = authRepository;
+            _emailValidator = emailValidator;
         }
 
         public async Task ForgotPasswordEmailAsync(string email)
         {
-            if (!EmailValidator.IsValidEmail(email))
+            if (!_emailValidator.IsValidEmail(email))
             {
                 throw new InvalidEmailException();
             }
-            string username = await _authRepository.GetUsernameByEmail(email);
+            string username = await _authRepository.GetUsernameByEmailAsync(email);
             if (username == "")
             {
                 throw new UsernameNotFoundException();
@@ -37,7 +39,7 @@ namespace Diabetia.Application.UseCases
 
         public async Task ConfirmForgotPasswordAsync(string username, string confirmationCode, string password)
         {
-            bool checkUser = await _authRepository.CheckUsernameOnDatabase(username);
+            bool checkUser = await _authRepository.CheckUsernameOnDatabaseAsync(username);
             if (!checkUser)
             {
                 throw new UsernameNotFoundException();

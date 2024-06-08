@@ -8,12 +8,16 @@
 
         public Task SaveUserUsernameAsync(string email, string username);
 
-        public Task <string> GetUsernameByEmail(string email);
+        public Task <string> GetUsernameByEmailAsync(string email);
 
         public Task SetUserStateActiveAsync(string email);
 
         public Task <bool> GetUserStateAsync(string email);
 
-        public Task <bool> CheckUsernameOnDatabase(string username);
+        public Task <bool> CheckUsernameOnDatabaseAsync(string username);
+
+        public Task <bool> CheckEmailOnDatabaseAsync(string email);
+
+        public Task ResetUserAttemptsAsync(string username);
     }
 }

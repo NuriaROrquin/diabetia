@@ -11,12 +11,14 @@ namespace Diabetia.API.Controllers
     {
         private readonly AddPhysicalEventUseCase _addPhysicalEventUseCase;
         private readonly AddGlucoseEventUseCase _addGlucoseEventUseCase;
+        private readonly AddInsulinEventUseCase _addInsulineEventUseCase;
 
 
-        public EventController(AddPhysicalEventUseCase addPhysicalEventUseCase, AddGlucoseEventUseCase addGlucoseEventUseCase)
+        public EventController(AddPhysicalEventUseCase addPhysicalEventUseCase, AddGlucoseEventUseCase addGlucoseEventUseCase, AddInsulinEventUseCase addInsulineEventUseCase)
         {
             _addPhysicalEventUseCase = addPhysicalEventUseCase;
             _addGlucoseEventUseCase = addGlucoseEventUseCase;
+            _addInsulineEventUseCase = addInsulineEventUseCase;
         }
 
         [HttpPost("AddPhysicalEvent")]
@@ -30,6 +32,13 @@ namespace Diabetia.API.Controllers
         public async Task<IActionResult> AddGlucoseEvent([FromBody] GlucoseEventRequest request)
         {
             await _addGlucoseEventUseCase.AddGlucoseEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.Glucose, request.IdDevicePacient, request.IdFoodEvent, request.PostFoodMedition);
+            return Ok();
+        }
+
+        [HttpPost("AddInsulinEvent")]
+        public async Task<IActionResult> AddInsulinEvent([FromBody] InsulinEventRequest request)
+        {
+            await _addInsulineEventUseCase.AddInsulinEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.Insulin);
             return Ok();
         }
     }
