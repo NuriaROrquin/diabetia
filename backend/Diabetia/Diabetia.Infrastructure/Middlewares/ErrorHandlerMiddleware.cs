@@ -132,7 +132,7 @@ namespace Diabetia.Infrastructure.Middlewares
             }
             else if (ex is UserEventNotFoundException)
             {
-                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario no tiene el asociado el evento seleccionado");
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario no tiene asociado el evento seleccionado");
             }
             else if (ex is PatientNotFoundException)
             {
@@ -146,6 +146,11 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La actividad física seleccionada es erronea");
             }
+            else if (ex is MismatchUserPatientException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El usuario no posee el evento asociado");
+            }
+
             else
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.InternalServerError, "Este es un mensaje de error custom");
