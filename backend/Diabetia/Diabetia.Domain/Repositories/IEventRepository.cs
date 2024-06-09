@@ -46,6 +46,9 @@ namespace Diabetia.Domain.Repositories
         Task<MedicalVisitEvent> GetMedicalVisitEventById(int id);
 
         Task<HealthEvent> GetHealthEventById(int id);
+
         Task<ExamEvent> GetExamEventById(int id);
+
+        Task<ExamEvent> GetFreeNoteEventById(int id);
     }
 }

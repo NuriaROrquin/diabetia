@@ -81,7 +81,7 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpGet("GetEventType/{id}")]
-        public async Task<IActionResult> GetEventType(int id)
+        public async Task<IActionResult> GetEventType([FromRoute]int id)
         {
             var idEvent = id;
             var eventType = await _getEventUseCase.GetEvent(id);

@@ -34,6 +34,7 @@ builder.Services.AddScoped<AddInsulinEventUseCase>();
 builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();
 builder.Services.AddScoped<CalendarUseCase>();
+builder.Services.AddScoped<EventUseCase>();
 
 builder.Services.AddScoped<IEmailValidator, EmailValidator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
