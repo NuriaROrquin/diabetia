@@ -33,15 +33,14 @@ export const Selector = ({width, selectedOption, options, isOpen, setIsOpen, han
     )
 }
 
-export const Select = ({width, selectedOption, options, isOpen, setIsOpen, handleOptionClick, placeholder, label}) => {
-
+export const Select = ({ width, selectedOption, options, isOpen, setIsOpen, handleOptionClick, placeholder, label, index }) => {
     return (
         <section className={`${width} flex flex-col`}>
             <label className="text-base text-blue-primary font-medium" htmlFor={`${label}`}>{label}</label>
 
             <div className="relative inline-block w-full h-fit">
                 <button
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => setIsOpen(!isOpen, index)}
                     className={`flex appearance-none w-full px-4 py-3 mt-2 pr-8 border border-gray-400 rounded-lg leading-tight focus:outline-none ${isOpen ? 'rounded-b-0 rounded-t-xl' : 'rounded-xl'} items-center py-4`}
                 >
                     {selectedOption ?
@@ -58,7 +57,7 @@ export const Select = ({width, selectedOption, options, isOpen, setIsOpen, handl
                         {options.map((option) => (
                             <li
                                 key={option.id}
-                                onClick={() => handleOptionClick(option)}
+                                onClick={() => handleOptionClick(option, index)}
                                 className="px-4 py-2 hover:bg-blue-primary hover:text-white cursor-pointer rounded-xl"
                             >
                                 {option.title}
@@ -69,4 +68,5 @@ export const Select = ({width, selectedOption, options, isOpen, setIsOpen, handl
             </div>
         </section>
     )
+
 }

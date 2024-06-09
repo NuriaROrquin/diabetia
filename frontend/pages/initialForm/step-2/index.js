@@ -88,7 +88,7 @@ const InitialFormStep2 = () => {
                                 </Step>
                             ))}
                         </Stepper>
-                        <TitleSection className="w-full !text-blue-secondary">Datos Personales</TitleSection>
+                        <TitleSection className="w-full !text-blue-secondary">Datos del Paciente</TitleSection>
 
                     </div>
                     <Select label="Tipo de Diabetes" placeholder="¿Qué tipo de diabetes tenés?" options={TYPE_DIABETES}
@@ -108,20 +108,27 @@ const InitialFormStep2 = () => {
                                     handleOptionClick={handleOptionClickFrecuenciaInsulina}
                                     setIsOpen={setIsOpenFrecuenciaInsulina} isOpen={isOpenFrecuenciaInsulina}
                                     width="w-1/3"/>
-                            <CustomSwitch label="¿Querés un recordatorio de aplicación?" id="reminder"
-                                          onChange={() => setReminder(!reminder)} width="w-1/3"/>
-                            <CustomTimePicker
-                                label="Hora del recordatorio"
-                                value={hour}
-                                onChange={(e) => setHour(e)}
-                                defaultValue={dayjs()}
-                                width="w-1/3"
-                                className={reminder ? '' : 'hidden'}
-                            />
+                            <div className={`flex flex-wrap w-10/12 gap-4 ${reminder ? "justify-between": "justify-items-start"}`}>
+
+                                    <CustomSwitch label="¿Querés un recordatorio de aplicación?" id="reminder"
+                                                  onChange={() => setReminder(!reminder)} width="w-1/3" checked={reminder}/>
+                                    {reminder && (
+                                            <CustomTimePicker
+                                            label="Hora del recordatorio"
+                                            value={hour}
+                                            onChange={(e) => setHour(e)}
+                                            defaultValue={dayjs()}
+                                            width="w-1/3"
+                                            className={reminder ? '' : 'hidden'}
+                                        />
+                                    )}
+                            </div>
                         </>
                     )}
-                    <OrangeLink href="/initialForm/step-1" label="Atrás" width="w-1/3"/>
-                    <ButtonOrange onClick={handleSubmit} label="Finalizar" width="w-1/3"/>
+                    <div className="flex justify-around w-full">
+                        <OrangeLink href="/initialForm/step-1" label="Atrás" width="w-1/3"/>
+                        <ButtonOrange onClick={handleSubmit} label="Finalizar" width="w-1/3"/>
+                    </div>
                 </div>
             </div>
         </Section>

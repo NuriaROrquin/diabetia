@@ -18,11 +18,11 @@ export const register = (username, email, password) => {
         );
 }
 
-export const passwordRecover = (username) => {
+export const passwordRecover = (email) => {
     return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/passwordRecover`,
-            { username },
+            { email },
             { withCredentials: true }
         );
 }
@@ -96,6 +96,22 @@ export const secondStep = (data) => {
     return axios
         .put(
             `${process.env.NEXT_PUBLIC_API_URL}/Data/secondStep`,
+            data
+        );
+}
+
+export const thirdStep = (data) => {
+    return axios
+        .put(
+            `${process.env.NEXT_PUBLIC_API_URL}/Data/thirdStep`,
+            data
+        );
+}
+
+export const fourthStep = (data) => {
+    return axios
+        .put(
+            `${process.env.NEXT_PUBLIC_API_URL}/Data/fourthStep`,
             data
         );
 }
