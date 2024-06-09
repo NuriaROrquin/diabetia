@@ -37,5 +37,15 @@ namespace Diabetia.Domain.Repositories
 
         public Task<GlucoseEvent> GetGlucoseEventById(int idEvent);
 
+        public Task<InsulinEvent> GetInsulinEventById(int id);
+
+        public Task<FoodEvent> GetFoodEventById(int id);
+
+        Task<PhysicalActivityEvent> GetPhysicalActivityById(int id);
+
+        Task<MedicalVisitEvent> GetMedicalVisitEventById(int id);
+
+        Task<HealthEvent> GetHealthEventById(int id);
+        Task<ExamEvent> GetExamEventById(int id);
     }
 }

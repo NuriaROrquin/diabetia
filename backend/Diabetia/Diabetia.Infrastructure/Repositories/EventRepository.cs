@@ -468,5 +468,34 @@ namespace Diabetia.Infrastructure.Repositories
             return glucoseEvent;
         }
 
+        public Task<InsulinEvent> GetInsulinEventById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<FoodEvent> GetFoodEventById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PhysicalActivityEvent> GetPhysicalActivityById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MedicalVisitEvent> GetMedicalVisitEventById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<HealthEvent> GetHealthEventById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ExamEvent> GetExamEventById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

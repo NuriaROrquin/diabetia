@@ -5,7 +5,14 @@ namespace Diabetia.Domain.Entities.Events
 	{
         public GenericEvent(){}
 
-        GlucoseEvent glucoseEvent { get; set; }
+        public GlucoseEvent GlucoseEvent { get; set; }
+        public InsulinEvent InsulinEvent { get; set; }
+        public FoodEvent FoodEvent { get; set; }
+        public ExamEvent ExamEvent { get; set; }
+        public HealthEvent HealthEvent { get; set; }
+        public MedicalVisitEvent MedicalVisitEvent { get; set; }
+        public PhysicalActivityEvent PhysicalActivityEvent { get; set; }
+        public int TypeEvent { get; set; }
 
 	}
 }
