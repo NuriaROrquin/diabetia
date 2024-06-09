@@ -2,6 +2,7 @@
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
+using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases
 {
@@ -10,20 +11,38 @@ namespace Diabetia.Application.UseCases
         private readonly IUserRepository _userRepository;
         private readonly IAuthRepository _authRepository;
         private readonly IAuthProvider _apiCognitoProvider;
+        private readonly IInputValidator _inputValidator;
 
-        public AuthLoginUseCase(IAuthProvider apiCognitoProvider, IUserRepository userRepository, IAuthRepository authRepository)
+        public AuthLoginUseCase(IAuthProvider apiCognitoProvider, IUserRepository userRepository, IAuthRepository authRepository, IInputValidator inputValidator)
         {
             _apiCognitoProvider = apiCognitoProvider;
             _userRepository = userRepository;
             _authRepository = authRepository;
+            _inputValidator = inputValidator;
         }
 
-        public async Task<User> UserLoginAsync(string username, string password)
+        public async Task<User> UserLoginAsync(string userInput, string password)
         {
-            var checkUser = await _authRepository.CheckUsernameOnDatabaseAsync(username);
-            if (!checkUser)
+            string username = null;
+            bool userExists = false;
+
+            if (_inputValidator.IsEmail(userInput))
             {
-                throw new UsernameNotFoundException("Usuario no encontrado");
+                username = await _authRepository.GetUsernameByEmailAsync(userInput);
+                if (string.IsNullOrEmpty(username))
+                {
+                    throw new UsernameNotFoundException();
+                }
+                userExists = true;
+            }
+            else
+            {
+                userExists = await _authRepository.CheckUsernameOnDatabaseAsync(userInput);
+                if (!userExists)
+                {
+                    throw new UsernameNotFoundException();
+                }
+                username = userInput;
             }
 
             var tokenResponse = await _apiCognitoProvider.LoginUserAsync(username, password);
