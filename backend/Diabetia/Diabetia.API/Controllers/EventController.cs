@@ -1,5 +1,4 @@
-﻿using Diabetia.API.DTO;
-using Diabetia.API.DTO.EventRequest;
+﻿using Diabetia.API.DTO.EventRequest;
 using Diabetia.Application.UseCases;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
@@ -14,14 +13,16 @@ namespace Diabetia.API.Controllers
         private readonly EventGlucoseUseCase _eventGlucosetUseCase;
         private readonly EventInsulinUseCase _eventInsulintUseCase;
         private readonly EventHealthStudiesUseCase _eventHealthStudiesUseCase;
+        private readonly EventFoodManuallyUseCase _eventFoodManuallyUseCase;
 
 
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventHealthStudiesUseCase eventHealthStudiesUseCase)
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventHealthStudiesUseCase eventHealthStudiesUseCase, EventFoodManuallyUseCase eventFoodManuallyUseCase)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
             _eventGlucosetUseCase = evemtGlucoseUseCase;
             _eventInsulintUseCase = eventInsulinUseCase;
             _eventHealthStudiesUseCase = eventHealthStudiesUseCase;
+            _eventFoodManuallyUseCase = eventFoodManuallyUseCase;
         }
 
         [HttpPost("AddPhysicalEvent")]
@@ -85,6 +86,13 @@ namespace Diabetia.API.Controllers
         public async Task<IActionResult> DeleteInsulinEvent([FromBody] InsulinEventRequest request)
         {
             await _eventInsulintUseCase.DeleteInsulinEvent(request.IdEvent.Value, request.Email);
+            return Ok("Evento eliminado correctamente");
+        }
+        /*
+        [HttpPost("AddFoodManuallyEvent")]
+        public async Task<IActionResult> AddFoodManuallyEvent([FromBody] FoodManuallyRequest request)
+        {
+            await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.FreeNote, request.IdFoodChargeType, request.IdIngredient, request.Quantity);
             return Ok("Evento eliminado correctamente");
         }
         /*
