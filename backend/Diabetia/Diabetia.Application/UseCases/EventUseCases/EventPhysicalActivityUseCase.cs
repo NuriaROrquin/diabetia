@@ -1,6 +1,6 @@
 ﻿using Diabetia.Domain.Repositories;
 
-namespace Diabetia.Application.UseCases
+namespace Diabetia.Application.UseCases.EventUseCases
 {
     public class EventPhysicalActivityUseCase
     {
@@ -11,7 +11,7 @@ namespace Diabetia.Application.UseCases
             _eventRepository = eventRepository;
         }
 
-        public async Task AddPhysicalEventAsync(string Email, int KindEvent, DateTime EventDate, String FreeNote, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime)
+        public async Task AddPhysicalEventAsync(string Email, int KindEvent, DateTime EventDate, string FreeNote, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime)
         {
             await _eventRepository.AddPhysicalActivityEventAsync(Email, KindEvent, EventDate, FreeNote, PhysicalActivity, IniciateTime, FinishTime);
         }

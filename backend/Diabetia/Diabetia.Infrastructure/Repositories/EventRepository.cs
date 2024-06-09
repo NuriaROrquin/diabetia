@@ -17,6 +17,7 @@ namespace Diabetia.Infrastructure.Repositories
             _context = context;
         }
 
+        // ------------------------------------------- Physical Event -------------------------------------------
         public async Task AddPhysicalActivityEventAsync(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int IdPhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
@@ -135,6 +136,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        // ------------------------------------------- Glucose Event -------------------------------------------
         public async Task AddGlucoseEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
@@ -201,6 +203,7 @@ namespace Diabetia.Infrastructure.Repositories
             _context.EventoGlucosas.Update(GlucoseEvent);
             await _context.SaveChangesAsync();
         }
+
         public async Task DeleteGlucoseEvent(int IdEvent, string Email)
         {
             var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
@@ -221,6 +224,8 @@ namespace Diabetia.Infrastructure.Repositories
             // Guardar los cambios en el contexto
             await _context.SaveChangesAsync();
         }
+
+        // ------------------------------------------- Insuline Event -------------------------------------------
         public async Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
@@ -300,6 +305,12 @@ namespace Diabetia.Infrastructure.Repositories
             // Guardar los cambios en el contexto
             await _context.SaveChangesAsync();
         }
+
+        // ------------------------------------------- Medical Visit Event -------------------------------------------
+
+        //public async Task AddMedicalVisitEventAsync(int Email, DateTime VisitDate, int ProfessionalId,  )
+
+
         public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date = null)
         {
             var query = _context.CargaEventos

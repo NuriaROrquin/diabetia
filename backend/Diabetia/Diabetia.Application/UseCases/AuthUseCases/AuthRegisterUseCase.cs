@@ -3,7 +3,7 @@ using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 
-namespace Diabetia.Application.UseCases
+namespace Diabetia.Application.UseCases.AuthUseCases
 {
     public class AuthRegisterUseCase
     {
@@ -27,10 +27,10 @@ namespace Diabetia.Application.UseCases
                 throw new EmailAlreadyExistsException();
             }
             string hashCode = await _apiCognitoProvider.RegisterUserAsync(username, password, email);
-            await _authRepository.SaveUserHashAsync(username,email,hashCode);
+            await _authRepository.SaveUserHashAsync(username, email, hashCode);
             await _authRepository.SaveUserUsernameAsync(email, username);
         }
-        
+
         public async Task<bool> ConfirmEmailVerification(string username, string email, string confirmationCode)
         {
             if (!_emailValidator.IsValidEmail(email))
@@ -39,7 +39,7 @@ namespace Diabetia.Application.UseCases
             }
 
             string hashCode = await _authRepository.GetUserHashAsync(email);
-            if (string.IsNullOrEmpty(hashCode)) 
+            if (string.IsNullOrEmpty(hashCode))
             {
                 throw new InvalidOperationException();
             }
@@ -49,4 +49,3 @@ namespace Diabetia.Application.UseCases
         }
     }
 }
- 

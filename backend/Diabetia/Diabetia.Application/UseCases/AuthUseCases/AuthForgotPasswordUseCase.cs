@@ -3,11 +3,11 @@ using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 
-namespace Diabetia.Application.UseCases
+namespace Diabetia.Application.UseCases.AuthUseCases
 {
     public class AuthForgotPasswordUseCase
     {
-    
+
         private readonly IAuthProvider _apiCognitoProvider;
         private readonly IAuthRepository _authRepository;
         private readonly IEmailValidator _emailValidator;
@@ -30,8 +30,8 @@ namespace Diabetia.Application.UseCases
                 throw new UsernameNotFoundException();
             }
             bool userState = await _authRepository.GetUserStateAsync(email);
-            if (!userState) 
-            { 
+            if (!userState)
+            {
                 throw new UserNotAuthorizedException();
             }
             await _apiCognitoProvider.ForgotPasswordRecoverAsync(username);

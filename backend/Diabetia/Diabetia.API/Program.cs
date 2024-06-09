@@ -1,7 +1,8 @@
 using Amazon.CognitoIdentity.Model;
 using Amazon.CognitoIdentityProvider;
-using Diabetia.API.Controllers;
 using Diabetia.Application.UseCases;
+using Diabetia.Application.UseCases.AuthUseCases;
+using Diabetia.Application.UseCases.EventUseCases;
 using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;

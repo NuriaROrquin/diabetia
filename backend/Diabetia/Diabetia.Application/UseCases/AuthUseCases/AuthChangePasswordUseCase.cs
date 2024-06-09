@@ -1,11 +1,11 @@
 ﻿using Diabetia.Domain.Services;
 
-namespace Diabetia.Application.UseCases
+namespace Diabetia.Application.UseCases.AuthUseCases
 {
     public class AuthChangePasswordUseCase
     {
         private readonly IAuthProvider _apiCognitoProvider;
-        public AuthChangePasswordUseCase(IAuthProvider apiCognitoProvider) 
+        public AuthChangePasswordUseCase(IAuthProvider apiCognitoProvider)
         {
             _apiCognitoProvider = apiCognitoProvider;
         }

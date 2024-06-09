@@ -4,7 +4,7 @@ using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 
-namespace Diabetia.Application.UseCases
+namespace Diabetia.Application.UseCases.AuthUseCases
 {
     public class AuthLoginUseCase
     {
@@ -64,7 +64,7 @@ namespace Diabetia.Application.UseCases
                 Id = userInformation.Id
             };
 
-            return user;            
-        }        
+            return user;
+        }
     }
 }

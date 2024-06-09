@@ -1,6 +1,6 @@
 ﻿using Diabetia.Domain.Repositories;
 
-namespace Diabetia.API.Controllers
+namespace Diabetia.Application.UseCases.EventUseCases
 {
     public class EventInsulinUseCase
     {
@@ -10,7 +10,7 @@ namespace Diabetia.API.Controllers
         {
             _eventRepository = eventRepository;
         }
-        public async Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin)
+        public async Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, string FreeNote, int Insulin)
         {
             await _eventRepository.AddInsulinEvent(Email, IdKindEvent, EventDate, FreeNote, Insulin);
         }

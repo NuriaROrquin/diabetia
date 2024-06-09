@@ -1,5 +1,5 @@
 ﻿using Diabetia.API.DTO.EventRequest;
-using Diabetia.Application.UseCases;
+using Diabetia.Application.UseCases.EventUseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
@@ -23,6 +23,10 @@ namespace Diabetia.API.Controllers
             _getEventUseCase = eventUseCase;
         }
 
+        // ------------------------------------------- Physical Event -------------------------------------------
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("AddPhysicalEvent")]
         [Authorize]
         public async Task <IActionResult> AddPhysicalEvent([FromBody] EventAddPhysicalRequest request)
@@ -31,6 +35,10 @@ namespace Diabetia.API.Controllers
             return Ok("Evento creado correctamente");
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("EditPhysicalEvent")]
         [Authorize]
         public async Task<IActionResult> EditPhysicalEvent([FromBody] EventEditPhysicalRequest request)
@@ -39,6 +47,10 @@ namespace Diabetia.API.Controllers
             return Ok("Evento modificado correctamente"); ;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("DeletePhysicalEvent")]
         [Authorize]
         public async Task<IActionResult> DeletePhysicalEvent([FromBody] EventDeletePhysicalRequest request)
@@ -47,6 +59,7 @@ namespace Diabetia.API.Controllers
             return Ok("Evento eliminado correctamente"); ;
         }
 
+        // ------------------------------------------- Glucose Event -------------------------------------------
         [HttpPost("AddGlucoseEvent")]
         public async Task<IActionResult> AddGlucoseEvent([FromBody] GlucoseEventRequest request)
         {
@@ -68,6 +81,7 @@ namespace Diabetia.API.Controllers
             return Ok("Evento eliminado correctamente");
         }
 
+        // ------------------------------------------- Insuline Event -------------------------------------------
         [HttpPost("AddInsulinEvent")]
         public async Task<IActionResult> AddInsulinEvent([FromBody] InsulinEventRequest request)
         {
@@ -88,6 +102,8 @@ namespace Diabetia.API.Controllers
             await _eventInsulintUseCase.DeleteInsulinEvent(request.IdEvent.Value);
             return Ok();
         }
+
+        // ------------------------------------------- Medical Visit Event -------------------------------------------
 
         [HttpGet("GetEventType/{id}")]
         public async Task<IActionResult> GetEventType([FromRoute]int id)

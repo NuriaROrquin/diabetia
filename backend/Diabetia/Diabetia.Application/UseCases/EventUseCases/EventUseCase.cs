@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Xml.Linq;
 using Diabetia.Domain.Entities.Events;
 
-namespace Diabetia.Application.UseCases
+namespace Diabetia.Application.UseCases.EventUseCases
 {
     public class EventUseCase
     {
@@ -26,7 +26,7 @@ namespace Diabetia.Application.UseCases
             switch (type)
             {
                 case TypeEventEnum.GLUCOSA:
-                    var glucose = await _eventRepository.GetGlucoseEventById(id); 
+                    var glucose = await _eventRepository.GetGlucoseEventById(id);
                     return new GenericEvent
                     {
                         GlucoseEvent = glucose,
