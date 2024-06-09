@@ -1,10 +1,10 @@
-﻿using Diabetia.Infrastructure.EF;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Diabetia.Application.Exceptions;
 using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities.Events;
+using Diabetia.Infraestructure.EF;
 
 namespace Diabetia.Infrastructure.Repositories
 {
