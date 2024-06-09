@@ -69,7 +69,7 @@ const FoodEvent = () => {
         const email = getEmailFromJwt();
         const data = {
             email: email,
-            idKindEvent: 3,
+            idKindEvent: 2,
             eventDate: date.format('YYYY-MM-DD'),
             ingredients: ingredients
 

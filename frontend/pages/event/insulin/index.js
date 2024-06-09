@@ -27,7 +27,7 @@ const InsulineEvent = () => {
 
         const data = {
             "email": email,
-            "idKindEvent": 4,
+            "idKindEvent": 1,
             "eventDate": dateFormatted,
             "freeNote": notes,
             "Insulin": insulineQuantity,

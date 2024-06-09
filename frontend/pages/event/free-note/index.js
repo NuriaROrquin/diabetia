@@ -26,7 +26,7 @@ const ExerciseEvent = () => {
 
         const data = {
             "email": email,
-            "idKindEvent": 1,
+            "idKindEvent": 8,
             "eventDate": dateFormatted,
             "freeNote": notes,
             "hora": start ?? null

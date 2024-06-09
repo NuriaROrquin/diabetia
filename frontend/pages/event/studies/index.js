@@ -55,7 +55,7 @@ const ReminderEvent = () => {
 
         const data = {
             "email": email,
-            "idKindEvent": 4,
+            "idKindEvent": 7,
             "eventDate": "2024-05-22T23:03:17.219Z",
             "freeNote": notes,
             "physicalActivity": selectedOption.id,
