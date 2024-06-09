@@ -31,7 +31,7 @@ namespace Diabetia.API.Controllers
         [HttpPost("metrics")]
         public async Task<MetricsResponse> ShowAllMetrics([FromBody] MetricsRequest request)
         {
-            Metrics metrics = await _homeUseCase.ShowMetrics(request.Email, request.Timelapse);
+            Metrics metrics = await _homeUseCase.ShowMetrics(request.Email);
 
             MetricsResponse metricsResponse = new MetricsResponse
             {

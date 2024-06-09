@@ -16,23 +16,26 @@ namespace Diabetia.Application.UseCases
             _homeRepository = homeRepository;
         }
 
-        public async Task<Metrics> ShowMetrics(string Email, int Timelapse)
+        public async Task<Metrics> ShowMetrics(string Email)
         {
             Metrics metrics = new Metrics();
 
-            metrics.PhysicalActivity = await _homeRepository.GetPhysicalActivity(Email, (int)TypeEventEnum.ACTIVIDADFISICA, Timelapse);
+            metrics.PhysicalActivity = await _homeRepository.GetPhysicalActivity(Email, (int)TypeEventEnum.ACTIVIDADFISICA);
 
-            metrics.Carbohydrates = await _homeRepository.GetChMetrics(Email, (int)TypeEventEnum.COMIDA, Timelapse);
+            metrics.Carbohydrates = await _homeRepository.GetChMetrics(Email, (int)TypeEventEnum.COMIDA);
 
-            metrics.Glycemia = await _homeRepository.GetGlucose(Email, (int)TypeEventEnum.GLUCOSA, Timelapse);
+            metrics.Glycemia = await _homeRepository.GetGlucose(Email, (int)TypeEventEnum.GLUCOSA);
 
-            metrics.Hyperglycemia =  await _homeRepository.GetHyperglycemia(Email, Timelapse);
+            metrics.Hyperglycemia =  await _homeRepository.GetHyperglycemia(Email);
 
-            metrics.Hypoglycemia = await _homeRepository.GetHypoglycemia(Email, Timelapse);
+            metrics.Hypoglycemia = await _homeRepository.GetHypoglycemia(Email);
 
-            metrics.Insulin = await _homeRepository.GetInsulin(Email, (int)TypeEventEnum.INSULINA, Timelapse);
+            metrics.Insulin = await _homeRepository.GetInsulin(Email, (int)TypeEventEnum.INSULINA);
 
             return metrics;
+
+            
         }
+
     }
 }
