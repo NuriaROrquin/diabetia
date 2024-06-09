@@ -2,6 +2,7 @@
 {
     public class GlucoseEventRequest
     {
+        public int? IdEvent { get; set; }
         public string Email { get; set; }
         public int IdKindEvent { get; set; }
         public DateTime EventDate { get; set; }

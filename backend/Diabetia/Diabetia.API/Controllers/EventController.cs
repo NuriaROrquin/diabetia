@@ -11,14 +11,17 @@ namespace Diabetia.API.Controllers
     public class EventController : ControllerBase
     {
         private readonly EventPhysicalActivityUseCase _eventPhysicalActivityUseCase;
-        private readonly AddGlucoseEventUseCase _addGlucoseEventUseCase;
-        private readonly AddInsulinEventUseCase _addInsulineEventUseCase;
+        private readonly EventGlucoseUseCase _eventGlucosetUseCase;
+        private readonly EventInsulinUseCase _eventInsulintUseCase;
+        private readonly EventHealthStudiesUseCase _eventHealthStudiesUseCase;
 
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, AddGlucoseEventUseCase addGlucoseEventUseCase, AddInsulinEventUseCase addInsulineEventUseCase)
+
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventHealthStudiesUseCase eventHealthStudiesUseCase)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
-            _addGlucoseEventUseCase = addGlucoseEventUseCase;
-            _addInsulineEventUseCase = addInsulineEventUseCase;
+            _eventGlucosetUseCase = evemtGlucoseUseCase;
+            _eventInsulintUseCase = eventInsulinUseCase;
+            _eventHealthStudiesUseCase = eventHealthStudiesUseCase;
         }
 
         [HttpPost("AddPhysicalEvent")]
@@ -46,15 +49,50 @@ namespace Diabetia.API.Controllers
         [HttpPost("AddGlucoseEvent")]
         public async Task<IActionResult> AddGlucoseEvent([FromBody] GlucoseEventRequest request)
         {
-            await _addGlucoseEventUseCase.AddGlucoseEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.Glucose, request.IdDevicePacient, request.IdFoodEvent, request.PostFoodMedition);
+            await _eventGlucosetUseCase.AddGlucoseEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.Glucose, request.IdDevicePacient, request.IdFoodEvent, request.PostFoodMedition);
             return Ok();
+        }
+
+        [HttpPost("EditGlucoseEvent")]
+        public async Task<IActionResult> EditGlucoseEvent([FromBody] GlucoseEventRequest request)
+        {
+            await _eventGlucosetUseCase.EditGlucoseEvent(request.IdEvent.Value, request.Email, request.EventDate, request.FreeNote, request.Glucose, request.IdDevicePacient, request.IdFoodEvent, request.PostFoodMedition);
+            return Ok("Evento modificado correctamente");
+        }
+        
+        [HttpPost("DeleteGlucoseEvent")]
+        public async Task<IActionResult> DeleteInsulinEvent([FromBody] GlucoseEventRequest request)
+        {
+            await _eventGlucosetUseCase.DeleteGlucoseEvent(request.IdEvent.Value, request.Email);
+            return Ok("Evento eliminado correctamente");
         }
 
         [HttpPost("AddInsulinEvent")]
         public async Task<IActionResult> AddInsulinEvent([FromBody] InsulinEventRequest request)
         {
-            await _addInsulineEventUseCase.AddInsulinEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.Insulin);
+            await _eventInsulintUseCase.AddInsulinEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.Insulin);
             return Ok();
         }
+
+        [HttpPost("EditInsulinEvent")]
+        public async Task<IActionResult> EditInsulinEvent([FromBody] InsulinEventRequest request)
+        {
+            await _eventInsulintUseCase.EditInsulinEvent(request.IdEvent.Value, request.Email, request.EventDate, request.FreeNote, request.Insulin);
+            return Ok("Evento modificado correctamente");
+        }
+
+        [HttpPost("DeleteInsulinEvent")]
+        public async Task<IActionResult> DeleteInsulinEvent([FromBody] InsulinEventRequest request)
+        {
+            await _eventInsulintUseCase.DeleteInsulinEvent(request.IdEvent.Value, request.Email);
+            return Ok("Evento eliminado correctamente");
+        }
+        /*
+        [HttpPost("AddHealthStudiesEvent")]
+        public async Task<IActionResult> AddHealthStudiesEvent([FromBody] EventAddHealthStudiesRequest request)
+        {
+            await _eventHealthStudiesUseCase.AddHealthStudiesEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.PhysicalActivity, request.IniciateTime, request.FinishTime);
+            return Ok();
+        }*/
     }
 }
