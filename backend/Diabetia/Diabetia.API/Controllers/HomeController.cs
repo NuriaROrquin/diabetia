@@ -1,13 +1,6 @@
 using Diabetia.Application.UseCases;
-using Diabetia.Domain.Services;
 using Diabetia.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Diabetia.API.DTO;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Diabetia.Common.Utilities;
 using Microsoft.AspNetCore.Authorization;
 
@@ -31,7 +24,7 @@ namespace Diabetia.API.Controllers
         [Authorize]
         public async Task<MetricsResponse> ShowAllMetrics([FromBody] MetricsRequest request)
         {
-            Metrics metrics = await _homeUseCase.ShowMetrics(request.Email);
+            Metrics metrics = await _homeUseCase.ShowMetrics(request.Email, request.DateFilter);
 
             MetricsResponse metricsResponse = new MetricsResponse
             {
