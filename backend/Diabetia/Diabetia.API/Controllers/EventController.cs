@@ -13,15 +13,15 @@ namespace Diabetia.API.Controllers
         private readonly EventPhysicalActivityUseCase _eventPhysicalActivityUseCase;
         private readonly EventGlucoseUseCase _eventGlucosetUseCase;
         private readonly EventInsulinUseCase _eventInsulintUseCase;
+        private readonly EventUseCase _getEventUseCase;
 
-
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase)
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventUseCase eventUseCase)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
             _eventGlucosetUseCase = evemtGlucoseUseCase;
             _eventInsulintUseCase = eventInsulinUseCase;
+            _getEventUseCase = eventUseCase;
         }
-
 
         [HttpPost("AddPhysicalEvent")]
         [Authorize]
@@ -85,8 +85,20 @@ namespace Diabetia.API.Controllers
         [HttpPost("DeleteInsulinEvent")]
         public async Task<IActionResult> DeleteInsulinEvent([FromBody] InsulinEventRequest request)
         {
-            await _eventInsulintUseCase.DeleteInsulinEvent(request.IdEvent.Value, request.Email);
-            return Ok("Evento eliminado correctamente");
+            await _eventInsulintUseCase.DeleteInsulinEvent(request.IdEvent.Value);
+            return Ok();
+        }
+
+        [HttpGet("GetEventType/{id}")]
+        public async Task<IActionResult> GetEventType([FromRoute]int id)
+        {
+            var idEvent = id;
+            var eventType = await _getEventUseCase.GetEvent(id);
+            if (eventType == null)
+            {
+                return NotFound();
+            }
+            return Ok(eventType);
         }
     }
 }
