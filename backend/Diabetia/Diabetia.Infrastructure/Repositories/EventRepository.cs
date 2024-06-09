@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities.Events;
 using Diabetia.Application.Exceptions;
+using Diabetia.Domain.Entities;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -165,6 +166,56 @@ namespace Diabetia.Infrastructure.Repositories
 
         }
 
+        public async Task EditGlucoseEvent(int EventId, string Email, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition)
+        {
+            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            if (User == null) { throw new UserEventNotFoundException(); }
+            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
+            if (Patient == null) { throw new PatientNotFoundException(); }
+            var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == EventId);
+            if (EventLoad == null) { throw new EventNotFoundException(); }
+            if (EventLoad.IdPaciente != Patient.Id) { throw new EventNotRelatedWithPatientException(); }
+            var GlucoseEvent = await _context.EventoGlucosas.FirstOrDefaultAsync(eg => eg.IdCargaEvento == EventLoad.Id);
+            if (GlucoseEvent == null) { throw new GlucoseEventNotMatchException("No se encontró la carga de glucosa relacionada."); }
+
+            // 1- Modificar el evento
+            bool IsDone = EventDate <= DateTime.Now ? true : false;
+
+            EventLoad.FechaActual = DateTime.Now;
+            EventLoad.FechaEvento = EventDate;
+            EventLoad.NotaLibre = FreeNote;
+            EventLoad.FueRealizado = IsDone;
+            EventLoad.EsNotaLibre = false;
+
+            GlucoseEvent.Glucemia = Glucose;
+            GlucoseEvent.IdDispositivoPaciente = IdDevicePacient;
+            GlucoseEvent.IdEventoComida = IdFoodEvent;
+            GlucoseEvent.MedicionPostComida = PostFoodMedition;
+
+            _context.CargaEventos.Update(EventLoad);
+            _context.EventoGlucosas.Update(GlucoseEvent);
+            await _context.SaveChangesAsync();
+        }
+        public async Task DeleteGlucoseEvent(int IdEvent, string Email)
+        {
+            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            if (User == null) { throw new UserEventNotFoundException(); }
+            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
+            if (Patient == null) { throw new PatientNotFoundException(); }
+            var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
+            if (EventLoad == null) { throw new EventNotFoundException(); }
+            if (EventLoad.IdPaciente != Patient.Id) { throw new EventNotRelatedWithPatientException(); }
+            var GlucoseEvent = await _context.EventoGlucosas.FirstOrDefaultAsync(eg => eg.IdCargaEvento == EventLoad.Id);
+            if (GlucoseEvent == null) { throw new GlucoseEventNotMatchException("No se encontró la carga de glucosa relacionada."); }
+
+
+            // Eliminar el evento de carga
+            _context.EventoGlucosas.Remove(GlucoseEvent);
+            _context.CargaEventos.Remove(EventLoad);
+
+            // Guardar los cambios en el contexto
+            await _context.SaveChangesAsync();
+        }
         public async Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
@@ -201,6 +252,56 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task EditInsulinEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, int Insulin)
+        {
+            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            if (User == null) { throw new UserEventNotFoundException(); }
+            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
+            if (Patient == null) { throw new PatientNotFoundException(); }
+            var PatientInsulin = await _context.InsulinaPacientes.FirstOrDefaultAsync(ip => ip.IdPaciente == Patient.Id);
+            if (PatientInsulin == null) { throw new PatientInsulinRelationNotFoundException(); }
+            var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
+            if (EventLoad == null) { throw new EventNotFoundException(); }
+            if (EventLoad.IdPaciente != Patient.Id) { throw new EventNotRelatedWithPatientException(); }
+            var InsulinEvent = await _context.EventoInsulinas.FirstOrDefaultAsync(ei => ei.IdCargaEvento == EventLoad.Id);
+            if (InsulinEvent == null) { throw new InsulinEventNotMatchException("No se encontró la carga de glucosa relacionada."); }
+
+            // 1- Modificar el evento
+            bool IsDone = EventDate <= DateTime.Now ? true : false;
+            var FechaActual = DateTime.Now;
+            EventLoad.FechaEvento = EventDate;
+            EventLoad.NotaLibre = FreeNote;
+            EventLoad.FueRealizado = IsDone;
+            EventLoad.EsNotaLibre = false;
+
+            InsulinEvent.InsulinaInyectada = Insulin;
+
+            _context.CargaEventos.Update(EventLoad);
+            _context.EventoInsulinas.Update(InsulinEvent);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteInsulinEvent(int IdEvent, string Email)
+        {
+            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            if (User == null) { throw new UserEventNotFoundException(); }
+            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
+            if (Patient == null) { throw new PatientNotFoundException(); }
+            var PatientInsulin = await _context.InsulinaPacientes.FirstOrDefaultAsync(ip => ip.IdPaciente == Patient.Id);
+            if (PatientInsulin == null) { throw new PatientInsulinRelationNotFoundException(); }
+            var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
+            if (EventLoad == null) { throw new EventNotFoundException(); }
+            if (EventLoad.IdPaciente != Patient.Id) { throw new EventNotRelatedWithPatientException(); }
+            var InsulinEvent = await _context.EventoInsulinas.FirstOrDefaultAsync(ei => ei.IdCargaEvento == EventLoad.Id);
+            if (InsulinEvent == null) { throw new InsulinEventNotMatchException("No se encontró la carga de glucosa relacionada."); }
+
+            // Eliminar el evento de carga
+            _context.EventoInsulinas.Remove(InsulinEvent);
+            _context.CargaEventos.Remove(EventLoad);
+
+            // Guardar los cambios en el contexto
+            await _context.SaveChangesAsync();
+        }
         public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date = null)
         {
             var query = _context.CargaEventos
