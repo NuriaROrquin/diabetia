@@ -20,12 +20,10 @@ export const Login = () => {
         login(username, password)
             .then((res) => {
                 if(res.data){
-                    setCookie("email", res.data.email, {path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)});
                     setCookie("jwt", res.data.token, {path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)});
-                    setCookie("informationCompleted", res.data.informationCompleted, {path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)});
+                    sessionStorage.setItem("jwt", res.data.token);
                     router.push(`/dashboard`)
                 }
-
             })
             .catch((error) => {
                 error.response.data ? setError(error.response.data) : setError("Hubo un error")

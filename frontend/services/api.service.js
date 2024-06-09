@@ -1,5 +1,22 @@
 import axios from "axios";
 
+const getToken = () => {
+    return sessionStorage.getItem("jwt");
+}
+
+axios.interceptors.request.use(
+    config => {
+        const token = getToken();
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
+
 export const login = (username, password) => {
     return axios
         .post(
@@ -18,11 +35,11 @@ export const register = (username, email, password) => {
         );
 }
 
-export const passwordRecover = (username) => {
+export const passwordRecover = (email) => {
     return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/passwordRecover`,
-            { username },
+            { email },
             { withCredentials: true }
         );
 }
@@ -77,6 +94,22 @@ export const addGlucoseEvent = (data) => {
         );
 }
 
+export const addInsulinEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/AddInsulinEvent`,
+            data
+        );
+}
+
+export const addFoodEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/AddInsulinEvent`,
+            data
+        );
+}
+
 export const getMetrics = (data) => {
     return axios
         .post(
@@ -96,6 +129,22 @@ export const secondStep = (data) => {
     return axios
         .put(
             `${process.env.NEXT_PUBLIC_API_URL}/Data/secondStep`,
+            data
+        );
+}
+
+export const thirdStep = (data) => {
+    return axios
+        .put(
+            `${process.env.NEXT_PUBLIC_API_URL}/Data/thirdStep`,
+            data
+        );
+}
+
+export const fourthStep = (data) => {
+    return axios
+        .put(
+            `${process.env.NEXT_PUBLIC_API_URL}/Data/fourthStep`,
             data
         );
 }

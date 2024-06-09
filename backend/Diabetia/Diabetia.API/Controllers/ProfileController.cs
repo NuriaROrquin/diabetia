@@ -1,6 +1,7 @@
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using Microsoft.IdentityModel.Tokens;
@@ -25,12 +26,14 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpGet("getUserInfo")]
+        [Authorize]
         public async Task<User> GetEditUserInfo([FromQuery] string email)
         {
             return await _dataUserUseCase.GetEditUserInfo(email);
         }
 
         [HttpGet("getPatientInfo")]
+        [Authorize]
         public async Task<Patient> GetPatientInfo([FromQuery] string email)
         {
             return await _dataUserUseCase.GetPatientInfo(email);

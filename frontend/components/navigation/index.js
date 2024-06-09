@@ -43,8 +43,7 @@ export const Navigation = () => {
     const handleOnLogout = () =>{
         setOpenUserMenu(false);
         removeCookie("jwt");
-        removeCookie("email")
-        removeCookie("informationCompleted")
+        sessionStorage.clear()
         return router.push("/auth/login")
     }
 
@@ -68,7 +67,7 @@ export const Navigation = () => {
                     <ul className="lg:flex justify-end flex-1 items-center mb-0">
                         <CustomTooltip title="Ir a la home" arrow>
                             <li className="mr-3">
-                                <NavLink href="/calendar" text="Home"/>
+                                <NavLink href="/" text="Home"/>
                             </li>
                         </CustomTooltip>
                         <CustomTooltip title="Subí una foto de tu comida, contamos los carbohidratos por vos!" arrow>

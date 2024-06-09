@@ -3,8 +3,9 @@ namespace Diabetia.Domain.Entities
 {
     public class User
     {
+        public int Id { get; set; }
         public string Token { get; set; }
-        public bool InformationCompleted { get; set; }
+        public bool InitialFormCompleted { get; set; }
         public string Email { get; set; }
         public string? Name{ get; set; }
         public string? LastName { get; set; }
@@ -12,7 +13,7 @@ namespace Diabetia.Domain.Entities
         public string? Phone { get; set; }
         public double? Weight { get; set; }
         public DateOnly? BirthDate { get; set; }
-
+        public string Username { get; set; }
     }
 
     public class Patient : User

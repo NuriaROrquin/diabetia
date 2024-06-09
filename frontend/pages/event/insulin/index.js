@@ -1,48 +1,40 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
-import {TYPE_EVENTS, TYPE_DEVICES} from "../../../constants";
+import {TYPE_EVENTS} from "../../../constants";
 import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
 import {useState} from "react";
 import {BlueLink, OrangeLink} from "../../../components/link";
 import {TextArea, InputWithLabel} from "../../../components/input";
-import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
-import {addGlucoseEvent} from "../../../services/api.service";
-import {useCookies} from "react-cookie";
+import {addInsulinEvent} from "../../../services/api.service";
 import {useRouter} from "next/router";
 import {CustomDatePicker, CustomTimePicker} from "@/components/pickers";
 
-const GlycemiaEvent = () => {
-    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 2)[0].title;
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(null);
+const InsulineEvent = () => {
+    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 4)[0].title;
     const [Hour, setHour] = useState()
     const [date, setDate] = useState()
+    const [startHour, setStartHour] = useState()
     const router = useRouter();
 
-    const handleOptionClick = (option) => {
-        setSelectedOption(option);
-        setIsOpen(false);
-    };
-
     const handleSubmit = () => {
-        const device = selectedOption.id;
         const dateFormatted = date ? date.format('YYYY-MM-DD') : null;
-        const glycemiaMeasurement = document.getElementById("glycemiaMeasurement").value
+        const start = startHour ? startHour.format('HH:mm:ss') : null;
+        const insulineQuantity = document.getElementById("insulineQuantity").value
         const notes = document.getElementById("notes").value;
         const email = getEmailFromJwt();
 
         const data = {
             "email": email,
-            "idKindEvent": 3,
+            "idKindEvent": 1,
             "eventDate": dateFormatted,
             "freeNote": notes,
-            "glucose": glycemiaMeasurement,
-            "idDevicePatient": device ?? null,
+            "Insulin": insulineQuantity,
+            //"hora": start ?? null
         }
 
-        addGlucoseEvent(data).then(() =>
+        addInsulinEvent(data).then(() =>
             router.push("/calendar")
         )
     }
@@ -66,36 +58,38 @@ const GlycemiaEvent = () => {
                 </div>
 
                 {/* FORMULARIO */}
-                <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
-                    <CustomDatePicker
-                        label="Ingresá una fecha"
-                        value={date}
-                        onChange={(e) => setDate(e)}
-                        defaultValue={dayjs()}
-                        width="w-1/3"
-                    />
+                <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12 items-start">
+
+                    <div className="flex justify-between w-10/12">
+                        <CustomDatePicker
+                            label="Ingresá una fecha"
+                            value={date}
+                            onChange={(e) => setDate(e)}
+                            defaultValue={dayjs()}
+                            width="w-1/3"
+                        />
 
 
-                    <CustomTimePicker
-                        label="Hora de medición"
-                        value={Hour}
-                        onChange={setHour}
-                        defaultValue={dayjs()}
-                        width="w-1/3"
-                    />
-
-                    <Select label="Dispositivo" placeholder="¿Cómo se tómo la glucosa?" options={TYPE_DEVICES} selectedOption={selectedOption} handleOptionClick={handleOptionClick} setIsOpen={setIsOpen} isOpen={isOpen} width="w-1/3"/>
-
-                    <InputWithLabel label="Cantidad de mg/dL de glucosa" placeholder="Escribí tu medición"  id="glycemiaMeasurement" width="w-1/3"/>
-
+                        <CustomTimePicker
+                            label="Hora de administración"
+                            value={Hour}
+                            onChange={setHour}
+                            defaultValue={dayjs()}
+                            width="w-1/3"
+                        />
+                    </div>
+                    <div className="flex w-10/12 ">
+                        <InputWithLabel label="¿Cuantas unidades de insulina se inyectó?" placeholder="Escribí la cantidad de unidades administración"  id="insulineQuantity" width="w-1/2"/>
+                    </div>
 
                     <TextArea placeholder="Describí tus sensaciones, estado de ánimo y cualquier otro síntoma que pueda ser de ayuda para los profesionales" label="¿Cómo te sentís?" id="notes" width="w-10/12"/>
 
                     <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3"/>
+
                 </div>
             </div>
         </Section>
     )
 }
 
-export default GlycemiaEvent;
+export default InsulineEvent;

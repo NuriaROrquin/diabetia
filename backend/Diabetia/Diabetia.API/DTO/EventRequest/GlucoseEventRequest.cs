@@ -1,10 +1,9 @@
-﻿namespace Diabetia.API.DTO
+﻿namespace Diabetia.API.DTO.EventRequest
 {
-    public class GlucoseEventRequest
+    public class GlucoseEventRequest : EventRequest
     {
         public string Email { get; set; }
         public int IdKindEvent { get; set; }
-        public DateTime EventDate { get; set; }
         public string? FreeNote { get; set; }
         public decimal Glucose { get; set; }
         public int? IdDevicePacient { get; set; }

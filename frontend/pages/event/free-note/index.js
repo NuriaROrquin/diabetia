@@ -5,44 +5,31 @@ import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
 import {useState} from "react";
 import {BlueLink, OrangeLink} from "../../../components/link";
 import {TextArea} from "../../../components/input";
-import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomDatePicker, CustomTimePicker} from "../../../components/pickers";
 import {addPhysicalEvent} from "../../../services/api.service";
 import {useRouter} from "next/router";
+import {useCookies} from "react-cookie";
 
 const ExerciseEvent = () => {
-    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 1)[0].title;
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [startHour, setStartHour] = useState()
-    const [endHour, setEndHour] = useState()
+    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 8)[0].title;
+    const [Hour, setHour] = useState()
     const [date, setDate] = useState()
-
     const router = useRouter();
 
-    const handleOptionClick = (option) => {
-        setSelectedOption(option);
-        setIsOpen(false);
-    };
-
     const handleSubmit = () => {
-        const exercise = selectedOption;
-        const dateFormatted = date ? date.format('DD-MM-YYYY') : null;
+        const dateFormatted = date ? date.format('YYYY-MM-DD') : null;
         const start = startHour ? startHour.format('HH:mm:ss') : null;
-        const end = endHour ? endHour.format('HH:mm:ss') : null;
         const notes = document.getElementById("notes").value;
         const email = getEmailFromJwt();
 
         const data = {
             "email": email,
-            "idKindEvent": 4,
-            "eventDate": "2024-05-22T23:03:17.219Z",
+            "idKindEvent": 8,
+            "eventDate": dateFormatted,
             "freeNote": notes,
-            "physicalActivity": selectedOption.id,
-            "iniciateTime": start,
-            "finishTime": end
+            "hora": start ?? null
         }
 
         addPhysicalEvent(data).then(() =>
@@ -78,27 +65,18 @@ const ExerciseEvent = () => {
                         width="w-1/3"
                     />
 
-                    <Select label="Actividad" placeholder="Elegí una actividad" options={TYPE_EXERCISES} selectedOption={selectedOption} handleOptionClick={handleOptionClick} setIsOpen={setIsOpen} isOpen={isOpen} width="w-1/3"/>
-
                     <CustomTimePicker
-                        label="Hora de comienzo"
-                        value={startHour}
-                        onChange={setStartHour}
+                        label="Hora"
+                        value={Hour}
+                        onChange={setHour}
                         defaultValue={dayjs()}
                         width="w-1/3"
                     />
 
-                    <CustomTimePicker
-                        label="Hora de finalización"
-                        value={endHour}
-                        onChange={(e) => setEndHour(e)}
-                        defaultValue={dayjs()}
-                        width="w-1/3"
-                    />
-
-                    <TextArea placeholder="¿Cómo te sentiste?" label="Describí tu experiencia" id="notes" width="w-10/12"/>
+                    <TextArea placeholder="Describí tus sensaciones, estado de ánimo y cualquier otro síntoma que pueda ser de ayuda para los profesionales" label="Nota Libre" id="notes" width="w-10/12"/>
 
                     <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3"/>
+
                 </div>
             </div>
         </Section>

@@ -75,7 +75,6 @@ namespace Diabetia.Infrastructure.Repositories
                         IdTipoInsulina = typeInsuline,
                         Frecuencia = frequency
                     };
-
                     _context.InsulinaPacientes.Add(insulina_pac_new);
 
                 }
@@ -149,7 +148,7 @@ namespace Diabetia.Infrastructure.Repositories
                         IdDispositivo = idDispositivo,
                         Frecuencia = frecuencia
                     };
-                    _context.DispositivoPacientes.Add(pac_div);
+                    _context.DispositivoPacientes.Add(pac_new);
                 }
             }
             else
@@ -211,6 +210,7 @@ namespace Diabetia.Infrastructure.Repositories
                     Email = user.Email,
                     BirthDate = user.FechaNacimiento,
                     Gender = user.Genero,
+                    Id = user.Id,
                 };
                 return userToReturn;
             }
