@@ -1,4 +1,4 @@
-﻿namespace Diabetia.API.DTO
+﻿namespace Diabetia.API.DTO.AuthRequest
 {
     public class AuthConfirmEmailRequest : AuthUserRequest
     {

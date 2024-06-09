@@ -1,4 +1,4 @@
-using Diabetia.API.DTO;
+using Diabetia.API.DTO.AuthRequest;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Services;
 using Diabetia.Infrastructure.Providers;
@@ -102,7 +102,7 @@ namespace Diabetia.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] AuthConfirmPasswordRecoverRequest request)
         {
-            await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.Username, request.ConfirmationCode, request.Password);
+            await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.Email, request.ConfirmationCode, request.Password);
             return Ok("Contrase�a cambiada exitosamente");
         }
 
