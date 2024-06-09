@@ -6,7 +6,7 @@ using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using FakeItEasy;
 
-namespace Diabetia_Core;
+namespace Diabetia_Core.Events;
 public class CalendarUseCaseTests
 {
     private readonly IUserRepository _userRepository;

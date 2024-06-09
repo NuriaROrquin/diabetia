@@ -5,7 +5,7 @@ using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 using FakeItEasy;
 
-namespace Diabetia_Core
+namespace Diabetia_Core.Auth
 {
     public class AuthForgotPasswordUseCaseTest
     {
