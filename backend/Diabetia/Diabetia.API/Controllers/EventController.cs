@@ -81,11 +81,11 @@ namespace Diabetia.API.Controllers
             await _eventInsulintUseCase.DeleteInsulinEvent(request.IdEvent.Value, request.Email);
             return Ok("Evento eliminado correctamente");
         }
-
+        /*
         [HttpPost("AddFoodManuallyEvent")]
         public async Task<IActionResult> AddFoodManuallyEvent([FromBody] FoodManuallyRequest request)
         {
-            await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.FreeNote, request.IdChargeType, request.IdIngredient, request.Quantity);
+            await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.FreeNote, request.IdFoodChargeType, request.IdIngredient, request.Quantity);
             return Ok("Evento eliminado correctamente");
         }
         /*
