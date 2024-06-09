@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Application.Exceptions;
 using Diabetia.Common.Utilities;
+using Diabetia.Domain.Repositories;
+using Diabetia.Domain.Models;
+using Diabetia.Domain.Entities.Events;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -608,6 +611,11 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
         public Task<ExamEvent> GetExamEventById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ExamEvent> GetFreeNoteEventById(int id)
         {
             throw new NotImplementedException();
         }

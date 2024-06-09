@@ -85,7 +85,7 @@ namespace Diabetia.API.Controllers
         [HttpPost("DeleteInsulinEvent")]
         public async Task<IActionResult> DeleteInsulinEvent([FromBody] InsulinEventRequest request)
         {
-            await _addInsulinEventUseCase.DeleteInsulinEvent(request.IdEvent.Value);
+            await _eventInsulintUseCase.DeleteInsulinEvent(request.IdEvent.Value);
             return Ok();
         }
 
