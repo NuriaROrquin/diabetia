@@ -21,6 +21,9 @@ namespace Diabetia.Domain.Repositories
         public Task EditInsulinEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, int Insulin);
 
         public Task DeleteInsulinEvent(int IdEvent, string Email);
+
+        public Task AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, decimal Quantity, int IdIngredient, string FreeNote);
+
         public Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date);
 
         public Task<IEnumerable<FoodEvent>> GetFoods(int patientId, DateTime? date);

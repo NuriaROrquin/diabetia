@@ -13,13 +13,15 @@ namespace Diabetia.API.Controllers
         private readonly EventPhysicalActivityUseCase _eventPhysicalActivityUseCase;
         private readonly EventGlucoseUseCase _eventGlucosetUseCase;
         private readonly EventInsulinUseCase _eventInsulintUseCase;
+        private readonly EventFoodManuallyUseCase _eventFoodManuallyUseCase;
 
 
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase)
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventFoodManuallyUseCase eventFoodManuallyUseCase)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
             _eventGlucosetUseCase = evemtGlucoseUseCase;
             _eventInsulintUseCase = eventInsulinUseCase;
+            _eventFoodManuallyUseCase = eventFoodManuallyUseCase;
         }
 
 
@@ -87,6 +89,13 @@ namespace Diabetia.API.Controllers
         {
             await _eventInsulintUseCase.DeleteInsulinEvent(request.IdEvent.Value, request.Email);
             return Ok("Evento eliminado correctamente");
+        }
+
+        [HttpPost("AddFoodManuallyEvent")]
+        public async Task<IActionResult> AddFoodManuallyEvent([FromBody] FoodManuallyRequest request)
+        {
+            await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.IdKindEvent, request.Quantity, request.IdIngredient, request.FreeNote);
+            return Ok();
         }
     }
 }

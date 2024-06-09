@@ -1,4 +1,6 @@
-﻿using Diabetia.Domain.Repositories;
+﻿using Amazon.Runtime.Internal;
+using Diabetia.Domain.Repositories;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,10 @@ namespace Diabetia.Application.UseCases
         public EventFoodManuallyUseCase(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
+        }
+        public async Task AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, decimal Quantity, int IdIngredient, string FreeNote)
+        {
+            await _eventRepository.AddFoodManuallyEvent(Email, EventDate, IdKindEvent, Quantity, IdIngredient, FreeNote);
         }
     }
 }
