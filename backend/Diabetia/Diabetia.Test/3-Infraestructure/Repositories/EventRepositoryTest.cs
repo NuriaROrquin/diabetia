@@ -8,12 +8,118 @@ using Microsoft.EntityFrameworkCore;
 
 public class EventRepositoryTests
 {
+    // --------------------------------------- AddPhysicalActivityEvent Test ---------------------------------------
+    [Fact]
+    public async Task AddPhysicalActivityEventAsync_GivenValidData_ShouldAddEventAndPhysicalEvent()
+    {
+        // Arrange
+        var mockContext = CreateMockContextAddPassCorrect();
+
+        var repository = new EventRepository(mockContext.Object);
+
+        var email = "test@example.com";
+        var kindEventId = 4;
+        var eventDate = DateTime.Now.AddDays(1);
+        var physicalActivityId = 1;
+        var iniciateTime = new TimeSpan(10, 0, 0);
+        var finishTime = new TimeSpan(11, 0, 0);
+        var freeNote = "Updated Note";
+
+        // Act
+        await repository.AddPhysicalActivityEventAsync(email, kindEventId, eventDate, freeNote, physicalActivityId, iniciateTime, finishTime);
+
+        // Assert
+        mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(2));
+        mockContext.Verify(m => m.CargaEventos.Add(It.IsAny<CargaEvento>()), Times.Once);
+        mockContext.Verify(m => m.EventoActividadFisicas.Add(It.IsAny<EventoActividadFisica>()), Times.Once);
+    }
+
+    private Mock<diabetiaContext> CreateMockContextAddPassCorrect()
+    {
+        var user = new Usuario { Id = 1, Email = "test@example.com" };
+        var patient = new Paciente { Id = 1, IdUsuario = user.Id };
+
+        var mockContext = new Mock<diabetiaContext>();
+
+        mockContext.Setup(m => m.Usuarios).ReturnsDbSet(new List<Usuario> { user });
+        mockContext.Setup(m => m.Pacientes).ReturnsDbSet(new List<Paciente> { patient });
+        mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento>());
+        mockContext.Setup(m => m.EventoActividadFisicas).ReturnsDbSet(new List<EventoActividadFisica>());
+
+        return mockContext;
+    }
+
+    [Fact]
+    public async Task AddPhysicalActivityEventAsync_GivenInvalidUser_ThrowsUserNotFoundOnDBException()
+    {
+        // Arrange
+        var mockContext = CreateMockContextAddUserException();
+
+        var repository = new EventRepository(mockContext.Object);
+
+        var email = "testException@example.com";
+        var kindEventId = 4;
+        var eventDate = DateTime.Now.AddDays(1);
+        var physicalActivityId = 1;
+        var iniciateTime = new TimeSpan(10, 0, 0);
+        var finishTime = new TimeSpan(11, 0, 0);
+        var freeNote = "Updated Note";
+
+        // Act & Assert
+        await Assert.ThrowsAsync<UserNotFoundOnDBException>(async () =>
+        await repository.AddPhysicalActivityEventAsync(email, kindEventId, eventDate, freeNote, physicalActivityId, iniciateTime, finishTime));
+    }
+
+    private Mock<diabetiaContext> CreateMockContextAddUserException()
+    {
+        var user = new Usuario { Id = 1, Email = "test@example.com" };
+
+        var mockContext = new Mock<diabetiaContext>();
+
+        mockContext.Setup(m => m.Usuarios).ReturnsDbSet(new List<Usuario> { user });
+        return mockContext;
+    }
+
+    [Fact]
+    public async Task AddPhysicalActivityEventAsync_GivenValidUserInvalidPatient_ThrowsPatientNotFoundException()
+    {
+        // Arrange
+        var mockContext = CreateMockContextAddPatientException();
+
+        var repository = new EventRepository(mockContext.Object);
+
+        var email = "test@gmail.com";
+        var kindEventId = 4;
+        var eventDate = DateTime.Now.AddDays(1);
+        var physicalActivityId = 1;
+        var iniciateTime = new TimeSpan(10, 0, 0);
+        var finishTime = new TimeSpan(11, 0, 0);
+        var freeNote = "Updated Note";
+
+        // Act & Assert
+        await Assert.ThrowsAsync<PatientNotFoundException>(async () =>
+        await repository.AddPhysicalActivityEventAsync(email, kindEventId, eventDate, freeNote, physicalActivityId, iniciateTime, finishTime));
+    }
+
+    private Mock<diabetiaContext> CreateMockContextAddPatientException()
+    {
+        var user = new Usuario { Id = 1, Email = "test@gmail.com" };
+        var patient = new Paciente { Id = 1, IdUsuario = 2 };
+
+        var mockContext = new Mock<diabetiaContext>();
+
+        mockContext.Setup(m => m.Usuarios).ReturnsDbSet(new List<Usuario> { user });
+        mockContext.Setup(m => m.Pacientes).ReturnsDbSet(new List<Paciente> { patient });
+        return mockContext;
+    }
+
+
     // --------------------------------------- EditPhysicalActivityEvent Test ---------------------------------------
     [Fact]
     public async Task EditPhysicalActivityEvent_ShouldUpdateEventAndPhysicalEvent()
     {
         // Arrange
-        var mockContext = CreateMockContextPassCorrect();
+        var mockContext = CreateMockContextEditPassCorrect();
 
         var repository = new EventRepository(mockContext.Object);
 
@@ -39,7 +145,7 @@ public class EventRepositoryTests
         Assert.Equal(60, physicalEvent.Duracion);
     }
 
-    private Mock<diabetiaContext> CreateMockContextPassCorrect()
+    private Mock<diabetiaContext> CreateMockContextEditPassCorrect()
     {
         var user = new Usuario { Id = 1, Email = "test@example.com" };
         var patient = new Paciente { Id = 1, IdUsuario = user.Id };
@@ -225,6 +331,7 @@ public class EventRepositoryTests
 
         return mockContext;
     }
+
 
     // --------------------------------------- DeletePhysicalActivityEvent Test ---------------------------------------
     [Fact]
