@@ -2,11 +2,11 @@
 
 namespace Diabetia.API.Controllers
 {
-    public class AddInsulinEventUseCase
+    public class EventInsulinUseCase
     {
         private readonly IEventRepository _eventRepository;
 
-        public AddInsulinEventUseCase(IEventRepository eventRepository)
+        public EventInsulinUseCase(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
         }

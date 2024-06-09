@@ -2,11 +2,11 @@
 
 namespace Diabetia.Application.UseCases
 {
-    public class AddGlucoseEventUseCase
+    public class EventGlucoseUseCase
     {
         private readonly IEventRepository _eventRepository;
 
-        public AddGlucoseEventUseCase(IEventRepository eventRepository)
+        public EventGlucoseUseCase(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
         }

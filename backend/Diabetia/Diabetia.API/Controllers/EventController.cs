@@ -11,10 +11,10 @@ namespace Diabetia.API.Controllers
     public class EventController : ControllerBase
     {
         private readonly EventPhysicalActivityUseCase _eventPhysicalActivityUseCase;
-        private readonly AddGlucoseEventUseCase _addGlucoseEventUseCase;
-        private readonly AddInsulinEventUseCase _addInsulineEventUseCase;
+        private readonly EventGlucoseUseCase _addGlucoseEventUseCase;
+        private readonly EventInsulinUseCase _addInsulineEventUseCase;
 
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, AddGlucoseEventUseCase addGlucoseEventUseCase, AddInsulinEventUseCase addInsulineEventUseCase)
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase addGlucoseEventUseCase, EventInsulinUseCase addInsulineEventUseCase)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
             _addGlucoseEventUseCase = addGlucoseEventUseCase;
