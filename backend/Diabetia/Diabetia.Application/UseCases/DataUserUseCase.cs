@@ -50,5 +50,15 @@ namespace Diabetia.Application.UseCases
         {
             return await _userRepository.GetPhysicalInfo(email);
         }
+
+        public async Task<Exercise_Patient> GetExerciseInfo(string email)
+        {
+            return await _userRepository.GetExerciseInfo(email);
+        }
+
+        public async Task<Device_Patient> GetPatientDeviceInfo(string email)
+        {
+            return await _userRepository.GetPatientDeviceInfo(email);
+        }
     }
 }

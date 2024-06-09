@@ -16,5 +16,7 @@ namespace Diabetia.Domain.Services
         public Task<Patient> GetPhysicalInfo(string email);
         public Task <User> GetUserInformationFromUsernameAsync(string username);
         public Task<Paciente> GetPatient(string email);
+        public Task<Exercise_Patient> GetExerciseInfo(string email);
+        public Task<Device_Patient> GetPatientDeviceInfo(string email);
     }
 }
