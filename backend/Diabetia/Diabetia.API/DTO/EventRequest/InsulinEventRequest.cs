@@ -2,6 +2,7 @@
 {
     public class InsulinEventRequest : EventRequest
     {
+        public int? IdEvent { get; set; }
         public string Email { get; set; }
         public int IdKindEvent { get; set; }
         public string? FreeNote { get; set; }
