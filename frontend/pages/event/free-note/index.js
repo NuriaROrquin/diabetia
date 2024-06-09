@@ -1,7 +1,7 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
 import {TYPE_EVENTS, TYPE_EXERCISES} from "../../../constants";
-import {capitalizeFirstLetter} from "../../../helpers";
+import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
 import {useState} from "react";
 import {BlueLink, OrangeLink} from "../../../components/link";
 import {TextArea} from "../../../components/input";
@@ -16,17 +16,13 @@ const ExerciseEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 8)[0].title;
     const [Hour, setHour] = useState()
     const [date, setDate] = useState()
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
-
-
     const router = useRouter();
-
 
     const handleSubmit = () => {
         const dateFormatted = date ? date.format('YYYY-MM-DD') : null;
         const start = startHour ? startHour.format('HH:mm:ss') : null;
         const notes = document.getElementById("notes").value;
-        const email = cookies.email;
+        const email = getEmailFromJwt();
 
         const data = {
             "email": email,

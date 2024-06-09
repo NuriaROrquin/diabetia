@@ -1,6 +1,9 @@
 using Diabetia.API.DTO;
 using Diabetia.Application.UseCases;
+using Diabetia.Domain.Services;
+using Diabetia.Infrastructure.Providers;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Diabetia.API.Controllers
 {
@@ -12,18 +15,21 @@ namespace Diabetia.API.Controllers
         private readonly AuthRegisterUseCase _registerUseCase;
         private readonly AuthForgotPasswordUseCase _forgotPasswordUseCase;
         private readonly AuthChangePasswordUseCase _changePasswordUseCase;
+        private readonly IJwtTokenService _jwtTokenService;
 
-        public AuthController(AuthLoginUseCase loginUseCase, AuthRegisterUseCase registerUseCase, AuthForgotPasswordUseCase forgotPasswordUseCase, AuthChangePasswordUseCase changePasswordUseCase)
+        public AuthController(AuthLoginUseCase loginUseCase, AuthRegisterUseCase registerUseCase, AuthForgotPasswordUseCase forgotPasswordUseCase, AuthChangePasswordUseCase changePasswordUseCase, IJwtTokenService jwtTokenService)
         {
             _loginUseCase = loginUseCase;
             _registerUseCase = registerUseCase;
             _forgotPasswordUseCase = forgotPasswordUseCase;
             _changePasswordUseCase = changePasswordUseCase;
+            _jwtTokenService = jwtTokenService;
         }
 
 
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] AuthLoginRequest request)
@@ -34,9 +40,7 @@ namespace Diabetia.API.Controllers
             {
                 AuthLoginResponse res = new AuthLoginResponse();
 
-                res.InformationCompleted = user.InformationCompleted;
-                res.Token = user.Token;
-                res.Email = user.Email;
+                res.Token = _jwtTokenService.GenerateToken(user.Id.ToString(), user.Username, user.Email, user.InitialFormCompleted); 
 
                 return Ok(res);
             }

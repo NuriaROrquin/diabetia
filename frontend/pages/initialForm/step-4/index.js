@@ -10,10 +10,10 @@ import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomTimePicker} from "../../../components/pickers";
-import {useCookies} from "react-cookie";
 import {Step, StepLabel, Stepper} from "@mui/material";
 import {fourthStep} from "../../../services/api.service";
 import {useRouter} from "next/router";
+import {getEmailFromJwt} from "../../../helpers";
 
 const InitialFormStep4 = () => {
     const [error, setError] = useState(false);
@@ -23,11 +23,9 @@ const InitialFormStep4 = () => {
     const [isOpenManyMeasurements, setIsOpenManyMeasurements] = useState(false);
     const router = useRouter();
     const [device, setDevice] = useState(false);
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
     const [reminder, setReminder] = useState(false);
     const [hour, setHour] = useState();
-    const email = cookies.email
-
+    const email = getEmailFromJwt();
 
     const handleOptionClickDevices = (option) => {
         setSelectedOptionDevices(option);
@@ -39,14 +37,12 @@ const InitialFormStep4 = () => {
         setIsOpenManyMeasurements(false);
     };
 
-
     const steps = [
         'Datos personales',
         'Datos del paciente',
         'Actividad física y salud',
         'Dispositivos y sensores',
     ];
-
 
     const handleSubmit = () => {
         const tieneDispositivo = device;

@@ -1,15 +1,13 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
-import {TYPE_EVENTS, TYPE_DEVICES} from "../../../constants";
-import {capitalizeFirstLetter} from "../../../helpers";
+import {TYPE_EVENTS} from "../../../constants";
+import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
 import {useState} from "react";
 import {BlueLink, OrangeLink} from "../../../components/link";
 import {TextArea, InputWithLabel} from "../../../components/input";
-import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {addGlucoseEvent} from "../../../services/api.service";
-import {useCookies} from "react-cookie";
 import {useRouter} from "next/router";
 import {CustomDatePicker, CustomTimePicker} from "@/components/pickers";
 
@@ -17,17 +15,14 @@ const GlycemiaEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 4)[0].title;
     const [Hour, setHour] = useState()
     const [date, setDate] = useState()
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
-
     const router = useRouter();
-
 
     const handleSubmit = () => {
         const dateFormatted = date ? date.format('YYYY-MM-DD') : null;
         const start = startHour ? startHour.format('HH:mm:ss') : null;
         const insulineQuantity = document.getElementById("insulineQuantity").value
         const notes = document.getElementById("notes").value;
-        const email = cookies.email;
+        const email = getEmailFromJwt();
 
         const data = {
             "email": email,

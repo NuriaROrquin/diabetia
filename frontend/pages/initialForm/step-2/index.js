@@ -8,10 +8,10 @@ import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomTimePicker} from "../../../components/pickers";
-import {useCookies} from "react-cookie";
 import {Step, StepLabel, Stepper} from "@mui/material";
 import {secondStep} from "../../../services/api.service";
 import {useRouter} from "next/router";
+import {getEmailFromJwt} from "../../../helpers";
 
 const InitialFormStep2 = () => {
     const [error, setError] = useState(false);
@@ -25,8 +25,7 @@ const InitialFormStep2 = () => {
     const [insuline, setInsuline] = useState(false);
     const [reminder, setReminder] = useState(false);
     const [hour, setHour] = useState();
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
-    const email = cookies.email
+    const email = getEmailFromJwt();
 
     const handleOptionClickTipoDiabetes = (option) => {
         setSelectedOptionTipoDiabetes(option);

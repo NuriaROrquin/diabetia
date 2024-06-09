@@ -7,9 +7,10 @@ import {ContainerTitles, SubtitleSection, TitleSection} from "../../components/t
 import {Timeline} from "../../components/timeline";
 import {Section} from "../../components/section";
 import {OrangeLink} from "../../components/link";
-import {getMetrics, login} from "../../services/api.service";
+import {getMetrics} from "../../services/api.service";
 import {useCookies} from "react-cookie";
 import CustomTooltip from "@/components/tooltip";
+import {getEmailFromJwt} from "../../helpers";
 
 export const Home = () => {
     const [error, setError] = useState(false);
@@ -20,7 +21,7 @@ export const Home = () => {
     const [loadingMetrics, setLoadingMetrics] = useState(true);
 
     useEffect(() => {
-        const email = cookies.email;
+        const email = getEmailFromJwt();
 
         email && getMetrics({email})
             .then((res) => {

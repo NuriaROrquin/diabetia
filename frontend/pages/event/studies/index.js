@@ -2,7 +2,7 @@ import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
 import {TYPE_EVENTS, TYPE_REMINDERTIME} from "../../../constants";
 import {UploadFileOutlined} from "@mui/icons-material";
-import {capitalizeFirstLetter} from "../../../helpers";
+import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
 import {useState, useRef} from "react";
 import {BlueLink, OrangeLink} from "../../../components/link";
 import {InputWithLabel, CustomSwitch} from "../../../components/input";
@@ -21,7 +21,6 @@ const ReminderEvent = () => {
     const [reminder, setReminder] = useState(false);
     const [date, setDate] = useState();
     const fileInputRef = useRef(null);
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
 
     const router = useRouter();
 
@@ -52,7 +51,7 @@ const ReminderEvent = () => {
         const exercise = selectedOption;
         const dateFormatted = date ? date.format('DD-MM-YYYY') : null;
         const notes = document.getElementById("notes").value;
-        const email = cookies.email;
+        const email = getEmailFromJwt();
 
         const data = {
             "email": email,

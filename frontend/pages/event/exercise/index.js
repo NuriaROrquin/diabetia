@@ -1,7 +1,7 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
 import {TYPE_EVENTS, TYPE_EXERCISES} from "../../../constants";
-import {capitalizeFirstLetter} from "../../../helpers";
+import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
 import {useState} from "react";
 import {BlueLink, OrangeLink} from "../../../components/link";
 import {TextArea} from "../../../components/input";
@@ -11,7 +11,6 @@ import {ButtonOrange} from "../../../components/button";
 import {CustomDatePicker, CustomTimePicker} from "../../../components/pickers";
 import {addPhysicalEvent} from "../../../services/api.service";
 import {useRouter} from "next/router";
-import {useCookies} from "react-cookie";
 
 const ExerciseEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 1)[0].title;
@@ -20,8 +19,6 @@ const ExerciseEvent = () => {
     const [startHour, setStartHour] = useState()
     const [endHour, setEndHour] = useState()
     const [date, setDate] = useState()
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
-
 
     const router = useRouter();
 
@@ -36,7 +33,7 @@ const ExerciseEvent = () => {
         const start = startHour ? startHour.format('HH:mm:ss') : null;
         const end = endHour ? endHour.format('HH:mm:ss') : null;
         const notes = document.getElementById("notes").value;
-        const email = cookies.email;
+        const email = getEmailFromJwt();
 
         const data = {
             "email": email,

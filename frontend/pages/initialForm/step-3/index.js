@@ -11,10 +11,10 @@ import {OrangeLink} from "../../../components/link";
 import {CustomSwitch} from "../../../components/input";
 import {Select} from "../../../components/selector";
 import {ButtonOrange} from "../../../components/button";
-import {useCookies} from "react-cookie";
 import {Step, StepLabel, Stepper} from "@mui/material";
 import {thirdStep} from "../../../services/api.service";
 import {useRouter} from "next/router";
+import {getEmailFromJwt} from "../../../helpers";
 
 const InitialFormStep3 = () => {
     const [error, setError] = useState(false);
@@ -31,9 +31,7 @@ const InitialFormStep3 = () => {
     const [illness, setIllness] = useState(false);
     const [reminder, setReminder] = useState(false);
     const [hour, setHour] = useState();
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
-    const email = cookies.email
-
+    const email = getEmailFromJwt();
 
     const handleOptionClickActivityFrequency = (option) => {
         setSelectedOptionActivityFrequency(option);
@@ -61,7 +59,6 @@ const InitialFormStep3 = () => {
         'Actividad física y salud',
         'Dispositivos y sensores',
     ];
-
 
     const handleSubmit = () => {
         const haceActividadFisica = activity;

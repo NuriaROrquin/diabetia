@@ -211,6 +211,7 @@ namespace Diabetia.Infrastructure.Repositories
                     Email = user.Email,
                     BirthDate = user.FechaNacimiento,
                     Gender = user.Genero,
+                    Id = user.Id,
                 };
                 return userToReturn;
             }

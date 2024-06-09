@@ -12,11 +12,35 @@ using Diabetia.Infrastructure.Repositories;
 using Diabetia.Interfaces;
 using Infrastructure.Provider;
 using Microsoft.AspNetCore.Authentication.Certificate;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAuthentication(
-    CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = "http://localhost:3000",
+        ValidAudience = "diabetia_users",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+    };
+})
+.AddCertificate();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -36,15 +60,13 @@ builder.Services.AddScoped<HomeUseCase>();
 builder.Services.AddScoped<CalendarUseCase>();
 
 builder.Services.AddScoped<IEmailValidator, EmailValidator>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITagRecognitionProvider, TagRecognitionProvider>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IHomeRepository, HomeRepository>();
-
-
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
@@ -64,10 +86,39 @@ builder.Services.AddDefaultAWSOptions(awsOptions);
 
 builder.Services.AddAWSService<IAmazonCognitoIdentityProvider>();
 
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckles
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Mi API", Version = "v1" });
+
+    // Configure el esquema de seguridad para JWT
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Description = "Ingrese el token JWT",
+        Name = "Authorization",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    // Agrega un requerimiento de seguridad para JWT
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 var app = builder.Build();
 
@@ -90,6 +141,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

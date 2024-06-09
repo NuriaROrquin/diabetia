@@ -1,6 +1,7 @@
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using Microsoft.IdentityModel.Tokens;
@@ -25,6 +26,7 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPut("firstStep")]
+        [Authorize]
         public async Task<IActionResult> UserInformationFirstStep([FromBody] DataRequest request)
         {
             await _dataUserUseCase.FirstStep(request.Name, request.Email, request.Gender, request.Lastname, request.Weight, request.Phone, request.Birthdate);
@@ -33,6 +35,7 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPut("secondStep")]
+        [Authorize]
         public async Task<IActionResult> PatientInformationSecondStep([FromBody] PatientRequest request)
         {
             await _dataUserUseCase.SecondStep(request.TypeDiabetes, request.UseInsuline, request.TypeInsuline, request.Email, request.NeedsReminder, request.Frequency, request.HourReminder);
@@ -41,6 +44,7 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPut("thirdStep")]
+        [Authorize]
         public async Task<IActionResult> PhysicalInformationThirdStep([FromBody] PhysicalRequest request)
         {
             await _dataUserUseCase.ThirdStep(request.Email, request.HaceActividadFisica, request.Frecuencia, request.IdActividadFisica, request.Duracion);
@@ -49,6 +53,7 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPut("fourthStep")]
+        [Authorize]
         public async Task<IActionResult> DevicesInformationFourthStep([FromBody] DevicesRequest request)
         {
             await _dataUserUseCase.FourthStep(request.Email, request.TieneDispositivo, request.IdDispositivo, request.Frecuencia);

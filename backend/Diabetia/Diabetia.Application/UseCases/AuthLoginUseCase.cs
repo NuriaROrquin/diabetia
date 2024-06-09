@@ -36,12 +36,13 @@ namespace Diabetia.Application.UseCases
             {
                 throw new NoInformationUserException();
             }
-            var email = userInformation.Email;
             User user = new User
             {
                 Token = tokenResponse.AuthenticationResult.AccessToken,
-                InformationCompleted = await _userRepository.GetStatusInformationCompletedAsync(username),
-                Email = email
+                InitialFormCompleted = await _userRepository.GetStatusInformationCompletedAsync(username),
+                Email = userInformation.Email,
+                Username = username,
+                Id = userInformation.Id
             };
 
             return user;            

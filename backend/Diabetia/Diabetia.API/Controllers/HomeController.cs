@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Diabetia.Common.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Diabetia.API.Controllers
 {
@@ -25,10 +26,9 @@ namespace Diabetia.API.Controllers
             _logger = logger;
             _homeUseCase = homeUseCase;
         }
-
-
         
         [HttpPost("metrics")]
+        [Authorize]
         public async Task<MetricsResponse> ShowAllMetrics([FromBody] MetricsRequest request)
         {
             Metrics metrics = await _homeUseCase.ShowMetrics(request.Email);

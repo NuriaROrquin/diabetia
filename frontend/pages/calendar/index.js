@@ -3,18 +3,17 @@ import CustomCalendar from "../../components/calendar";
 import {OrangeLink} from "../../components/link";
 import CustomTooltip from "@/components/tooltip";
 import {useEffect, useState} from "react";
-import {useCookies} from "react-cookie";
-import {getAllEvents, getEventsByDate, getEventsByDay} from "../../services/api.service";
+import {getAllEvents, getEventsByDate} from "../../services/api.service";
 import {Delete, Edit} from "@mui/icons-material";
 import Link from "next/link";
+import {getEmailFromJwt} from "../../helpers";
 
 const registrarEventoTooltipText = "Registrá un nuevo evento: mediciones de glucosa, actividad física, eventos de salud, visitas médicas, insulina, comida manual.";
 
 export const CalendarPage = () => {
     const [eventList, setEventList] = useState();
     const [error, setError] = useState(null);
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
-    const email = cookies.email;
+    const email = getEmailFromJwt();
     const [eventsByDate, setEventsByDate] = useState(null);
 
     useEffect(() => {

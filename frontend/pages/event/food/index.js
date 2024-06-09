@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
-import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
 import { Section } from "../../../components/section";
 import { TitleSection } from "../../../components/titles";
 import { TYPE_EVENTS, TYPE_INGREDIENTS, TYPE_UNITOFMEASUREMENT } from "../../../constants";
-import { capitalizeFirstLetter } from "../../../helpers";
+import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
 import { BlueLink, OrangeLink } from "../../../components/link";
 import { InputWithLabel } from "../../../components/input";
 import { Select } from "../../../components/selector";
@@ -23,7 +22,6 @@ const ExerciseEvent = () => {
     const [endHour, setEndHour] = useState(dayjs());
     const [date, setDate] = useState(dayjs());
     const [Hour, setHour] = useState(dayjs());
-    const [cookies] = useCookies(['email']);
     const [ingredients, setIngredients] = useState([{ ingredient: '', quantity: '', unit: '' }]);
     const [ingredientsQuantity, setIngredientsQuantity] = useState(1);
 
@@ -70,7 +68,7 @@ const ExerciseEvent = () => {
     };
 
     const handleSubmit = () => {
-        const email = cookies.email;
+        const email = getEmailFromJwt();
         const data = {
             email: email,
             idKindEvent: 4,
