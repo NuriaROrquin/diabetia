@@ -71,14 +71,14 @@ namespace Diabetia.API.Controllers
         [HttpPost("AddInsulinEvent")]
         public async Task<IActionResult> AddInsulinEvent([FromBody] InsulinEventRequest request)
         {
-            await _eventInsulintUseCase.AddInsulinEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.Insulin);
+            await _eventInsulintUseCase.AddInsulinEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.Insulin.Value);
             return Ok();
         }
 
         [HttpPost("EditInsulinEvent")]
         public async Task<IActionResult> EditInsulinEvent([FromBody] InsulinEventRequest request)
         {
-            await _eventInsulintUseCase.EditInsulinEvent(request.IdEvent.Value, request.Email, request.EventDate, request.FreeNote, request.Insulin);
+            await _eventInsulintUseCase.EditInsulinEvent(request.IdEvent.Value, request.Email, request.EventDate, request.FreeNote, request.Insulin.Value);
             return Ok("Evento modificado correctamente");
         }
 
