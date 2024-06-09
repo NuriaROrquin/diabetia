@@ -94,6 +94,22 @@ export const addGlucoseEvent = (data) => {
         );
 }
 
+export const addInsulinEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/AddInsulinEvent`,
+            data
+        );
+}
+
+export const addFoodEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/AddInsulinEvent`,
+            data
+        );
+}
+
 export const getMetrics = (data) => {
     return axios
         .post(

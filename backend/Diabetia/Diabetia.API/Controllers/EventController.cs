@@ -1,5 +1,4 @@
-﻿using Diabetia.API.DTO;
-using Diabetia.API.DTO.EventRequest;
+﻿using Diabetia.API.DTO.EventRequest;
 using Diabetia.Application.UseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -75,7 +75,6 @@ namespace Diabetia.Infrastructure.Repositories
                         IdTipoInsulina = typeInsuline,
                         Frecuencia = frequency
                     };
-
                     _context.InsulinaPacientes.Add(insulina_pac_new);
 
                 }

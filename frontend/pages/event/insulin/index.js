@@ -7,14 +7,15 @@ import {BlueLink, OrangeLink} from "../../../components/link";
 import {TextArea, InputWithLabel} from "../../../components/input";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
-import {addGlucoseEvent} from "../../../services/api.service";
+import {addInsulinEvent} from "../../../services/api.service";
 import {useRouter} from "next/router";
 import {CustomDatePicker, CustomTimePicker} from "@/components/pickers";
 
-const GlycemiaEvent = () => {
+const InsulineEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 4)[0].title;
     const [Hour, setHour] = useState()
     const [date, setDate] = useState()
+    const [startHour, setStartHour] = useState()
     const router = useRouter();
 
     const handleSubmit = () => {
@@ -29,11 +30,11 @@ const GlycemiaEvent = () => {
             "idKindEvent": 4,
             "eventDate": dateFormatted,
             "freeNote": notes,
-            "insulina_inyectada": insulineQuantity,
-            "hora": start ?? null
+            "Insulin": insulineQuantity,
+            //"hora": start ?? null
         }
 
-        addGlucoseEvent(data).then(() =>
+        addInsulinEvent(data).then(() =>
             router.push("/calendar")
         )
     }
@@ -91,4 +92,4 @@ const GlycemiaEvent = () => {
     )
 }
 
-export default GlycemiaEvent;
+export default InsulineEvent;
