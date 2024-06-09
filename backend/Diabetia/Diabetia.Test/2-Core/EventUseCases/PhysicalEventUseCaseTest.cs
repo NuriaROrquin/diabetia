@@ -2,7 +2,7 @@
 using Diabetia.Domain.Repositories;
 using FakeItEasy;
 
-namespace Diabetia.Test._2_Core.EventUseCases
+namespace Diabetia_Core.Events
 {
     public class PhysicalEventUseCaseTest
     {
