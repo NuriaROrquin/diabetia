@@ -38,7 +38,7 @@ namespace Diabetia.API.Controllers
         [Authorize]
         public async Task<IActionResult> PatientInformationSecondStep([FromBody] PatientRequest request)
         {
-            await _dataUserUseCase.SecondStep(request.TypeDiabetes, request.UseInsuline, request.TypeInsuline, request.Email, request.NeedsReminder, request.Frequency, request.HourReminder);
+            await _dataUserUseCase.SecondStep(request.TypeDiabetes, request.UseInsuline, request.TypeInsuline, request.Email, request.NeedsReminder, request.Frequency, request.HourReminder, request.InsulinePerCH);
 
             return Ok();
         }

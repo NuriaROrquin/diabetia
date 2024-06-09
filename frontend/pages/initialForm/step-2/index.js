@@ -3,7 +3,7 @@ import {TitleSection} from "../../../components/titles";
 import {TYPE_INSULIN, TYPE_DIABETES, INSULIN_FREQUENCY} from "../../../constants";
 import {useState} from "react";
 import {OrangeLink} from "../../../components/link";
-import {CustomSwitch} from "../../../components/input";
+import {CustomSwitch, InputWithLabel} from "../../../components/input";
 import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
@@ -57,8 +57,9 @@ const InitialFormStep2 = () => {
         const frequency = selectedOptionFrecuenciaInsulina.id;
         const needsReminder = reminder;
         const hourReminder = hour ? hour.format('HH:mm') : null;
+        const insulinePerCH = parseInt(document.getElementById("insulinePerCH").value);
 
-        secondStep({email, typeDiabetes, useInsuline, typeInsuline, frequency, needsReminder, hourReminder})
+        secondStep({email, typeDiabetes, useInsuline, typeInsuline, frequency, needsReminder, hourReminder, insulinePerCH})
             .then((res) => {
             if(res){
                 router.push("/initialForm/step-3")
@@ -102,11 +103,20 @@ const InitialFormStep2 = () => {
                                     options={TYPE_INSULIN} selectedOption={selectedOptionTipoInsulina}
                                     handleOptionClick={handleOptionClickTipoInsulina} setIsOpen={setIsOpenTipoInsulina}
                                     isOpen={isOpenTipoInsulina} width="w-1/3"/>
+
                             <Select label="Frecuencia de inyecciones" placeholder="Indicá tipo de insulina"
                                     options={INSULIN_FREQUENCY} selectedOption={selectedOptionFrecuenciaInsulina}
                                     handleOptionClick={handleOptionClickFrecuenciaInsulina}
                                     setIsOpen={setIsOpenFrecuenciaInsulina} isOpen={isOpenFrecuenciaInsulina}
                                     width="w-1/3"/>
+
+                            <div className="w-10/12 flex justify-start">
+                            <InputWithLabel label="Carbohidratos por unidad de insulina"
+                                            placeholder="Indicá los gr de CH por unidad de insulina"
+                                            id="insulinePerCH"
+                                            width="w-2/5" type="number"/>
+                            </div>
+
                             <div className={`flex flex-wrap w-10/12 gap-4 ${reminder ? "justify-between": "justify-items-start"}`}>
 
                                     <CustomSwitch label="¿Querés un recordatorio de aplicación?" id="reminder"

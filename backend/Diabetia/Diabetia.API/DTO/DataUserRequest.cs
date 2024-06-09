@@ -17,10 +17,11 @@ namespace Diabetia.API
         public string Email { get; set; }
         public int TypeDiabetes { get; set; }
         public bool UseInsuline { get; set; }
-        public int TypeInsuline { get; set; }
-        public int Frequency { get; set; }
-        public bool NeedsReminder { get; set; }
-        public string HourReminder { get; set; }
+        public int? TypeInsuline { get; set; }
+        public int? Frequency { get; set; }
+        public bool? NeedsReminder { get; set; }
+        public string? HourReminder { get; set; }
+        public int? InsulinePerCH { get; set; }
     }
 
     public class PhysicalRequest

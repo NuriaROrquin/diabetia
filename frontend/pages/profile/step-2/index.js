@@ -1,7 +1,7 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
 import {INSULIN_FREQUENCY, STEPS, TYPE_DIABETES, TYPE_INSULIN} from "../../../constants";
-import {CustomSwitch} from "../../../components/input";
+import {CustomSwitch, InputWithLabel} from "../../../components/input";
 import {ButtonOrange} from "../../../components/button";
 import {useRouter} from "next/router";
 import {Step, StepLabel, Stepper} from "@mui/material";
@@ -39,8 +39,6 @@ const ProfileFormStep2 = () => {
                 setSelectedOptionTipoInsulina(insulineType)
                 setSelectedOptionTipoDiabetes(diabetesType)
                 setSelectedOptionFrecuenciaInsulina(InsulineFrequency)
-
-
             })
             .catch((error) => {
                 error.response ? setError(error.response) : setError("Hubo un error")
