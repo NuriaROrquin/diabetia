@@ -39,6 +39,21 @@ namespace Diabetia.API.Controllers
             return await _dataUserUseCase.GetPatientInfo(email);
         }
 
+        [HttpGet("getExercisePatientInfo")]
+        [Authorize]
+        public async Task<Exercise_Patient> GetExerciseInfo([FromQuery] string email)
+        {
+            return await _dataUserUseCase.GetExerciseInfo(email);
+        }
+
+        [HttpGet("getPatientDeviceInfo")]
+        [Authorize]
+        public async Task<Device_Patient> GetPatientDeviceInfo([FromQuery] string email)
+        {
+            return await _dataUserUseCase.GetPatientDeviceInfo(email);
+        }
+
+
 
     }
 }

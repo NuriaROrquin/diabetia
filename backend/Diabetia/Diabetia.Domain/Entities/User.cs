@@ -7,7 +7,7 @@ namespace Diabetia.Domain.Entities
         public string Token { get; set; }
         public bool InitialFormCompleted { get; set; }
         public string Email { get; set; }
-        public string? Name{ get; set; }
+        public string? Name { get; set; }
         public string? LastName { get; set; }
         public string? Gender { get; set; }
         public string? Phone { get; set; }
@@ -22,6 +22,21 @@ namespace Diabetia.Domain.Entities
         public bool? UseInsuline { get; set; }
         public int? TypeInsuline { get; set; }
         public int? Frequency { get; set; }
+
+    }
+
+    public class Exercise_Patient : User
+    {
+        public int? IdActividadFisica { get; set; }
+        public int? Frecuencia { get; set; }
+        public int? Duracion { get; set; }
+
+    }
+
+    public class Device_Patient : User
+    {
+        public int? IdDispositivo { get; set; }
+        public int? Frecuencia { get; set; }
 
     }
 }

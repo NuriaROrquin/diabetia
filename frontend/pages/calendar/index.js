@@ -7,6 +7,8 @@ import {getAllEvents, getEventsByDate} from "../../services/api.service";
 import {Delete, Edit} from "@mui/icons-material";
 import Link from "next/link";
 import {getEmailFromJwt} from "../../helpers";
+import useModal from "../../hooks";
+import Modal from "@/components/modal";
 
 const registrarEventoTooltipText = "Registrá un nuevo evento: mediciones de glucosa, actividad física, eventos de salud, visitas médicas, insulina, comida manual.";
 
@@ -15,6 +17,8 @@ export const CalendarPage = () => {
     const [error, setError] = useState(null);
     const email = getEmailFromJwt();
     const [eventsByDate, setEventsByDate] = useState(null);
+    const [eventIdToDelete, setEventIdToDelete] = useState(null)
+    const { isVisible, openModal, closeModal } = useModal();
 
     useEffect(() => {
         getAllEvents({email})
@@ -38,8 +42,19 @@ export const CalendarPage = () => {
     }
 
     const onHandleDelete = (idEvento) => {
-        console.log(idEvento)
+        openModal();
+        setEventIdToDelete(idEvento);
+    }
+
+    const onCloseModal = () => {
+        setEventIdToDelete(null);
+        closeModal();
+    }
+
+    const onDelete = () => {
         //TODO: Pegarle al back para borrar todo lo que tiene que ver con este idEvento
+        console.log(eventIdToDelete)
+        closeModal();
     }
 
     return (
@@ -75,6 +90,19 @@ export const CalendarPage = () => {
                     </div>
                 )
             })}
+
+            <Modal isVisible={isVisible} closeModal={onCloseModal}>
+                <h1 className="text-2xl font-bold my-2">Confirmación</h1>
+                <p className="my-6">¿Estás seguro de que deseas eliminar este evento?</p>
+                <div className="flex justify-end mt-12">
+                    <button onClick={onCloseModal} className="px-4 py-2 bg-gray-500 text-white rounded mr-2 hover:bg-gray-700">
+                        Cancelar
+                    </button>
+                    <button onClick={() => onDelete()} className="px-4 py-2 bg-red-primary text-white rounded hover:bg-red-700">
+                        Eliminar
+                    </button>
+                </div>
+            </Modal>
 
         </Section>
     )

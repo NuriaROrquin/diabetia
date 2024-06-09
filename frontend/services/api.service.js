@@ -21,7 +21,7 @@ export const login = (username, password) => {
     return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-            { username, password },
+            {  userInput: username, password },
             { withCredentials: true }
         );
 }

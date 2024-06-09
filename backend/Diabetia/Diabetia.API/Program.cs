@@ -5,16 +5,15 @@ using Diabetia.Application.UseCases;
 using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
-using Diabetia.Infrastructure.EF;
 using Diabetia.Infrastructure.Middlewares;
 using Diabetia.Infrastructure.Providers;
 using Diabetia.Infrastructure.Repositories;
 using Diabetia.Interfaces;
 using Infrastructure.Provider;
-using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Diabetia.Infraestructure.EF;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,6 +58,7 @@ builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();
 builder.Services.AddScoped<CalendarUseCase>();
 builder.Services.AddScoped<EventFoodManuallyUseCase>();
+builder.Services.AddScoped<EventUseCase>();
 
 builder.Services.AddScoped<IEmailValidator, EmailValidator>();
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
@@ -68,6 +68,7 @@ builder.Services.AddScoped<ITagRecognitionProvider, TagRecognitionProvider>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IHomeRepository, HomeRepository>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<IInputValidator, InputValidator>();
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 

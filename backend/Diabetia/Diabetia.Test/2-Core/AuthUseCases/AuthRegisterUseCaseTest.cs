@@ -5,7 +5,7 @@ using Diabetia.Application.UseCases;
 using Diabetia.Interfaces;
 using Diabetia.Application.Exceptions;
 
-namespace Diabetia_Core
+namespace Diabetia_Core.Auth
 {
     public class AuthRegisterUseCaseTest
     {

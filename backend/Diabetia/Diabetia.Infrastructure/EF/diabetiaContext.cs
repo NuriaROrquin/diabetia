@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Diabetia.Domain.Models;
+﻿using Diabetia.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Diabetia.Infrastructure.EF
+namespace Diabetia.Infraestructure.EF
 {
     public partial class diabetiaContext : DbContext
     {
@@ -44,7 +41,7 @@ namespace Diabetia.Infrastructure.EF
         public virtual DbSet<PacienteEnfermedadPreexistente> PacienteEnfermedadPreexistentes { get; set; } = null!;
         public virtual DbSet<Profesional> Profesionals { get; set; } = null!;
         public virtual DbSet<Recordatorio> Recordatorios { get; set; } = null!;
-        public virtual DbSet<RecordatorioDium> RecordatorioDia { get; set; } = null!;
+        public virtual DbSet<RecordatorioEvento> RecordatorioEventos { get; set; } = null!;
         public virtual DbSet<Rol> Rols { get; set; } = null!;
         public virtual DbSet<SensibilidadInsulina> SensibilidadInsulinas { get; set; } = null!;
         public virtual DbSet<Sentimiento> Sentimientos { get; set; } = null!;
@@ -378,7 +375,6 @@ namespace Diabetia.Infrastructure.EF
                 entity.HasOne(d => d.IdProfesionalNavigation)
                     .WithMany(p => p.EventoEstudios)
                     .HasForeignKey(d => d.IdProfesional)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("evento_estudio_ibfk_1");
             });
 
@@ -958,11 +954,13 @@ namespace Diabetia.Infrastructure.EF
                     .HasConstraintName("recordatorio_ibfk_1");
             });
 
-            modelBuilder.Entity<RecordatorioDium>(entity =>
+            modelBuilder.Entity<RecordatorioEvento>(entity =>
             {
-                entity.ToTable("recordatorio_dia");
+                entity.ToTable("recordatorio_evento");
 
                 entity.UseCollation("utf8mb4_general_ci");
+
+                entity.HasIndex(e => e.IdCargaEvento, "FK_RecordatorioEvento_CargaEvento");
 
                 entity.HasIndex(e => e.IdDiaSemana, "id_dia_semana");
 
@@ -974,21 +972,29 @@ namespace Diabetia.Infrastructure.EF
                     .HasColumnType("datetime")
                     .HasColumnName("fecha_hora_recordatorio");
 
+                entity.Property(e => e.IdCargaEvento).HasColumnName("id_carga_evento");
+
                 entity.Property(e => e.IdDiaSemana).HasColumnName("id_dia_semana");
 
                 entity.Property(e => e.IdRecordatorio).HasColumnName("id_recordatorio");
 
+                entity.HasOne(d => d.IdCargaEventoNavigation)
+                    .WithMany(p => p.RecordatorioEventos)
+                    .HasForeignKey(d => d.IdCargaEvento)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecordatorioEvento_CargaEvento");
+
                 entity.HasOne(d => d.IdDiaSemanaNavigation)
-                    .WithMany(p => p.RecordatorioDia)
+                    .WithMany(p => p.RecordatorioEventos)
                     .HasForeignKey(d => d.IdDiaSemana)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("recordatorio_dia_ibfk_2");
+                    .HasConstraintName("recordatorio_evento_ibfk_2");
 
                 entity.HasOne(d => d.IdRecordatorioNavigation)
-                    .WithMany(p => p.RecordatorioDia)
+                    .WithMany(p => p.RecordatorioEventos)
                     .HasForeignKey(d => d.IdRecordatorio)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("recordatorio_dia_ibfk_1");
+                    .HasConstraintName("recordatorio_evento_ibfk_1");
             });
 
             modelBuilder.Entity<Rol>(entity =>

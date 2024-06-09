@@ -1,4 +1,5 @@
 ﻿using Diabetia.Domain.Entities;
+﻿using Diabetia.Common.Utilities;
 using Diabetia.Domain.Entities.Events;
 
 namespace Diabetia.Domain.Repositories
@@ -21,10 +22,10 @@ namespace Diabetia.Domain.Repositories
 
         public Task EditInsulinEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, int Insulin);
 
-        public Task DeleteInsulinEvent(int IdEvent, string Email);
-
+        public Task DeleteInsulinEvent(int IdEvent);
+        
         public Task AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote);
-
+        
         public Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date);
 
         public Task<IEnumerable<FoodEvent>> GetFoods(int patientId, DateTime? date);
@@ -39,6 +40,22 @@ namespace Diabetia.Domain.Repositories
 
         public Task<IEnumerable<MedicalVisitEvent>> GetMedicalVisit(int patientId, DateTime? date);
 
+        public Task<TypeEventEnum> GetEventType(int idEvent);
 
+        public Task<GlucoseEvent> GetGlucoseEventById(int idEvent);
+
+        public Task<InsulinEvent> GetInsulinEventById(int id);
+
+        public Task<FoodEvent> GetFoodEventById(int id);
+
+        Task<PhysicalActivityEvent> GetPhysicalActivityById(int id);
+
+        Task<MedicalVisitEvent> GetMedicalVisitEventById(int id);
+
+        Task<HealthEvent> GetHealthEventById(int id);
+
+        Task<ExamEvent> GetExamEventById(int id);
+
+        Task<ExamEvent> GetFreeNoteEventById(int id);
     }
 }
