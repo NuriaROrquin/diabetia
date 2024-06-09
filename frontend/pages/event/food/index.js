@@ -13,14 +13,12 @@ import { ButtonOrange } from "../../../components/button";
 import { CustomDatePicker, CustomTimePicker } from "../../../components/pickers";
 import { addPhysicalEvent } from "../../../services/api.service";
 
-const ExerciseEvent = () => {
+const FoodEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 3)[0].title;
     const [isOpenIngredients, setIsOpenIngredients] = useState([false]);
     const [selectedOptionIngredients, setSelectedOptionIngredients] = useState([null]);
     const [isOpenUnit, setIsOpenUnit] = useState([false]);
     const [selectedOptionUnit, setSelectedOptionUnit] = useState([null]);
-    const [startHour, setStartHour] = useState(dayjs());
-    const [endHour, setEndHour] = useState(dayjs());
     const [date, setDate] = useState(dayjs());
     const [Hour, setHour] = useState(dayjs());
     const [cookies] = useCookies(['email']);
@@ -73,12 +71,10 @@ const ExerciseEvent = () => {
         const email = cookies.email;
         const data = {
             email: email,
-            idKindEvent: 4,
+            idKindEvent: 3,
             eventDate: date.format('YYYY-MM-DD'),
-            freeNote: document.getElementById("notes").value,
-            physicalActivity: selectedOptionIngredients.map(option => option?.id),
-            iniciateTime: startHour.format('HH:mm:ss'),
-            finishTime: endHour.format('HH:mm:ss')
+            ingredients: ingredients
+
         };
         addPhysicalEvent(data).then(() =>
             router.push("/calendar")
@@ -174,5 +170,5 @@ const ExerciseEvent = () => {
     )
 }
 
-export default ExerciseEvent;
+export default FoodEvent;
 
