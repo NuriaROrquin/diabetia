@@ -169,7 +169,7 @@ namespace Diabetia.Infrastructure.Repositories
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
             var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
-            var patientInsulin = await _context.InsulinaPacientes.FirstOrDefaultAsync(ip => ip.IdPaciente == patient.Id);
+            var patientInsulin = await _context.InsulinaPacientes.FirstOrDefaultAsync(u => u.IdPaciente == patient.Id);
 
             // 1- Guardar el evento
             bool IsDone = EventDate <= DateTime.Now ? true : false;

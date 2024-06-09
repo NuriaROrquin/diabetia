@@ -11,7 +11,7 @@ import { InputWithLabel } from "../../../components/input";
 import { Select } from "../../../components/selector";
 import { ButtonOrange } from "../../../components/button";
 import { CustomDatePicker, CustomTimePicker } from "../../../components/pickers";
-import { addPhysicalEvent } from "../../../services/api.service";
+import {addFoodEvent, addPhysicalEvent} from "../../../services/api.service";
 
 const FoodEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 3)[0].title;
@@ -76,7 +76,7 @@ const FoodEvent = () => {
             ingredients: ingredients
 
         };
-        addPhysicalEvent(data).then(() =>
+        addFoodEvent(data).then(() =>
             router.push("/calendar")
         );
     };
