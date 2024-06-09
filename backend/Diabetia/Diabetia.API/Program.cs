@@ -67,6 +67,7 @@ builder.Services.AddScoped<ITagRecognitionProvider, TagRecognitionProvider>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IHomeRepository, HomeRepository>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<IInputValidator, InputValidator>();
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
