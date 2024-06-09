@@ -40,7 +40,7 @@ export const DASHBOARD_INDICATORS = [
         "key": "insulin",
         "unit": "U",
         "title": "En total",
-        "description": "5u insulina rápida y 2u insulina lenta",
+        "description": "Su insulina rápida y tu insulina lenta",
         "tooltipContent":"Se visualiza la cantidad de dosis de insulina administrada "
     },
     {
@@ -297,6 +297,209 @@ export const GENDER = [
         "title": "Prefiero no decir",
         "key": 'X'
     }
+]
+export const ACTIVITY_FREQUENCY = [
+    {
+        "id": 1,
+        "title": "1 vez por semana"
+    },
+    {
+        "id": 2,
+        "title": "2 veces por semana"
+    },
+    {
+        "id": 3,
+        "title": "3 veces por semana"
+    },
+    {
+        "id": 4,
+        "title": "4 veces por semana"
+    },
+    {
+        "id": 5,
+        "title": "5 veces por semana"
+    }
+
+
+]
+
+export const ACTIVITY_HOURS_WEEK = [
+    {
+        "id": 1,
+        "title": "1 hora"
+    },
+    {
+        "id": 2,
+        "title": "2 horas"
+    },
+    {
+        "id": 3,
+        "title": "3 horas"
+    },
+    {
+        "id": 4,
+        "title": "4 horas"
+    },
+    {
+        "id": 5,
+        "title": "5 horas"
+    },
+    {
+        "id": 6,
+        "title": "6 horas"
+    },
+    {
+        "id": 7,
+        "title": "7 horas"
+    },
+    {
+        "id": 8,
+        "title": "8 horas"
+    },
+    {
+        "id": 9,
+        "title": "9 horas"
+    },
+    {
+        "id": 10,
+        "title": "10 horas"
+    }
+]
+
+export const TYPE_ILLNESS = [
+    {
+        "id": 1,
+        "title": "Hipertensión"
+    },
+    {
+        "id": 2,
+        "title": "Enfermedad cardíaca"
+    },
+    {
+        "id": 3,
+        "title": "Enfermedad renal"
+    },
+    {
+        "id": 4,
+        "title": "Neuropatía periférica"
+    },
+    {
+        "id": 5,
+        "title": "Retinopatía diabética"
+    },
+    {
+        "id": 6,
+        "title": "Pie diabético"
+    },
+    {
+        "id": 7,
+        "title": "Asma"
+    },
+    {
+        "id": 8,
+        "title": "Artritis"
+    }
+]
+
+export const MANY_MEASUREMENTS = [
+    {
+        "id": 1,
+        "title": "1 vez"
+    },
+    {
+        "id": 2,
+        "title": "2 veces"
+    },
+    {
+        "id": 3,
+        "title": "3 veces"
+    },
+    {
+        "id": 4,
+        "title": "4 veces"
+    },
+    {
+        "id": 5,
+        "title": "5 veces"
+    },
+    {
+        "id": 6,
+        "title": "6 veces"
+    }
+]
+
+export const TYPE_INGREDIENTS = [
+    {
+        "id": 1,
+        "title": "Milanesa"
+    },
+    {
+        "id": 2,
+        "title": "Brocoli"
+    },
+    {
+        "id": 3,
+        "title": "Arroz"
+    },
+    {
+        "id": 4,
+        "title": "Papa"
+    },
+    {
+        "id": 5,
+        "title": "Lechuga"
+    },
+    {
+        "id": 6,
+        "title": "Tomate"
+    },
+    {
+        "id": 7,
+        "title": "Pechuga de pollo"
+    }
+]
+
+export const TYPE_UNITOFMEASUREMENT = [
+    {
+        "id": 1,
+        "title": "gr"
+    },
+    {
+        "id": 2,
+        "title": "ml"
+    },
+    {
+        "id": 3,
+        "title": "porcion"
+    }
+]
+
+export const TYPE_REMINDERTIME = [
+    {
+        "id": 1,
+        "title": "1 semana"
+    },
+    {
+        "id": 2,
+        "title": "2 semanas"
+    },
+    {
+        "id": 3,
+        "title": "3 semanas"
+    },
+    {
+        "id": 4,
+        "title": "1 mes"
+    },
+    {
+        "id": 5,
+        "title": "2 meses"
+    },
+    {
+        "id": 6,
+        "title": "3 meses"
+    },
+    
 ]
 
 export const INFO_PROFILE = [

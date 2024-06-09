@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server"
 import {cookies} from "next/headers";
+import {jwtDecode} from "jwt-decode";
 
 export function middleware(req){
 
-    const cookieUserLogged = cookies().get("jwt");
-    const userLogged = cookieUserLogged?.value;
+    const jwt = cookies().get("jwt");
+    const userLogged = jwt?.value;
 
-    const cookieInformationCompleted = cookies().get("informationCompleted");
-    const informationCompleted = cookieInformationCompleted?.value;
+    let initialFormCompleted = null;
+    if(userLogged){
+        initialFormCompleted = jwtDecode(jwt.value).initialFormCompleted;
+    }
 
     if (authRoutes.some(route => req.nextUrl.pathname.startsWith(route))) {
         return userLogged
@@ -15,15 +18,14 @@ export function middleware(req){
             : NextResponse.next();
     }
 
-
     if (protectedRoutes.includes(req.nextUrl.pathname)) {
         if (!userLogged) {
-            req.cookies.delete("currentUser");
+            req.cookies.delete("jwt");
             const response = NextResponse.redirect(new URL("/auth/login", req.url));
-            response.cookies.delete("currentUser");
+            response.cookies.delete("jwt");
             return response;
         } else {
-            if (JSON && JSON.parse(informationCompleted.toLowerCase()) === false) {
+            if (JSON && JSON.parse(initialFormCompleted?.toLowerCase()) === false) {
                 return NextResponse.redirect(new URL("/initialForm", req.url));
             }
             return NextResponse.next()

@@ -8,17 +8,15 @@ import {ButtonOrange} from "../../../components/button";
 import {CustomDatePicker} from "../../../components/pickers";
 import {useRouter} from "next/router";
 import {Step, StepLabel, Stepper} from "@mui/material";
-import {useCookies} from "react-cookie";
 import {Select} from "@/components/selector";
 import {firstStep} from "../../../services/api.service";
-
+import {getEmailFromJwt} from "../../../helpers";
 
 const InitialFormStep1 = () => {
     const [error, setError] = useState(false);
     const [date, setDate] = useState()
     const router = useRouter()
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
-    const email = cookies.email
+    const email = getEmailFromJwt();
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
 

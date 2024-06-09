@@ -1,7 +1,7 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
 import {TYPE_EVENTS, TYPE_DEVICES} from "../../../constants";
-import {capitalizeFirstLetter} from "../../../helpers";
+import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
 import {useState} from "react";
 import {BlueLink, OrangeLink} from "../../../components/link";
 import {TextArea, InputWithLabel} from "../../../components/input";
@@ -19,8 +19,6 @@ const GlycemiaEvent = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [Hour, setHour] = useState()
     const [date, setDate] = useState()
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
-
     const router = useRouter();
 
     const handleOptionClick = (option) => {
@@ -33,7 +31,7 @@ const GlycemiaEvent = () => {
         const dateFormatted = date ? date.format('YYYY-MM-DD') : null;
         const glycemiaMeasurement = document.getElementById("glycemiaMeasurement").value
         const notes = document.getElementById("notes").value;
-        const email = cookies.email;
+        const email = getEmailFromJwt();
 
         const data = {
             "email": email,

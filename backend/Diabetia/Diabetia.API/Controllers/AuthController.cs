@@ -1,6 +1,9 @@
-using Diabetia.API.DTO;
+using Diabetia.API.DTO.AuthRequest;
 using Diabetia.Application.UseCases;
+using Diabetia.Domain.Services;
+using Diabetia.Infrastructure.Providers;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Diabetia.API.Controllers
 {
@@ -12,31 +15,32 @@ namespace Diabetia.API.Controllers
         private readonly AuthRegisterUseCase _registerUseCase;
         private readonly AuthForgotPasswordUseCase _forgotPasswordUseCase;
         private readonly AuthChangePasswordUseCase _changePasswordUseCase;
+        private readonly IJwtTokenService _jwtTokenService;
 
-        public AuthController(AuthLoginUseCase loginUseCase, AuthRegisterUseCase registerUseCase, AuthForgotPasswordUseCase forgotPasswordUseCase, AuthChangePasswordUseCase changePasswordUseCase)
+        public AuthController(AuthLoginUseCase loginUseCase, AuthRegisterUseCase registerUseCase, AuthForgotPasswordUseCase forgotPasswordUseCase, AuthChangePasswordUseCase changePasswordUseCase, IJwtTokenService jwtTokenService)
         {
             _loginUseCase = loginUseCase;
             _registerUseCase = registerUseCase;
             _forgotPasswordUseCase = forgotPasswordUseCase;
             _changePasswordUseCase = changePasswordUseCase;
+            _jwtTokenService = jwtTokenService;
         }
 
 
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] AuthLoginRequest request)
+        public async Task<IActionResult> LoginAsync([FromBody] AuthLoginRequest request)
         {
-            var user = await _loginUseCase.UserLoginAsync(request.username, request.password);
+            var user = await _loginUseCase.UserLoginAsync(request.userInput, request.password);
 
             if (user.Token != null)
             {
                 AuthLoginResponse res = new AuthLoginResponse();
 
-                res.InformationCompleted = user.InformationCompleted;
-                res.Token = user.Token;
-                res.Email = user.Email;
+                res.Token = _jwtTokenService.GenerateToken(user.Id.ToString(), user.Username, user.Email, user.InitialFormCompleted); 
 
                 return Ok(res);
             }
@@ -51,7 +55,7 @@ namespace Diabetia.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register([FromBody] AuthRegisterRequest request)
+        public async Task<IActionResult> RegisterAsync([FromBody] AuthRegisterRequest request)
         {
             await _registerUseCase.Register(request.Username, request.Email, request.Password);
             return Ok("Usuario registrado exitosamente");
@@ -61,7 +65,7 @@ namespace Diabetia.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> ConfirmEmailVerification([FromBody] AuthConfirmEmailRequest request)
+        public async Task<IActionResult> ConfirmEmailVerificationAsync([FromBody] AuthConfirmEmailRequest request)
         {
             bool isSuccess = await _registerUseCase.ConfirmEmailVerification(request.Username, request.Email, request.ConfirmationCode);
             Console.Write("hola");
@@ -86,7 +90,7 @@ namespace Diabetia.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> PasswordEmailRecover([FromBody] AuthForgotPasswordRequest request)
+        public async Task<IActionResult> PasswordEmailRecoverAsync([FromBody] AuthForgotPasswordRequest request)
         {
             await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.Email);
             return Ok("Código enviado exitosamente, revise su casilla de correo.");
@@ -96,9 +100,9 @@ namespace Diabetia.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> ForgotPasswordCodeRecover([FromBody] AuthConfirmPasswordRecoverRequest request)
+        public async Task<IActionResult> ForgotPasswordCodeRecoverAsync([FromBody] AuthConfirmPasswordRecoverRequest request)
         {
-            await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.Username, request.ConfirmationCode, request.Password);
+            await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.Email, request.ConfirmationCode, request.Password);
             return Ok("Contraseï¿½a cambiada exitosamente");
         }
 

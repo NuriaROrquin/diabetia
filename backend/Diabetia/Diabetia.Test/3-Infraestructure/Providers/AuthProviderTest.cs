@@ -5,7 +5,7 @@ using Infrastructure.Provider;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 
-namespace Diabetia.Test.Infraestructure.Providers
+namespace Diabetia_Infrastructure
 {
     public class AuthProviderTest
     {

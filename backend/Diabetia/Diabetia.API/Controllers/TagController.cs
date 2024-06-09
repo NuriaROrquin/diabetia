@@ -3,7 +3,7 @@ using Diabetia.Application.UseCases;
 using Diabetia.API.DTO;
 using Diabetia.Domain.Entities;
 using Amazon.Runtime.Internal;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Diabetia.API.Controllers
 {
@@ -20,6 +20,7 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("tagDetection")]
+        [Authorize]
         public async Task<IEnumerable<TagDetectionResponse>> GetOcrResponseAsync([FromBody] IEnumerable<TagDetectionRequest> tags)
         {
             List<TagDetectionResponse> responses = new List<TagDetectionResponse>();
@@ -44,6 +45,7 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("tagRegistration")]
+        [Authorize]
         public async Task<IEnumerable<TagRegistrationResponse>> ConfirmTagRegistration([FromBody] IEnumerable<TagRegistrationRequest> tags)
         {
             List<TagRegistrationResponse> responses = new List<TagRegistrationResponse>();

@@ -51,7 +51,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateUserInfo(int typeDiabetes, bool useInsuline, int typeInsuline, string email, bool needsReminder, int frequency, string hourReminder)
+        public async Task UpdateUserInfo(int typeDiabetes, bool useInsuline, int? typeInsuline, string email, bool? needsReminder, int? frequency, string? hourReminder, int? insulinePerCH)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
@@ -61,6 +61,7 @@ namespace Diabetia.Infrastructure.Repositories
             pac.IdTipoDiabetes = typeDiabetes;
             pac.UsaInsulina = useInsuline;
             pac.IdSensibilidadInsulina = 1;
+            pac.CorreccionCh = insulinePerCH;
 
             _context.Pacientes.Update(pac);
 
@@ -72,10 +73,9 @@ namespace Diabetia.Infrastructure.Repositories
                     {
 
                         IdPaciente = pac.Id,
-                        IdTipoInsulina = typeInsuline,
-                        Frecuencia = frequency
+                        IdTipoInsulina = (int)typeInsuline,
+                        Frecuencia = (int)frequency
                     };
-
                     _context.InsulinaPacientes.Add(insulina_pac_new);
 
                 }
@@ -149,7 +149,7 @@ namespace Diabetia.Infrastructure.Repositories
                         IdDispositivo = idDispositivo,
                         Frecuencia = frecuencia
                     };
-                    _context.DispositivoPacientes.Add(pac_div);
+                    _context.DispositivoPacientes.Add(pac_new);
                 }
             }
             else
@@ -211,6 +211,7 @@ namespace Diabetia.Infrastructure.Repositories
                     Email = user.Email,
                     BirthDate = user.FechaNacimiento,
                     Gender = user.Genero,
+                    Id = user.Id,
                 };
                 return userToReturn;
             }
@@ -307,6 +308,87 @@ namespace Diabetia.Infrastructure.Repositories
             var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
 
             return patient;
+        }
+
+        public async Task<Exercise_Patient> GetExerciseInfo(string email)
+        {
+            var userInfo = await _context.Usuarios
+               .Where(u => u.Email == email)
+               .Select(u => new
+               {
+                   UserId = u.Id
+               })
+               .FirstOrDefaultAsync();
+
+            var pacienteInfo = await _context.Pacientes
+            .Where(p => p.IdUsuario == userInfo.UserId)
+            .Select(p => new
+            {
+                TypeDiabetes = p.IdTipoDiabetes,
+                UseInsuline = p.UsaInsulina,
+                Id = p.Id
+            })
+            .FirstOrDefaultAsync();
+
+            var pacienteActividadFisica= await _context.PacienteActividadFisicas
+            .Where(i => i.IdPaciente == pacienteInfo.Id)
+            .Select(i => new
+            {
+                TypeExercise = i.IdActividadFisica,
+                Frequency = i.Frecuencia,
+                Duration = i.Duracion
+            })
+            .FirstOrDefaultAsync();
+
+            var patient_new = new Exercise_Patient
+            {
+                IdActividadFisica = pacienteActividadFisica.TypeExercise,
+                Frecuencia = pacienteActividadFisica.Frequency,
+                Duracion = pacienteActividadFisica.Duration
+  
+            };
+
+            return patient_new;
+        }
+
+        public async Task<Device_Patient> GetPatientDeviceInfo(string email)
+        {
+            var userInfo = await _context.Usuarios
+            .Where(u => u.Email == email)
+            .Select(u => new
+            {
+                UserId = u.Id
+            })
+            .FirstOrDefaultAsync();
+
+            var pacienteInfo = await _context.Pacientes
+            .Where(p => p.IdUsuario == userInfo.UserId)
+            .Select(p => new
+            {
+                TypeDiabetes = p.IdTipoDiabetes,
+                UseInsuline = p.UsaInsulina,
+                Id = p.Id
+            })
+            .FirstOrDefaultAsync();
+
+            var pacienteDispositivo= await _context.DispositivoPacientes
+            .Where(i => i.IdPaciente == pacienteInfo.Id)
+            .Select(i => new
+            {
+                TypeDevice = i.IdDispositivo,
+                Frequency = i.Frecuencia
+            })
+            .FirstOrDefaultAsync();
+
+            var patient_new = new Device_Patient
+            {
+                IdDispositivo = pacienteDispositivo.TypeDevice,
+                Frecuencia = pacienteDispositivo.Frequency,
+                Email = email
+
+            };
+
+            return patient_new;
         }
     }
 }
