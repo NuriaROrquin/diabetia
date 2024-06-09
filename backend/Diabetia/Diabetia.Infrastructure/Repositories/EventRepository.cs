@@ -312,7 +312,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, decimal Quantity, int IdIngredient, string FreeNote)
+        public async Task AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote)
         {
             // Obtener el usuario por email
             var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
@@ -321,10 +321,6 @@ namespace Diabetia.Infrastructure.Repositories
             // Obtener el paciente por id de usuario
             var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
             if (Patient == null) { throw new PatientNotFoundException(); }
-
-            var Ingredient = await _context.Ingredientes.FirstOrDefaultAsync(i => i.Id == IdIngredient);
-
-            var TotalChInIngredient = (Quantity * Ingredient.Carbohidratos);
 
             // 1- Guardar el evento
             bool IsDone = EventDate <= DateTime.Now ? true : false;
@@ -344,12 +340,26 @@ namespace Diabetia.Infrastructure.Repositories
 
             var lastInsertedIdEvent = await _context.CargaEventos.Where(x => x.IdPaciente == Patient.Id).OrderByDescending(e => e.Id).FirstOrDefaultAsync();
 
+            var ingredientTasks = ingredients.Select(async ingredient =>
+            {
+                var searchIngredient = await _context.Ingredientes.FirstOrDefaultAsync(i => i.Id == ingredient.IdIngredient);
+                return new
+                {
+                    SearchIngredient = searchIngredient,
+                    TotalChPerIngredient = ingredient.Quantity * (searchIngredient != null ? searchIngredient.Carbohidratos : 0)
+                };
+            });
+
+            var newIngredients = await Task.WhenAll(ingredientTasks);
+
+            var totalChFood = newIngredients.Sum(i => i.TotalChPerIngredient);
+
             // Insertar el evento de comida en la tabla `evento_comida`
             var newFoodEvent = new EventoComidum
             {
                 IdCargaEvento = lastInsertedIdEvent.Id,
                 IdTipoCargaComida = (int)FoodChargeTypeEnum.MANUAL,
-                Carbohidratos = TotalChInIngredient,
+                Carbohidratos = totalChFood,
             };
 
             _context.EventoComida.Add(newFoodEvent);
@@ -357,20 +367,29 @@ namespace Diabetia.Infrastructure.Repositories
 
             var lastInsertedIdFoodEvent = await _context.EventoComida.Where(x => x.IdCargaEvento == lastInsertedIdEvent.Id).OrderByDescending(e => e.Id).FirstOrDefaultAsync();
 
-            var foodIngredient = new IngredienteComidum
+            var ingredientsComidumTask = ingredients.Select(async ingredient =>
             {
-                IdIngrediente = Ingredient.Id,
-                IdEventoComida = lastInsertedIdFoodEvent.Id,
-                CantidadIngerida = (int)Quantity,
-                Proteinas = Ingredient.Proteinas,
-                GrasasTotales = Ingredient.GrasasTotales,
-                Carbohidratos = Ingredient.Carbohidratos,
-                Sodio = Ingredient.Sodio,
-                FibraAlimentaria = Ingredient.FibraAlimentaria
-            };
+                var searchIngredient = await _context.Ingredientes.FirstOrDefaultAsync(i => i.Id == ingredient.IdIngredient);
+                return new IngredienteComidum
+                {
+                    IdIngrediente = ingredient.IdIngredient,
+                    IdEventoComida = lastInsertedIdFoodEvent.Id,
+                    CantidadIngerida = (int)ingredient.Quantity,
+                    Proteinas = ingredient.Quantity * (searchIngredient != null ? searchIngredient.Proteinas : 0),
+                    GrasasTotales = ingredient.Quantity * (searchIngredient != null ? searchIngredient.GrasasTotales : 0),
+                    Carbohidratos = ingredient.Quantity * (searchIngredient != null ? searchIngredient.Carbohidratos : 0),
+                    Sodio = ingredient.Quantity * (searchIngredient != null ? searchIngredient.Sodio : 0),
+                    FibraAlimentaria = ingredient.Quantity * (searchIngredient != null ? searchIngredient.FibraAlimentaria : 0)
+                };
+            });
 
-            _context.IngredienteComida.Add(foodIngredient);
-            await _context.SaveChangesAsync();
+            var ingredientsComidum = await Task.WhenAll(ingredientsComidumTask);
+
+            foreach (var ingredientComidum in ingredientsComidum)
+            {
+                _context.IngredienteComida.Add(ingredientComidum);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date = null)

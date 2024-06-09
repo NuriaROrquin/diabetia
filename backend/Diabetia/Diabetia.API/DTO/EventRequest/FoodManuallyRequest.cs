@@ -1,4 +1,6 @@
-﻿namespace Diabetia.API.DTO.EventRequest
+﻿using Diabetia.Domain.Entities;
+
+namespace Diabetia.API.DTO.EventRequest
 {
     public class FoodManuallyRequest : EventRequest
     {
@@ -8,12 +10,6 @@
 
         public string? FreeNote { get; set; }
 
-        public decimal Quantity { get; set; }
-
-        public int IdIngredient{ get; set; }
-
-
-
-
+        public IEnumerable<Ingredient> Ingredients { get; set; }
     }
 }
