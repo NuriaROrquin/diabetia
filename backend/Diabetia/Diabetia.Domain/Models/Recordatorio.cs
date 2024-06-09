@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace Diabetia.Domain.Models
 {
     public partial class Recordatorio
     {
         public Recordatorio()
         {
-            RecordatorioDia = new HashSet<RecordatorioDium>();
+            RecordatorioEventos = new HashSet<RecordatorioEvento>();
         }
 
         public int Id { get; set; }
@@ -20,6 +18,6 @@ namespace Diabetia.Domain.Models
         public DateTime? FechaEliminacion { get; set; }
 
         public virtual TipoEvento IdTipoEventoNavigation { get; set; } = null!;
-        public virtual ICollection<RecordatorioDium> RecordatorioDia { get; set; }
+        public virtual ICollection<RecordatorioEvento> RecordatorioEventos { get; set; }
     }
 }

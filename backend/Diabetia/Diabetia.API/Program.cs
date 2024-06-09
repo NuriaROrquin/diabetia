@@ -5,16 +5,15 @@ using Diabetia.Application.UseCases;
 using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
-using Diabetia.Infrastructure.EF;
 using Diabetia.Infrastructure.Middlewares;
 using Diabetia.Infrastructure.Providers;
 using Diabetia.Infrastructure.Repositories;
 using Diabetia.Interfaces;
 using Infrastructure.Provider;
-using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Diabetia.Infraestructure.EF;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,8 +1,8 @@
-﻿using Diabetia.Infrastructure.EF;
-using Diabetia.Domain.Services;
+﻿using Diabetia.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities;
+using Diabetia.Infraestructure.EF;
 
 namespace Diabetia.Infrastructure.Repositories
 {

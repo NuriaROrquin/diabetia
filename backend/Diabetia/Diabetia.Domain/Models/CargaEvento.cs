@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace Diabetia.Domain.Models
 {
     public partial class CargaEvento
@@ -15,6 +13,7 @@ namespace Diabetia.Domain.Models
             EventoSaluds = new HashSet<EventoSalud>();
             EventoVisitaMedicas = new HashSet<EventoVisitaMedica>();
             Feedbacks = new HashSet<Feedback>();
+            RecordatorioEventos = new HashSet<RecordatorioEvento>();
         }
 
         public int Id { get; set; }
@@ -36,5 +35,6 @@ namespace Diabetia.Domain.Models
         public virtual ICollection<EventoSalud> EventoSaluds { get; set; }
         public virtual ICollection<EventoVisitaMedica> EventoVisitaMedicas { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
+        public virtual ICollection<RecordatorioEvento> RecordatorioEventos { get; set; }
     }
 }
