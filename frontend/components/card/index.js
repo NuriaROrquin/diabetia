@@ -1,8 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
+import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
+import DirectionsRunOutlinedIcon from '@mui/icons-material/DirectionsRunOutlined';
+import FolderSharedOutlinedIcon from '@mui/icons-material/FolderSharedOutlined';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import CustomTooltip from "@/components/tooltip";
-import {ErrorOutline, HelpOutline, EditOutlinedIcon, FolderSharedOutlinedIcon, ContactMailOutlinedIcon, DirectionsRunOutlinedIcon} from "@mui/icons-material";
+import {ErrorOutline, HelpOutline} from "@mui/icons-material";
 
 const getIconComponent = (title) => {
     switch (title) {
@@ -103,7 +107,7 @@ export const ProfileCard = ({ editInfo }) => {
                                 <span className="text-blue-primary text-lg">{item.title}</span>
                             </div>
                             <div className="ml-auto">
-                                <EditOutlinedIcon className="text-blue-primary mr-8" />
+                                <ModeEditOutlineOutlinedIcon className="text-blue-primary mr-8" />
                             </div>
                         </Link>
                     </div>
