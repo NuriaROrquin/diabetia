@@ -103,26 +103,12 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeletePhysicalActivityEventAsync(string Email, int EventId)
+        public async Task DeletePhysicalActivityEventAsync(int EventId)
         {
             var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == EventId);
             if (@event == null)
             {
                 throw new EventNotFoundException();
-            }
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            if (user == null)
-            {
-                throw new UserEventNotFoundException();
-            }
-            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.Id == @event.IdPaciente);
-            if (patient == null)
-            {
-                throw new EventNotRelatedWithPatientException(); ;
-            }
-            if (user.Id != patient.IdUsuario)
-            {
-                throw new MismatchUserPatientException();
             }
             var physicalEvent = await _context.EventoActividadFisicas.FirstOrDefaultAsync(eaf => eaf.IdCargaEvento == EventId);
             if (physicalEvent == null)
@@ -201,18 +187,12 @@ namespace Diabetia.Infrastructure.Repositories
             _context.EventoGlucosas.Update(GlucoseEvent);
             await _context.SaveChangesAsync();
         }
-        public async Task DeleteGlucoseEvent(int IdEvent, string Email)
+        public async Task DeleteGlucoseEvent(int IdEvent)
         {
-            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            if (User == null) { throw new UserEventNotFoundException(); }
-            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
-            if (Patient == null) { throw new PatientNotFoundException(); }
             var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
             if (EventLoad == null) { throw new EventNotFoundException(); }
-            if (EventLoad.IdPaciente != Patient.Id) { throw new EventNotRelatedWithPatientException(); }
             var GlucoseEvent = await _context.EventoGlucosas.FirstOrDefaultAsync(eg => eg.IdCargaEvento == EventLoad.Id);
             if (GlucoseEvent == null) { throw new GlucoseEventNotMatchException("No se encontró la carga de glucosa relacionada."); }
-
 
             // Eliminar el evento de carga
             _context.EventoGlucosas.Remove(GlucoseEvent);

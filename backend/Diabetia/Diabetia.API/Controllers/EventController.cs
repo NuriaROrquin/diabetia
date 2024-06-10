@@ -43,7 +43,7 @@ namespace Diabetia.API.Controllers
         [Authorize]
         public async Task<IActionResult> DeletePhysicalEvent([FromBody] EventDeletePhysicalRequest request)
         {
-            await _eventPhysicalActivityUseCase.DeletePhysicalEventAsync(request.Email, request.EventId);
+            await _eventPhysicalActivityUseCase.DeletePhysicalEventAsync(request.EventId);
             return Ok("Evento eliminado correctamente"); ;
         }
 
@@ -64,7 +64,7 @@ namespace Diabetia.API.Controllers
         [HttpPost("DeleteGlucoseEvent")]
         public async Task<IActionResult> DeleteInsulinEvent([FromBody] GlucoseEventRequest request)
         {
-            await _eventGlucosetUseCase.DeleteGlucoseEvent(request.IdEvent.Value, request.Email);
+            await _eventGlucosetUseCase.DeleteGlucoseEvent(request.IdEvent.Value);
             return Ok("Evento eliminado correctamente");
         }
 
@@ -92,7 +92,6 @@ namespace Diabetia.API.Controllers
         [HttpGet("GetEventType/{id}")]
         public async Task<IActionResult> GetEventType([FromRoute]int id)
         {
-            var idEvent = id;
             var eventType = await _getEventUseCase.GetEvent(id);
             if (eventType == null)
             {
