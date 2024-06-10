@@ -49,9 +49,9 @@ export const Navigation = () => {
 
     return (
         <nav id="header" className={`fixed w-full z-30 top-0 text-white transition-all  ${scrolling && 'bg-blue-primary'} `}>
-            <div className="w-full container mx-auto flex items-center justify-between mt-0 py-2">
+            <div className="w-full container mx-auto flex items-center justify-between mt-0 py-4">
                 <div className="pl-4 flex items-center">
-                    <Link className="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
+                    <Link className="toggleColour text-white no-underline hover:no-underline font-bold text-3xl lg:text-4xl"
                           href="/">
                         <Image src="/logo-blanco.png" width={48} height={48} alt="logo diabetIA" />
                     </Link>
@@ -86,7 +86,7 @@ export const Navigation = () => {
                     </ul>
                     <div className="flex justify-center items-center relative">
                         <button className="flex items-center text-white" onClick={onHandleUserClick}>
-                            <PersonOutline/>
+                            <PersonOutline fontSize="large" />
                         </button>
 
                         <div className={`${openUserMenu ? 'text-opacity-100' : 'opacity-0'} absolute top-10 transition-all delay-0 ease-in-out`}>

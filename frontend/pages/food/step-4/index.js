@@ -49,7 +49,7 @@ const StepFour = () => {
                 <div
                     className="bg-white rounded-xl w-full flex flex-col flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
 
-                    <h4 className="font-semibold text-2xl text-center">Etiquetas detectadas</h4>
+                    <h4 className="font-semibold text-3xl text-center">Etiquetas detectadas</h4>
                     {imagesUploaded.map((tag) => (
                         <div key={tag.id} className="flex w-full gap-12">
                             <div className="w-56 h-56 flex overflow-hidden rounded-xl">

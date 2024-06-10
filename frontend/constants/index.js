@@ -40,7 +40,7 @@ export const DASHBOARD_INDICATORS = [
         "key": "insulin",
         "unit": "U",
         "title": "En total",
-        "description": "Su insulina rápida y tu insulina lenta",
+        "description": "Tu insulina rápida y tu insulina lenta",
         "tooltipContent":"Se visualiza la cantidad de dosis de insulina administrada "
     },
     {
