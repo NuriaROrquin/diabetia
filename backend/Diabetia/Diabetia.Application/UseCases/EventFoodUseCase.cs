@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace Diabetia.Application.UseCases
 {
-    public class EventFoodManuallyUseCase
+    public class EventFoodUseCase
     {
         private readonly IEventRepository _eventRepository;
 
-        public EventFoodManuallyUseCase(IEventRepository eventRepository)
+        public EventFoodUseCase(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
         }
@@ -29,6 +29,8 @@ namespace Diabetia.Application.UseCases
         {
             await _eventRepository.EditFoodManuallyEvent(idEvent, Email, EventDate, IdKindEvent, ingredients, FreeNote);
         }
+
+        //public async Task<float> AddFoodByTagEvent(string email, DateTime eventDate, int idKindEvent, )
         
     }
 }

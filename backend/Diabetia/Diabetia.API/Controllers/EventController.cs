@@ -14,12 +14,12 @@ namespace Diabetia.API.Controllers
         private readonly EventPhysicalActivityUseCase _eventPhysicalActivityUseCase;
         private readonly EventGlucoseUseCase _eventGlucosetUseCase;
         private readonly EventInsulinUseCase _eventInsulintUseCase;
-        private readonly EventFoodManuallyUseCase _eventFoodManuallyUseCase;
+        private readonly EventFoodUseCase _eventFoodManuallyUseCase;
         private readonly EventUseCase _getEventUseCase;
         private readonly DataUserUseCase _dataUserUseCase;
                        
 
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventFoodManuallyUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase)
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
             _eventGlucosetUseCase = evemtGlucoseUseCase;
@@ -47,14 +47,14 @@ namespace Diabetia.API.Controllers
 
 
         [HttpPost("AddGlucoseEvent")]
-        public async Task<IActionResult> AddGlucoseEvent([FromBody] GlucoseEventRequest request)
+        public async Task<IActionResult> AddGlucoseEvent([FromBody] EventGlucoseEventRequest request)
         {
-            await _eventGlucosetUseCase.AddGlucoseEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.Glucose.Value, request.IdDevicePacient, request.IdFoodEvent, request.PostFoodMedition);
+            await _eventGlucosetUseCase.AddGlucoseEvent(request.Email, request.IdKindEvent.Value, request.EventDate, request.FreeNote, request.Glucose.Value, request.IdDevicePacient, request.IdFoodEvent, request.PostFoodMedition);
             return Ok();
         }
 
         [HttpPost("EditGlucoseEvent")]
-        public async Task<IActionResult> EditGlucoseEvent([FromBody] GlucoseEventRequest request)
+        public async Task<IActionResult> EditGlucoseEvent([FromBody] EventGlucoseEventRequest request)
         {
             await _eventGlucosetUseCase.EditGlucoseEvent(request.IdEvent.Value, request.Email, request.EventDate, request.FreeNote, request.Glucose.Value, request.IdDevicePacient, request.IdFoodEvent, request.PostFoodMedition);
             return Ok("Evento modificado correctamente");
@@ -62,14 +62,14 @@ namespace Diabetia.API.Controllers
 
 
         [HttpPost("AddInsulinEvent")]
-        public async Task<IActionResult> AddInsulinEvent([FromBody] InsulinEventRequest request)
+        public async Task<IActionResult> AddInsulinEvent([FromBody] EventInsulinEventRequest request)
         {
-            await _eventInsulintUseCase.AddInsulinEvent(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.Insulin.Value);
+            await _eventInsulintUseCase.AddInsulinEvent(request.Email, request.IdKindEvent.Value, request.EventDate, request.FreeNote, request.Insulin.Value);
             return Ok();
         }
 
         [HttpPost("EditInsulinEvent")]
-        public async Task<IActionResult> EditInsulinEvent([FromBody] InsulinEventRequest request)
+        public async Task<IActionResult> EditInsulinEvent([FromBody] EventInsulinEventRequest request)
         {
             await _eventInsulintUseCase.EditInsulinEvent(request.IdEvent.Value, request.Email, request.EventDate, request.FreeNote, request.Insulin.Value);
             return Ok("Evento modificado correctamente");
@@ -95,7 +95,7 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("AddFoodManuallyEvent")]
-        public async Task<EventFoodResponse> AddFoodManuallyEvent([FromBody] FoodManuallyRequest request)
+        public async Task<EventFoodResponse> AddFoodManuallyEvent([FromBody] EventFoodRequest request)
         {
             EventFoodResponse response = new EventFoodResponse();
            var totalChConsumed = await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.IdKindEvent, request.Ingredients, request.FreeNote);
@@ -111,7 +111,7 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("EditFoodManuallyEvent")]
-        public async Task<IActionResult> EditFoodManuallyEvent([FromBody] FoodManuallyRequest request)
+        public async Task<IActionResult> EditFoodManuallyEvent([FromBody] EventFoodRequest request)
         {
             await _eventFoodManuallyUseCase.EditFoodManuallyEvent(request.IdEvent.Value, request.Email, request.EventDate, request.IdKindEvent, request.Ingredients, request.FreeNote);
             return Ok();

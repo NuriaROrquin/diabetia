@@ -85,6 +85,8 @@ namespace Diabetia.API.Controllers
                 response.ChTotal = totalCh;
             }
 
+            
+
             return responses;
         }
 

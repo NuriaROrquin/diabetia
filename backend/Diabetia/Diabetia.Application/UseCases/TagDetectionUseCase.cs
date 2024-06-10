@@ -23,10 +23,10 @@ namespace Diabetia.Application.UseCases
                 float chInPortion = 0;
                 float grPerPortion = 0;
                 string textractResponse = await _apiAmazonService.GetChFromDocument(tagRequest);
-                string chPattern = @"[Cc]arbohidratos:?\s*(\d+)\s*g";
+                string chPattern = @"[Cc]arbohidratos.*?\s*(\d+)\s*g";
                 string tagResponse = "";
 
-                string portionPatter = @"[Pp]orci[oó]n\s*(\d+)\s*g";
+                string portionPatter = @"[Pp]orci[oó]n\s*[:\s]*(\d+)\s*g";
 
                 // Llama a la función para extraer la cantidad de carbohidratos por porción
                 MatchCollection chMatches = Regex.Matches(textractResponse, chPattern);
