@@ -468,7 +468,7 @@ namespace Diabetia.Infrastructure.Repositories
                     af => af.Id,
                     (joined, af) => new PhysicalActivityEvent
                     {
-                        IdEvent = joined.EventoActividadFisica.Id,
+                        IdEvent = joined.CargaEvento.Id,
                         IdEventType = joined.TipoEvento.Id,
                         IdPhysicalEducationEvent = joined.EventoActividadFisica.IdActividadFisica,
                         DateEvent = joined.CargaEvento.FechaEvento,
