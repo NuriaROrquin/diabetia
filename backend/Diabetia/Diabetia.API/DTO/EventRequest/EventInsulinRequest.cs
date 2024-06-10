@@ -1,6 +1,6 @@
 ﻿namespace Diabetia.API.DTO.EventRequest
 {
-    public class EventInsulinEventRequest : EventRequest
+    public class EventInsulinRequest : EventRequest
     {
         public int? IdEvent { get; set; }
         public int? IdKindEvent { get; set; }

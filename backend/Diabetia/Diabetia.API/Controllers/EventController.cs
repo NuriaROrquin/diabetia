@@ -47,14 +47,14 @@ namespace Diabetia.API.Controllers
 
 
         [HttpPost("AddGlucoseEvent")]
-        public async Task<IActionResult> AddGlucoseEvent([FromBody] EventGlucoseEventRequest request)
+        public async Task<IActionResult> AddGlucoseEvent([FromBody] EventGlucoseRequest request)
         {
-            await _eventGlucosetUseCase.AddGlucoseEvent(request.Email, request.IdKindEvent.Value, request.EventDate, request.FreeNote, request.Glucose.Value, request.IdDevicePacient, request.IdFoodEvent, request.PostFoodMedition);
+            await _eventGlucosetUseCase.AddGlucoseEvent(request.Email, request.IdKindEvent.Value, request.EventDate, request.FreeNote, request.Glucose.Value, request.IdFoodEvent, request.PostFoodMedition);
             return Ok();
         }
 
         [HttpPost("EditGlucoseEvent")]
-        public async Task<IActionResult> EditGlucoseEvent([FromBody] EventGlucoseEventRequest request)
+        public async Task<IActionResult> EditGlucoseEvent([FromBody] EventGlucoseRequest request)
         {
             await _eventGlucosetUseCase.EditGlucoseEvent(request.IdEvent.Value, request.Email, request.EventDate, request.FreeNote, request.Glucose.Value, request.IdFoodEvent, request.PostFoodMedition);
             return Ok("Evento modificado correctamente");
@@ -62,14 +62,14 @@ namespace Diabetia.API.Controllers
 
 
         [HttpPost("AddInsulinEvent")]
-        public async Task<IActionResult> AddInsulinEvent([FromBody] EventInsulinEventRequest request)
+        public async Task<IActionResult> AddInsulinEvent([FromBody] EventInsulinRequest request)
         {
             await _eventInsulintUseCase.AddInsulinEvent(request.Email, request.IdKindEvent.Value, request.EventDate, request.FreeNote, request.Insulin.Value);
             return Ok();
         }
 
         [HttpPost("EditInsulinEvent")]
-        public async Task<IActionResult> EditInsulinEvent([FromBody] EventInsulinEventRequest request)
+        public async Task<IActionResult> EditInsulinEvent([FromBody] EventInsulinRequest request)
         {
             await _eventInsulintUseCase.EditInsulinEvent(request.IdEvent.Value, request.Email, request.EventDate, request.FreeNote, request.Insulin.Value);
             return Ok("Evento modificado correctamente");
