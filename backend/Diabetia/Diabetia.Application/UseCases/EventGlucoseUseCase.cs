@@ -20,9 +20,5 @@ namespace Diabetia.Application.UseCases
             await _eventRepository.EditGlucoseEvent(IdEvent, Email, EventDate, FreeNote, Glucose, IdDevicePacient, IdFoodEvent, PostFoodMedition);
         }
 
-        public async Task DeleteGlucoseEvent(int IdEvent)
-        {
-            await _eventRepository.DeleteGlucoseEvent(IdEvent);
-        }
     }
 }
