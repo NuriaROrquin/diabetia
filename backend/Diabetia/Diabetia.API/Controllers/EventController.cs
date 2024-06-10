@@ -42,13 +42,13 @@ namespace Diabetia.API.Controllers
             return Ok("Evento modificado correctamente"); ;
         }
 
-        [HttpPost("DeletePhysicalEvent")]
+        /*[HttpPost("DeletePhysicalEvent")]
         [Authorize]
         public async Task<IActionResult> DeletePhysicalEvent([FromBody] EventDeletePhysicalRequest request)
         {
             await _eventPhysicalActivityUseCase.DeletePhysicalEventAsync(request.Email, request.EventId);
             return Ok("Evento eliminado correctamente"); ;
-        }
+        }*/
 
         [HttpPost("AddGlucoseEvent")]
         public async Task<IActionResult> AddGlucoseEvent([FromBody] GlucoseEventRequest request)
@@ -64,12 +64,12 @@ namespace Diabetia.API.Controllers
             return Ok("Evento modificado correctamente");
         }
 
-        [HttpPost("DeleteGlucoseEvent")]
+        /*[HttpPost("DeleteGlucoseEvent")]
         public async Task<IActionResult> DeleteInsulinEvent([FromBody] GlucoseEventRequest request)
         {
-            await _eventGlucosetUseCase.DeleteGlucoseEvent(request.IdEvent.Value, request.Email);
+            await _eventGlucosetUseCase.DeleteGlucoseEvent(request.IdEvent.Value);
             return Ok("Evento eliminado correctamente");
-        }
+        }*/
 
         [HttpPost("AddInsulinEvent")]
         public async Task<IActionResult> AddInsulinEvent([FromBody] InsulinEventRequest request)
