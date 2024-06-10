@@ -96,18 +96,18 @@ export const Home = () => {
                     )}
                 </div>
 
-                <div className="flex justify-around bg-white w-1/2 self-center rounded-xl p-6 mb-10">
+                <div className="flex justify-around bg-white w-2/3 self-center rounded-xl p-6 mb-10">
                     <div className="flex gap-2">
                         <CircleRounded className="text-green-primary"/>
-                        <span className="text-gray-primary font-medium">Valores dentro de lo esperado</span>
+                        <span className="text-gray-primary font-medium text-xl">Valores dentro de lo esperado</span>
                     </div>
                     <div className="flex gap-2">
                         <CircleRounded className="text-red-primary"/>
-                        <span className="text-gray-primary font-medium">Cuidado! Prestale atención</span>
+                        <span className="text-gray-primary font-medium text-xl">Cuidado! Prestale atención</span>
                     </div>
                     <div className="flex gap-2">
                         <CircleRounded className="text-blue-primary"/>
-                        <span className="text-gray-primary font-medium">Informativo</span>
+                        <span className="text-gray-primary font-medium text-xl">Informativo</span>
                     </div>
                 </div>
             </div>
@@ -117,9 +117,7 @@ export const Home = () => {
                     <TitleSection>Registros de hoy</TitleSection>
                     <SubtitleSection>Acá encontrarás todos los registros cargados en el día actual</SubtitleSection>
             </ContainerTitles>
-            <div className="flex justify-center mb-10">
                 {!loadingTimeline && <Timeline events={eventsTimeline.timeline.items} />}
-            </div>
         </Section>
         </>
     )

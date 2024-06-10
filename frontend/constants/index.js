@@ -56,37 +56,17 @@ export const DASHBOARD_INDICATORS = [
 
 export const DASHBOARD_TIMELINE_EVENTS = [
     {
-        "time": "12:00 a. m.",
-        "title": "Glucosa - 200,00"
+        "dateTime": "2024-06-10T15:00:00",
+        "title": "Glucosa"
     },
     {
-        "time": "12:00 a. m.",
-        "title": "Glucosa - 100,00"
-    },
-    {
-        "time": "04:14 a. m.",
+        "dateTime": "2024-06-10T13:40:00",
         "title": "Visita Medica"
     },
     {
-        "time": "04:14 a. m.",
-        "title": "Visita Medica"
+        "dateTime": "2024-06-10T15:30:00",
+        "title": "Insulina"
     },
-    {
-        "time": "03:53 a. m.",
-        "title": "Visita Medica"
-    },
-    {
-        "time": "12:00 p. m.",
-        "title": "Actividad Fisica 60min"
-    },
-    {
-        "time": "11:03 p. m.",
-        "title": "Actividad Fisica 60min"
-    },
-    {
-        "time": "12:00 a. m.",
-        "title": "Glucosa - 50,00"
-    }
 ]
 
 export const TYPE_EVENTS = [
@@ -116,7 +96,7 @@ export const TYPE_EVENTS = [
     },
     {
         "id": 5,
-        "title": "EVENTO DE SALUD",
+        "title": "SALUD",
         "image": "/salud.jpg",
         "link": "/event/health-event"
     },
