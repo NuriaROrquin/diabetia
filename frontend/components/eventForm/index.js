@@ -4,7 +4,7 @@ import { Select } from "@/components/selector";
 import { TextArea, InputWithLabel } from "@/components/input";
 import { ButtonOrange } from "@/components/button";
 import { CustomDatePicker, CustomTimePicker } from "@/components/pickers";
-import { TYPE_DEVICES } from "../../constants";
+import {GENDER, TYPE_DEVICES} from "../../constants";
 import dayjs from "dayjs";
 import { addGlucoseEvent, editGlucoseEvent } from "../../services/api.service";
 import { getEmailFromJwt } from "../../helpers";
@@ -24,7 +24,8 @@ export const GlucoseEventForm = ({ existingData }) => {
         if (existingData) {
             var existingDate = dayjs(existingData.dateEvent).format("YYYY-MM-DD");
             var existingHour = dayjs(existingData.dateEvent).format('HH:mm ss');
-            setSelectedOption(existingData.idDevice);
+            var device = TYPE_DEVICES.find(d => d.id === existingData.idDevice)
+            setSelectedOption(device);
             setDate(existingDate);
             setHour(existingHour);
             setGlucoseLevel(existingData.glucoseLevel);
@@ -40,8 +41,13 @@ export const GlucoseEventForm = ({ existingData }) => {
 
     const handleSubmit = () => {
         const device = selectedOption ? selectedOption.id : null;
-        const dateFormatted = date.format("YYYY-MM-DD") + 'T' + hour.format('HH:mm:ss');
         const email = getEmailFromJwt();
+        var dateFormatted;
+        if(!router.query.id){
+            dateFormatted = date.format("YYYY-MM-DD") + 'T' + hour.format('HH:mm:ss');
+        }else{
+            dateFormatted = date + 'T' + hour.format('HH:mm:ss')
+        }
 
         const data = {
             "email": email,
