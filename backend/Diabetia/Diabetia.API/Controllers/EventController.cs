@@ -104,7 +104,7 @@ namespace Diabetia.API.Controllers
             return Ok(eventType);
         }
 
-        [HttpGet("DeleteEvent/{id}")]
+        [HttpPost("DeleteEvent/{id}")]
         public async Task<IActionResult> DeleteEvent([FromRoute] int id)
         {
             await _getEventUseCase.DeleteEvent(id);
