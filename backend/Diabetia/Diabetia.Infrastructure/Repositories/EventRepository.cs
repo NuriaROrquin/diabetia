@@ -120,7 +120,7 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
       
-        public async Task AddGlucoseEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition)
+        public async Task AddGlucoseEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdFoodEvent, bool? PostFoodMedition)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
             var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
@@ -145,7 +145,7 @@ namespace Diabetia.Infrastructure.Repositories
 
             var devicePatientId = await _context.DispositivoPacientes
                 .Where(x => x.IdPaciente == patient.Id)
-                .Select(x => x.Id)
+                .Select(x => x.IdDispositivo)
                 .FirstOrDefaultAsync();
 
             // 2- Guardar evento Glucosa            
@@ -163,17 +163,22 @@ namespace Diabetia.Infrastructure.Repositories
 
         }
 
-        public async Task EditGlucoseEvent(int EventId, string Email, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition)
+        public async Task EditGlucoseEvent(int EventId, string Email, DateTime EventDate, String FreeNote, decimal Glucose, int? IdFoodEvent, bool? PostFoodMedition)
         {
-            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            if (User == null) { throw new UserEventNotFoundException(); }
-            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
-            if (Patient == null) { throw new PatientNotFoundException(); }
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            if (user == null) { throw new UserEventNotFoundException(); }
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+            if (patient == null) { throw new PatientNotFoundException(); }
             var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == EventId);
             if (EventLoad == null) { throw new EventNotFoundException(); }
-            if (EventLoad.IdPaciente != Patient.Id) { throw new EventNotRelatedWithPatientException(); }
+            if (EventLoad.IdPaciente != patient.Id) { throw new EventNotRelatedWithPatientException(); }
             var GlucoseEvent = await _context.EventoGlucosas.FirstOrDefaultAsync(eg => eg.IdCargaEvento == EventLoad.Id);
             if (GlucoseEvent == null) { throw new GlucoseEventNotMatchException("No se encontró la carga de glucosa relacionada."); }
+
+            var devicePatientId = await _context.DispositivoPacientes
+                .Where(x => x.IdPaciente == patient.Id)
+                .Select(x => x.IdDispositivo)
+                .FirstOrDefaultAsync();
 
             // 1- Modificar el evento
             bool IsDone = EventDate <= DateTime.Now ? true : false;
@@ -183,7 +188,7 @@ namespace Diabetia.Infrastructure.Repositories
             EventLoad.FueRealizado = IsDone;
             EventLoad.EsNotaLibre = false;
             GlucoseEvent.Glucemia = Glucose;
-            GlucoseEvent.IdDispositivoPaciente = IdDevicePacient;
+            GlucoseEvent.IdDispositivoPaciente = devicePatientId;
             GlucoseEvent.IdEventoComida = IdFoodEvent;
             GlucoseEvent.MedicionPostComida = PostFoodMedition;
 
