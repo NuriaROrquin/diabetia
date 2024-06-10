@@ -1,12 +1,8 @@
 ﻿namespace Diabetia.API.DTO
 {
-    public class TagRegistrationResponse
+    public class TagRegistrationResponse : EventFoodResponse
     {
         public List<PerTag> Tags { get; set; }
-
-        public float ChTotal { get; set; }
-
-        //public int Insulin { get; set; }
         public TagRegistrationResponse()
         {
             Tags = new List<PerTag>();

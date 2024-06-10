@@ -2,7 +2,7 @@
 
 namespace Diabetia.API.DTO
 {
-    public class TagRegistrationRequest : EventFoodRequest
+    public class TagRegistrationRequest : BasicEventRequest
     {
         public string Id { get; set; }
 
@@ -11,8 +11,5 @@ namespace Diabetia.API.DTO
         public float grPerPortion { get; set; }
 
         public float ChInPortion { get; set; }
-
-
-        
     }
 }

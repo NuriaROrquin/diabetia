@@ -46,9 +46,9 @@ namespace Diabetia.API.Controllers
 
         [HttpPost("tagRegistration")]
         [Authorize]
-        public async Task<IEnumerable<TagRegistrationResponse>> ConfirmTagRegistration([FromBody] IEnumerable<TagRegistrationRequest> tags)
+        public async Task<TagRegistrationResponse> ConfirmTagRegistration([FromBody] IEnumerable<TagRegistrationRequest> tags)
         {
-            List<TagRegistrationResponse> responses = new List<TagRegistrationResponse>();
+            TagRegistrationResponse responses = new TagRegistrationResponse();
             float totalChConsumed = 0;
 
             foreach (var tag in tags)
@@ -62,11 +62,7 @@ namespace Diabetia.API.Controllers
                 float consumed = await _TagCalculateUseCase.GetChPerPortionConsumed(tagConfirmationRequest);
                 totalChConsumed += consumed;
 
-                TagRegistrationResponse tagRegistrationResponse = new TagRegistrationResponse();
-
-                tagRegistrationResponse.Tags = new List<PerTag>();
-
-                tagRegistrationResponse.Tags.Add(new PerTag
+                responses.Tags.Add(new PerTag
                 {
                     Id = tag.Id,
                     Portion = tag.Portion,
@@ -74,18 +70,14 @@ namespace Diabetia.API.Controllers
                     ChInPortion = tag.ChInPortion,
                     ChCalculated = consumed
                 });
-
-                responses.Add(tagRegistrationResponse);
             }
 
-            float totalCh = responses.Sum(r => r.Tags.Sum(t => t.ChCalculated));
+            float totalCh = responses.Tags.Sum(r => r.ChCalculated);
 
-            foreach (var response in responses)
-            {
-                response.ChTotal = totalCh;
-            }
+            //float insulinToCorrect = totalCh / insulinPerCh;
 
-            
+            responses.ChConsumed = (int)totalCh;
+
 
             return responses;
         }

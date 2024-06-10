@@ -98,7 +98,7 @@ namespace Diabetia.API.Controllers
         public async Task<EventFoodResponse> AddFoodManuallyEvent([FromBody] EventFoodRequest request)
         {
             EventFoodResponse response = new EventFoodResponse();
-           var totalChConsumed = await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.IdKindEvent, request.Ingredients, request.FreeNote);
+           var totalChConsumed = await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.IdKindEvent.Value, request.Ingredients, request.FreeNote);
 
             var userPatientInfo = await _dataUserUseCase.GetPatientInfo(request.Email);
 
@@ -113,7 +113,7 @@ namespace Diabetia.API.Controllers
         [HttpPost("EditFoodManuallyEvent")]
         public async Task<IActionResult> EditFoodManuallyEvent([FromBody] EventFoodRequest request)
         {
-            await _eventFoodManuallyUseCase.EditFoodManuallyEvent(request.IdEvent.Value, request.Email, request.EventDate, request.IdKindEvent, request.Ingredients, request.FreeNote);
+            await _eventFoodManuallyUseCase.EditFoodManuallyEvent(request.IdEvent.Value, request.Email, request.EventDate, request.IdKindEvent.Value, request.Ingredients, request.FreeNote);
             return Ok();
         }
     }
