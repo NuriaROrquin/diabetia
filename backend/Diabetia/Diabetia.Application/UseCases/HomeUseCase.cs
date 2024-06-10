@@ -58,7 +58,7 @@ namespace Diabetia.Application.UseCases
                         items.Items.Add(new TimelineItem
                         {
                             Title = glucose.Title + " - " + glucose.GlucoseLevel.ToString(),
-                            Time = glucose.DateEvent.ToString("hh:mm tt")
+                            DateTime = glucose.DateEvent
                         });
                         break;
                     case TypeEventEnum.INSULINA:
@@ -66,7 +66,7 @@ namespace Diabetia.Application.UseCases
                         items.Items.Add(new TimelineItem
                         {
                             Title = insulin.Title,
-                            Time = insulin.DateEvent.ToString("hh:mm tt") 
+                            DateTime = insulin.DateEvent 
                         });
                         break;
                     case TypeEventEnum.COMIDA:
@@ -74,15 +74,15 @@ namespace Diabetia.Application.UseCases
                         items.Items.Add(new TimelineItem
                         {
                             Title = food.Title + " - " + food.IngredientName,
-                            Time = food.DateEvent.ToString("hh:mm tt")
+                            DateTime = food.DateEvent
                         });
                         break;
                     case TypeEventEnum.ACTIVIDADFISICA:
                         var physicalActivity = await _eventRepository.GetPhysicalActivityById(lastEvent.Id);
                         items.Items.Add(new TimelineItem
                         {
-                            Title = physicalActivity.Title + " " + physicalActivity.Duration + "min", 
-                            Time = physicalActivity.DateEvent.ToString("hh:mm tt")
+                            Title = physicalActivity.Title + " " + physicalActivity.Duration + "min",
+                            DateTime = physicalActivity.DateEvent
                         });
                         break;
                     case TypeEventEnum.EVENTODESALUD:
@@ -90,7 +90,7 @@ namespace Diabetia.Application.UseCases
                         items.Items.Add(new TimelineItem
                         {
                             Title = healthEvent.Title,
-                            Time = healthEvent.DateEvent.ToString("hh:mm tt")
+                            DateTime = healthEvent.DateEvent
                         });
                         break;
                     case TypeEventEnum.VISITAMEDICA:
@@ -98,7 +98,7 @@ namespace Diabetia.Application.UseCases
                         items.Items.Add(new TimelineItem
                         {
                             Title = medicalVisitEvent.Title,
-                            Time = medicalVisitEvent.DateEvent.ToString("hh:mm tt")
+                            DateTime = medicalVisitEvent.DateEvent
                         });
                         break;
                     case TypeEventEnum.ESTUDIOS:
@@ -106,7 +106,7 @@ namespace Diabetia.Application.UseCases
                         items.Items.Add(new TimelineItem
                         {
                             Title = examEvent.Title,
-                            Time = examEvent.DateEvent.ToString("hh:mm tt")
+                            DateTime = examEvent.DateEvent
                         });
                         break;
                     case TypeEventEnum.NOTALIBRE:

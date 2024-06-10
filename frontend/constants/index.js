@@ -56,36 +56,36 @@ export const DASHBOARD_INDICATORS = [
 
 export const DASHBOARD_TIMELINE_EVENTS = [
     {
-        "time": "19:00",
-        "title": "Desayuno - Registro de alimentos"
+        "time": "12:00 a. m.",
+        "title": "Glucosa - 200,00"
     },
     {
-        "time": "18:00",
-        "title": "Deporte running 25 min"
+        "time": "12:00 a. m.",
+        "title": "Glucosa - 100,00"
     },
     {
-        "time": "17:21",
-        "title": "Hipogucemia"
+        "time": "04:14 a. m.",
+        "title": "Visita Medica"
     },
     {
-        "time": "15:30",
-        "title": "Carga merienda"
+        "time": "04:14 a. m.",
+        "title": "Visita Medica"
     },
     {
-        "time": "14:02",
-        "title": "Carga almuerzo"
+        "time": "03:53 a. m.",
+        "title": "Visita Medica"
     },
     {
-        "time": "13:30",
-        "title": "Medida de glucemia"
+        "time": "12:00 p. m.",
+        "title": "Actividad Fisica 60min"
     },
     {
-        "time": "12:26",
-        "title": "Medida de glucemia"
+        "time": "11:03 p. m.",
+        "title": "Actividad Fisica 60min"
     },
     {
-        "time": "09:39",
-        "title": "Carga desayuno"
+        "time": "12:00 a. m.",
+        "title": "Glucosa - 50,00"
     }
 ]
 
