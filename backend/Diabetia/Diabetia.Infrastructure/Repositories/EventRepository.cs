@@ -578,14 +578,17 @@ namespace Diabetia.Infrastructure.Repositories
                           IdEventType = joined.TipoEvento.Id,
                           DateEvent = joined.CargaEvento.FechaEvento,
                           Title = joined.TipoEvento.Tipo,
-                          GlucoseLevel = eg.Glucemia
+                          GlucoseLevel = eg.Glucemia,
+                          IdDevice = eg.IdDispositivoPaciente,
+                          FreeNote = joined.CargaEvento.NotaLibre
+
                       })
                 .FirstOrDefaultAsync();
 
             return glucoseEvent;
         }
 
-        public Task<InsulinEvent> GetInsulinEventById(int id)
+        public async Task<InsulinEvent> GetInsulinEventById(int id)
         {
             throw new NotImplementedException();
         }
