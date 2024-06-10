@@ -4,8 +4,8 @@ export function capitalizeFirstLetter(string) {
     return string.toLowerCase().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 }
 
-export const formatDateTime = () => {
-    const dateEvent = new Date('2024-04-02T00:00:00');
+export const formatDateTime = (date) => {
+    const dateEvent = new Date(date);
 
     const day = String(dateEvent.getDate()).padStart(2, '0');
     const month = String(dateEvent.getMonth() + 1).padStart(2, '0');
