@@ -30,6 +30,7 @@ module.exports = {
         "blue-focus": "#80a8e1",
         "orange-primary": "#4CAF50",
         "orange-secondary": "#4CAF50",
+        "orange-focus": "#66b669",
         "gray-primary": "#333",
         "gray-secondary": "#b1b1b1",
         "green-primary": "#4CAF50",
