@@ -167,7 +167,14 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La carga de insulina seleecionada es errónea.");
             }
-
+            else if (ex is FoodEventNotMatchException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El registro de comida seleecionado es errónea.");
+            }
+            else if (ex is IngredientFoodRelationNotFoundException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Este ingrediente no se encuentra relacionado con ningún evento de comida.");
+            }
             else
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.InternalServerError, "Este es un mensaje de error custom");

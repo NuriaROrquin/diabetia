@@ -273,7 +273,7 @@ namespace Diabetia.Infrastructure.Repositories
             if (EventLoad == null) { throw new EventNotFoundException(); }
             if (EventLoad.IdPaciente != Patient.Id) { throw new EventNotRelatedWithPatientException(); }
             var InsulinEvent = await _context.EventoInsulinas.FirstOrDefaultAsync(ei => ei.IdCargaEvento == EventLoad.Id);
-            if (InsulinEvent == null) { throw new InsulinEventNotMatchException("No se encontró la carga de glucosa relacionada."); }
+            if (InsulinEvent == null) { throw new InsulinEventNotMatchException("No se encontró la carga de insulina relacionada."); }
 
             // 1- Modificar el evento
             bool IsDone = EventDate <= DateTime.Now ? true : false;
@@ -295,7 +295,7 @@ namespace Diabetia.Infrastructure.Repositories
             var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
             if (EventLoad == null) { throw new EventNotFoundException(); }
             var InsulinEvent = await _context.EventoInsulinas.FirstOrDefaultAsync(ei => ei.IdCargaEvento == EventLoad.Id);
-            if (InsulinEvent == null) { throw new InsulinEventNotMatchException("No se encontró la carga de glucosa relacionada.");}
+            if (InsulinEvent == null) { throw new InsulinEventNotMatchException("No se encontró la carga de insulina relacionada.");}
 
             // Eliminar el evento de carga
             _context.EventoInsulinas.Remove(InsulinEvent);
@@ -379,6 +379,91 @@ namespace Diabetia.Infrastructure.Repositories
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task EditFoodManuallyEvent(int idEvent, string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote)
+        {
+            // Obtener el usuario por email
+            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            if (User == null) { throw new UserEventNotFoundException(); }
+
+            // Obtener el paciente por id de usuario
+            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
+            if (Patient == null) { throw new PatientNotFoundException(); }
+
+            var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == idEvent);
+            if (EventLoad == null) { throw new EventNotFoundException(); }
+            if (EventLoad.IdPaciente != Patient.Id) { throw new EventNotRelatedWithPatientException(); }
+
+            var foodEvent = await _context.EventoComida.FirstOrDefaultAsync(ei => ei.IdCargaEvento == EventLoad.Id);
+            if (foodEvent == null) { throw new FoodEventNotMatchException("No se encontró el evento de comida relacionado."); }
+
+            var ingredientFood = await _context.IngredienteComida.FirstOrDefaultAsync(fi => fi.IdEventoComida == foodEvent.Id);
+            if (ingredientFood == null) { throw new IngredientFoodRelationNotFoundException(); }
+
+                       
+            
+            // 1- Guardar el evento
+            bool IsDone = EventDate <= DateTime.Now ? true : false;
+            EventLoad.IdPaciente = Patient.Id;
+            EventLoad.IdTipoEvento = IdKindEvent;
+            EventLoad.FechaActual = DateTime.Now;
+            EventLoad.FechaEvento = EventDate;
+            EventLoad.NotaLibre = FreeNote;
+            EventLoad.FueRealizado = IsDone;
+            EventLoad.EsNotaLibre = false;
+
+            _context.CargaEventos.Update(EventLoad);
+            await _context.SaveChangesAsync();
+
+            decimal totalChFood = 0;
+            var ingredientComidumList = new List<IngredienteComidum>();
+
+            foreach (var ingredient in ingredients)
+            {
+                var searchIngredient = await _context.Ingredientes.FirstOrDefaultAsync(i => i.Id == ingredient.IdIngredient);
+                if (searchIngredient != null)
+                {
+                    totalChFood += ingredient.Quantity * searchIngredient.Carbohidratos;
+                    var ingredientComidum = new IngredienteComidum
+                    {
+                        IdIngrediente = ingredient.IdIngredient,
+                        IdEventoComida = EventLoad.Id,
+                        CantidadIngerida = (int)ingredient.Quantity,
+                        Proteinas = ingredient.Quantity * searchIngredient.Proteinas,
+                        GrasasTotales = ingredient.Quantity * searchIngredient.GrasasTotales,
+                        Carbohidratos = ingredient.Quantity * searchIngredient.Carbohidratos,
+                        Sodio = ingredient.Quantity * searchIngredient.Sodio,
+                        FibraAlimentaria = ingredient.Quantity * searchIngredient.FibraAlimentaria
+                    };
+                    ingredientComidumList.Add(ingredientComidum);
+                }
+            }
+
+            // Insertar el evento de comida en la tabla `evento_comida`
+
+            foodEvent.IdCargaEvento = EventLoad.Id;
+            foodEvent.IdTipoCargaComida = (int)FoodChargeTypeEnum.MANUAL;
+            foodEvent.Carbohidratos = totalChFood;
+
+
+            _context.EventoComida.Update(foodEvent);
+            await _context.SaveChangesAsync();
+
+            var clearFppdIngredientTable = _context.IngredienteComida
+                                            .Where(ic => ic.IdEventoComida == foodEvent.Id)
+                                            .ToList();
+
+            _context.IngredienteComida.RemoveRange(clearFppdIngredientTable);
+
+            foreach (var ingredientComidum in ingredientComidumList)
+            {
+                ingredientComidum.IdEventoComida = foodEvent.Id;
+                _context.IngredienteComida.Add(ingredientComidum);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
 
         public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date = null)
         {
