@@ -4,6 +4,19 @@ export function capitalizeFirstLetter(string) {
     return string.toLowerCase().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 }
 
+export const formatDateTime = (date) => {
+    const dateEvent = new Date(date);
+
+    const day = String(dateEvent.getDate()).padStart(2, '0');
+    const month = String(dateEvent.getMonth() + 1).padStart(2, '0');
+    const hours = String(dateEvent.getHours()).padStart(2, '0');
+    const minutes = String(dateEvent.getMinutes()).padStart(2, '0');
+
+    const formattedDate = `${day}/${month} ${hours}:${minutes}`;
+
+    return formattedDate;
+}
+
 function setCookie(name, value, days) {
     const expires = new Date();
     expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));

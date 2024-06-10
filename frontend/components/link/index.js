@@ -8,7 +8,7 @@ export const CustomLink = ({text, href}) => {
 
 export const NavLink = ({text, href, className}) => {
     return (
-        <Link className={`inline-block text-white no-underline hover:no-underline focus:no-underline focus:text-white hover:text-white py-2 px-4 text-base ${className}`} href={href}>{text}</Link>
+        <Link className={`inline-block text-white no-underline hover:no-underline focus:no-underline focus:text-white hover:text-white py-2 px-4 text-xl ${className}`} href={href}>{text}</Link>
     )
 }
 

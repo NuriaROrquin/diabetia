@@ -56,7 +56,7 @@ namespace Diabetia.API.Controllers
         [HttpPost("EditGlucoseEvent")]
         public async Task<IActionResult> EditGlucoseEvent([FromBody] EventGlucoseEventRequest request)
         {
-            await _eventGlucosetUseCase.EditGlucoseEvent(request.IdEvent.Value, request.Email, request.EventDate, request.FreeNote, request.Glucose.Value, request.IdDevicePacient, request.IdFoodEvent, request.PostFoodMedition);
+            await _eventGlucosetUseCase.EditGlucoseEvent(request.IdEvent.Value, request.Email, request.EventDate, request.FreeNote, request.Glucose.Value, request.IdFoodEvent, request.PostFoodMedition);
             return Ok("Evento modificado correctamente");
         }
 

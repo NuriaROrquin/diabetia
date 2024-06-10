@@ -1,19 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import CustomTooltip from "@/components/tooltip";
-import {ErrorOutline, HelpOutline, EditOutlinedIcon, FolderSharedOutlinedIcon, ContactMailOutlinedIcon, DirectionsRunOutlinedIcon} from "@mui/icons-material";
+import {ContactMailOutlined, FolderSharedOutlined, DirectionsRunOutlined, ErrorOutline, HelpOutline} from "@mui/icons-material";
 
 const getIconComponent = (title) => {
     switch (title) {
         case 'Datos personales':
-            return ContactMailOutlinedIcon;
+            return ContactMailOutlined;
         case 'Información del paciente':
             return MedicalInformationOutlinedIcon;
         case 'Datos de actividad física y salud':
-            return DirectionsRunOutlinedIcon;
+            return DirectionsRunOutlined;
         case 'Dispositivos y sensores':
-            return FolderSharedOutlinedIcon;
+            return FolderSharedOutlined;
         default:
             return null;
     }
@@ -24,25 +25,33 @@ export const MetricCard = ({number, textIndicator, title, description, unit, too
         return isWarning === null || number == 0 ? 'text-blue-primary' : isWarning === false ? 'text-green-primary' : 'text-red-primary'
     }
 
+    const getBackgroundColor = () => {
+        return isWarning === null || number == 0 ? 'bg-white' : isWarning === false ? 'bg-white' : 'bg-red-primary';
+    }
+
+    const getAdditionalTextColor = () => {
+        return isWarning === null || number == 0 ? 'text-gray-primary' : isWarning === false ? 'text-gray-primary' : 'text-gray-primary'
+    }
+
     return (
 
-        <div className="min-w-80 w-full sm:w-1/3 lg:w-1/4 bg-white p-8 rounded-2xl shadow relative">
+        <div className={`min-w-80 w-full sm:w-1/3 lg:w-1/4 bg-white p-8 rounded-2xl shadow relative`}>
 
             <CustomTooltip title={`${tooltipContent}`}  placement="top" arrow>
                 <HelpOutline className="text-orange-primary absolute top-4 right-4"/>
             </CustomTooltip>
 
-            {isWarning && !loading && number !== 0 && <span className="flex absolute h-6 w-6 top-0 left-0 mt-2 ml-2">
-                <ErrorOutline className="animate-ping font-bold text-6xl text-red-primary">!</ErrorOutline>
+            {isWarning && !loading && number !== 0 && <span className="flex absolute h-1 w-1 top-0 left-0 mt-3 ml-3">
+                <ErrorOutline className="animate-ping-slow font-bold text-3xl text-red-primary"></ErrorOutline>
             </span>}
 
             {!loading &&
                 <div className="w-full flex justify-center flex-col items-center mb-4">
                     <div className="flex items-end">
-                        <h3 className={`${getTextColor()} text-6xl font-bold`}>{number}</h3>
+                        <h3 className={`${getTextColor()} text-7xl font-bold`}>{number}</h3>
                         {unit && <span className={`${getTextColor()} font-bold`}>{unit}</span>}
                     </div>
-                    <span className={`font-semibold ${getTextColor()}`}>{textIndicator}</span>
+                    <span className={`font-semibold ${getTextColor()} text-xl`}>{textIndicator}</span>
                 </div>
             }
             {loading &&
@@ -60,8 +69,8 @@ export const MetricCard = ({number, textIndicator, title, description, unit, too
                 </div>
             }
             <div className="w-full flex justify-center flex-col items-center gap-2">
-                <span className="font-semibold text-gray-primary">{title}</span>
-                <span className="text-gray-secondary text-center">{description}</span>
+                <span className={`font-bold ${getAdditionalTextColor()} text-xl`}>{title}</span>
+                <span className={`${getAdditionalTextColor()} text-center text-xl`}>{description}</span>
             </div>
         </div>
 
@@ -100,10 +109,10 @@ export const ProfileCard = ({ editInfo }) => {
                         <Link href={item.link || ""} className="flex items-center p-6">
                             {IconComponent && <IconComponent className="text-orange-primary text-4xl mr-8" />}
                             <div>
-                                <span className="text-blue-primary text-lg">{item.title}</span>
+                                <span className="text-blue-primary text-xl">{item.title}</span>
                             </div>
                             <div className="ml-auto">
-                                <EditOutlinedIcon className="text-blue-primary mr-8" />
+                                <ModeEditOutlineOutlinedIcon className="text-blue-primary mr-8" />
                             </div>
                         </Link>
                     </div>
