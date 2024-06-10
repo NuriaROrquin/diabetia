@@ -7,7 +7,7 @@ export const Selector = ({width, selectedOption, options, isOpen, setIsOpen, han
             <div className="relative w-full">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className={`flex appearance-none text-white w-full bg-orange-secondary px-4 py-3 pr-8 shadow leading-tight focus:outline-none focus:shadow-outline ${isOpen ? 'rounded-b-0 rounded-t-xl' : 'rounded-lg'}`}
+                    className={`flex appearance-none text-xl text-white w-full bg-blue-secondary px-4 py-3 pr-8 shadow leading-tight focus:outline-none focus:shadow-outline ${isOpen ? 'rounded-b-0 rounded-t-xl' : 'rounded-lg'}`}
                 >
                     {selectedOption}
                     <span
@@ -16,12 +16,12 @@ export const Selector = ({width, selectedOption, options, isOpen, setIsOpen, han
                 </span>
                 </button>
                 {isOpen && (
-                    <ul className={`absolute z-10 w-full bg-orange-secondary ${isOpen ? 'rounded-t-0 rounded-b-xl' : 'rounded-xl'} shadow-lg`}>
+                    <ul className={`absolute z-10 w-full bg-blue-secondary ${isOpen ? 'rounded-t-0 rounded-b-xl' : 'rounded-xl'} shadow-lg`}>
                         {options.map((option) => (
                             <li
                                 key={option}
                                 onClick={() => handleOptionClick(option)}
-                                className="px-4 py-2 hover:bg-orange-primary cursor-pointer rounded-xl"
+                                className="px-4 py-2 hover:bg-orange-focus cursor-pointer rounded-xl text-xl text-white z-50"
                             >
                                 {option}
                             </li>

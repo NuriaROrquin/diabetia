@@ -59,14 +59,13 @@ export const Home = () => {
     return (
         <>
         <Section>
-            <div className="container pt-20 flex flex-col">
-
-
-                <div className="w-full flex justify-self-center justify-center pb-6">
+            <div className="container pt-14 flex flex-col">
+                <div className="w-full flex flex-col justify-self-center justify-center pb-6">
                     <TitleSection className="text-white">Tu panel de salud para la gestión de tu diabetes</TitleSection>
+                    <SubtitleSection className="text-white mt-4">Visualizá tus métricas según los registros cargados</SubtitleSection>
                 </div>
-                <div className="grid grid-cols-3 w-full items-center">
-                    <div className="w-full col-start-2 flex justify-self-center justify-center">
+                <div className="grid grid-cols-3 w-full">
+                    <div className="w-full col-start-1 flex justify-self-start">
                         <Selector width="w-1/2" setIsOpen={setIsOpen} isOpen={isOpen} selectedOption={selectedOption}
                                   options={DASHBOARD_OPTIONS_FILTER_DAYS} handleOptionClick={handleOptionClick}/>
                     </div>
@@ -114,9 +113,9 @@ export const Home = () => {
             </div>
         </Section>
         <Section className="bg-white flex flex-col min-h-fit">
-                <ContainerTitles>
-                    <TitleSection>Registros de hoy</TitleSection>
-                    <SubtitleSection>Acá encontrarás todos los registros cargados en el día actual</SubtitleSection>
+            <ContainerTitles>
+                <TitleSection>Registros de hoy</TitleSection>
+                <SubtitleSection>Acá encontrarás todos los registros cargados en el día actual</SubtitleSection>
             </ContainerTitles>
                 {!loadingTimeline && <Timeline events={eventsTimeline.timeline.items} />}
         </Section>
