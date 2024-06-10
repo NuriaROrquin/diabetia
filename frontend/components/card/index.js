@@ -60,8 +60,8 @@ export const MetricCard = ({number, textIndicator, title, description, unit, too
                 </div>
             }
             <div className="w-full flex justify-center flex-col items-center gap-2">
-                <span className="font-semibold text-gray-primary">{title}</span>
-                <span className="text-gray-secondary text-center">{description}</span>
+                <span className="font-bold text-gray-primary">{title}</span>
+                <span className="text-gray-primary text-center">{description}</span>
             </div>
         </div>
 

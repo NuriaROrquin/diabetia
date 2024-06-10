@@ -183,6 +183,12 @@ export const deleteEventById = (eventId) => {
     )
 }
 
+export const getTimeline = (email) => {
+    return axios
+        .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/Home/timeline/${email}`)
+}
+
 export const getEventType = (data) => {
     return axios
         .get(

@@ -7,7 +7,7 @@ import {ContainerTitles, SubtitleSection, TitleSection} from "../../components/t
 import {Timeline} from "../../components/timeline";
 import {Section} from "../../components/section";
 import {OrangeLink} from "../../components/link";
-import {getMetrics} from "../../services/api.service";
+import {getMetrics, getTimeline} from "../../services/api.service";
 import {useCookies} from "react-cookie";
 import CustomTooltip from "@/components/tooltip";
 import {calculateDateFilter, calculateDateRange, getEmailFromJwt} from "../../helpers";
@@ -19,9 +19,24 @@ export const Home = () => {
     const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
     const [metrics, setMetrics] = useState({chMetrics:0, glycemia: 99999, hyperglycemia:0, hypoglycemia:0, insulin:0, physicalActivity:0});
     const [loadingMetrics, setLoadingMetrics] = useState(true);
+    const [loadingTimeline, setLoadingTimeline] = useState(true);
+    const [eventsTimeline, setEventsTimeline] = useState(true);
+
+    const email = getEmailFromJwt();
 
     useEffect(() => {
-        const email = getEmailFromJwt();
+        setLoadingTimeline(true)
+        email && getTimeline(email)
+            .then((res) => {
+                setEventsTimeline(res.data);
+                setLoadingTimeline(false);
+            })
+            .catch((error) => {
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")
+            });
+    }, []);
+
+    useEffect(() => {
         const { dateFrom, dateTo } = calculateDateRange(selectedOption);
         setLoadingMetrics(true)
         email && getMetrics({email, dateFilter: {dateFrom, dateTo}})
@@ -48,7 +63,7 @@ export const Home = () => {
 
 
                 <div className="w-full flex justify-self-center justify-center pb-6">
-                    <span className="text-xl text-white">Tu panel de salud para la gestión de tu diabetes</span>
+                    <span className="text-2xl text-white">Tu panel de salud para la gestión de tu diabetes</span>
                 </div>
                 <div className="grid grid-cols-3 w-full items-center">
                     <div className="w-full col-start-2 flex justify-self-center justify-center">
@@ -103,7 +118,7 @@ export const Home = () => {
                     <SubtitleSection>Acá encontrarás todos los registros cargados en el día actual</SubtitleSection>
             </ContainerTitles>
             <div className="flex justify-center mb-10">
-                <Timeline events={DASHBOARD_TIMELINE_EVENTS} />
+                {!loadingTimeline && <Timeline events={eventsTimeline.timeline.items} />}
             </div>
         </Section>
         </>

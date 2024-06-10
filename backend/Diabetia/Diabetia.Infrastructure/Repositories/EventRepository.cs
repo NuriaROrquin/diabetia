@@ -119,7 +119,6 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-      
         public async Task AddGlucoseEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdFoodEvent, bool? PostFoodMedition)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
@@ -196,6 +195,7 @@ namespace Diabetia.Infrastructure.Repositories
             _context.EventoGlucosas.Update(GlucoseEvent);
             await _context.SaveChangesAsync();
         }
+        
         public async Task DeleteGlucoseEvent(int IdEvent)
         {        
             var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
@@ -450,7 +450,6 @@ namespace Diabetia.Infrastructure.Repositories
 
             await _context.SaveChangesAsync();
         }
-
 
         public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date = null)
         {
@@ -713,10 +712,10 @@ namespace Diabetia.Infrastructure.Repositories
             }
         }
 
-        public async Task<GlucoseEvent> GetGlucoseEventById(int idEvent)
+        public async Task<GlucoseEvent> GetGlucoseEventById(int id)
         {
             var glucoseEvent = await _context.CargaEventos
-                .Where(ce => ce.Id == idEvent)
+                .Where(ce => ce.Id == id)
                 .Join(_context.TipoEventos,
                       ce => ce.IdTipoEvento,
                       te => te.Id,
@@ -742,32 +741,176 @@ namespace Diabetia.Infrastructure.Repositories
 
         public async Task<InsulinEvent> GetInsulinEventById(int id)
         {
-            throw new NotImplementedException();
+            var query = _context.CargaEventos
+                .Where(ce => ce.Id == id);
+
+            var insulinEvent = await query
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoInsulinas,
+                      joined => joined.CargaEvento.Id,
+                      ei => ei.IdCargaEvento,
+                      (joined, ei) => new { joined.CargaEvento, joined.TipoEvento, EventoInsulina = ei })
+                .Join(_context.InsulinaPacientes,
+                      joined => joined.EventoInsulina.IdInsulinaPaciente,
+                      ip => ip.Id,
+                      (joined, ip) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, InsulinaPaciente = ip })
+                .Join(_context.TipoInsulinas,
+                      joined => joined.InsulinaPaciente.IdTipoInsulina,
+                      ti => ti.Id,
+                      (joined, ti) => new InsulinEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = joined.TipoEvento.Tipo,
+                          InsulinType = ti.Nombre,
+                          Dosage = joined.EventoInsulina.InsulinaInyectada
+                      })
+                .FirstOrDefaultAsync();
+
+            return insulinEvent;
         }
 
-        public Task<FoodEvent> GetFoodEventById(int id)
+        public async Task<FoodEvent> GetFoodEventById(int id)
         {
-            throw new NotImplementedException();
+            var foodEvent = await _context.CargaEventos
+                .Where(ce => ce.Id == id)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoComida,
+                      joined => joined.CargaEvento.Id,
+                      ec => ec.IdCargaEvento,
+                      (joined, ec) => new { joined.CargaEvento, joined.TipoEvento, EventoComida = ec })
+                .Join(_context.IngredienteComida,
+                      joined => joined.EventoComida.Id,
+                      ic => ic.IdEventoComida,
+                      (joined, ic) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoComida, IngredienteComida = ic })
+                .Join(_context.Ingredientes,
+                      joined => joined.IngredienteComida.IdIngrediente,
+                      i => i.Id,
+                      (joined, i) => new FoodEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = joined.TipoEvento.Tipo,
+                          IngredientName = i.Nombre,
+                      })
+                .FirstOrDefaultAsync();
+
+            return foodEvent;
         }
 
-        public Task<PhysicalActivityEvent> GetPhysicalActivityById(int id)
+        public async Task<PhysicalActivityEvent> GetPhysicalActivityById(int id)
         {
-            throw new NotImplementedException();
+            var physicalActivityEvent = await _context.CargaEventos
+                .Where(ce => ce.Id == id)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoActividadFisicas,
+                      joined => joined.CargaEvento.Id,
+                      eaf => eaf.IdCargaEvento,
+                      (joined, eaf) => new { joined.CargaEvento, joined.TipoEvento, EventoActividadFisica = eaf })
+                .Join(_context.ActividadFisicas,
+                      joined => joined.EventoActividadFisica.IdActividadFisica,
+                      af => af.Id,
+                      (joined, af) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoActividadFisica, ActividadFisica = af })
+                .Join(_context.ActividadFisicas,
+                      joined => joined.EventoActividadFisica.IdActividadFisica,
+                      af => af.Id,
+                      (joined, af) => new PhysicalActivityEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          IdPhysicalEducationEvent = joined.EventoActividadFisica.IdActividadFisica,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = joined.ActividadFisica.Nombre,
+                          Duration = joined.EventoActividadFisica.Duracion
+                      })
+                .FirstOrDefaultAsync();
+
+            return physicalActivityEvent;
         }
 
-        public Task<MedicalVisitEvent> GetMedicalVisitEventById(int id)
+        public async Task<MedicalVisitEvent> GetMedicalVisitEventById(int id)
         {
-            throw new NotImplementedException();
+            var medicalVisitEvent = await _context.CargaEventos
+                .Where(ce => ce.Id == id)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoVisitaMedicas,
+                      joined => joined.CargaEvento.Id,
+                      evm => evm.IdCargaEvento,
+                      (joined, evm) => new MedicalVisitEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = joined.TipoEvento.Tipo,
+                          Description = evm.Descripcion,
+                      })
+                .FirstOrDefaultAsync();
+
+            return medicalVisitEvent;
         }
 
-        public Task<HealthEvent> GetHealthEventById(int id)
+        public async Task<HealthEvent> GetHealthEventById(int id)
         {
-            throw new NotImplementedException();
+            var healthEvent = await _context.CargaEventos
+                .Where(ce => ce.Id == id)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoSaluds,
+                      joined => joined.CargaEvento.Id,
+                      es => es.IdCargaEvento,
+                      (joined, es) => new { joined.CargaEvento, joined.TipoEvento, EventoSalud = es })
+                .Join(_context.Enfermedads,
+                      joined => joined.EventoSalud.IdEnfermedad,
+                      e => e.Id,
+                      (joined, e) => new HealthEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = e.Nombre
+                      })
+                .FirstOrDefaultAsync();
+
+            return healthEvent;
         }
 
-        public Task<ExamEvent> GetExamEventById(int id)
+        public async Task<ExamEvent> GetExamEventById(int id)
         {
-            throw new NotImplementedException();
+            var examEvent = await _context.CargaEventos
+                .Where(ce => ce.Id == id)
+                .Join(_context.TipoEventos,
+                      ce => ce.IdTipoEvento,
+                      te => te.Id,
+                      (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoEstudios,
+                      joined => joined.CargaEvento.Id,
+                      ee => ee.IdCargaEvento,
+                      (joined, ee) => new ExamEvent
+                      {
+                          IdEvent = joined.CargaEvento.Id,
+                          IdEventType = joined.TipoEvento.Id,
+                          DateEvent = joined.CargaEvento.FechaEvento,
+                          Title = ee.TipoEstudio ?? joined.TipoEvento.Tipo
+                      })
+                .FirstOrDefaultAsync();
+
+            return examEvent;
         }
 
         public Task<ExamEvent> GetFreeNoteEventById(int id)

@@ -67,7 +67,7 @@ export const CalendarPage = () => {
     return (
         <Section className="pt-12 pb-6">
             <div className="w-full col-start-2 flex justify-self-center justify-center pb-6 text-white">
-                <span className="text-xl">Tu agenda de bienestar personal, todo en un mismo lugar</span>
+                <span className="text-2xl">Tu agenda de bienestar personal, todo en un mismo lugar.</span>
             </div>
 
             {eventList && <CustomCalendar events={eventList} handleOnSelectDay={handleOnSelectDay}/>}
