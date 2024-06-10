@@ -13,7 +13,7 @@ using Infrastructure.Provider;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Diabetia.Infraestructure.EF;
+using Diabetia.Infrastructure.EF;
 
 var builder = WebApplication.CreateBuilder(args);
 

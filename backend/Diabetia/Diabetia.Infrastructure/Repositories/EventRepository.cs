@@ -4,12 +4,8 @@ using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities.Events;
-using Diabetia.Application.Exceptions;
 using Diabetia.Domain.Entities;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Diabetia.Common.Utilities;
-using Diabetia.Infraestructure.EF;
-using Microsoft.Extensions.Logging;
+using Diabetia.Infrastructure.EF;
 
 namespace Diabetia.Infrastructure.Repositories
 {

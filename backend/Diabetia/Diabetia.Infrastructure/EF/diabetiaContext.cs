@@ -1,7 +1,10 @@
-﻿using Diabetia.Domain.Models;
+﻿using System;
+using System.Collections.Generic;
+using Diabetia.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Diabetia.Infraestructure.EF
+namespace Diabetia.Infrastructure.EF
 {
     public partial class diabetiaContext : DbContext
     {
@@ -413,12 +416,7 @@ namespace Diabetia.Infraestructure.EF
                 entity.HasOne(d => d.IdDispositivoPacienteNavigation)
                     .WithMany(p => p.EventoGlucosas)
                     .HasForeignKey(d => d.IdDispositivoPaciente)
-                    .HasConstraintName("evento_glucosa_ibfk_2");
-
-                entity.HasOne(d => d.IdEventoComidaNavigation)
-                    .WithMany(p => p.EventoGlucosas)
-                    .HasForeignKey(d => d.IdEventoComida)
-                    .HasConstraintName("evento_glucosa_ibfk_3");
+                    .HasConstraintName("evento_glucosa_dispositivo_FK");
             });
 
             modelBuilder.Entity<EventoInsulina>(entity =>
