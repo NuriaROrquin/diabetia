@@ -31,6 +31,7 @@ const StepFinal = () => {
                             number={finalCalcCarbos && finalCalcCarbos[0] && finalCalcCarbos[0].chTotal}
                             title="Carbohidratos Consumidos"
                             description="Estos son los carbohidratos que se han detectado según el algoritmo de cálculo"
+                            isWarning={null}
                         />
                         :
                         <span>Ocurrió un error calculando los carbohidratos. Intentá recargar la página</span>
