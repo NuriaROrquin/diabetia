@@ -310,7 +310,7 @@ namespace Diabetia.Infrastructure.Repositories
 
         // ------------------------------------------- Medical Visit Event -------------------------------------------
 
-        public async Task AddMedicalVisitEventAsync(string Email, int KindEventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime RecordatoryDate, string description)
+        public async Task AddMedicalVisitEventAsync(string Email, int KindEventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string description)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
             if (user == null)
@@ -346,13 +346,13 @@ namespace Diabetia.Infrastructure.Repositories
             _context.EventoVisitaMedicas.Add(newMedicalVisitEvent);
             await _context.SaveChangesAsync();
 
-            if (Recordatory)
+            if (Recordatory && RecordatoryDate.HasValue)
             {
                 var newRecordatory = new Recordatorio
                 {
                     IdTipoEvento = KindEventId,
-                    FechaInicio = DateOnly.FromDateTime(RecordatoryDate),
-                    HorarioActividad = TimeOnly.FromDateTime(RecordatoryDate),
+                    FechaInicio = DateOnly.FromDateTime(RecordatoryDate.Value),
+                    HorarioActividad = TimeOnly.FromDateTime(RecordatoryDate.Value),
                 };
                 _context.Recordatorios.Add(newRecordatory);
                 await _context.SaveChangesAsync();
@@ -363,7 +363,7 @@ namespace Diabetia.Infrastructure.Repositories
                     IdCargaEvento = IdLoadEvent,
                     IdRecordatorio = IdRecordatory,
                     IdDiaSemana = 1,
-                    FechaHoraRecordatorio = RecordatoryDate
+                    FechaHoraRecordatorio = RecordatoryDate.Value
                 };
                 _context.RecordatorioEventos.Add(newRecordatoryEvent);
                 await _context.SaveChangesAsync();

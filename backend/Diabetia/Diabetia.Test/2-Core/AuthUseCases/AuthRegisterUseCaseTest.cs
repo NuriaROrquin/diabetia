@@ -1,9 +1,9 @@
 ﻿using FakeItEasy;
 using Diabetia.Domain.Services;
 using Diabetia.Domain.Repositories;
-using Diabetia.Application.UseCases;
 using Diabetia.Interfaces;
 using Diabetia.Application.Exceptions;
+using Diabetia.Application.UseCases.AuthUseCases;
 
 namespace Diabetia_Core.Auth
 {

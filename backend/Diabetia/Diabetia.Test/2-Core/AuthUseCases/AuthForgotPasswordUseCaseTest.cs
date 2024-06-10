@@ -1,5 +1,5 @@
 ﻿using Diabetia.Application.Exceptions;
-using Diabetia.Application.UseCases;
+using Diabetia.Application.UseCases.AuthUseCases;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
