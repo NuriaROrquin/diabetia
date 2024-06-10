@@ -85,15 +85,15 @@ namespace Diabetia.API.Controllers
             return Ok("Evento modificado correctamente");
         }
 
-        [HttpPost("DeleteInsulinEvent")]
+       /* [HttpPost("DeleteInsulinEvent")]
         public async Task<IActionResult> DeleteInsulinEvent([FromBody] InsulinEventRequest request)
         {
             await _eventInsulintUseCase.DeleteInsulinEvent(request.IdEvent.Value);
             return Ok();
-        }
+        } */
 
         [HttpGet("GetEventType/{id}")]
-        public async Task<IActionResult> GetEventType([FromRoute]int id)
+        public async Task<IActionResult> GetEventType([FromRoute] int id)
         {
             var idEvent = id;
             var eventType = await _getEventUseCase.GetEvent(id);
@@ -102,6 +102,13 @@ namespace Diabetia.API.Controllers
                 return NotFound();
             }
             return Ok(eventType);
+        }
+
+        [HttpGet("DeleteEvent/{id}")]
+        public async Task<IActionResult> DeleteEvent([FromRoute] int id)
+        {
+            await _getEventUseCase.DeleteEvent(id);
+            return Ok();
         }
 
         [HttpPost("AddFoodManuallyEvent")]

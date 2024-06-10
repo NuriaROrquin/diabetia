@@ -26,7 +26,7 @@ namespace Diabetia.Application.UseCases
             switch (type)
             {
                 case TypeEventEnum.GLUCOSA:
-                    var glucose = await _eventRepository.GetGlucoseEventById(id); 
+                    var glucose = await _eventRepository.GetGlucoseEventById(id);
                     return new GenericEvent
                     {
                         GlucoseEvent = glucose,
@@ -78,6 +78,23 @@ namespace Diabetia.Application.UseCases
                     return null;
                 default:
                     return null;
+            }
+
+        }
+
+       public async Task DeleteEvent(int id)
+        {
+            var type = await _eventRepository.GetEventType(id);
+
+            switch (type)
+            {
+                case TypeEventEnum.INSULINA:
+                    await _eventRepository.DeleteInsulinEvent(id);
+                    break;
+                case TypeEventEnum.NOTALIBRE:
+                    break;
+                default:
+                    break;
             }
 
         }
