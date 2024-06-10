@@ -21,7 +21,7 @@ export const CalendarPage = () => {
     const [eventsByDate, setEventsByDate] = useState(null);
     const [eventIdToDelete, setEventIdToDelete] = useState(null)
     const [loadingCalendar, setLoadingCalendar] = useState(true)
-    const [loadingEvent, setLoadingEvent] = useState(true)
+    const [loadingEvent, setLoadingEvent] = useState(false)
     const { isVisible, openModal, closeModal } = useModal();
     const router = useRouter();
 
@@ -119,7 +119,7 @@ export const CalendarPage = () => {
                     </div>
                 )
             })}
-            {!eventsByDate &&
+            {!eventsByDate && loadingEvent &&
                 <div className="w-full flex justify-center items-center my-20">
                     <svg aria-hidden="true"
                          className="inline w-10 h-10 text-blue-secondary animate-spin dark:text-blue-secondary fill-white"
