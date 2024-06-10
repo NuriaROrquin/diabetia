@@ -59,6 +59,7 @@ builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();
 builder.Services.AddScoped<CalendarUseCase>();
 builder.Services.AddScoped<EventUseCase>();
+builder.Services.AddScoped<EventMedicalVisitUseCase>();
 
 builder.Services.AddScoped<IEmailValidator, EmailValidator>();
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();

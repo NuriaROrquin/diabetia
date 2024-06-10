@@ -5,6 +5,8 @@ using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities.Events;
 using Diabetia.Infraestructure.EF;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -308,7 +310,65 @@ namespace Diabetia.Infrastructure.Repositories
 
         // ------------------------------------------- Medical Visit Event -------------------------------------------
 
-        //public async Task AddMedicalVisitEventAsync(int Email, DateTime VisitDate, int ProfessionalId,  )
+        public async Task AddMedicalVisitEventAsync(string Email, int KindEventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime RecordatoryDate, string description)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            if (user == null)
+            {
+                throw new UserNotFoundOnDBException();
+            }
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
+            if (patient == null)
+            {
+                throw new PatientNotFoundException();
+            }
+            bool IsDone = VisitDate.Date <= DateTime.Now.Date;
+            var newEvent = new CargaEvento
+            {
+                IdPaciente = patient.Id,
+                IdTipoEvento = KindEventId,
+                FechaActual = DateTime.Now,
+                FechaEvento = VisitDate,
+                FueRealizado = IsDone,
+                EsNotaLibre = false,
+            };
+
+            _context.CargaEventos.Add(newEvent);
+            await _context.SaveChangesAsync();
+            int IdLoadEvent = newEvent.Id;
+
+            var newMedicalVisitEvent = new EventoVisitaMedica
+            {
+                IdCargaEvento = IdLoadEvent,
+                IdProfesional = ProfessionalId,
+                Descripcion = description
+            };
+            _context.EventoVisitaMedicas.Add(newMedicalVisitEvent);
+            await _context.SaveChangesAsync();
+
+            if (Recordatory)
+            {
+                var newRecordatory = new Recordatorio
+                {
+                    IdTipoEvento = KindEventId,
+                    FechaInicio = DateOnly.FromDateTime(RecordatoryDate),
+                    HorarioActividad = TimeOnly.FromDateTime(RecordatoryDate),
+                };
+                _context.Recordatorios.Add(newRecordatory);
+                await _context.SaveChangesAsync();
+                int IdRecordatory = newRecordatory.Id;
+
+                var newRecordatoryEvent = new RecordatorioEvento
+                {
+                    IdCargaEvento = IdLoadEvent,
+                    IdRecordatorio = IdRecordatory,
+                    IdDiaSemana = 1,
+                    FechaHoraRecordatorio = RecordatoryDate
+                };
+                _context.RecordatorioEventos.Add(newRecordatoryEvent);
+                await _context.SaveChangesAsync();
+            }
+        }
 
 
         public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date = null)

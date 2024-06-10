@@ -74,7 +74,7 @@ namespace Diabetia.Infrastructure.Middlewares
             }
             else if (ex is InvalidOperationException)
             {
-                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Operación inválida");
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Operación inválida. Verificar inyección de dependencias");
             }
             else if (ex is EmailAlreadyExistsException)
             {

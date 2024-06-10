@@ -5,23 +5,30 @@ namespace Diabetia.Domain.Repositories
 {
     public interface IEventRepository 
     {
+        // ------------------------------------------- Physical Event -------------------------------------------
         public Task AddPhysicalActivityEventAsync(string Email, int KindEvent, DateTime EventDate, String FreeNote, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime);
 
         public Task EditPhysicalActivityEventAsync(string Email, int EventId, DateTime EventDate, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime, string FreeNote);
 
         public Task DeletePhysicalActivityEventAsync(string Email, int EventId);
 
+        // ------------------------------------------- Glucose Event -------------------------------------------
         public Task AddGlucoseEvent(string Email, int KindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition);
 
         public Task EditGlucoseEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition);
 
         public Task DeleteGlucoseEvent(int IdEvent, string Email);
 
+
+        // ------------------------------------------- Insuline Event -------------------------------------------
         public Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin);
 
         public Task EditInsulinEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, int Insulin);
 
         public Task DeleteInsulinEvent(int IdEvent);
+
+        // ------------------------------------------- Medical Visit Event -------------------------------------------
+        public Task AddMedicalVisitEventAsync(string Email, int KindEventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime RecordatoryDate, string description);
 
         public Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date);
 

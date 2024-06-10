@@ -1,4 +1,6 @@
 ﻿using Diabetia.API.DTO.EventRequest;
+using Diabetia.API.DTO.EventRequest.MedicalVisit;
+using Diabetia.API.DTO.EventRequest.PhysicalActivity;
 using Diabetia.Application.UseCases.EventUseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +16,15 @@ namespace Diabetia.API.Controllers
         private readonly EventGlucoseUseCase _eventGlucosetUseCase;
         private readonly EventInsulinUseCase _eventInsulintUseCase;
         private readonly EventUseCase _getEventUseCase;
+        private readonly EventMedicalVisitUseCase _eventMedicalVisitUseCase;
 
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventUseCase eventUseCase)
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventUseCase eventUseCase, EventMedicalVisitUseCase eventMedicalVisitUseCase)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
             _eventGlucosetUseCase = evemtGlucoseUseCase;
             _eventInsulintUseCase = eventInsulinUseCase;
             _getEventUseCase = eventUseCase;
+            _eventMedicalVisitUseCase = eventMedicalVisitUseCase;
         }
 
         // ------------------------------------------- Physical Event -------------------------------------------
@@ -104,6 +108,12 @@ namespace Diabetia.API.Controllers
         }
 
         // ------------------------------------------- Medical Visit Event -------------------------------------------
+        [HttpPost("AddMedicalVisitEvent")]
+        public async Task<IActionResult> AddMedicalEventAsync([FromBody] EventAddMedicalVisitRequest request)
+        {
+            await _eventMedicalVisitUseCase.AddMedicalVisitEventAsync(request.Email, request.KindEventId, request.EventDate, request.ProfessionalId, request.Recordatory, request.RecordatoryDate, request.Description);
+            return Ok("Visita médica agregada correctamente");
+        }
 
         [HttpGet("GetEventType/{id}")]
         public async Task<IActionResult> GetEventType([FromRoute]int id)

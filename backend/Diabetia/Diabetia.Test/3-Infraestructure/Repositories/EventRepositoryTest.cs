@@ -2,9 +2,9 @@
 using Diabetia.Infrastructure.Repositories;
 using Diabetia.Domain.Models;
 using Moq.EntityFrameworkCore;
-using Diabetia.Infrastructure.EF;
 using Diabetia.Application.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Diabetia.Infraestructure.EF;
 
 namespace Diabetia_Infrastructure
 {

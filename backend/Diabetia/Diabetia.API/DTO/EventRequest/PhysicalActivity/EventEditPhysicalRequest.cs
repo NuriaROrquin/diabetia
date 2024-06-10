@@ -1,4 +1,4 @@
-﻿namespace Diabetia.API.DTO.EventRequest
+﻿namespace Diabetia.API.DTO.EventRequest.PhysicalActivity
 {
     public class EventEditPhysicalRequest : EventRequest
     {
