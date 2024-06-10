@@ -63,7 +63,7 @@ export const Home = () => {
 
 
                 <div className="w-full flex justify-self-center justify-center pb-6">
-                    <span className="text-xl text-white">Tu panel de salud para la gestión de tu diabetes</span>
+                    <span className="text-2xl text-white">Tu panel de salud para la gestión de tu diabetes</span>
                 </div>
                 <div className="grid grid-cols-3 w-full items-center">
                     <div className="w-full col-start-2 flex justify-self-center justify-center">
