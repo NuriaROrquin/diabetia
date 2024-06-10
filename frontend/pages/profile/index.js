@@ -11,13 +11,12 @@ const ProfilePage = () => {
                 <div>
                     <TitleSection className="text-white pt-20 mb-6">Mi perfil</TitleSection>
                 </div>
-                <div className=" flex w-full">
+                <div className=" flex w-full container">
                     <div className="w-2/5">
                         <ProfileCard editInfo={INFO_PROFILE}/>
                     </div>
 
-                    <div className="w-3/5 ml-4 mr-4 bg-white rounded-lg overflow-hidden shadow-lg h-3/5">
-
+                    <div className="w-3/5 ml-4 mr-4 bg-white rounded-lg shadow-lg flex flex-col">
                         <SubtitleSection className="!text-blue-primary pt-10 mb-8">
                             Próximos Recordatorios
                         </SubtitleSection>

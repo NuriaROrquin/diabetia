@@ -63,7 +63,7 @@ export const Home = () => {
 
 
                 <div className="w-full flex justify-self-center justify-center pb-6">
-                    <span className="text-3xl text-white">Tu panel de salud para la gestión de tu diabetes</span>
+                    <TitleSection className="text-white">Tu panel de salud para la gestión de tu diabetes</TitleSection>
                 </div>
                 <div className="grid grid-cols-3 w-full items-center">
                     <div className="w-full col-start-2 flex justify-self-center justify-center">
@@ -91,35 +91,34 @@ export const Home = () => {
                             selectedOption={selectedOption}
                             loading={loadingMetrics}
                             isWarning={metrics[data.key] && metrics[data.key].isWarning}
+                            unit={data.unit}
                         />)
                     }
                     )}
                 </div>
 
-                <div className="flex justify-around bg-white w-1/2 self-center rounded-xl p-6 mb-10">
+                <div className="flex justify-around bg-white w-2/3 self-center rounded-xl p-6 mb-10">
                     <div className="flex gap-2">
                         <CircleRounded className="text-green-primary"/>
-                        <span className="text-gray-primary font-medium">Valores dentro de lo esperado</span>
+                        <span className="text-gray-primary font-medium text-xl">Valores dentro de lo esperado</span>
                     </div>
                     <div className="flex gap-2">
                         <CircleRounded className="text-red-primary"/>
-                        <span className="text-gray-primary font-medium">Cuidado! Prestale atención</span>
+                        <span className="text-gray-primary font-medium text-xl">Cuidado! Prestale atención</span>
                     </div>
                     <div className="flex gap-2">
                         <CircleRounded className="text-blue-primary"/>
-                        <span className="text-gray-primary font-medium">Informativo</span>
+                        <span className="text-gray-primary font-medium text-xl">Informativo</span>
                     </div>
                 </div>
             </div>
         </Section>
-            <Section className="bg-white flex flex-col">
+        <Section className="bg-white flex flex-col min-h-fit">
                 <ContainerTitles>
                     <TitleSection>Registros de hoy</TitleSection>
                     <SubtitleSection>Acá encontrarás todos los registros cargados en el día actual</SubtitleSection>
             </ContainerTitles>
-            <div className="flex justify-center mb-10">
                 {!loadingTimeline && <Timeline events={eventsTimeline.timeline.items} />}
-            </div>
         </Section>
         </>
     )

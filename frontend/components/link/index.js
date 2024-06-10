@@ -9,7 +9,7 @@ export const CustomLink = ({text, href}) => {
 export const NavLink = ({text, href, className}) => {
     return (
         <Link className={`inline-block text-white no-underline hover:no-underline focus:no-underline focus:text-white hover:text-white py-2 px-4 text-xl ${className}`} href={href}>{text}</Link>
-    )
+)
 }
 
 export const OrangeLink = ({label, width, href}) => {
@@ -17,7 +17,7 @@ export const OrangeLink = ({label, width, href}) => {
         <div className={`flex justify-center ${width}`}>
             <Link
                 href={href}
-                className="bg-orange-focus hover:bg-orange-primary hover:no-underline transition-all hover:text-white text-white py-2 px-8 rounded-lg w-full flex justify-center"
+                className="bg-orange-focus hover:bg-orange-primary hover:no-underline transition-all hover:text-white text-white py-2 px-8 rounded-lg w-full flex justify-center text-xl"
             >
                 {label}
             </Link>
@@ -30,7 +30,7 @@ export const BlueLink = ({label, width, href}) => {
         <div className={`flex justify-center ${width}`}>
             <Link
                 href={href}
-                className="bg-blue-primary hover:bg-blue-focus transition-all text-white py-2 px-8 rounded-lg w-full flex justify-center"
+                className="bg-blue-primary hover:bg-blue-focus transition-all text-white py-2 px-8 rounded-lg w-full flex justify-center text-xl"
             >
                 {label}
             </Link>
