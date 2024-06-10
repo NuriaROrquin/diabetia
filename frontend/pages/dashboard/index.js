@@ -63,7 +63,7 @@ export const Home = () => {
 
 
                 <div className="w-full flex justify-self-center justify-center pb-6">
-                    <span className="text-3xl text-white">Tu panel de salud para la gestión de tu diabetes</span>
+                    <TitleSection className="text-white">Tu panel de salud para la gestión de tu diabetes</TitleSection>
                 </div>
                 <div className="grid grid-cols-3 w-full items-center">
                     <div className="w-full col-start-2 flex justify-self-center justify-center">
@@ -91,6 +91,7 @@ export const Home = () => {
                             selectedOption={selectedOption}
                             loading={loadingMetrics}
                             isWarning={metrics[data.key] && metrics[data.key].isWarning}
+                            unit={data.unit}
                         />)
                     }
                     )}
@@ -112,7 +113,7 @@ export const Home = () => {
                 </div>
             </div>
         </Section>
-            <Section className="bg-white flex flex-col">
+        <Section className="bg-white flex flex-col min-h-fit">
                 <ContainerTitles>
                     <TitleSection>Registros de hoy</TitleSection>
                     <SubtitleSection>Acá encontrarás todos los registros cargados en el día actual</SubtitleSection>

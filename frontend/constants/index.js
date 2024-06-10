@@ -32,7 +32,7 @@ export const DASHBOARD_INDICATORS = [
         "unit": "G",
         "title": "En total",
         "description": "Cuando cargues una comida, este número se verá afectado.",
-        "tooltipContent":"Se visualiza la cantidad de carbohidratos presentes en sus comidas "
+        "tooltipContent":"Se visualiza la cantidad de carbohidratos presentes en sus comidas ",
     },
     {
         "textIndicator": "Insulina",

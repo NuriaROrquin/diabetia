@@ -49,7 +49,7 @@ export const MetricCard = ({number, textIndicator, title, description, unit, too
                 <div className="w-full flex justify-center flex-col items-center mb-4">
                     <div className="flex items-end">
                         <h3 className={`${getTextColor()} text-7xl font-bold`}>{number}</h3>
-                        {unit && <span className={`${getTextColor()} font-bold`}>{unit}</span>}
+                        {unit && <span className={`${getTextColor()} font-bold text-xl`}>{unit}</span>}
                     </div>
                     <span className={`font-semibold ${getTextColor()} text-xl`}>{textIndicator}</span>
                 </div>
