@@ -1,4 +1,5 @@
-﻿using Diabetia.API.DTO.EventRequest;
+﻿using Diabetia.API.DTO;
+using Diabetia.API.DTO.EventRequest;
 using Diabetia.Application.UseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,15 +16,17 @@ namespace Diabetia.API.Controllers
         private readonly EventInsulinUseCase _eventInsulintUseCase;
         private readonly EventFoodManuallyUseCase _eventFoodManuallyUseCase;
         private readonly EventUseCase _getEventUseCase;
+        private readonly DataUserUseCase _dataUserUseCase;
                        
 
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventFoodManuallyUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase)
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventFoodManuallyUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
             _eventGlucosetUseCase = evemtGlucoseUseCase;
             _eventInsulintUseCase = eventInsulinUseCase;
             _eventFoodManuallyUseCase = eventFoodManuallyUseCase;
             _getEventUseCase = eventUseCase;
+            _dataUserUseCase = dataUserUseCase;
         }
 
         [HttpPost("AddPhysicalEvent")]
@@ -112,10 +115,19 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("AddFoodManuallyEvent")]
-        public async Task<IActionResult> AddFoodManuallyEvent([FromBody] FoodManuallyRequest request)
+        public async Task<EventFoodResponse> AddFoodManuallyEvent([FromBody] FoodManuallyRequest request)
         {
-            await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.IdKindEvent, request.Ingredients, request.FreeNote);
-            return Ok();
+            EventFoodResponse response = new EventFoodResponse();
+           var totalChConsumed = await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.IdKindEvent, request.Ingredients, request.FreeNote);
+
+            var userPatientInfo = await _dataUserUseCase.GetPatientInfo(request.Email);
+
+            var insulinToCorrect = totalChConsumed / userPatientInfo.ChCorrection;
+
+            response.InsulinToCorrect = (float)insulinToCorrect;
+            response.ChConsumed = (int)totalChConsumed;
+
+            return response;
         }
 
         [HttpPost("EditFoodManuallyEvent")]

@@ -19,9 +19,10 @@ namespace Diabetia.Application.UseCases
         {
             _eventRepository = eventRepository;
         }
-        public async Task AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote)
+        public async Task<float> AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote)
         {
-            await _eventRepository.AddFoodManuallyEvent(Email, EventDate, IdKindEvent, ingredients, FreeNote);
+            var foodManuallyResponse = await _eventRepository.AddFoodManuallyEvent(Email, EventDate, IdKindEvent, ingredients, FreeNote);
+            return foodManuallyResponse;
         }
 
         public async Task EditFoodManuallyEvent(int idEvent, string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote)

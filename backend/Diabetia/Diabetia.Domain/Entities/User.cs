@@ -14,6 +14,8 @@ namespace Diabetia.Domain.Entities
         public double? Weight { get; set; }
         public DateOnly? BirthDate { get; set; }
         public string Username { get; set; }
+
+        
     }
 
     public class Patient : User
@@ -22,6 +24,8 @@ namespace Diabetia.Domain.Entities
         public bool? UseInsuline { get; set; }
         public int? TypeInsuline { get; set; }
         public int? Frequency { get; set; }
+
+        public int? ChCorrection { get; set; }
 
     }
 

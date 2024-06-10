@@ -305,7 +305,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote)
+        public async Task<float> AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote)
         {
             // Obtener el usuario por email
             var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
@@ -378,6 +378,8 @@ namespace Diabetia.Infrastructure.Repositories
             }
 
             await _context.SaveChangesAsync();
+
+            return (float)newFoodEvent.Carbohidratos;
         }
 
         public async Task EditFoodManuallyEvent(int idEvent, string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote)
