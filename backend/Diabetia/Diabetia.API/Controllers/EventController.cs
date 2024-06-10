@@ -110,5 +110,12 @@ namespace Diabetia.API.Controllers
             await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.IdKindEvent, request.Ingredients, request.FreeNote);
             return Ok();
         }
+
+        [HttpPost("EditFoodManuallyEvent")]
+        public async Task<IActionResult> EditFoodManuallyEvent([FromBody] FoodManuallyRequest request)
+        {
+            await _eventFoodManuallyUseCase.EditFoodManuallyEvent(request.IdEvent.Value, request.Email, request.EventDate, request.IdKindEvent, request.Ingredients, request.FreeNote);
+            return Ok();
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace Diabetia.API.DTO.EventRequest
 {
     public class FoodManuallyRequest : EventRequest
     {
+        public int? IdEvent { get; set; }
         public int IdKindEvent { get; set; }
 
         public int IdFoodChargeType { get; set; }
