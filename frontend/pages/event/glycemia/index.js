@@ -36,7 +36,7 @@ const GlycemiaEvent = () => {
         const data = {
             "email": email,
             "idKindEvent": 3,
-            "eventDate": dateFormatted,
+            "eventDate": dateFormatted, //TODO: mandar el hour tambien, es un datetime
             "freeNote": notes,
             "glucose": glycemiaMeasurement,
             "idDevicePatient": device ?? null,
