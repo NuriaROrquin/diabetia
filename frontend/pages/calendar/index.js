@@ -3,12 +3,13 @@ import CustomCalendar from "../../components/calendar";
 import {OrangeLink} from "../../components/link";
 import CustomTooltip from "@/components/tooltip";
 import {useEffect, useState} from "react";
-import {getAllEvents, getEventsByDate} from "../../services/api.service";
+import {deleteEventById, getAllEvents, getEventsByDate} from "../../services/api.service";
 import {Delete, Edit} from "@mui/icons-material";
 import Link from "next/link";
 import {getEmailFromJwt} from "../../helpers";
 import useModal from "../../hooks";
 import Modal from "@/components/modal";
+import {useRouter} from "next/router";
 
 const registrarEventoTooltipText = "Registrá un nuevo evento: mediciones de glucosa, actividad física, eventos de salud, visitas médicas, insulina, comida manual.";
 
@@ -19,6 +20,7 @@ export const CalendarPage = () => {
     const [eventsByDate, setEventsByDate] = useState(null);
     const [eventIdToDelete, setEventIdToDelete] = useState(null)
     const { isVisible, openModal, closeModal } = useModal();
+    const router = useRouter();
 
     useEffect(() => {
         getAllEvents({email})
@@ -52,9 +54,14 @@ export const CalendarPage = () => {
     }
 
     const onDelete = () => {
-        //TODO: Pegarle al back para borrar todo lo que tiene que ver con este idEvento
-        console.log(eventIdToDelete)
-        closeModal();
+        deleteEventById(eventIdToDelete)
+            .then((res) => {
+                router.reload();
+                closeModal()
+            })
+            .catch((error) => {
+                setError(error.response?.data ? error.response.data : "Hubo un error");
+            });
     }
 
     return (
