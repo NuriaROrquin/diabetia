@@ -57,7 +57,7 @@ namespace Diabetia.Application.UseCases
                         var glucose = await _eventRepository.GetGlucoseEventById(lastEvent.Id);
                         items.Items.Add(new TimelineItem
                         {
-                            Title = glucose.Title + " - " + glucose.GlucoseLevel.ToString(),
+                            Title = glucose.Title + " " + (int)glucose.GlucoseLevel,
                             DateTime = glucose.DateEvent
                         });
                         break;
