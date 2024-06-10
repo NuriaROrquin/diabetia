@@ -92,27 +92,27 @@ export const DASHBOARD_TIMELINE_EVENTS = [
 export const TYPE_EVENTS = [
     {
         "id": 1,
-        "title": "ACTIVIDAD FÍSICA",
-        "image": "/actividad-fisica.jpg",
-        "link": "/event/exercise"
+        "title": "INSULINA",
+        "image": "/insulina.jpg",
+        "link": "/event/insulin"
     },
     {
         "id": 2,
-        "title": "GLUCEMIA",
-        "image": "/glucemia.jpg",
-        "link": "/event/glycemia"
-    },
-    {
-        "id": 3,
         "title": "COMIDA",
         "image": "/comida.jpg",
         "link": "/event/food"
     },
     {
+        "id": 3,
+        "title": "GLUCOSA",
+        "image": "/glucemia.jpg",
+        "link": "/event/glycemia"
+    },
+    {
         "id": 4,
-        "title": "INSULINA",
-        "image": "/insulina.jpg",
-        "link": "/event/insulin"
+        "title": "ACTIVIDAD FÍSICA",
+        "image": "/actividad-fisica.jpg",
+        "link": "/event/exercise"
     },
     {
         "id": 5,

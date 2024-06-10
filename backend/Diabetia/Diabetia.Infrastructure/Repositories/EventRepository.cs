@@ -729,7 +729,10 @@ namespace Diabetia.Infrastructure.Repositories
                           IdEventType = joined.TipoEvento.Id,
                           DateEvent = joined.CargaEvento.FechaEvento,
                           Title = joined.TipoEvento.Tipo,
-                          GlucoseLevel = eg.Glucemia
+                          GlucoseLevel = eg.Glucemia,
+                          IdDevice = eg.IdDispositivoPaciente,
+                          FreeNote = joined.CargaEvento.NotaLibre
+
                       })
                 .FirstOrDefaultAsync();
 

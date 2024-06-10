@@ -188,3 +188,17 @@ export const getTimeline = (email) => {
         .get(
             `${process.env.NEXT_PUBLIC_API_URL}/Home/timeline/${email}`)
 }
+
+export const getEventType = (data) => {
+    return axios
+        .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/GetEventType/${data.id}`)
+}
+
+export const editGlucoseEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/EditGlucoseEvent`,
+            data
+        );
+}
