@@ -21,7 +21,7 @@ const getIconComponent = (title) => {
 
 export const MetricCard = ({number, textIndicator, title, description, unit, tooltipContent, selectedOption, loading, isWarning}) => {
     const getTextColor = () => {
-        return isWarning === null ? 'text-blue-primary' : isWarning === false ? 'text-green-primary' : 'text-red-primary'
+        return isWarning === null || number == 0 ? 'text-blue-primary' : isWarning === false ? 'text-green-primary' : 'text-red-primary'
     }
 
     return (
@@ -32,7 +32,7 @@ export const MetricCard = ({number, textIndicator, title, description, unit, too
                 <HelpOutline className="text-orange-primary absolute top-4 right-4"/>
             </CustomTooltip>
 
-            {isWarning && <span className="flex absolute h-6 w-6 top-0 left-0 mt-2 ml-2">
+            {isWarning && !loading && number !== 0 && <span className="flex absolute h-6 w-6 top-0 left-0 mt-2 ml-2">
                 <ErrorOutline className="animate-ping font-bold text-6xl text-red-primary">!</ErrorOutline>
             </span>}
 

@@ -29,7 +29,7 @@ const ExerciseEvent = () => {
             "idKindEvent": 8,
             "eventDate": dateFormatted,
             "freeNote": notes,
-            "hora": start ?? null
+            "hora": start ?? null //TODO: chequear que este campo se llame hora, ver si no hay que pasarlo en el datetime
         }
 
         addPhysicalEvent(data).then(() =>

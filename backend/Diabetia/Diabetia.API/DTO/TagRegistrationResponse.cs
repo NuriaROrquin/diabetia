@@ -6,6 +6,7 @@
 
         public float ChTotal { get; set; }
 
+        //public int Insulin { get; set; }
         public TagRegistrationResponse()
         {
             Tags = new List<PerTag>();

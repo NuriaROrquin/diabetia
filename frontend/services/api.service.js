@@ -177,6 +177,12 @@ export const getEventsByDate = (date, email) => {
     );
 }
 
+export const deleteEventById = (eventId) => {
+    return axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/Event/DeleteEvent/${eventId}`
+    )
+}
+
 export const getEventType = (data) => {
     return axios
         .get(

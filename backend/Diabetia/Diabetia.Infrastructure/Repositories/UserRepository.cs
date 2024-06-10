@@ -1,8 +1,8 @@
-﻿using Diabetia.Infrastructure.EF;
-using Diabetia.Domain.Services;
+﻿using Diabetia.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities;
+using Diabetia.Infraestructure.EF;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -185,6 +185,7 @@ namespace Diabetia.Infrastructure.Repositories
             .Select(p => new
             {
                 Peso = p.Peso,
+                CorrectionCh = p.CorreccionCh,
             })
             .FirstOrDefaultAsync();
 
@@ -195,7 +196,7 @@ namespace Diabetia.Infrastructure.Repositories
                 BirthDate = userInfo.Birthdate,
                 Gender = userInfo.Gender,
                 Phone = userInfo.Phone,
-                Weight = pacienteInfo.Peso
+                Weight = pacienteInfo.Peso,
             };
 
                 return user;
@@ -235,7 +236,8 @@ namespace Diabetia.Infrastructure.Repositories
             {
                 TypeDiabetes = p.IdTipoDiabetes,
                 UseInsuline = p.UsaInsulina,
-                Id = p.Id
+                Id = p.Id,
+                InsulinPerCh = p.CorreccionCh
             })
             .FirstOrDefaultAsync();
 
@@ -244,7 +246,7 @@ namespace Diabetia.Infrastructure.Repositories
             .Select(i => new
             {
                 TypeInsuline = i.IdTipoInsulina,
-                Frequency = i.Frecuencia
+                Frequency = i.Frecuencia                
             })
             .FirstOrDefaultAsync();
 
@@ -253,7 +255,8 @@ namespace Diabetia.Infrastructure.Repositories
                 TypeDiabetes = pacienteInfo.TypeDiabetes,
                 UseInsuline = pacienteInfo.UseInsuline,
                 TypeInsuline = insulinaPaciente.TypeInsuline,
-                Frequency = insulinaPaciente.Frequency
+                Frequency = insulinaPaciente.Frequency,
+                ChCorrection = pacienteInfo.InsulinPerCh,
             };
 
             return patient;

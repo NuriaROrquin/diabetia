@@ -70,9 +70,8 @@ const FoodEvent = () => {
         const data = {
             email: email,
             idKindEvent: 2,
-            eventDate: date.format('YYYY-MM-DD'),
+            eventDate: date.format('YYYY-MM-DD'),//TODO chequear mandar hora
             ingredients: ingredients
-
         };
         addFoodEvent(data).then(() =>
             router.push("/calendar")

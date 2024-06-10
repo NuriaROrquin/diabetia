@@ -15,7 +15,7 @@ export const Navigation = () => {
     const [openUserMenu, setOpenUserMenu] = useState(false);
     const [userName, setUserName] = useState('');
     const router = useRouter();
-    const [_cookies, _setCookie, removeCookie] = useCookies(['cookie-name']);
+    const [_cookies, _setCookie, removeCookie] = useCookies(['jwt']);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -100,8 +100,8 @@ export const Navigation = () => {
                                             <Link href="/reminders">Recordatorios</Link>
                                         </li>
                                         <li className="text-sm text-blue-secondary">
-                                            <button onClick={() => handleOnLogout()} className="text-blue-secondary">Cerrar
-                                                sesión
+                                            <button onClick={() => handleOnLogout()} className="text-blue-secondary">
+                                                Cerrar sesión
                                             </button>
                                         </li>
                                     </ul>

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace Diabetia.Domain.Models
 {
     public partial class EventoComidum
@@ -15,7 +13,7 @@ namespace Diabetia.Domain.Models
         public int Id { get; set; }
         public int IdCargaEvento { get; set; }
         public int IdTipoCargaComida { get; set; }
-        public decimal? Carbohidratos { get; set; }
+        public decimal Carbohidratos { get; set; }
         public decimal? Proteinas { get; set; }
         public decimal? GrasasTotales { get; set; }
         public decimal? FibraAlimentaria { get; set; }

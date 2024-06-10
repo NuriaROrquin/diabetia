@@ -18,9 +18,5 @@ namespace Diabetia.API.Controllers
         {
             await _eventRepository.EditInsulinEvent(IdEvent, Email, EventDate, FreeNote, Insulin);
         }
-        public async Task DeleteInsulinEvent(int IdEvent)
-        {
-            await _eventRepository.DeleteInsulinEvent(IdEvent);
-        }
     }
 }

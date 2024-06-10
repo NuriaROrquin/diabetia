@@ -1,10 +1,7 @@
 ﻿using Diabetia.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Common.Utilities;
-using Diabetia.Domain.Repositories;
-using Diabetia.Infrastructure.EF;
-using Diabetia.Domain.Models;
-using Microsoft.Extensions.Logging;
+using Diabetia.Infraestructure.EF;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -29,7 +26,7 @@ namespace Diabetia.Infrastructure.Repositories
                         eaf => eaf.IdCargaEvento,
                         ce => ce.Id,
                         (eaf, ce) => new { eaf, ce })
-                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent);
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent && joined.ce.FueRealizado == true);
 
             if (dateFilter != null)
             {
@@ -63,7 +60,7 @@ namespace Diabetia.Infrastructure.Repositories
                       ec => ec.IdCargaEvento,
                       ce => ce.Id,
                       (ec, ce) => new { ec, ce })
-                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent);
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent && joined.ce.FueRealizado == true);
 
             if (dateFilter != null)
             {
@@ -96,7 +93,7 @@ namespace Diabetia.Infrastructure.Repositories
                       eg => eg.IdCargaEvento,
                       ce => ce.Id,
                       (eg, ce) => new { eg, ce })
-                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == IdEvent);
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == IdEvent && joined.ce.FueRealizado == true);
 
             if (dateFilter != null)
             {
@@ -137,7 +134,7 @@ namespace Diabetia.Infrastructure.Repositories
                       eg => eg.IdCargaEvento,
                       ce => ce.Id,
                       (eg, ce) => new { eg, ce })
-                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.eg.Glucemia < hipo);
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.FueRealizado == true && joined.eg.Glucemia < hipo);
 
             if (dateFilter != null)
             {
@@ -172,7 +169,7 @@ namespace Diabetia.Infrastructure.Repositories
                       eg => eg.IdCargaEvento,
                       ce => ce.Id,
                       (eg, ce) => new { eg, ce })
-                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.eg.Glucemia > hiper);
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.FueRealizado == true && joined.eg.Glucemia > hiper);
 
             if (dateFilter != null)
             {
@@ -206,7 +203,7 @@ namespace Diabetia.Infrastructure.Repositories
                       ei => ei.IdCargaEvento,
                       ce => ce.Id,
                       (ei, ce) => new { ei, ce })
-                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent);
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent && joined.ce.FueRealizado == true);
 
             if (dateFilter != null)
             {
