@@ -1,6 +1,6 @@
 ﻿using Diabetia.Common.Utilities;
 
-namespace Diabetia.API
+namespace Diabetia.API.DTO.HomeRequest
 {
     public class MetricsRequest
     {

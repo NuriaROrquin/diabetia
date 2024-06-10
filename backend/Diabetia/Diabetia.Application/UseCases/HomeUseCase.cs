@@ -4,16 +4,20 @@ using Diabetia.Common.Utilities;
 using System.Numerics;
 using System.Reflection;
 using System.Xml.Linq;
+using Diabetia.Domain.Repositories;
+using Diabetia.Domain.Entities.Events;
 
 namespace Diabetia.Application.UseCases
 {
     public class HomeUseCase
     {
         private readonly IHomeRepository _homeRepository;
+        private readonly IEventRepository _eventRepository;
 
-        public HomeUseCase(IHomeRepository homeRepository)
+        public HomeUseCase(IHomeRepository homeRepository, IEventRepository eventRepository)
         {
             _homeRepository = homeRepository;
+            _eventRepository = eventRepository;
         }
 
         public async Task<Metrics> ShowMetrics(string Email, DateFilter? dateFilter)
@@ -33,8 +37,86 @@ namespace Diabetia.Application.UseCases
             metrics.Insulin = await _homeRepository.GetInsulin(Email, (int)TypeEventEnum.INSULINA, dateFilter);
 
             return metrics;
+        }
 
-            
+        public async Task<Timeline> GetTimeline(string email)
+        {
+            var timeline = new Timeline();
+
+            var lastEvents = await _homeRepository.GetLastEvents(email);
+
+            Timeline items = new Timeline();
+
+            foreach ( var lastEvent in lastEvents )
+            {
+                var type = await _eventRepository.GetEventType(lastEvent.Id);
+
+                switch (type)
+                {
+                    case TypeEventEnum.GLUCOSA:
+                        var glucose = await _eventRepository.GetGlucoseEventById(lastEvent.Id);
+                        items.Items.Add(new TimelineItem
+                        {
+                            Title = glucose.Title + " - " + glucose.GlucoseLevel.ToString(),
+                            Time = glucose.DateEvent.ToString("hh:mm tt")
+                        });
+                        break;
+                    case TypeEventEnum.INSULINA:
+                        var insulin = await _eventRepository.GetInsulinEventById(lastEvent.Id);
+                        items.Items.Add(new TimelineItem
+                        {
+                            Title = insulin.Title,
+                            Time = insulin.DateEvent.ToString("hh:mm tt") 
+                        });
+                        break;
+                    case TypeEventEnum.COMIDA:
+                        var food = await _eventRepository.GetFoodEventById(lastEvent.Id);
+                        items.Items.Add(new TimelineItem
+                        {
+                            Title = food.Title + " - " + food.IngredientName,
+                            Time = food.DateEvent.ToString("hh:mm tt")
+                        });
+                        break;
+                    case TypeEventEnum.ACTIVIDADFISICA:
+                        var physicalActivity = await _eventRepository.GetPhysicalActivityById(lastEvent.Id);
+                        items.Items.Add(new TimelineItem
+                        {
+                            Title = physicalActivity.Title + " " + physicalActivity.Duration + "min", 
+                            Time = physicalActivity.DateEvent.ToString("hh:mm tt")
+                        });
+                        break;
+                    case TypeEventEnum.EVENTODESALUD:
+                        var healthEvent = await _eventRepository.GetHealthEventById(lastEvent.Id);
+                        items.Items.Add(new TimelineItem
+                        {
+                            Title = healthEvent.Title,
+                            Time = healthEvent.DateEvent.ToString("hh:mm tt")
+                        });
+                        break;
+                    case TypeEventEnum.VISITAMEDICA:
+                        var medicalVisitEvent = await _eventRepository.GetMedicalVisitEventById(lastEvent.Id);
+                        items.Items.Add(new TimelineItem
+                        {
+                            Title = medicalVisitEvent.Title,
+                            Time = medicalVisitEvent.DateEvent.ToString("hh:mm tt")
+                        });
+                        break;
+                    case TypeEventEnum.ESTUDIOS:
+                        var examEvent = await _eventRepository.GetExamEventById(lastEvent.Id);
+                        items.Items.Add(new TimelineItem
+                        {
+                            Title = examEvent.Title,
+                            Time = examEvent.DateEvent.ToString("hh:mm tt")
+                        });
+                        break;
+                    case TypeEventEnum.NOTALIBRE:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return items;
         }
 
     }

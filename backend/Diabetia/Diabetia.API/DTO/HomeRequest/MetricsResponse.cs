@@ -1,6 +1,7 @@
-﻿namespace Diabetia.API
+﻿namespace Diabetia.API.DTO.HomeRequest
 {
-    public class MetricsResponse { 
+    public class MetricsResponse
+    {
         public Carbohidrates Carbohidrates { get; set; }
         public PhysicalActivity PhysicalActivity { get; set; }
         public Hyperglycemia Hyperglycemia { get; set; }

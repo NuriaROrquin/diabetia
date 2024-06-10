@@ -3,6 +3,7 @@ using Diabetia.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Diabetia.Common.Utilities;
 using Microsoft.AspNetCore.Authorization;
+using Diabetia.API.DTO.HomeRequest;
 
 namespace Diabetia.API.Controllers
 {
@@ -61,6 +62,21 @@ namespace Diabetia.API.Controllers
             return metricsResponse;
         }
 
+
+
+        [HttpGet("timeline/{email}")]
+        [Authorize]
+        public async Task<TimelineResponse> GetTimeline([FromRoute] string email) 
+        {
+            Timeline timeline = await _homeUseCase.GetTimeline(email);
+
+            TimelineResponse timelineResponse = new TimelineResponse
+            {
+                Timeline = timeline
+            };
+
+            return timelineResponse;
+        }
     }
 }
 

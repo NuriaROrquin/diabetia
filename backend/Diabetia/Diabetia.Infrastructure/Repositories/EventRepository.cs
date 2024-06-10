@@ -119,7 +119,6 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-      
         public async Task AddGlucoseEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
@@ -186,6 +185,7 @@ namespace Diabetia.Infrastructure.Repositories
             _context.EventoGlucosas.Update(GlucoseEvent);
             await _context.SaveChangesAsync();
         }
+        
         public async Task DeleteGlucoseEvent(int IdEvent)
         {        
             var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
@@ -200,6 +200,7 @@ namespace Diabetia.Infrastructure.Repositories
             // Guardar los cambios en el contexto
             await _context.SaveChangesAsync();
         }
+        
         public async Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
@@ -440,7 +441,6 @@ namespace Diabetia.Infrastructure.Repositories
 
             await _context.SaveChangesAsync();
         }
-
 
         public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date = null)
         {

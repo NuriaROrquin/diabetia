@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Common.Utilities;
 using Diabetia.Infrastructure.EF;
+using Diabetia.Domain.Models;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -14,7 +15,6 @@ namespace Diabetia.Infrastructure.Repositories
         {
             _context = context;
         }
-
 
         public async Task<int?> GetPhysicalActivity(string email, int idEvent, DateFilter? dateFilter)
         {
@@ -45,7 +45,6 @@ namespace Diabetia.Infrastructure.Repositories
 
             return totalPhysicalActivity;
         }
-
 
         public async Task<decimal?> GetChMetrics(string email, int idEvent, DateFilter? dateFilter)
         {
@@ -189,7 +188,6 @@ namespace Diabetia.Infrastructure.Repositories
             return totalHiperglycemias;
         }
 
-
         public async Task<int?> GetInsulin(string email, int idEvent, DateFilter? dateFilter)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
@@ -223,6 +221,24 @@ namespace Diabetia.Infrastructure.Repositories
             return unitsOfInsulinPerDay;
         }
 
+        public async Task<List<CargaEvento>> GetLastEvents(string email)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) return null;
+
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
+            if (patient == null) return null;
+
+            var query = _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patient.Id && ce.FueRealizado == true);
+
+            var lastEvents = await query
+                .OrderByDescending(ce => ce.Id)
+                .Take(10)
+                .ToListAsync();
+
+            return lastEvents;
+        }
 
     }
 
