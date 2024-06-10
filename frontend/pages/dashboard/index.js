@@ -10,7 +10,7 @@ import {OrangeLink} from "../../components/link";
 import {getMetrics} from "../../services/api.service";
 import {useCookies} from "react-cookie";
 import CustomTooltip from "@/components/tooltip";
-import {getEmailFromJwt} from "../../helpers";
+import {calculateDateFilter, calculateDateRange, getEmailFromJwt} from "../../helpers";
 
 export const Home = () => {
     const [error, setError] = useState(false);
@@ -22,8 +22,9 @@ export const Home = () => {
 
     useEffect(() => {
         const email = getEmailFromJwt();
-
-        email && getMetrics({email})
+        const { dateFrom, dateTo } = calculateDateRange(selectedOption);
+        setLoadingMetrics(true)
+        email && getMetrics({email, dateFilter: {dateFrom, dateTo}})
             .then((res) => {
                 setMetrics(res.data);
                 setLoadingMetrics(false);
@@ -31,7 +32,7 @@ export const Home = () => {
             .catch((error) => {
                 error.response.data ? setError(error.response.data) : setError("Hubo un error")
             });
-    }, []);
+    }, [selectedOption]);
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
@@ -50,7 +51,7 @@ export const Home = () => {
                     <span className="text-xl text-white">Tu panel de salud para la gestión de tu diabetes</span>
                 </div>
                 <div className="grid grid-cols-3 w-full items-center">
-                <div className="w-full col-start-2 flex justify-self-center justify-center">
+                    <div className="w-full col-start-2 flex justify-self-center justify-center">
                         <Selector width="w-1/2" setIsOpen={setIsOpen} isOpen={isOpen} selectedOption={selectedOption}
                                   options={DASHBOARD_OPTIONS_FILTER_DAYS} handleOptionClick={handleOptionClick}/>
                     </div>

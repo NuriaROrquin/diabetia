@@ -28,17 +28,16 @@ const ExerciseEvent = () => {
     };
 
     const handleSubmit = () => {
-        const exercise = selectedOption;
-        const dateFormatted = date ? date.format('DD-MM-YYYY') : null;
         const start = startHour ? startHour.format('HH:mm:ss') : null;
         const end = endHour ? endHour.format('HH:mm:ss') : null;
         const notes = document.getElementById("notes").value;
         const email = getEmailFromJwt();
+        const eventDateTime = date && startHour ? date.format('YYYY-MM-DD') + 'T' + startHour.format('HH:mm:ss') : null;
 
         const data = {
             "email": email,
             "idKindEvent": 4,
-            "eventDate": "2024-05-22T23:03:17.219Z",
+            "eventDate": eventDateTime,
             "freeNote": notes,
             "physicalActivity": selectedOption.id,
             "iniciateTime": start,
