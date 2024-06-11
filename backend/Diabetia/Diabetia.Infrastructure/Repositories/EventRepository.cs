@@ -525,6 +525,49 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task AddMedicalExaminationEvent(string email, DateTime eventDate, string file, string examinationType, int? idProfessional, string? freeNote)
+        {
+            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (User == null) { throw new UserEventNotFoundException(); }
+
+            // Obtener el paciente por id de usuario
+            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
+            if (Patient == null) { throw new PatientNotFoundException(); }
+
+            // 1- Guardar el evento
+            bool IsDone = eventDate <= DateTime.Now ? true : false;
+
+            var newEvent = new CargaEvento
+            {
+                IdPaciente = Patient.Id,
+                IdTipoEvento = (int)TypeEventEnum.ESTUDIOS,
+                FechaActual = DateTime.Now,
+                FechaEvento = eventDate,
+                NotaLibre = freeNote,
+                FueRealizado = IsDone,
+                EsNotaLibre = false,
+            };
+
+            _context.CargaEventos.Add(newEvent);
+            await _context.SaveChangesAsync();
+
+            var lastInsertedIdEvent = await _context.CargaEventos
+                                            .Where(x => x.IdPaciente == Patient.Id)
+                                            .OrderByDescending(e => e.Id)
+                                            .FirstOrDefaultAsync();
+
+            var newMedicalExamination = new EventoEstudio
+            {
+                IdCargaEvento = lastInsertedIdEvent.Id,
+                Archivo = file,
+                TipoEstudio = examinationType,
+                IdProfesional = idProfessional,
+            };
+
+            _context.EventoEstudios.Add(newMedicalExamination);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<string> DeleteMedicalExaminationEvent(int id)
         {
             var eventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == id);

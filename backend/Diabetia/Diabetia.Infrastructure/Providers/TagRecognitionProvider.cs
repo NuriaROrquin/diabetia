@@ -15,6 +15,7 @@ using Amazon.Textract.Model;
 using Amazon.Textract;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Diabetia.Application.Exceptions;
 
 
 namespace Diabetia.Infrastructure.Providers
@@ -30,15 +31,17 @@ namespace Diabetia.Infrastructure.Providers
 
         public async Task<NutritionTag> GetChFromDocument(string ocrRequest)
         {
-           
+
             string awsAccessKey = _configuration["AWS_ACCESS_KEY_ID"];
             string awsSecretKey = _configuration["AWS_SECRET_ACCESS_KEY"];
             var region = RegionEndpoint.USEast2;
             var uniqueId = getUniqueId();
 
-            await CreateObjectS3Async(awsAccessKey, awsSecretKey, region, ocrRequest, uniqueId);
+            string idOnBucket = $"Textract/{uniqueId}.jpg";
 
-            DetectDocumentTextResponse result = await ProcessingTextract(awsAccessKey, awsSecretKey, region, uniqueId);
+            await CreateObjectS3Async(awsAccessKey, awsSecretKey, region, ocrRequest, idOnBucket);
+
+            DetectDocumentTextResponse result = await ProcessingTextract(awsAccessKey, awsSecretKey, region, idOnBucket);
 
             string jsonResponse = JsonConvert.SerializeObject(result, Formatting.Indented);
             Console.WriteLine(jsonResponse);
@@ -52,7 +55,26 @@ namespace Diabetia.Infrastructure.Providers
 
         }
 
-        private async Task<DetectDocumentTextResponse> ProcessingTextract(string awsAccesKey, string awsSecretKey, RegionEndpoint region, string uniqueId)
+        public async Task<string> SaveMedicalExaminationOnBucket(string file)
+        {
+            string awsAccessKey = _configuration["AWS_ACCESS_KEY_ID"];
+            string awsSecretKey = _configuration["AWS_SECRET_ACCESS_KEY"];
+            var region = RegionEndpoint.USEast2;
+            var uniqueId = getUniqueId();
+
+            string idOnBucket = $"Textract/{uniqueId}.pfd";
+
+            var result = await CreateObjectS3Async(awsAccessKey, awsSecretKey, region, file, idOnBucket);
+
+            if (!result)
+            {
+                throw new CantCreatObjectS3Async(); 
+            }
+
+            return uniqueId;
+        }
+
+        private async Task<DetectDocumentTextResponse> ProcessingTextract(string awsAccesKey, string awsSecretKey, RegionEndpoint region, string idOnBucket)
         {
             var client = new AmazonTextractClient(awsAccesKey, awsSecretKey, region);
 
@@ -63,7 +85,7 @@ namespace Diabetia.Infrastructure.Providers
                     S3Object = new Amazon.Textract.Model.S3Object
                     {
                         Bucket = "textract-console-us-east-2-7a438fab-112f-422b-98ba-cbc0d7f642e8",
-                        Name = $"Textract/{uniqueId}.jpg"
+                        Name = idOnBucket,
                     }
 
                 }
@@ -74,10 +96,10 @@ namespace Diabetia.Infrastructure.Providers
             return response;
         }
 
-        private async Task<bool> CreateObjectS3Async(string awsAccesKey, string awsSecretKey, RegionEndpoint region, string ocrRequest, string uniqueId)
+        private async Task<bool> CreateObjectS3Async(string awsAccesKey, string awsSecretKey, RegionEndpoint region, string ocrRequest, string idOnBucket)
         {
             var bucketName = "textract-console-us-east-2-7a438fab-112f-422b-98ba-cbc0d7f642e8";
-            var objectKey = $"Textract/{uniqueId}.jpg";
+            var objectKey = idOnBucket;
 
             var client = new AmazonS3Client(awsAccesKey, awsSecretKey, region);
 
