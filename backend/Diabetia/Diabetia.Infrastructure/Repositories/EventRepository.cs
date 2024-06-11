@@ -7,6 +7,7 @@ using Diabetia.Domain.Entities.Events;
 using Diabetia.Infraestructure.EF;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -436,6 +437,48 @@ namespace Diabetia.Infrastructure.Repositories
                     
                 }
             }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteMedicalVisitEventAsync(int EventId, string Email)
+        {
+            var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == EventId);
+            if (@event == null)
+            {
+                throw new EventNotFoundException();
+            }
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            if (user == null)
+            {
+                throw new UserEventNotFoundException();
+            }
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.Id == @event.IdPaciente);
+            if (patient == null)
+            {
+                throw new EventNotRelatedWithPatientException(); ;
+            }
+            if (user.Id != patient.IdUsuario)
+            {
+                throw new MismatchUserPatientException();
+            }
+            var medicalVisitEvent = await _context.EventoVisitaMedicas.FirstOrDefaultAsync(vm => vm.IdCargaEvento == EventId);
+            if (medicalVisitEvent == null)
+            {
+                throw new EventNotMatchException();
+            }
+            var recordatoryEvent = await _context.RecordatorioEventos.FirstOrDefaultAsync(re => re.IdCargaEvento == EventId);
+            if (recordatoryEvent != null) 
+            {
+                var recordatory = await _context.Recordatorios.FirstOrDefaultAsync(r => r.Id == recordatoryEvent.IdRecordatorio);
+                if (recordatory == null)
+                {
+                    throw new RecordatoryNotMatchException();
+                }
+                _context.RecordatorioEventos.Remove(recordatoryEvent);
+                _context.Recordatorios.Remove(recordatory);
+            }
+            _context.EventoVisitaMedicas.Remove(medicalVisitEvent);
+            _context.CargaEventos.Remove(@event);
             await _context.SaveChangesAsync();
         }
 
