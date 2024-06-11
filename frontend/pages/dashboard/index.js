@@ -64,19 +64,34 @@ export const Home = () => {
                     <TitleSection className="text-white">Tu panel de salud para la gestión de tu diabetes</TitleSection>
                     <SubtitleSection className="text-white mt-4">Visualizá tus métricas según los registros cargados</SubtitleSection>
                 </div>
-                <div className="grid grid-cols-3 w-full">
-                    <div className="w-full col-start-1 flex justify-self-start">
-                        <Selector width="w-1/2" setIsOpen={setIsOpen} isOpen={isOpen} selectedOption={selectedOption}
+                <div className="flex flex-col md:flex-row gap-3 md:gap-0">
+                    <div className="w-full flex justify-self-start">
+                        <Selector width="w-full md:w-1/3 lg:w-1/5" setIsOpen={setIsOpen} isOpen={isOpen} selectedOption={selectedOption}
                                   options={DASHBOARD_OPTIONS_FILTER_DAYS} handleOptionClick={handleOptionClick}/>
                     </div>
                     <CustomTooltip title={registrarEventoTooltipText} arrow>
-                        <div className="col-start-3 justify-self-end">
-                            <OrangeLink href="/event" label="Registrar Evento" width="w-1/10"/>
+                        <div className="justify-self-end">
+                            <OrangeLink href="/event" label="Registrar Evento" width="w-full lg:w-1/5"/>
                         </div>
                     </CustomTooltip>
                 </div>
 
-                <div className="flex flex-wrap justify-between my-12 gap-x-1 gap-y-8">
+                <div className="flex flex-col lg:grid lg:grid-cols-3 bg-white rounded-xl px-8 py-4 my-12 gap-8 w-full">
+                    <div className="flex gap-2 col-start-1 lg:place-self-center items-center">
+                        <CircleRounded className="text-green-primary"/>
+                        <span className="text-gray-primary font-medium text-xl">Valores dentro de lo esperado</span>
+                    </div>
+                    <div className="flex gap-2 col-start-2 lg:place-self-center items-center">
+                        <CircleRounded className="text-red-primary"/>
+                        <span className="text-gray-primary font-medium text-xl">Cuidado! Prestale atención</span>
+                    </div>
+                    <div className="flex gap-2 col-start-3 lg:place-self-center items-center">
+                        <CircleRounded className="text-blue-primary"/>
+                        <span className="text-gray-primary font-medium text-xl">Informativo</span>
+                    </div>
+                </div>
+
+                <div className="flex flex-wrap mb-12 gap-x-1 gap-y-8 justify-around xl:justify-between">
                     {metrics && DASHBOARD_INDICATORS.map((data, index) => {
                         return (
                         <MetricCard
@@ -96,20 +111,7 @@ export const Home = () => {
                     )}
                 </div>
 
-                <div className="flex justify-around bg-white w-2/3 self-center rounded-xl p-6 mb-10">
-                    <div className="flex gap-2">
-                        <CircleRounded className="text-green-primary"/>
-                        <span className="text-gray-primary font-medium text-xl">Valores dentro de lo esperado</span>
-                    </div>
-                    <div className="flex gap-2">
-                        <CircleRounded className="text-red-primary"/>
-                        <span className="text-gray-primary font-medium text-xl">Cuidado! Prestale atención</span>
-                    </div>
-                    <div className="flex gap-2">
-                        <CircleRounded className="text-blue-primary"/>
-                        <span className="text-gray-primary font-medium text-xl">Informativo</span>
-                    </div>
-                </div>
+
             </div>
         </Section>
         <Section className="bg-white flex flex-col min-h-fit">

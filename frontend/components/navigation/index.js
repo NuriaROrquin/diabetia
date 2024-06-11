@@ -62,7 +62,7 @@ export const Navigation = () => {
                     </div>
                 </div>
                     <div
-                        className="w-full flex items-center mt-2 lg:mt-0 bg-transparent text-black p-4 lg:p-0 z-20"
+                        className="w-full hidden xl:flex items-center mt-2 lg:mt-0 bg-transparent text-black p-4 lg:p-0 z-20"
                     id="nav-content">
                     <ul className="lg:flex justify-end flex-1 items-center mb-0">
                         <li className="mr-3">

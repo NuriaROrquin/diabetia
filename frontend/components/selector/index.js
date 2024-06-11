@@ -3,7 +3,7 @@ import {ChevronLeft} from "@mui/icons-material";
 export const Selector = ({width, selectedOption, options, isOpen, setIsOpen, handleOptionClick}) => {
 
     return (
-        <section className={`${width} flex`}>
+        <section className={`${width} flex  min-w-max`}>
             <div className="relative w-full">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
