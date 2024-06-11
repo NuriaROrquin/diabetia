@@ -18,9 +18,10 @@ namespace Diabetia.API.Controllers
         private readonly EventFoodUseCase _eventFoodManuallyUseCase;
         private readonly EventUseCase _getEventUseCase;
         private readonly DataUserUseCase _dataUserUseCase;
+        private readonly EventMedicalExamintaionUseCase _eventMedicalExaminationUseCase;
                        
 
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase)
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExamintaionUseCase eventMedicalExaminationUseCase)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
             _eventGlucosetUseCase = evemtGlucoseUseCase;
@@ -28,6 +29,7 @@ namespace Diabetia.API.Controllers
             _eventFoodManuallyUseCase = eventFoodManuallyUseCase;
             _getEventUseCase = eventUseCase;
             _dataUserUseCase = dataUserUseCase;
+            _eventMedicalExaminationUseCase = eventMedicalExaminationUseCase;
         }
 
         [HttpPost("AddPhysicalEvent")]
@@ -115,6 +117,13 @@ namespace Diabetia.API.Controllers
         public async Task<IActionResult> EditFoodManuallyEvent([FromBody] EventFoodRequest request)
         {
             await _eventFoodManuallyUseCase.EditFoodManuallyEvent(request.IdEvent.Value, request.Email, request.EventDate, request.IdKindEvent.Value, request.Ingredients, request.FreeNote);
+            return Ok();
+        }
+
+        [HttpPost("AddMedicalExaminationEvent")]
+        public async Task<IActionResult> AddMedicalExaminationEvent([FromBody] EventMedicalExaminationRequest request)
+        {
+            await _eventMedicalExaminationUseCase.AddMedicalExaminationEvent(request.Email, request.EventDate, request.File, request.ExaminationType, request.IdProfessional, request.FreeNote);
             return Ok();
         }
 
