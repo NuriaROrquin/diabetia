@@ -35,7 +35,6 @@ namespace Diabetia_Infrastructure
             mockContext.Verify(m => m.CargaEventos.Add(It.IsAny<CargaEvento>()), Times.Once);
             mockContext.Verify(m => m.EventoActividadFisicas.Add(It.IsAny<EventoActividadFisica>()), Times.Once);
         }
-
         private Mock<diabetiaContext> CreateMockContextAddPassCorrect()
         {
             var user = new Usuario { Id = 1, Email = "test@example.com" };
@@ -71,7 +70,6 @@ namespace Diabetia_Infrastructure
             await Assert.ThrowsAsync<UserNotFoundOnDBException>(async () =>
             await repository.AddPhysicalActivityEventAsync(email, kindEventId, eventDate, freeNote, physicalActivityId, iniciateTime, finishTime));
         }
-
         private Mock<diabetiaContext> CreateMockContextAddUserException()
         {
             var user = new Usuario { Id = 1, Email = "test@example.com" };
@@ -102,7 +100,6 @@ namespace Diabetia_Infrastructure
             await Assert.ThrowsAsync<PatientNotFoundException>(async () =>
             await repository.AddPhysicalActivityEventAsync(email, kindEventId, eventDate, freeNote, physicalActivityId, iniciateTime, finishTime));
         }
-
         private Mock<diabetiaContext> CreateMockContextAddPatientException()
         {
             var user = new Usuario { Id = 1, Email = "test@gmail.com" };
@@ -146,7 +143,6 @@ namespace Diabetia_Infrastructure
             Assert.Equal(freeNote, @event.NotaLibre);
             Assert.Equal(60, physicalEvent.Duracion);
         }
-
         private Mock<diabetiaContext> CreateMockContextEditPassCorrect()
         {
             var user = new Usuario { Id = 1, Email = "test@example.com" };
@@ -184,7 +180,6 @@ namespace Diabetia_Infrastructure
             await Assert.ThrowsAsync<EventNotFoundException>(async () =>
             await repository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
         }
-
         private Mock<diabetiaContext> CreateMockContextThrowEventException()
         {
             var user = new Usuario { Id = 1, Email = "test@example.com" };
@@ -215,7 +210,6 @@ namespace Diabetia_Infrastructure
             await Assert.ThrowsAsync<UserEventNotFoundException>(async () =>
             await repository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
         }
-
         private Mock<diabetiaContext> CreateMockContextThrowUserException()
         {
             var @event = new CargaEvento { Id = 1, IdPaciente = 1, FechaEvento = DateTime.Now, NotaLibre = "nota Test" };
@@ -247,7 +241,6 @@ namespace Diabetia_Infrastructure
             await Assert.ThrowsAsync<PatientNotFoundException>(async () =>
             await repository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
         }
-
         private Mock<diabetiaContext> CreateMockContextThrowPatientException()
         {
             var user = new Usuario { Id = 1, Email = "test@example.com" };
@@ -281,7 +274,6 @@ namespace Diabetia_Infrastructure
             await Assert.ThrowsAsync<EventNotRelatedWithPatientException>(async () =>
             await repository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
         }
-
         private Mock<diabetiaContext> CreateMockContextThrowEventPatientException()
         {
             var user = new Usuario { Id = 1, Email = "test@example.com" };
@@ -316,7 +308,6 @@ namespace Diabetia_Infrastructure
             await Assert.ThrowsAsync<PhysicalEventNotMatchException>(async () =>
             await repository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
         }
-
         private Mock<diabetiaContext> CreateMockContextThrowPhysicalEventException()
         {
             var user = new Usuario { Id = 1, Email = "test@example.com" };
@@ -337,7 +328,6 @@ namespace Diabetia_Infrastructure
 
         // --------------------------------------- DeletePhysicalActivityEvent Test ---------------------------------------
         [Fact]
-        // Test
         public async Task DeletePhysicalActivityEventAsync_GivenValidInformation_ShouldDeleteSuccessfully()
         {
             // Arrange
@@ -354,7 +344,7 @@ namespace Diabetia_Infrastructure
             mockContextBeforeDeletion.Verify(m => m.EventoActividadFisicas.Remove(It.IsAny<EventoActividadFisica>()), Times.Once);
             mockContextBeforeDeletion.Verify(m => m.CargaEventos.Remove(It.IsAny<CargaEvento>()), Times.Once);
 
-            // Verificar que los eventos fueron eliminados correctamente y son null en el contexto después de la eliminación
+
             var deletedEvent = await mockContextAfterDeletion.Object.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == eventId);
             Assert.Null(deletedEvent);
 
@@ -363,15 +353,11 @@ namespace Diabetia_Infrastructure
         }
         private Mock<diabetiaContext> CreateMockContextBeforeDeletion()
         {
-            // Contexto creado donde hay eventos dentro. 
-            var user = new Usuario { Id = 1, Email = "test@example.com" };
-            var patient = new Paciente { Id = 1, IdUsuario = user.Id };
-            var @event = new CargaEvento { Id = 1, IdPaciente = patient.Id, FechaEvento = DateTime.Now, NotaLibre = "Old Note" };
+            var @event = new CargaEvento { Id = 1, IdPaciente = 1, FechaEvento = DateTime.Now, NotaLibre = "Old Note" };
             var physicalEvent = new EventoActividadFisica { IdCargaEvento = @event.Id, IdActividadFisica = 1, Duracion = 60 };
 
             var mockContext = new Mock<diabetiaContext>();
-            mockContext.Setup(m => m.Usuarios).ReturnsDbSet(new List<Usuario> { user });
-            mockContext.Setup(m => m.Pacientes).ReturnsDbSet(new List<Paciente> { patient });
+
             mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
             mockContext.Setup(m => m.EventoActividadFisicas).ReturnsDbSet(new List<EventoActividadFisica> { physicalEvent });
 
@@ -379,7 +365,6 @@ namespace Diabetia_Infrastructure
         }
         private Mock<diabetiaContext> CreateMockContextAfterDeletion()
         {
-            // Contexto creado que tiene CargaEvento y EventoActividadFisica vacios. 
             var mockContextAfterDeletion = new Mock<diabetiaContext>();
             mockContextAfterDeletion.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento>());
             mockContextAfterDeletion.Setup(m => m.EventoActividadFisicas).ReturnsDbSet(new List<EventoActividadFisica>());
@@ -401,98 +386,12 @@ namespace Diabetia_Infrastructure
             await Assert.ThrowsAsync<EventNotFoundException>(async () =>
             await eventRepository.DeletePhysicalActivityEventAsync(eventId));
         }
-
         private Mock<diabetiaContext> MockContextDeleteThrowEventException()
         {
             var @event = new CargaEvento { Id = 2, IdPaciente = 1, FechaEvento = DateTime.Now, NotaLibre = "nota Test" };
             var mockContext = new Mock<diabetiaContext>();
 
             mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
-
-            return mockContext;
-        }
-
-        [Fact]
-        public async Task DeletePhysicalActivityEventAsync_GivenInvalidEmail_ThrowsUserEventNotFoundException()
-        {
-            // Arrange
-            var mockContext = MockContextDeleteThrowUserException();
-
-            var eventRepository = new EventRepository(mockContext.Object);
-
-            var eventId = 1;
-
-            // Act & Assert
-            await Assert.ThrowsAsync<UserEventNotFoundException>(async () =>
-            await eventRepository.DeletePhysicalActivityEventAsync(eventId));
-        }
-
-        private Mock<diabetiaContext> MockContextDeleteThrowUserException()
-        {
-            var user = new Usuario { Id = 1, Email = "fakeEmail@gmail.com" };
-            var @event = new CargaEvento { Id = 1, IdPaciente = 2, FechaEvento = DateTime.Now, NotaLibre = "nota Test" };
-
-            var mockContext = new Mock<diabetiaContext>();
-            mockContext.Setup(m => m.Usuarios).ReturnsDbSet(new List<Usuario> { user });
-            mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
-
-            return mockContext;
-        }
-
-        [Fact]
-        public async Task DeletePhysicalActivityEventAsync_GivenInvalidPatient_ThrowsEventNotRelatedWithPatientException()
-        {
-            // Arrange
-            var mockContext = MockContextDeleteThrowPatientException();
-
-            var eventRepository = new EventRepository(mockContext.Object);
-
-            var eventId = 1;
-
-            // Act & Assert
-            await Assert.ThrowsAsync<EventNotRelatedWithPatientException>(async () =>
-            await eventRepository.DeletePhysicalActivityEventAsync(eventId));
-        }
-
-        private Mock<diabetiaContext> MockContextDeleteThrowPatientException()
-        {
-            var user = new Usuario { Id = 1, Email = "test@gmail.com" };
-            var patient = new Paciente { Id = 1, IdUsuario = user.Id };
-            var @event = new CargaEvento { Id = 1, IdPaciente = 2, FechaEvento = DateTime.Now, NotaLibre = "nota Test" };
-
-            var mockContext = new Mock<diabetiaContext>();
-            mockContext.Setup(m => m.Usuarios).ReturnsDbSet(new List<Usuario> { user });
-            mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
-            mockContext.Setup(m => m.Pacientes).ReturnsDbSet(new List<Paciente> { patient });
-
-            return mockContext;
-        }
-
-        [Fact]
-        public async Task DeletePhysicalActivityEventAsync_GivenInvalidPatient_ThrowsMismatchUserPatientException()
-        {
-            // Arrange
-            var mockContext = MockContextDeleteThrowMismatchException();
-
-            var eventRepository = new EventRepository(mockContext.Object);
-
-            var eventId = 1;
-
-            // Act & Assert
-            await Assert.ThrowsAsync<MismatchUserPatientException>(async () =>
-            await eventRepository.DeletePhysicalActivityEventAsync(eventId));
-        }
-
-        private Mock<diabetiaContext> MockContextDeleteThrowMismatchException()
-        {
-            var user = new Usuario { Id = 1, Email = "test@gmail.com" };
-            var patient = new Paciente { Id = 1, IdUsuario = 2 };
-            var @event = new CargaEvento { Id = 1, IdPaciente = patient.Id, FechaEvento = DateTime.Now, NotaLibre = "nota Test" };
-
-            var mockContext = new Mock<diabetiaContext>();
-            mockContext.Setup(m => m.Usuarios).ReturnsDbSet(new List<Usuario> { user });
-            mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
-            mockContext.Setup(m => m.Pacientes).ReturnsDbSet(new List<Paciente> { patient });
 
             return mockContext;
         }
@@ -511,18 +410,14 @@ namespace Diabetia_Infrastructure
             await Assert.ThrowsAsync<PhysicalEventNotMatchException>(async () =>
             await eventRepository.DeletePhysicalActivityEventAsync(eventId));
         }
-
         private Mock<diabetiaContext> MockContextDeleteThrowPhysicalMismatchException()
         {
-            var user = new Usuario { Id = 1, Email = "test@gmail.com" };
-            var patient = new Paciente { Id = 1, IdUsuario = user.Id };
-            var @event = new CargaEvento { Id = 1, IdPaciente = patient.Id, FechaEvento = DateTime.Now, NotaLibre = "nota Test" };
+            var @event = new CargaEvento { Id = 1, IdPaciente = 1, FechaEvento = DateTime.Now, NotaLibre = "nota Test" };
             var physicalActivityEvent = new EventoActividadFisica { Id = 1, IdCargaEvento = 2, IdActividadFisica = 4, Duracion = 60 };
 
             var mockContext = new Mock<diabetiaContext>();
-            mockContext.Setup(m => m.Usuarios).ReturnsDbSet(new List<Usuario> { user });
+
             mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
-            mockContext.Setup(m => m.Pacientes).ReturnsDbSet(new List<Paciente> { patient });
             mockContext.Setup(m => m.EventoActividadFisicas).ReturnsDbSet(new List<EventoActividadFisica> { physicalActivityEvent });
 
             return mockContext;
