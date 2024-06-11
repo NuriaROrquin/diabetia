@@ -61,7 +61,8 @@ namespace Diabetia.Application.UseCases
                 InitialFormCompleted = await _userRepository.GetStatusInformationCompletedAsync(username),
                 Email = userInformation.Email,
                 Username = username,
-                Id = userInformation.Id
+                Id = userInformation.Id,
+                StepCompleted = userInformation.StepCompleted
             };
 
             return user;            

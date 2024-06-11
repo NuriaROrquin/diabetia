@@ -45,6 +45,10 @@ namespace Diabetia.Infrastructure.Repositories
                 user.Genero = gender;
                 user.Telefono = phone;
                 user.FechaNacimiento = birthdate;
+                if (user.StepCompleted == null) {
+
+                    user.StepCompleted = (user.StepCompleted ?? 0) + 1;
+                }
                 _context.Usuarios.Update(user);
             }
 
@@ -62,6 +66,12 @@ namespace Diabetia.Infrastructure.Repositories
             pac.UsaInsulina = useInsuline;
             pac.IdSensibilidadInsulina = 1;
             pac.CorreccionCh = insulinePerCH;
+            if(user.StepCompleted == 1) {
+
+                user.StepCompleted = (user.StepCompleted) + 1;
+
+                _context.Usuarios.Update(user);
+            }
 
             _context.Pacientes.Update(pac);
 
@@ -130,6 +140,14 @@ namespace Diabetia.Infrastructure.Repositories
                 pac_phy.Duracion = duracion;
                 _context.PacienteActividadFisicas.Update(pac_phy);
             }
+
+            if (user.StepCompleted == 2)
+            {
+
+                user.StepCompleted = (user.StepCompleted) + 1;
+
+                _context.Usuarios.Update(user);
+            }
             await _context.SaveChangesAsync();
         }
 
@@ -158,6 +176,15 @@ namespace Diabetia.Infrastructure.Repositories
                 pac_div.IdDispositivo = idDispositivo;
                 pac_div.Frecuencia = frecuencia;
                 _context.DispositivoPacientes.Update(pac_div);
+            }
+
+
+            if (user.StepCompleted == 3)
+            {
+
+                user.StepCompleted = (user.StepCompleted) + 1;
+
+                _context.Usuarios.Update(user);
             }
             await _context.SaveChangesAsync();
 
@@ -213,6 +240,7 @@ namespace Diabetia.Infrastructure.Repositories
                     BirthDate = user.FechaNacimiento,
                     Gender = user.Genero,
                     Id = user.Id,
+                    StepCompleted = user.StepCompleted
                 };
                 return userToReturn;
             }

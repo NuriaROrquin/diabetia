@@ -11,6 +11,7 @@ import {useCookies} from "react-cookie";
 export const Login = () => {
     const [error, setError] = useState(false);
     const [_cookies, setCookie, _removeCookie] = useCookies(['cookie-name']);
+    const [stepCompleted, setStepCompleted] = useState(null);
 
     const router = useRouter();
 
@@ -22,7 +23,13 @@ export const Login = () => {
                 if(res.data){
                     setCookie("jwt", res.data.token, {path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)});
                     sessionStorage.setItem("jwt", res.data.token);
-                    router.push(`/dashboard`)
+                    sessionStorage.setItem("stepCompleted", res.data.stepCompleted);
+                    
+                    if (res.data.stepCompleted !== 4){
+                        router.push(`/initialForm`)
+                    }else{
+                        router.push(`/dashboard`)
+                    }
                 }
             })
             .catch((error) => {

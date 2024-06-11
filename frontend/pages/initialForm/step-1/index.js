@@ -26,6 +26,7 @@ const InitialFormStep1 = () => {
     };
 
     const handleSubmit = () => {
+        sessionStorage.setItem('stepCompleted', '1');
         const name = document.getElementById("name").value;
         const lastname = document.getElementById("lastname").value;
         const birthdate = date ? date.format('YYYY-MM-DD') : null;

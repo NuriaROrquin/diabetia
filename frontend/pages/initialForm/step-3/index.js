@@ -61,10 +61,11 @@ const InitialFormStep3 = () => {
     ];
 
     const handleSubmit = () => {
+        sessionStorage.setItem('stepCompleted', '3');
         const haceActividadFisica = activity;
-        const frequency = selectedOptionActivityFrequency.id;
-        const idActividadFisica = selectedOptionActivity.id;
-        const duracion = selectedOptionActivityHoursWeek.id;
+        const frequency = selectedOptionActivityFrequency ? selectedOptionActivityFrequency.id : null;
+        const idActividadFisica = selectedOptionActivity ? selectedOptionActivity.id : null;
+        const duracion = selectedOptionActivityHoursWeek ? selectedOptionActivityHoursWeek.id : null;
 
 
         thirdStep({email, haceActividadFisica, frequency, idActividadFisica, duracion})
