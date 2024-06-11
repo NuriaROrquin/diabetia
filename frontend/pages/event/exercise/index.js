@@ -13,7 +13,7 @@ import {addPhysicalEvent} from "../../../services/api.service";
 import {useRouter} from "next/router";
 
 const ExerciseEvent = () => {
-    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 1)[0].title;
+    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 4)[0].title;
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [startHour, setStartHour] = useState()

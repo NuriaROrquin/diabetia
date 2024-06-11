@@ -12,7 +12,7 @@ import {useRouter} from "next/router";
 import {CustomDatePicker, CustomTimePicker} from "@/components/pickers";
 
 const InsulineEvent = () => {
-    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 4)[0].title;
+    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 1)[0].title;
     const [Hour, setHour] = useState()
     const [date, setDate] = useState()
     const [startHour, setStartHour] = useState()

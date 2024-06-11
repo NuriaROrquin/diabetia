@@ -13,7 +13,7 @@ import { CustomDatePicker, CustomTimePicker } from "../../../components/pickers"
 import {addFoodEvent, addPhysicalEvent} from "../../../services/api.service";
 
 const FoodEvent = () => {
-    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 3)[0].title;
+    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 2)[0].title;
     const [isOpenIngredients, setIsOpenIngredients] = useState([false]);
     const [selectedOptionIngredients, setSelectedOptionIngredients] = useState([null]);
     const [isOpenUnit, setIsOpenUnit] = useState([false]);
@@ -68,10 +68,11 @@ const FoodEvent = () => {
     const handleSubmit = () => {
         const email = getEmailFromJwt();
         const data = {
-            email: email,
-            idKindEvent: 2,
+            Email: email,
             eventDate: date.format('YYYY-MM-DD'),//TODO chequear mandar hora
-            ingredients: ingredients
+            idKindEvent: 2,
+            ingredients: ingredients,
+            Freenote: "front"
         };
         addFoodEvent(data).then(() =>
             router.push("/calendar")

@@ -7,7 +7,7 @@ import { BlueLink, OrangeLink } from "../../../components/link";
 import { GlucoseEventForm } from "../../../components/eventForm";
 
 const GlycemiaEvent = () => {
-    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 2)[0].title;
+    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 3)[0].title;
 
     return (
         <Section className="pt-12">
