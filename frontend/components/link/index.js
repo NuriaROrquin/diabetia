@@ -12,12 +12,12 @@ export const NavLink = ({text, href, className}) => {
 )
 }
 
-export const OrangeLink = ({label, width, href}) => {
+export const OrangeLink = ({label, width, href, background}) => {
     return (
         <div className={`flex justify-center ${width} min-w-max`}>
             <Link
                 href={href}
-                className="bg-orange-focus hover:bg-orange-primary hover:no-underline transition-all hover:text-white text-white focus:text-white py-2 px-8 rounded-lg w-full flex justify-center text-xl"
+                className={`${background} bg-orange-focus hover:bg-orange-primary hover:no-underline transition-all hover:text-white text-white focus:text-white py-2 px-8 rounded-lg w-full flex justify-center text-xl`}
             >
                 {label}
             </Link>

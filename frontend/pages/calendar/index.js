@@ -72,8 +72,8 @@ export const CalendarPage = () => {
     }
 
     return (
-        <Section className="pt-12 pb-6">
-            <div className="w-full col-start-2 flex flex-col justify-self-center justify-center pb-6 text-white gap-4">
+        <Section className="pt-20 pb-6">
+            <div className="w-full col-start-2 flex flex-col justify-self-center justify-center pb-0 text-white gap-4">
                 <TitleSection className="text-white">Tu agenda de bienestar personal, todo en un mismo lugar.</TitleSection>
                 <SubtitleSection className="text-white mb-8">Visualizá tus eventos cargados. Podés eliminarlos o editarlos.</SubtitleSection>
             </div>
@@ -94,7 +94,7 @@ export const CalendarPage = () => {
             {eventList && <CustomCalendar events={eventList} handleOnSelectDay={handleOnSelectDay}/>}
 
             <CustomTooltip title={registrarEventoTooltipText} arrow>
-                <div className="flex items-center justify-center pt-12">
+                <div className="flex items-center justify-center pt-8">
                     <OrangeLink href="/event" label="Agregar Evento" width="w-1/10"/>
                 </div>
             </CustomTooltip>

@@ -11,12 +11,12 @@ export const ButtonBlue = ({label, width, onClick, className}) => {
     )
 }
 
-export const ButtonOrange = ({label, width, onClick}) => {
+export const ButtonOrange = ({label, width, onClick, background}) => {
     return (
         <div className={`flex justify-center ${width}`}>
             <button
                 onClick={onClick}
-                className="bg-orange-focus hover:bg-orange-primary transition-all text-white py-2 px-8 rounded-lg w-full text-xl"
+                className={`${background} bg-orange-focus hover:bg-orange-primary transition-all text-white py-2 px-8 rounded-lg w-full text-xl`}
             >
                 {label}
             </button>
@@ -37,12 +37,12 @@ export const ButtonRed = ({label, width, onClick}) => {
     )
 }
 
-export const ButtonGreen = ({label, width, onClick}) => {
+export const ButtonGreen = ({label, width, onClick, background}) => {
     return (
         <div className={`flex justify-center ${width}`}>
             <button
                 onClick={onClick}
-                className="bg-green-600 hover:bg-green-primary transition-all text-white py-2 px-8 rounded-full w-full text-xl"
+                className={`${background} bg-green-600 hover:bg-green-primary transition-all text-white py-2 px-8 rounded-full w-full text-xl`}
             >
                 {label}
             </button>

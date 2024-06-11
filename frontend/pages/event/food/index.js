@@ -11,6 +11,7 @@ import { Select } from "../../../components/selector";
 import { ButtonOrange } from "../../../components/button";
 import { CustomDatePicker, CustomTimePicker } from "../../../components/pickers";
 import {addFoodEvent, addPhysicalEvent} from "../../../services/api.service";
+import {AddCircle, Delete} from "@mui/icons-material";
 
 const FoodEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 2)[0].title;
@@ -82,7 +83,7 @@ const FoodEvent = () => {
     return (
         <Section className="pt-12">
             <div className="container items-center flex w-full justify-center flex-col">
-                <TitleSection className="text-white">¿Qué evento querés cargar?</TitleSection>
+                <TitleSection className="text-white mt-12">¿Qué evento querés cargar?</TitleSection>
                 <div className="flex w-full flex-wrap gap-y-6 gap-x-24 justify-center mt-8">
                     {TYPE_EVENTS.map((event) => (
                         <>
@@ -153,12 +154,16 @@ const FoodEvent = () => {
                                     width="w-1/5"
                                 />
 
-                                <ButtonOrange onClick={() => handleRemoveIngredient(index)} label="Eliminar" width="w-1/5 h-fit"  />
+                                <button onClick={() => handleRemoveIngredient(index)}>
+                                    <Delete className="text-blue-primary" fontSize="large" />
+                                </button>
                             </div>
                         ))}
-                    </div>
 
-                    <ButtonOrange onClick={handleAddIngredient} label="Agregar Ingrediente" width="w-1/3" />
+                        <button onClick={handleAddIngredient}>
+                            <AddCircle className="text-blue-primary my-8" fontSize="large" alt="Agregar ingrediente" />
+                        </button>
+                    </div>
 
                     <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3" />
 

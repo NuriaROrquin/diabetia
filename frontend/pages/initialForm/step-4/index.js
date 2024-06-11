@@ -121,7 +121,7 @@ const InitialFormStep4 = () => {
                         )}
                     </div>
 
-                    <OrangeLink href="/initialForm/step-3" label="Atrás" width="w-1/3"/>
+                    <OrangeLink href="/initialForm/step-3" label="Atrás" width="w-1/3" background="bg-gray-400 hover:bg-gray-600"/>
                     <ButtonOrange onClick={handleSubmit} label="Finalizar" width="w-1/3"/>
                 </div>
             </div>

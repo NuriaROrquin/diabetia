@@ -53,7 +53,7 @@ export const Navigation = () => {
                 <div className="pl-4 flex items-center">
                     <Link className="toggleColour text-white no-underline hover:no-underline font-bold text-3xl lg:text-4xl"
                           href="/">
-                        <Image src="/logo-blanco.png" width={48} height={48} alt="logo diabetIA" />
+                        <Image src="/logo-blanco.png" width={72} height={72} alt="logo diabetIA" />
                     </Link>
                     <div className="pl-6 flex items-center">
                         {userName && (

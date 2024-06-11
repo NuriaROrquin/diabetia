@@ -117,7 +117,7 @@ const StepThree = () => {
                         </div>
                     ))}
                     <div className="flex justify-between">
-                        <OrangeLink href="/food/step-1" label="Atrás" width="w-1/4"/>
+                        <OrangeLink href="/food/step-1" label="Atrás" width="w-1/4" background="bg-gray-400 hover:bg-gray-600"/>
 
                         <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/4" />
                     </div>

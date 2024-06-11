@@ -45,6 +45,7 @@ export const Home = () => {
                 setLoadingMetrics(false);
             })
             .catch((error) => {
+                console.log(error)
                 error.response.data ? setError(error.response.data) : setError("Hubo un error")
             });
     }, [selectedOption]);
@@ -59,7 +60,7 @@ export const Home = () => {
     return (
         <>
         <Section>
-            <div className="container pt-14 flex flex-col">
+            <div className="container pt-20 flex flex-col">
                 <div className="w-full flex flex-col justify-self-center justify-center pb-6">
                     <TitleSection className="text-white">Tu panel de salud para la gestión de tu diabetes</TitleSection>
                     <SubtitleSection className="text-white mt-4">Visualizá tus métricas según los registros cargados</SubtitleSection>
