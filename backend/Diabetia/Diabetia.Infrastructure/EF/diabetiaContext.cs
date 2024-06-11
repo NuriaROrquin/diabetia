@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Diabetia.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Diabetia.Infrastructure.EF
 {
@@ -824,12 +824,6 @@ namespace Diabetia.Infrastructure.EF
                 entity.Property(e => e.IdActividadFisica).HasColumnName("id_actividad_fisica");
 
                 entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
-
-                entity.HasOne(d => d.IdActividadFisicaNavigation)
-                    .WithMany(p => p.PacienteActividadFisicas)
-                    .HasForeignKey(d => d.IdActividadFisica)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("paciente_actividad_fisica_ibfk_2");
 
                 entity.HasOne(d => d.IdPacienteNavigation)
                     .WithMany(p => p.PacienteActividadFisicas)
