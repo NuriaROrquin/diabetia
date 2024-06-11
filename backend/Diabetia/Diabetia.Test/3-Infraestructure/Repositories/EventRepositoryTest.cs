@@ -4,7 +4,7 @@ using Diabetia.Domain.Models;
 using Moq.EntityFrameworkCore;
 using Diabetia.Application.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using Diabetia.Infraestructure.EF;
+using Diabetia.Infrastructure.EF;
 
 namespace Diabetia_Infrastructure
 {
