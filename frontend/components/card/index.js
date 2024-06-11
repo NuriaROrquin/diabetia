@@ -37,9 +37,9 @@ export const MetricCard = ({number, textIndicator, title, description, unit, too
 
         <div className={`min-w-80 w-full sm:w-1/3 lg:w-1/4 bg-white p-8 rounded-2xl shadow relative`}>
 
-            <CustomTooltip title={`${tooltipContent}`}  placement="top" arrow>
+            {tooltipContent && <CustomTooltip title={`${tooltipContent}`}  placement="top" arrow>
                 <HelpOutline className="text-orange-primary absolute top-4 right-4"/>
-            </CustomTooltip>
+            </CustomTooltip>}
 
             {isWarning && !loading && number !== 0 && <span className="flex absolute h-1 w-1 top-0 left-0 mt-3 ml-3">
                 <ErrorOutline className="animate-ping-slow font-bold text-3xl text-red-primary"></ErrorOutline>

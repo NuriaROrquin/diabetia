@@ -39,7 +39,7 @@ const StepFour = () => {
 
         tagRegistration(tagsToRegister).then((response) => {
             updateCarbohydratesConsumed(response.data)
-            router.push("/food/step-final");
+            router.push("/food/final");
         })
     };
 

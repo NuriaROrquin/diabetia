@@ -5,7 +5,7 @@ import { Section } from "../../../components/section";
 import { TitleSection } from "../../../components/titles";
 import { TYPE_EVENTS } from "../../../constants";
 import { capitalizeFirstLetter, getEmailFromJwt } from "../../../helpers";
-import { BlueLink, OrangeLink } from "../../../components/link";
+import { BlueLink, OrangeLink } from "@/components/link";
 import { InputWithLabel, TextArea } from "../../../components/input";
 import { SelectSearch } from "../../../components/selector";
 import { ButtonOrange } from "../../../components/button";
@@ -80,10 +80,20 @@ const FoodEvent = () => {
             ingredients: ingredients,
             freeNote: notes
         };
-        addFoodEvent(data).then(() =>
-            router.push("/calendar")
-        );
+
+        addFoodEvent(data).then((res) => {
+
+            console.log(res.data.insulinToCorrect)
+            const queryParams = new URLSearchParams();
+            queryParams.set('chConsumed', res.data.chConsumed);
+            queryParams.set('insulineToCorrect', res.data.insulinToCorrect);
+            router.push({
+                pathname: "/event/food/final",
+                query: Object.fromEntries(queryParams.entries())
+            });
+        });
     };
+
 
     useEffect(() => {
         getIngredients().then((res) => {

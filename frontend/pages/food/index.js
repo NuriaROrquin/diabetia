@@ -109,7 +109,7 @@ const FoodPage = () => {
                 </div>
 
                 <SubtitleSection className="text-white">O cargá tu comida manualmente</SubtitleSection>
-                <li className="mr-3">
+                <li className="mr-3 list-none">
                     <NavLink href="/event/food" text="Registrar comida manual" className="rounded-lg !py-2 bg-orange-primary hover:bg-orange-focus transition-all"/>
                 </li>
 
