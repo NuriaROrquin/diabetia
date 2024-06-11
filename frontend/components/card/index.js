@@ -88,7 +88,7 @@ export const EventCard = ({events}) => {
                             <Image src={event.image} alt={event.title} width={500} height={500}
                                  className="w-full h-full object-cover"/>
                             <div
-                                className="absolute top-0 h-full w-full p-6 bg-blue-primary bg-opacity-55 text-white text-center text-5xl font-bold flex justify-center items-center ">
+                                className="absolute top-0 h-full w-full p-6 bg-blue-primary bg-opacity-65 text-white text-center text-4xl font-bold flex justify-center items-center">
                                 <span>{event.title}</span>
                             </div>
                         </Link>
