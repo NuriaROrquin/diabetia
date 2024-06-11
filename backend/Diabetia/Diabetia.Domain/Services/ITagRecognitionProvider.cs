@@ -5,6 +5,7 @@ namespace Diabetia.Domain.Services
 {
     public interface ITagRecognitionProvider
     {
+        public Task DeleteFileFromBucket(string idOnBucket);
         public Task<NutritionTag> GetChFromDocument(string ocrRequest);
         
     }

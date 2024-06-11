@@ -116,5 +116,10 @@ namespace Diabetia.Infrastructure.Providers
             string uniqueId = $"{timestamp}_{Guid.NewGuid()}";
             return uniqueId;
         }
+
+        public async Task DeleteFileFromBucket(string idOnBucket)
+        {
+            var bucketName = "textract-console-us-east-2-7a438fab-112f-422b-98ba-cbc0d7f642e8";
+        }
     }
 }

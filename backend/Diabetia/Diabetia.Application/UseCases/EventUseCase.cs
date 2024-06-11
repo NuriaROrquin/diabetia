@@ -13,11 +13,13 @@ namespace Diabetia.Application.UseCases
     public class EventUseCase
     {
         private readonly IEventRepository _eventRepository;
+        private readonly ITagRecognitionProvider _tagRecognitionProvider;
         private object glucoseEvent;
 
-        public EventUseCase(IEventRepository eventRepository)
+        public EventUseCase(IEventRepository eventRepository, ITagRecognitionProvider tagRecognitionProvider)
         {
             _eventRepository = eventRepository;
+            _tagRecognitionProvider = tagRecognitionProvider;
         }
 
         public async Task<GenericEvent?> GetEvent(int id)
@@ -103,6 +105,10 @@ namespace Diabetia.Application.UseCases
                 case TypeEventEnum.COMIDA:
                     await _eventRepository.DeleteFoodEven(id);
                     break;
+                case TypeEventEnum.ESTUDIOS:
+                    string idOnBucket = await _eventRepository.DeleteMedicalExaminationEvent(id);
+                    await _tag
+                    
                 default:
                     break;
             }

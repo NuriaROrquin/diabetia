@@ -175,6 +175,10 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Este ingrediente no se encuentra relacionado con ningún evento de comida.");
             }
+            else if (ex is ExaminationEventNotFoundException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Este evento no se encuentra relacionado con ningún estudio médico.");
+            }
             else
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.InternalServerError, "Este es un mensaje de error custom");

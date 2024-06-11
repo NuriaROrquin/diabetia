@@ -525,6 +525,17 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<string> DeleteMedicalExaminationEvent(int id)
+        {
+            var eventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == id);
+            if (eventLoad == null) { throw new EventNotFoundException(); }
+
+            var ExaminationEvent = await _context.EventoEstudios.FirstOrDefaultAsync(es => es.IdCargaEvento == eventLoad.Id);
+            if (ExaminationEvent == null) { throw new ExaminationEventNotFoundException(); }
+
+            return ExaminationEvent.Archivo;
+        }
+
         public async Task<IEnumerable<AdditionalDataIngredient>> GetIngredients()
         {
             var ingredientsDatabase = await _context.Ingredientes.Join(_context.UnidadMedidaIngredientes,
