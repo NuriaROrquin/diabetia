@@ -6,7 +6,6 @@ import {PersonOutline} from "@mui/icons-material";
 import {useRouter} from "next/router";
 import {useCookies} from "react-cookie";
 import {logout} from "../../services/api.service";
-import { Tooltip } from '@mui/material';
 import CustomTooltip from "@/components/tooltip";
 
 export const Navigation = () => {
@@ -15,7 +14,7 @@ export const Navigation = () => {
     const [openUserMenu, setOpenUserMenu] = useState(false);
     const [userName, setUserName] = useState('');
     const router = useRouter();
-    const [_cookies, _setCookie, removeCookie] = useCookies(['jwt']);
+    const [_cookies, setCookie, _removeCookie] = useCookies(['jwt']);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -40,11 +39,17 @@ export const Navigation = () => {
         setOpenUserMenu(!openUserMenu)
     }
 
-    const handleOnLogout = () =>{
+    const handleOnLogout = async () => {
         setOpenUserMenu(false);
-        removeCookie("jwt");
-        sessionStorage.clear()
-        return router.push("/auth/login")
+        setCookie("jwt", null);
+        setCookie("jwt", "", { expires: new Date(0) });
+        sessionStorage.clear();
+        try {
+            await router.push("/auth/login");
+        } catch (error) {
+            console.error("Error al redirigir:", error);
+        }
+        console.log('hice todo')
     }
 
     return (
