@@ -14,6 +14,7 @@ namespace Diabetia.Domain.Entities
         public double? Weight { get; set; }
         public DateOnly? BirthDate { get; set; }
         public string Username { get; set; }
+        public int? StepCompleted { get; set; }
 
         
     }

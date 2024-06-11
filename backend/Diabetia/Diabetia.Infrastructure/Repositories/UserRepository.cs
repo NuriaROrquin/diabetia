@@ -213,6 +213,7 @@ namespace Diabetia.Infrastructure.Repositories
                     BirthDate = user.FechaNacimiento,
                     Gender = user.Genero,
                     Id = user.Id,
+                    StepCompleted = user.StepCompleted
                 };
                 return userToReturn;
             }

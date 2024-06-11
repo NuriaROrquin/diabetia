@@ -40,13 +40,14 @@ namespace Diabetia.API.Controllers
             {
                 AuthLoginResponse res = new AuthLoginResponse();
 
-                res.Token = _jwtTokenService.GenerateToken(user.Id.ToString(), user.Username, user.Email, user.InitialFormCompleted); 
+                res.Token = _jwtTokenService.GenerateToken(user.Id.ToString(), user.Username, user.Email, user.InitialFormCompleted);
+                res.StepCompleted = user.StepCompleted;
 
                 return Ok(res);
             }
             else
             {
-                return BadRequest("Usuario o contraseña invalidos");
+                return BadRequest("Usuario o contraseï¿½a invalidos");
             }
             
         }
@@ -83,7 +84,7 @@ namespace Diabetia.API.Controllers
         public async Task<IActionResult> ChangeUserPasswordAsync([FromBody] AuthChangePasswordRequest request)
         {
             await _changePasswordUseCase.ChangeUserPasswordAsync(request.AccessToken, request.PreviousPassword, request.NewPassword);
-            return Ok("Contraseña cambiada exitosamente");
+            return Ok("Contraseï¿½a cambiada exitosamente");
         }
         
         [HttpPost("passwordRecover")]
@@ -93,7 +94,7 @@ namespace Diabetia.API.Controllers
         public async Task<IActionResult> PasswordEmailRecoverAsync([FromBody] AuthForgotPasswordRequest request)
         {
             await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.Email);
-            return Ok("Código enviado exitosamente, revise su casilla de correo.");
+            return Ok("Cï¿½digo enviado exitosamente, revise su casilla de correo.");
         }
 
         [HttpPost("passwordRecoverCode")]
