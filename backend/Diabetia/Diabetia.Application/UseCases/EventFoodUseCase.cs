@@ -30,7 +30,10 @@ namespace Diabetia.Application.UseCases
             await _eventRepository.EditFoodManuallyEvent(idEvent, Email, EventDate, IdKindEvent, ingredients, FreeNote);
         }
 
-        //public async Task<float> AddFoodByTagEvent(string email, DateTime eventDate, int idKindEvent, )
+        public async Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates)
+        {
+            await _eventRepository.AddFoodByTagEvent(email, eventDate, carbohydrates);
+        }
         
     }
 }

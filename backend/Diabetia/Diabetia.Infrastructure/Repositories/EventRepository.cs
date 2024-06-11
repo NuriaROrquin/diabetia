@@ -6,6 +6,7 @@ using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities.Events;
 using Diabetia.Domain.Entities;
 using Diabetia.Infrastructure.EF;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -447,6 +448,50 @@ namespace Diabetia.Infrastructure.Repositories
                 ingredientComidum.IdEventoComida = foodEvent.Id;
                 _context.IngredienteComida.Add(ingredientComidum);
             }
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates)
+        {
+            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (User == null) { throw new UserEventNotFoundException(); }
+
+            // Obtener el paciente por id de usuario
+            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
+            if (Patient == null) { throw new PatientNotFoundException(); }
+
+            // 1- Guardar el evento
+            bool IsDone = eventDate <= DateTime.Now ? true : false;
+
+            var newEvent = new CargaEvento
+            {
+                IdPaciente = Patient.Id,
+                IdTipoEvento = (int)TypeEventEnum.COMIDA,
+                FechaActual = DateTime.Now,
+                FechaEvento = eventDate,
+                FueRealizado = IsDone,
+                EsNotaLibre = false,
+            };
+
+            _context.CargaEventos.Add(newEvent);
+            await _context.SaveChangesAsync();
+
+            var lastInsertedIdEvent = await _context.CargaEventos
+                                            .Where(x => x.IdPaciente == Patient.Id)
+                                            .OrderByDescending(e => e.Id)
+                                            .FirstOrDefaultAsync();
+
+            // Insertar el evento de comida en la tabla `evento_comida`
+            var newFoodEvent = new EventoComidum
+            {
+                IdCargaEvento = lastInsertedIdEvent.Id,
+                IdTipoCargaComida = (int)FoodChargeTypeEnum.TAG,
+                Carbohidratos = carbohydrates,
+            };
+
+            _context.EventoComida.Add(newFoodEvent);
+            await _context.SaveChangesAsync();
 
             await _context.SaveChangesAsync();
         }

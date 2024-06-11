@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Diabetia.Domain.Entities;
 
 namespace Diabetia.Domain.Services
 {
     public interface ITagRecognitionProvider
     {
-        public Task<string> GetChFromDocument(string ocrRequest);
+        public Task<NutritionTag> GetChFromDocument(string ocrRequest);
         
     }
 }
