@@ -28,8 +28,9 @@ namespace Diabetia.Infrastructure.Providers
             _configuration = configuration;
         }
 
-        public async Task<string> GetChFromDocument(string ocrRequest)
+        public async Task<NutritionTag> GetChFromDocument(string ocrRequest)
         {
+           
             string awsAccessKey = _configuration["AWS_ACCESS_KEY_ID"];
             string awsSecretKey = _configuration["AWS_SECRET_ACCESS_KEY"];
             var region = RegionEndpoint.USEast2;
@@ -44,9 +45,10 @@ namespace Diabetia.Infrastructure.Providers
 
             NutritionTag textractResult = new NutritionTag();
 
+            textractResult.UniqueId = uniqueId;
             textractResult.CarbohydratesText = string.Join(" ", result.Blocks.Where(b => b.BlockType == BlockType.LINE).Select(b => b.Text));
 
-            return textractResult.CarbohydratesText;
+            return textractResult;
 
         }
 

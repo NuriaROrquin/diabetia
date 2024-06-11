@@ -10,5 +10,7 @@ namespace Diabetia.API.DTO.EventRequest
         public string? FreeNote { get; set; }
 
         public IEnumerable<Ingredient>? Ingredients { get; set; }
+
+        public IEnumerable<string>? UniqueId { get; set; }
     }
 }

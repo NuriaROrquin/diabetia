@@ -17,12 +17,15 @@ namespace Diabetia.Application.UseCases
         public async Task<IEnumerable<NutritionTag>> GetOcrResponseFromDocument(IEnumerable<string> tagRequests)
         {
             List<NutritionTag> nutritionTags = new List<NutritionTag>();
+            
 
-            foreach (string tagRequest in tagRequests)
+            foreach (var tagRequest in tagRequests)
             {
+                NutritionTag nutritionTag = new NutritionTag();
+                nutritionTag = await _apiAmazonService.GetChFromDocument(tagRequest);
                 float chInPortion = 0;
                 float grPerPortion = 0;
-                string textractResponse = await _apiAmazonService.GetChFromDocument(tagRequest);
+                string textractResponse = nutritionTag.CarbohydratesText;
                 string chPattern = @"[Cc]arbohidratos.*?\s*(\d+)\s*g";
                 string tagResponse = "";
 
@@ -64,8 +67,9 @@ namespace Diabetia.Application.UseCases
 
                 NutritionTag carbohydratesText = new NutritionTag();
                 carbohydratesText.CarbohydratesText = tagResponse;
-                carbohydratesText.grPerPortion = grPerPortion;
-                carbohydratesText.chInPortion = chInPortion;
+                carbohydratesText.GrPerPortion = grPerPortion;
+                carbohydratesText.ChInPortion = chInPortion;
+                carbohydratesText.UniqueId = nutritionTag.UniqueId;
 
                 nutritionTags.Add(carbohydratesText);
             }
