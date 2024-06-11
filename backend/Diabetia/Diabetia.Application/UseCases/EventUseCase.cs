@@ -107,8 +107,8 @@ namespace Diabetia.Application.UseCases
                     break;
                 case TypeEventEnum.ESTUDIOS:
                     string idOnBucket = await _eventRepository.DeleteMedicalExaminationEvent(id);
-                    await _tag
-                    
+                    await _tagRecognitionProvider.DeleteFileFromBucket(idOnBucket);
+                    break;
                 default:
                     break;
             }

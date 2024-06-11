@@ -576,6 +576,11 @@ namespace Diabetia.Infrastructure.Repositories
             var ExaminationEvent = await _context.EventoEstudios.FirstOrDefaultAsync(es => es.IdCargaEvento == eventLoad.Id);
             if (ExaminationEvent == null) { throw new ExaminationEventNotFoundException(); }
 
+            _context.EventoEstudios.Remove(ExaminationEvent);
+            _context.CargaEventos.Remove(eventLoad);
+            
+            await _context.SaveChangesAsync();
+
             return ExaminationEvent.Archivo;
         }
 

@@ -183,6 +183,10 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Este evento no se encuentra relacionado con ningún estudio médico.");
             }
+            else if (ex is CantDeleteObjectS3Async)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "No se pudo pudo eliminar su archivo PDF correctamente.");
+            }
             else
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.InternalServerError, "Este es un mensaje de error custom");
