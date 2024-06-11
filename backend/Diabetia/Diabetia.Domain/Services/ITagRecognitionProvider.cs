@@ -6,6 +6,6 @@ namespace Diabetia.Domain.Services
     public interface ITagRecognitionProvider
     {
         public Task<NutritionTag> GetChFromDocument(string ocrRequest);
-        
+        public Task<string> SaveMedicalExaminationOnBucket(string file);
     }
 }

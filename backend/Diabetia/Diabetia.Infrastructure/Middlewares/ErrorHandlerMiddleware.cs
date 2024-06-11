@@ -175,6 +175,10 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Este ingrediente no se encuentra relacionado con ningún evento de comida.");
             }
+            else if (ex is CantCreatObjectS3Async)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "No se pudo pudo guardar su archivo PDF correctamente.");
+            }
             else
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.InternalServerError, "Este es un mensaje de error custom");

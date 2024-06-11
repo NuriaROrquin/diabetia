@@ -32,6 +32,7 @@ namespace Diabetia.Domain.Repositories
 
         public Task DeleteFoodEven(int id);
 
+        public Task AddMedicalExaminationEvent(string email, DateTime eventDate, string fileSaved, string examinationType, int? idProfessional, string? freeNote);
 
         public Task<IEnumerable<AdditionalDataIngredient>> GetIngredients();
 
