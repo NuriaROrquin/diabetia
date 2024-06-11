@@ -38,4 +38,8 @@
     <ProjectReference Include="..\Diabetia.Infrastructure\Diabetia.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTO\EventRequest\Glucose\" />
+  </ItemGroup>
+
 </Project>

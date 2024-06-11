@@ -105,6 +105,9 @@ namespace Diabetia.Application.UseCases
                 case TypeEventEnum.COMIDA:
                     await _eventRepository.DeleteFoodEven(id);
                     break;
+                case TypeEventEnum.VISITAMEDICA:
+                    await _eventRepository.DeleteMedicalVisitEventAsync(id);
+                    break;
                 case TypeEventEnum.ESTUDIOS:
                     string idOnBucket = await _eventRepository.DeleteMedicalExaminationEvent(id);
                     await _tagRecognitionProvider.DeleteFileFromBucket(idOnBucket);

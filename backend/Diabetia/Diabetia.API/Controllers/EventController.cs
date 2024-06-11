@@ -1,7 +1,10 @@
 ﻿using Amazon.Runtime.Internal;
 using Diabetia.API.DTO;
 using Diabetia.API.DTO.EventRequest;
+using Diabetia.API.DTO.EventRequest.MedicalVisit;
+using Diabetia.API.DTO.EventRequest.PhysicalActivity;
 using Diabetia.Application.UseCases;
+using Diabetia.Application.UseCases.EventUseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
@@ -18,23 +21,24 @@ namespace Diabetia.API.Controllers
         private readonly EventFoodUseCase _eventFoodManuallyUseCase;
         private readonly EventUseCase _getEventUseCase;
         private readonly DataUserUseCase _dataUserUseCase;
-        private readonly EventMedicalExamintaionUseCase _eventMedicalExaminationUseCase;
-                       
+        private readonly EventMedicalExaminationUseCase _eventMedicalExaminationUseCase;
+        private readonly EventMedicalVisitUseCase _eventMedicalVisitUseCase;
 
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase evemtGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExamintaionUseCase eventMedicalExaminationUseCase)
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase eventGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, EventMedicalVisitUseCase eventMedicalVisitUseCase)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
-            _eventGlucosetUseCase = evemtGlucoseUseCase;
+            _eventGlucosetUseCase = eventGlucoseUseCase;
             _eventInsulintUseCase = eventInsulinUseCase;
             _eventFoodManuallyUseCase = eventFoodManuallyUseCase;
             _getEventUseCase = eventUseCase;
             _dataUserUseCase = dataUserUseCase;
             _eventMedicalExaminationUseCase = eventMedicalExaminationUseCase;
+            _eventMedicalVisitUseCase = eventMedicalVisitUseCase;
         }
 
         [HttpPost("AddPhysicalEvent")]
         [Authorize]
-        public async Task <IActionResult> AddPhysicalEvent([FromBody] EventAddPhysicalRequest request)
+        public async Task <IActionResult> AddPhysicalEvent([FromBody] AddPhysicalRequest request)
         {
             await _eventPhysicalActivityUseCase.AddPhysicalEventAsync(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.PhysicalActivity, request.IniciateTime, request.FinishTime);
             return Ok("Evento creado correctamente");
@@ -42,7 +46,7 @@ namespace Diabetia.API.Controllers
 
         [HttpPost("EditPhysicalEvent")]
         [Authorize]
-        public async Task<IActionResult> EditPhysicalEvent([FromBody] EventEditPhysicalRequest request)
+        public async Task<IActionResult> EditPhysicalEvent([FromBody] EditPhysicalRequest request)
         {
             await _eventPhysicalActivityUseCase.EditPhysicalEventAsync(request.Email, request.EventId, request.EventDate, request.PhysicalActivity, request.IniciateTime, request.FinishTime, request.FreeNote);
             return Ok("Evento modificado correctamente"); ;
@@ -78,25 +82,6 @@ namespace Diabetia.API.Controllers
             return Ok("Evento modificado correctamente");
         }
 
-        [HttpGet("GetEventType/{id}")]
-        public async Task<IActionResult> GetEventType([FromRoute] int id)
-        {
-            var idEvent = id;
-            var eventType = await _getEventUseCase.GetEvent(id);
-            if (eventType == null)
-            {
-                return NotFound();
-            }
-            return Ok(eventType);
-        }
-
-        [HttpPost("DeleteEvent/{id}")]
-        public async Task<IActionResult> DeleteEvent([FromRoute] int id)
-        {
-            await _getEventUseCase.DeleteEvent(id);
-            return Ok();
-        }
-
         [HttpPost("AddFoodManuallyEvent")]
         public async Task<EventFoodResponse> AddFoodManuallyEvent([FromBody] EventFoodRequest request)
         {
@@ -127,6 +112,40 @@ namespace Diabetia.API.Controllers
             return Ok();
         }
 
+        // ------------------------------------ Medical Visit --------------------------------------------
+        [HttpPost("AddMedicalVisitEvent")]
+        public async Task<IActionResult> AddMedicalEventAsync([FromBody] AddMedicalVisitRequest request)
+        {
+            await _eventMedicalVisitUseCase.AddMedicalVisitEventAsync(request.Email, request.KindEventId, request.EventDate, request.ProfessionalId, request.Recordatory, request.RecordatoryDate, request.Description);
+            return Ok("Visita médica agregada correctamente");
+        }
+
+        [HttpPost("EditMedicalVisitEvent")]
+        public async Task<IActionResult> EditMedicalEventAsync([FromBody] EditMedicalVisitRequest request)
+        {
+            await _eventMedicalVisitUseCase.EditMedicalVisitEventAsync(request.Email, request.EventId, request.EventDate, request.ProfessionalId, request.Recordatory, request.RecordatoryDate, request.Description);
+            return Ok("Visita médica modificada correctamente");
+        }
+
+
+        [HttpGet("GetEventType/{id}")]
+        public async Task<IActionResult> GetEventType([FromRoute] int id)
+        {
+            var idEvent = id;
+            var eventType = await _getEventUseCase.GetEvent(id);
+            if (eventType == null)
+            {
+                return NotFound();
+            }
+            return Ok(eventType);
+        }
+
+        [HttpPost("DeleteEvent/{id}")]
+        public async Task<IActionResult> DeleteEvent([FromRoute] int id)
+        {
+            await _getEventUseCase.DeleteEvent(id);
+            return Ok();
+        }
         [HttpGet("GetIngredients")]
         public async Task<IngredientResponse> GetIngredients()
         {
