@@ -210,6 +210,7 @@ namespace Diabetia.Infrastructure.Repositories
             // Guardar los cambios en el contexto
             await _context.SaveChangesAsync();
         }
+
         public async Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
@@ -449,6 +450,26 @@ namespace Diabetia.Infrastructure.Repositories
             }
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<AdditionalDataIngredient>> GetIngredients()
+        {
+            var ingredientsDatabase = await _context.Ingredientes.Join(_context.UnidadMedidaIngredientes,
+                    i => i.IdUnidadMedidaIngrediente,
+                    umi => umi.Id,
+                    (i, umi) => new AdditionalDataIngredient
+                    {
+                        IdIngredient = i.Id,
+                        Name = i.Nombre,
+                        Unit = new Unit
+                        {
+                            Id = umi.Id,
+                            UnitName = umi.Medida
+                        }
+                    }).ToListAsync();
+
+            return ingredientsDatabase;
+
         }
 
         public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date = null)
