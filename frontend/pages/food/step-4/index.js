@@ -6,6 +6,8 @@ import {useRouter} from "next/router";
 import {useAIData} from "../../../context";
 import {tagRegistration} from "../../../services/api.service";
 import {OrangeLink} from "../../../components/link";
+import {getEmailFromJwt} from "../../../helpers";
+import dayjs from "dayjs";
 
 const StepFour = () => {
     const { imagesUploaded, updateAIDataDetected, updateCarbohydratesConsumed } = useAIData();
@@ -37,9 +39,17 @@ const StepFour = () => {
             chInPortion: tag.chInPortion ? parseFloat(document.getElementById(`chPerPortion_${tag.id}`).value) : 0
         }));
 
-        tagRegistration(tagsToRegister).then((response) => {
+        const email = getEmailFromJwt();
+
+        const requestData = {
+            email: email,
+            eventDate: dayjs(),
+            tags: tagsToRegister
+        };
+
+        tagRegistration(requestData).then((response) => {
             updateCarbohydratesConsumed(response.data)
-            router.push("/food/final");
+            router.push("/food/step-final");
         })
     };
 
