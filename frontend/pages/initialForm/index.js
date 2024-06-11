@@ -9,11 +9,10 @@ const InitialForm = () => {
     const [stepCompleted, setStepCompleted] = useState(null);
 
     useEffect(() => {
-        setStepCompleted(router.query.stepCompleted);
-    }, [router.query.stepCompleted]);
+        const stepCompletedFromStorage = sessionStorage.getItem('stepCompleted');
+        setStepCompleted(stepCompletedFromStorage);
+    }, []);
 
-    console.log(stepCompleted);
-    console.log('y esto es lo que viene en la ruta' + router.query.stepCompleted)
 
     const generateStepUrl = () => {
         switch (stepCompleted) {

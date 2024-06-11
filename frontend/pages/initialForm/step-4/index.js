@@ -45,9 +45,10 @@ const InitialFormStep4 = () => {
     ];
 
     const handleSubmit = () => {
+        sessionStorage.setItem('stepCompleted', '4');
         const tieneDispositivo = device;
-        const idDispositivo = selectedOptionDevices.id ;
-        const frecuencia = selectedOptionManyMeasurements.id;
+        const idDispositivo = selectedOptionDevices ? selectedOptionDevices.id : null;
+        const frecuencia = selectedOptionManyMeasurements ? selectedOptionManyMeasurements.id: null;
 
 
         fourthStep({email, tieneDispositivo, idDispositivo, frecuencia})

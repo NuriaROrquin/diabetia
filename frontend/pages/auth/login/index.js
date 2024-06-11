@@ -23,12 +23,10 @@ export const Login = () => {
                 if(res.data){
                     setCookie("jwt", res.data.token, {path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)});
                     sessionStorage.setItem("jwt", res.data.token);
-                    const stepCompleted = res.data.stepCompleted;
+                    sessionStorage.setItem("stepCompleted", res.data.stepCompleted);
                     
                     if (res.data.stepCompleted !== 4){
-                        router.push({
-                            pathname: `/initialForm`,
-                            query: { stepCompleted: stepCompleted }})
+                        router.push(`/initialForm`)
                     }else{
                         router.push(`/dashboard`)
                     }
