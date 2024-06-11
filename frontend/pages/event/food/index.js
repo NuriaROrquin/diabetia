@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { Section } from "../../../components/section";
 import { TitleSection } from "../../../components/titles";
-import { TYPE_EVENTS, TYPE_INGREDIENTS, TYPE_UNITOFMEASUREMENT } from "../../../constants";
-import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
+import { TYPE_EVENTS } from "../../../constants";
+import { capitalizeFirstLetter, getEmailFromJwt } from "../../../helpers";
 import { BlueLink, OrangeLink } from "../../../components/link";
-import { InputWithLabel } from "../../../components/input";
-import { Select } from "../../../components/selector";
+import { InputWithLabel, TextArea } from "../../../components/input";
+import { SelectSearch } from "../../../components/selector";
 import { ButtonOrange } from "../../../components/button";
 import { CustomDatePicker, CustomTimePicker } from "../../../components/pickers";
-import {addFoodEvent, addPhysicalEvent} from "../../../services/api.service";
-import {AddCircle, Delete} from "@mui/icons-material";
+import { addFoodEvent, getIngredients } from "../../../services/api.service";
+import { AddCircle, Delete } from "@mui/icons-material";
 
 const FoodEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 2)[0].title;
@@ -20,9 +20,10 @@ const FoodEvent = () => {
     const [isOpenUnit, setIsOpenUnit] = useState([false]);
     const [selectedOptionUnit, setSelectedOptionUnit] = useState([null]);
     const [date, setDate] = useState(dayjs());
-    const [Hour, setHour] = useState(dayjs());
-    const [ingredients, setIngredients] = useState([{ ingredient: '', quantity: '', unit: '' }]);
+    const [hour, setHour] = useState(dayjs());
+    const [ingredients, setIngredients] = useState([{ idIngredient: '', quantity: '', unit: '' }]);
     const [ingredientsQuantity, setIngredientsQuantity] = useState(1);
+    const [ingredientsOptions, setIngredientsOptions] = useState([]);
 
     const router = useRouter();
 
@@ -31,24 +32,26 @@ const FoodEvent = () => {
         updatedOptions[index] = option;
         setSelectedOptionIngredients(updatedOptions);
 
+        const ingredient = ingredientsOptions.find(i => i.id === option.id);
+
+        const updatedIngredients = [...ingredients];
+        updatedIngredients[index] = { ...updatedIngredients[index], idIngredient: option.id, unit: ingredient.unit.unitName };
+        setIngredients(updatedIngredients);
+
         const updatedIsOpen = [...isOpenIngredients];
         updatedIsOpen[index] = false;
         setIsOpenIngredients(updatedIsOpen);
     };
 
-    const handleOptionClickUnit = (option, index) => {
-        const updatedOptions = [...selectedOptionUnit];
-        updatedOptions[index] = option;
-        setSelectedOptionUnit(updatedOptions);
-
-        const updatedIsOpen = [...isOpenUnit];
-        updatedIsOpen[index] = false;
-        setIsOpenUnit(updatedIsOpen);
+    const handleQuantityChange = (e, index) => {
+        const updatedIngredients = [...ingredients];
+        updatedIngredients[index] = { ...updatedIngredients[index], quantity: e.target.value };
+        setIngredients(updatedIngredients);
     };
 
     const handleAddIngredient = () => {
         setIngredientsQuantity(prevState => prevState + 1);
-        setIngredients(prevState => [...prevState, { ingredient: '', quantity: '', unit: '' }]);
+        setIngredients(prevState => [...prevState, { idIngredient: '', quantity: '', unit: '' }]);
         setIsOpenIngredients(prevState => [...prevState, false]);
         setSelectedOptionIngredients(prevState => [...prevState, null]);
         setIsOpenUnit(prevState => [...prevState, false]);
@@ -56,8 +59,7 @@ const FoodEvent = () => {
     };
 
     const handleRemoveIngredient = (index) => {
-        if(ingredientsQuantity<=1)
-        {return;}
+        if (ingredientsQuantity <= 1) { return; }
         setIngredientsQuantity(prevState => prevState - 1);
         setIngredients(prevState => prevState.filter((_, i) => i !== index));
         setIsOpenIngredients(prevState => prevState.filter((_, i) => i !== index));
@@ -68,17 +70,30 @@ const FoodEvent = () => {
 
     const handleSubmit = () => {
         const email = getEmailFromJwt();
+        const notes = document.getElementById("notes").value;
+        const dateFormatted = date && hour ? date.format("YYYY-MM-DD") + 'T' + hour.format('HH:mm:ss') : null;
+
         const data = {
-            Email: email,
-            eventDate: date.format('YYYY-MM-DD'),//TODO chequear mandar hora
+            email: email,
+            eventDate: dateFormatted,
             idKindEvent: 2,
             ingredients: ingredients,
-            Freenote: "front"
+            freeNote: notes
         };
         addFoodEvent(data).then(() =>
             router.push("/calendar")
         );
     };
+
+    useEffect(() => {
+        getIngredients().then((res) => {
+            console.log(res.data)
+            const ing = res.data.ingredients.map((i) => ({ id: i.idIngredient, title: i.name, unit: i.unit }));
+            setIngredientsOptions(ing);
+        });
+    }, []);
+
+    console.log(ingredientsOptions)
 
     return (
         <Section className="pt-12">
@@ -97,7 +112,7 @@ const FoodEvent = () => {
                 </div>
 
                 {/* FORMULARIO */}
-                <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
+                <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-start gap-x-20 gap-y-12">
                     <CustomDatePicker
                         label="Ingresá una fecha"
                         value={date}
@@ -108,19 +123,21 @@ const FoodEvent = () => {
 
                     <CustomTimePicker
                         label="Elija el horario de la comida"
-                        value={Hour}
+                        value={hour}
                         onChange={setHour}
                         defaultValue={dayjs()}
                         width="w-1/3"
                     />
 
+                    <TextArea placeholder="Describí tus sensaciones, estado de ánimo y cualquier otro síntoma que pueda ser de ayuda para los profesionales" label="¿Cómo te sentís?" id="notes" width="w-full" />
+
                     <div className="flex flex-col w-full ">
                         {Array.from({ length: ingredientsQuantity }).map((_, index) => (
-                            <div key={index} className="flex justify-between flex-wrap my-4 items-end">
-                                <Select
+                            <div key={index} className="flex justify-start flex-wrap my-4 gap-20 items-end">
+                                <SelectSearch
                                     label="Ingrediente"
                                     placeholder="Elegí un ingrediente"
-                                    options={TYPE_INGREDIENTS}
+                                    options={ingredientsOptions && ingredientsOptions}
                                     selectedOption={selectedOptionIngredients[index]}
                                     handleOptionClick={(option) => handleOptionClickIngredients(option, index)}
                                     setIsOpen={(isOpen) => {
@@ -132,27 +149,16 @@ const FoodEvent = () => {
                                     width="w-1/3"
                                 />
 
-                                <InputWithLabel
-                                    label="Cantidad del ingrediente"
-                                    placeholder="Escribí la cantidad"
-                                    id={`IngredientsMeasurement_${index}`}
-                                    width="w-1/5"
-                                />
-
-                                <Select
-                                    label="Unidad de medida"
-                                    placeholder="Elegí la unidad de medida"
-                                    options={TYPE_UNITOFMEASUREMENT}
-                                    selectedOption={selectedOptionUnit[index]}
-                                    handleOptionClick={(option) => handleOptionClickUnit(option, index)}
-                                    setIsOpen={(isOpen) => {
-                                        const updatedIsOpen = [...isOpenUnit];
-                                        updatedIsOpen[index] = isOpen;
-                                        setIsOpenUnit(updatedIsOpen);
-                                    }}
-                                    isOpen={isOpenUnit[index]}
-                                    width="w-1/5"
-                                />
+                                <div className="w-1/3 flex items-end">
+                                    <InputWithLabel
+                                        label="Cantidad del ingrediente"
+                                        placeholder="Escribí la cantidad"
+                                        id={`IngredientsMeasurement_${index}`}
+                                        width="w-3/4"
+                                        onChange={(e) => handleQuantityChange(e, index)}
+                                    />
+                                    <div className="ml-4 w-1/4">{ingredients[index].unit}</div>
+                                </div>
 
                                 <button onClick={() => handleRemoveIngredient(index)}>
                                     <Delete className="text-blue-primary" fontSize="large" />
@@ -161,17 +167,15 @@ const FoodEvent = () => {
                         ))}
 
                         <button onClick={handleAddIngredient}>
-                            <AddCircle className="text-blue-primary my-8" fontSize="large" alt="Agregar ingrediente" />
+                            <AddCircle className="text-blue-primary mt-8" fontSize="large" alt="Agregar ingrediente" />
                         </button>
                     </div>
 
                     <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3" />
-
                 </div>
             </div>
         </Section>
-    )
-}
+    );
+};
 
 export default FoodEvent;
-

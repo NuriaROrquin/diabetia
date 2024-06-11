@@ -35,5 +35,9 @@ namespace Diabetia.Application.UseCases
             await _eventRepository.AddFoodByTagEvent(email, eventDate, carbohydrates);
         }
         
+        public async Task<IEnumerable<AdditionalDataIngredient>> GetIngredients()
+        {
+            return await _eventRepository.GetIngredients();
+        }
     }
 }

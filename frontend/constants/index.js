@@ -450,7 +450,19 @@ export const TYPE_UNITOFMEASUREMENT = [
     },
     {
         "id": 3,
-        "title": "porcion"
+        "title": "unidad"
+    },
+    {
+        "id": 4,
+        "title": "cucharada"
+    },
+    {
+        "id": 5,
+        "title": "taza"
+    },
+    {
+        "id": 6,
+        "title": "cc"
     }
 ]
 

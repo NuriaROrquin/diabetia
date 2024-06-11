@@ -1,4 +1,5 @@
-﻿using Diabetia.API.DTO;
+﻿using Amazon.Runtime.Internal;
+using Diabetia.API.DTO;
 using Diabetia.API.DTO.EventRequest;
 using Diabetia.Application.UseCases;
 using Microsoft.AspNetCore.Authorization;
@@ -115,6 +116,19 @@ namespace Diabetia.API.Controllers
         {
             await _eventFoodManuallyUseCase.EditFoodManuallyEvent(request.IdEvent.Value, request.Email, request.EventDate, request.IdKindEvent.Value, request.Ingredients, request.FreeNote);
             return Ok();
+        }
+
+        [HttpGet("GetIngredients")]
+        public async Task<IngredientResponse> GetIngredients()
+        {
+            var ingredients = await _eventFoodManuallyUseCase.GetIngredients();
+
+            var ingredientsMapped = new IngredientResponse
+            {
+                Ingredients = ingredients,
+            };
+
+            return ingredientsMapped;
         }
     }
 }

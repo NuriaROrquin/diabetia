@@ -13,14 +13,12 @@ import {CustomDatePicker, CustomTimePicker} from "@/components/pickers";
 
 const InsulineEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 1)[0].title;
-    const [Hour, setHour] = useState()
+    const [hour, setHour] = useState()
     const [date, setDate] = useState()
-    const [startHour, setStartHour] = useState()
     const router = useRouter();
 
     const handleSubmit = () => {
-        const dateFormatted = date ? date.format('YYYY-MM-DD') : null;
-        const start = startHour ? startHour.format('HH:mm:ss') : null;
+        const dateFormatted = date && hour ? date.format("YYYY-MM-DD") + 'T' + hour.format('HH:mm:ss') : null;
         const insulineQuantity = document.getElementById("insulineQuantity").value
         const notes = document.getElementById("notes").value;
         const email = getEmailFromJwt();
@@ -30,8 +28,7 @@ const InsulineEvent = () => {
             "idKindEvent": 1,
             "eventDate": dateFormatted,
             "freeNote": notes,
-            "Insulin": insulineQuantity,
-            //"hora": start ?? null
+            "insulin": insulineQuantity,
         }
 
         addInsulinEvent(data).then(() =>
@@ -72,7 +69,7 @@ const InsulineEvent = () => {
 
                         <CustomTimePicker
                             label="Hora de administración"
-                            value={Hour}
+                            value={hour}
                             onChange={setHour}
                             defaultValue={dayjs()}
                             width="w-1/3"
