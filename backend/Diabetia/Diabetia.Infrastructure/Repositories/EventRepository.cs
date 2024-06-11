@@ -496,7 +496,35 @@ namespace Diabetia.Infrastructure.Repositories
 
             await _context.SaveChangesAsync();
         }
-        
+
+        public async Task DeleteFoodEven(int id)
+        {
+            var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == id);
+            if (EventLoad == null) { throw new EventNotFoundException(); }
+
+            var foodEvent = await _context.EventoComida.FirstOrDefaultAsync(ei => ei.IdCargaEvento == EventLoad.Id);
+            if (foodEvent == null) { throw new FoodEventNotMatchException("No se encontró el evento de comida relacionado."); }
+
+
+
+            if (foodEvent.IdTipoCargaComida == (int)FoodChargeTypeEnum.MANUAL)
+            {
+                var foodIngredient = await _context.IngredienteComida
+                                    .Where(fi => fi.IdEventoComida == foodEvent.Id)
+                                    .ToListAsync();
+                if (foodIngredient == null) { throw new IngredientFoodRelationNotFoundException(); }
+
+                _context.IngredienteComida.RemoveRange(foodIngredient);
+
+                await _context.SaveChangesAsync();
+            }
+
+            _context.EventoComida.Remove(foodEvent);
+            _context.CargaEventos.Remove(EventLoad);
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<AdditionalDataIngredient>> GetIngredients()
         {
             var ingredientsDatabase = await _context.Ingredientes.Join(_context.UnidadMedidaIngredientes,

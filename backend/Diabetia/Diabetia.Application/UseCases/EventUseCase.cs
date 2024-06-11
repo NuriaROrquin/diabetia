@@ -100,6 +100,9 @@ namespace Diabetia.Application.UseCases
                     break;
                 case TypeEventEnum.NOTALIBRE:
                     break;
+                case TypeEventEnum.COMIDA:
+                    await _eventRepository.DeleteFoodEven(id);
+                    break;
                 default:
                     break;
             }
