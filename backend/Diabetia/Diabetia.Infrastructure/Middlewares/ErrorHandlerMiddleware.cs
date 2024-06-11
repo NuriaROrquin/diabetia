@@ -142,9 +142,9 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El evento no se encuentra relacionado al paciente");
             }
-            else if (ex is PhysicalEventNotMatchException)
+            else if (ex is EventNotMatchException)
             {
-                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La actividad física seleccionada es erronea");
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La evento seleccionado es erróneo");
             }
             else if (ex is MismatchUserPatientException)
             {
@@ -165,7 +165,11 @@ namespace Diabetia.Infrastructure.Middlewares
             }
             else if (ex is InsulinEventNotMatchException)
             {
-                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La carga de insulina seleecionada es errónea.");
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "La carga de insulina seleccionada es errónea.");
+            }
+            else if (ex is RecordatoryNotMatchException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El recordatorio no se encuentra asociado al evento");
             }
 
             else

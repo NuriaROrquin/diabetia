@@ -16,5 +16,10 @@ namespace Diabetia.Application.UseCases.EventUseCases
         {
             await _eventRepository.AddMedicalVisitEventAsync(Email, KindEventId, VisitDate, ProfessionalId, Recordatory, RecordatoryDate, description);
         }
+
+        public async Task EditMedicalVisitEventAsync(string Email, int EventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string Description)
+        {
+            await _eventRepository.EditMedicalVisitEventAsync(Email, EventId, VisitDate, ProfessionalId, Recordatory, RecordatoryDate, Description);
+        }
     }
 }

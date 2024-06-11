@@ -91,7 +91,7 @@ namespace Diabetia.Infrastructure.Repositories
             var physicalEvent = await _context.EventoActividadFisicas.FirstOrDefaultAsync(pe => pe.IdCargaEvento == EventId);
             if (physicalEvent == null)
             {
-                throw new PhysicalEventNotMatchException();
+                throw new EventNotMatchException();
             }
 
             TimeSpan difference = FinishTime - IniciateTime;
@@ -130,7 +130,7 @@ namespace Diabetia.Infrastructure.Repositories
             var physicalEvent = await _context.EventoActividadFisicas.FirstOrDefaultAsync(eaf => eaf.IdCargaEvento == EventId);
             if (physicalEvent == null)
             {
-                throw new PhysicalEventNotMatchException();
+                throw new EventNotMatchException();
             }
 
             _context.EventoActividadFisicas.Remove(physicalEvent);
@@ -310,7 +310,7 @@ namespace Diabetia.Infrastructure.Repositories
 
         // ------------------------------------------- Medical Visit Event -------------------------------------------
 
-        public async Task AddMedicalVisitEventAsync(string Email, int KindEventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string description)
+        public async Task AddMedicalVisitEventAsync(string Email, int KindEventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string Description)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
             if (user == null)
@@ -341,7 +341,7 @@ namespace Diabetia.Infrastructure.Repositories
             {
                 IdCargaEvento = IdLoadEvent,
                 IdProfesional = ProfessionalId,
-                Descripcion = description
+                Descripcion = Description
             };
             _context.EventoVisitaMedicas.Add(newMedicalVisitEvent);
             await _context.SaveChangesAsync();
@@ -370,6 +370,74 @@ namespace Diabetia.Infrastructure.Repositories
             }
         }
 
+        public async Task EditMedicalVisitEventAsync(string Email, int EventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string Description)
+        {
+            var @event = await _context.CargaEventos.FirstOrDefaultAsync(e => e.Id == EventId);
+            if (@event == null)
+            {
+                throw new EventNotFoundException();
+            }
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
+            if (user == null)
+            {
+                throw new UserNotFoundOnDBException();
+            }
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
+            if (patient == null)
+            {
+                throw new PatientNotFoundException();
+            }
+            if (@event.IdPaciente != patient.Id)
+            {
+                throw new EventNotRelatedWithPatientException();
+            }
+            @event.FechaEvento = VisitDate;
+            @event.FueRealizado = VisitDate <= DateTime.Now ? true : false;
+            
+
+            var medicalVisitEvent = await _context.EventoVisitaMedicas.FirstOrDefaultAsync(vm => vm.IdCargaEvento == EventId);
+            if (medicalVisitEvent == null)
+            {
+                throw new EventNotMatchException();
+            }
+
+            medicalVisitEvent.IdProfesional = ProfessionalId;
+            medicalVisitEvent.Descripcion = Description;
+            _context.CargaEventos.Update(@event);
+            _context.EventoVisitaMedicas.Update(medicalVisitEvent);
+
+            if (Recordatory && RecordatoryDate.HasValue)
+            {
+                var recordatoryEvent = await _context.RecordatorioEventos.FirstOrDefaultAsync(re => re.IdCargaEvento == EventId);
+                if (recordatoryEvent == null)
+                {
+                    throw new RecordatoryNotMatchException();
+                }
+                recordatoryEvent.FechaHoraRecordatorio = RecordatoryDate.Value;
+
+                var recordatory = await _context.Recordatorios.FirstOrDefaultAsync(r => r.Id == recordatoryEvent.IdRecordatorio);
+                if (recordatory == null)
+                {
+                    throw new RecordatoryNotMatchException();
+                }
+                recordatory.FechaInicio = DateOnly.FromDateTime(RecordatoryDate.Value);
+                recordatory.HorarioActividad = TimeOnly.FromDateTime(RecordatoryDate.Value);
+                _context.RecordatorioEventos.Update(recordatoryEvent);
+                _context.Recordatorios.Update(recordatory);
+            }
+            else
+            {
+                var recordatoryEvent = await _context.RecordatorioEventos.FirstOrDefaultAsync(re => re.IdCargaEvento == EventId);
+                if ( recordatoryEvent != null)
+                {
+                    var recordatory = await _context.Recordatorios.FirstOrDefaultAsync(r => r.Id == recordatoryEvent.IdRecordatorio);
+                    _context.RecordatorioEventos.Remove(recordatoryEvent);
+                    _context.Recordatorios.Remove(recordatory);
+                    
+                }
+            }
+            await _context.SaveChangesAsync();
+        }
 
         public async Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date = null)
         {
@@ -692,3 +760,4 @@ namespace Diabetia.Infrastructure.Repositories
         }
     }
 }
+

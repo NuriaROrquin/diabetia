@@ -28,7 +28,9 @@ namespace Diabetia.Domain.Repositories
         public Task DeleteInsulinEvent(int IdEvent);
 
         // ------------------------------------------- Medical Visit Event -------------------------------------------
-        public Task AddMedicalVisitEventAsync(string Email, int KindEventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string description);
+        public Task AddMedicalVisitEventAsync(string Email, int KindEventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string Description);
+
+        public Task EditMedicalVisitEventAsync(string Email, int EventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string Description);
 
         public Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date);
 

@@ -115,6 +115,13 @@ namespace Diabetia.API.Controllers
             return Ok("Visita médica agregada correctamente");
         }
 
+        [HttpPost("EditMedicalVisitEvent")]
+        public async Task<IActionResult> EditMedicalEventAsync([FromBody] EventEditMedicalVisitRequest request)
+        {
+            await _eventMedicalVisitUseCase.EditMedicalVisitEventAsync(request.Email, request.EventId, request.EventDate, request.ProfessionalId, request.Recordatory, request.RecordatoryDate, request.Description);
+            return Ok("Visita médica modificada correctamente");
+        }
+
         [HttpGet("GetEventType/{id}")]
         public async Task<IActionResult> GetEventType([FromRoute]int id)
         {

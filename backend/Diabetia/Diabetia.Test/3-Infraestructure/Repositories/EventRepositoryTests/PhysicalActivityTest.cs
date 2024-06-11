@@ -313,7 +313,7 @@ namespace Diabetia_Infrastructure
 
             // Act & Assert
 
-            await Assert.ThrowsAsync<PhysicalEventNotMatchException>(async () =>
+            await Assert.ThrowsAsync<EventNotMatchException>(async () =>
             await repository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote));
         }
 
@@ -514,7 +514,7 @@ namespace Diabetia_Infrastructure
             var eventId = 1;
 
             // Act & Assert
-            await Assert.ThrowsAsync<PhysicalEventNotMatchException>(async () =>
+            await Assert.ThrowsAsync<EventNotMatchException>(async () =>
             await eventRepository.DeletePhysicalActivityEventAsync(email, eventId));
         }
 
