@@ -1,3 +1,4 @@
+﻿using Diabetia.Domain.Entities;
 ﻿using Diabetia.Common.Utilities;
 using Diabetia.Domain.Entities.Events;
 
@@ -10,14 +11,13 @@ namespace Diabetia.Domain.Repositories
 
         public Task EditPhysicalActivityEventAsync(string Email, int EventId, DateTime EventDate, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime, string FreeNote);
 
-        public Task DeletePhysicalActivityEventAsync(string Email, int EventId);
+        public Task DeletePhysicalActivityEventAsync(int IdEvent);
 
-        // ------------------------------------------- Glucose Event -------------------------------------------
-        public Task AddGlucoseEvent(string Email, int KindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition);
+        public Task AddGlucoseEvent(string Email, int KindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdFoodEvent, bool? PostFoodMedition);
 
-        public Task EditGlucoseEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, decimal Glucose, int? IdDevicePacient, int? IdFoodEvent, bool? PostFoodMedition);
+        public Task EditGlucoseEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, decimal Glucose, int? IdFoodEvent, bool? PostFoodMedition);
 
-        public Task DeleteGlucoseEvent(int IdEvent, string Email);
+        public Task DeleteGlucoseEvent(int IdEvent);
 
 
         // ------------------------------------------- Insuline Event -------------------------------------------
@@ -26,6 +26,21 @@ namespace Diabetia.Domain.Repositories
         public Task EditInsulinEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, int Insulin);
 
         public Task DeleteInsulinEvent(int IdEvent);
+        
+        public Task<float> AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote);
+
+        public Task EditFoodManuallyEvent(int idEvent, string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote);
+
+        public Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates);
+
+        public Task DeleteFoodEven(int id);
+
+        public Task AddMedicalExaminationEvent(string email, DateTime eventDate, string fileSaved, string examinationType, int? idProfessional, string? freeNote);
+
+        public Task<string> DeleteMedicalExaminationEvent(int id);       
+
+        public Task<IEnumerable<AdditionalDataIngredient>> GetIngredients();
+
 
         // ------------------------------------------- Medical Visit Event -------------------------------------------
         public Task AddMedicalVisitEventAsync(string Email, int KindEventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string Description);

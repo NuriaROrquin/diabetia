@@ -46,20 +46,20 @@ namespace Diabetia_Core.Events
             A.CallTo(() => fakeEventRepository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote)).MustHaveHappenedOnceExactly();
         }
 
-        [Fact]
-        public async Task EventPhysicalActivityUseCase_WhenCalledWithValidData_ShouldDeleteEventSuccessfully()
-        {
-            var email = "emailTest@example.com";
-            var eventId = 1;
+        //[Fact]
+        //public async Task EventPhysicalActivityUseCase_WhenCalledWithValidData_ShouldDeleteEventSuccessfully()
+        //{
+        //    var email = "emailTest@example.com";
+        //    var eventId = 1;
            
-            var fakeEventRepository = A.Fake<IEventRepository>();
+        //    var fakeEventRepository = A.Fake<IEventRepository>();
 
-            var fakeEventPhysicalActivityUseCase = new EventPhysicalActivityUseCase(fakeEventRepository);
+        //    var fakeEventPhysicalActivityUseCase = new EventPhysicalActivityUseCase(fakeEventRepository);
 
-            await fakeEventPhysicalActivityUseCase.DeletePhysicalEventAsync(email, eventId);
+        //    await fakeEventPhysicalActivityUseCase.DeletePhysicalEventAsync(email, eventId);
 
-            // Act & Assert 
-            A.CallTo(() => fakeEventRepository.DeletePhysicalActivityEventAsync(email, eventId)).MustHaveHappenedOnceExactly();
-        }
+        //    // Act & Assert 
+        //    A.CallTo(() => fakeEventRepository.DeletePhysicalActivityEventAsync(email, eventId)).MustHaveHappenedOnceExactly();
+        //}
     }
 }

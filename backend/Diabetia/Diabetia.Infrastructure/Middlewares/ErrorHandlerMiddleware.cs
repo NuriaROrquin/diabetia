@@ -171,7 +171,26 @@ namespace Diabetia.Infrastructure.Middlewares
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El recordatorio no se encuentra asociado al evento");
             }
-
+            else if (ex is FoodEventNotMatchException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "El registro de comida seleecionado es errónea.");
+            }
+            else if (ex is IngredientFoodRelationNotFoundException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Este ingrediente no se encuentra relacionado con ningún evento de comida.");
+            }
+            else if (ex is CantCreatObjectS3Async)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "No se pudo pudo guardar su archivo PDF correctamente.");
+            }
+            else if (ex is ExaminationEventNotFoundException)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "Este evento no se encuentra relacionado con ningún estudio médico.");
+            }
+            else if (ex is CantDeleteObjectS3Async)
+            {
+                await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.BadRequest, "No se pudo pudo eliminar su archivo PDF correctamente.");
+            }
             else
             {
                 await HandleExceptionWithStatusCode(context, ex, HttpStatusCode.InternalServerError, "Este es un mensaje de error custom");

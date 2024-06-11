@@ -14,7 +14,7 @@ using Infrastructure.Provider;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Diabetia.Infraestructure.EF;
+using Diabetia.Infrastructure.EF;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,6 +58,8 @@ builder.Services.AddScoped<EventInsulinUseCase>();
 builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();
 builder.Services.AddScoped<CalendarUseCase>();
+builder.Services.AddScoped<EventFoodUseCase>();
+builder.Services.AddScoped<EventMedicalExamintaionUseCase>();
 builder.Services.AddScoped<EventUseCase>();
 builder.Services.AddScoped<EventMedicalVisitUseCase>();
 

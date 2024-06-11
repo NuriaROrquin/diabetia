@@ -1,6 +1,6 @@
 ﻿namespace Diabetia.API.DTO.EventRequest.PhysicalActivity
 {
-    public class EventAddPhysicalRequest : EventRequest
+    public class EventAddPhysicalRequest : BasicEventRequest
     {
         public int IdKindEvent { get; set; }
         public DateTime EventDate { get; set; }

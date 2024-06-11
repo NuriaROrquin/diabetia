@@ -20,10 +20,5 @@ namespace Diabetia.Application.UseCases.EventUseCases
         {
             await _eventRepository.EditPhysicalActivityEventAsync(Email, EventId, EventDate, PhysicalActivity, IniciateTime, FinishTime, FreeNote);
         }
-
-        public async Task DeletePhysicalEventAsync(string Email, int EventId)
-        {
-            await _eventRepository.DeletePhysicalActivityEventAsync(Email, EventId);
-        }
     }
 }

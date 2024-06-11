@@ -58,7 +58,7 @@ export const CustomCalendar = ({events, handleOnSelectDay}) => {
     }, [events]);
 
     return (
-        <div className="container">
+        <div className="w-11/12 m-auto">
             <CustomProvider locale={es_AR}>
                 <Calendar
                     renderCell={(e) => renderCell(e)}

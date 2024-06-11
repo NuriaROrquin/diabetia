@@ -151,6 +151,13 @@ namespace Diabetia_Core.Auth
                 }
             };
 
+            var user = new User
+            {
+                Id = 1,
+                Email = "test@test.com",
+                Username = userInput
+            };
+
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeUserRepository = A.Fake<IUserRepository>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
@@ -159,7 +166,7 @@ namespace Diabetia_Core.Auth
             A.CallTo(() => fakeInputValidator.IsEmail(userInput)).Returns(false);
             A.CallTo(() => fakeAuthRepository.CheckUsernameOnDatabaseAsync(userInput)).Returns(true);
             A.CallTo(() => fakeAuthProvider.LoginUserAsync(userInput, password)).Returns(Task.FromResult(expectedTokenResponse));
-            A.CallTo(() => fakeUserRepository.GetUserInformationFromUsernameAsync(userInput)).Returns<User>(null);
+            A.CallTo(() => fakeUserRepository.GetUserInformationFromUsernameAsync(userInput)).Returns<User>(user);
 
             var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository, fakeInputValidator);
 

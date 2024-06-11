@@ -1,7 +1,9 @@
-﻿using Diabetia.Domain.Models;
+﻿using System;
+using System.Collections.Generic;
+using Diabetia.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Diabetia.Infraestructure.EF
+namespace Diabetia.Infrastructure.EF
 {
     public partial class diabetiaContext : DbContext
     {
@@ -413,12 +415,7 @@ namespace Diabetia.Infraestructure.EF
                 entity.HasOne(d => d.IdDispositivoPacienteNavigation)
                     .WithMany(p => p.EventoGlucosas)
                     .HasForeignKey(d => d.IdDispositivoPaciente)
-                    .HasConstraintName("evento_glucosa_ibfk_2");
-
-                entity.HasOne(d => d.IdEventoComidaNavigation)
-                    .WithMany(p => p.EventoGlucosas)
-                    .HasForeignKey(d => d.IdEventoComida)
-                    .HasConstraintName("evento_glucosa_ibfk_3");
+                    .HasConstraintName("evento_glucosa_dispositivo_FK");
             });
 
             modelBuilder.Entity<EventoInsulina>(entity =>
@@ -800,17 +797,6 @@ namespace Diabetia.Infraestructure.EF
                 entity.Property(e => e.Peso).HasColumnName("peso");
 
                 entity.Property(e => e.UsaInsulina).HasColumnName("usa_insulina");
-
-                entity.HasOne(d => d.IdSensibilidadInsulinaNavigation)
-                    .WithMany(p => p.Pacientes)
-                    .HasForeignKey(d => d.IdSensibilidadInsulina)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("paciente_ibfk_3");
-
-                entity.HasOne(d => d.IdTipoDiabetesNavigation)
-                    .WithMany(p => p.Pacientes)
-                    .HasForeignKey(d => d.IdTipoDiabetes)
-                    .HasConstraintName("paciente_ibfk_2");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.Pacientes)

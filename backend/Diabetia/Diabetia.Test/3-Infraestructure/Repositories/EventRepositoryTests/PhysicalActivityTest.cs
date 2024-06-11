@@ -4,7 +4,7 @@ using Diabetia.Domain.Models;
 using Moq.EntityFrameworkCore;
 using Diabetia.Application.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using Diabetia.Infraestructure.EF;
+using Diabetia.Infrastructure.EF;
 
 namespace Diabetia_Infrastructure
 {
@@ -344,11 +344,10 @@ namespace Diabetia_Infrastructure
             var mockContextBeforeDeletion = CreateMockContextBeforeDeletion();
             var mockContextAfterDeletion = CreateMockContextAfterDeletion();
             var repositoryEvent = new EventRepository(mockContextBeforeDeletion.Object);
-            var email = "test@example.com";
             var eventId = 1;
 
             // Act
-            await repositoryEvent.DeletePhysicalActivityEventAsync(email, eventId);
+            await repositoryEvent.DeletePhysicalActivityEventAsync(eventId);
 
             // Assert
             mockContextBeforeDeletion.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
@@ -396,12 +395,11 @@ namespace Diabetia_Infrastructure
 
             var eventRepository = new EventRepository(mockContext.Object);
 
-            var email = "test@example.com";
             var eventId = 1;
 
             // Act & Assert
             await Assert.ThrowsAsync<EventNotFoundException>(async () =>
-            await eventRepository.DeletePhysicalActivityEventAsync(email, eventId));
+            await eventRepository.DeletePhysicalActivityEventAsync(eventId));
         }
 
         private Mock<diabetiaContext> MockContextDeleteThrowEventException()
@@ -422,12 +420,11 @@ namespace Diabetia_Infrastructure
 
             var eventRepository = new EventRepository(mockContext.Object);
 
-            var email = "test@gmail.com";
             var eventId = 1;
 
             // Act & Assert
             await Assert.ThrowsAsync<UserEventNotFoundException>(async () =>
-            await eventRepository.DeletePhysicalActivityEventAsync(email, eventId));
+            await eventRepository.DeletePhysicalActivityEventAsync(eventId));
         }
 
         private Mock<diabetiaContext> MockContextDeleteThrowUserException()
@@ -450,12 +447,11 @@ namespace Diabetia_Infrastructure
 
             var eventRepository = new EventRepository(mockContext.Object);
 
-            var email = "test@gmail.com";
             var eventId = 1;
 
             // Act & Assert
             await Assert.ThrowsAsync<EventNotRelatedWithPatientException>(async () =>
-            await eventRepository.DeletePhysicalActivityEventAsync(email, eventId));
+            await eventRepository.DeletePhysicalActivityEventAsync(eventId));
         }
 
         private Mock<diabetiaContext> MockContextDeleteThrowPatientException()
@@ -480,12 +476,11 @@ namespace Diabetia_Infrastructure
 
             var eventRepository = new EventRepository(mockContext.Object);
 
-            var email = "test@gmail.com";
             var eventId = 1;
 
             // Act & Assert
             await Assert.ThrowsAsync<MismatchUserPatientException>(async () =>
-            await eventRepository.DeletePhysicalActivityEventAsync(email, eventId));
+            await eventRepository.DeletePhysicalActivityEventAsync(eventId));
         }
 
         private Mock<diabetiaContext> MockContextDeleteThrowMismatchException()
@@ -510,12 +505,11 @@ namespace Diabetia_Infrastructure
 
             var eventRepository = new EventRepository(mockContext.Object);
 
-            var email = "test@gmail.com";
             var eventId = 1;
 
             // Act & Assert
-            await Assert.ThrowsAsync<EventNotMatchException>(async () =>
-            await eventRepository.DeletePhysicalActivityEventAsync(email, eventId));
+            await Assert.ThrowsAsync<PhysicalEventNotMatchException>(async () =>
+            await eventRepository.DeletePhysicalActivityEventAsync(eventId));
         }
 
         private Mock<diabetiaContext> MockContextDeleteThrowPhysicalMismatchException()

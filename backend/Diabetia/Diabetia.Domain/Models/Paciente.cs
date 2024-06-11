@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 
 namespace Diabetia.Domain.Models
 {
@@ -27,8 +28,6 @@ namespace Diabetia.Domain.Models
         public int? CorreccionCh { get; set; }
         public int IdSensibilidadInsulina { get; set; }
 
-        public virtual SensibilidadInsulina IdSensibilidadInsulinaNavigation { get; set; } = null!;
-        public virtual TipoDiabete? IdTipoDiabetesNavigation { get; set; }
         public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
         public virtual ICollection<CargaEvento> CargaEventos { get; set; }
         public virtual ICollection<DispositivoPaciente> DispositivoPacientes { get; set; }

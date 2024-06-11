@@ -25,7 +25,7 @@ export const Input = ({type, placeholder, id, width, icon, withForgotPassword=fa
   )
 }
 
-export const InputWithLabel = ({type, placeholder, label, id, width, icon, defaultValue = null, disabled = false}) => {
+export const InputWithLabel = ({type, placeholder, label, id, width, icon, defaultValue = null, disabled = false, onChange}) => {
     return (
         <div className={`flex flex-col items-start text-base text-blue-primary font-medium gap-2 ${width}`}>
             <label htmlFor={id}>{label}</label>
@@ -41,13 +41,14 @@ export const InputWithLabel = ({type, placeholder, label, id, width, icon, defau
                     placeholder={placeholder}
                     defaultValue={defaultValue}
                     disabled={disabled}
+                    onChange={onChange}
                     className={`border border-gray-400 rounded-lg p-3 ${icon ? "pl-14" : ""} w-full focus:outline-none text-gray-primary font-normal`}/>
             </div>
         </div>
     )
 }
 
-export const TextArea = ({label, id, width, placeholder, rows}) => {
+export const TextArea = ({label, id, width, placeholder, rows, defaultValue, onChange}) => {
     return (
         <div className={`flex flex-col items-start text-base text-blue-primary font-medium gap-2 ${width}`}>
             <label htmlFor={id}>{label}</label>
@@ -56,6 +57,8 @@ export const TextArea = ({label, id, width, placeholder, rows}) => {
                 className={`border border-gray-400 rounded-lg p-3 w-full focus:outline-none text-gray-primary font-normal`}
                 placeholder={placeholder}
                 rows={rows || 5}
+                defaultValue={defaultValue}
+                onChange={onChange}
             />
         </div>
     )

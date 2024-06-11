@@ -61,10 +61,11 @@ const InitialFormStep3 = () => {
     ];
 
     const handleSubmit = () => {
+        sessionStorage.setItem('stepCompleted', '3');
         const haceActividadFisica = activity;
-        const frequency = selectedOptionActivityFrequency.id;
-        const idActividadFisica = selectedOptionActivity.id;
-        const duracion = selectedOptionActivityHoursWeek.id;
+        const frequency = selectedOptionActivityFrequency ? selectedOptionActivityFrequency.id : null;
+        const idActividadFisica = selectedOptionActivity ? selectedOptionActivity.id : null;
+        const duracion = selectedOptionActivityHoursWeek ? selectedOptionActivityHoursWeek.id : null;
 
 
         thirdStep({email, haceActividadFisica, frequency, idActividadFisica, duracion})
@@ -140,7 +141,7 @@ const InitialFormStep3 = () => {
                     </div>
 
                     <div className="flex justify-around w-full">
-                        <OrangeLink href="/initialForm/step-2" label="Atrás" width="w-1/3"/>
+                        <OrangeLink href="/initialForm/step-2" label="Atrás" width="w-1/3" background="bg-gray-400 hover:bg-gray-600"/>
                         <ButtonOrange onClick={handleSubmit} label="Finalizar" width="w-1/3"/>
                     </div>
 

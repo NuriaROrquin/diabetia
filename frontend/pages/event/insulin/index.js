@@ -12,15 +12,13 @@ import {useRouter} from "next/router";
 import {CustomDatePicker, CustomTimePicker} from "@/components/pickers";
 
 const InsulineEvent = () => {
-    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 4)[0].title;
-    const [Hour, setHour] = useState()
+    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 1)[0].title;
+    const [hour, setHour] = useState()
     const [date, setDate] = useState()
-    const [startHour, setStartHour] = useState()
     const router = useRouter();
 
     const handleSubmit = () => {
-        const dateFormatted = date ? date.format('YYYY-MM-DD') : null;
-        const start = startHour ? startHour.format('HH:mm:ss') : null;
+        const dateFormatted = date && hour ? date.format("YYYY-MM-DD") + 'T' + hour.format('HH:mm:ss') : null;
         const insulineQuantity = document.getElementById("insulineQuantity").value
         const notes = document.getElementById("notes").value;
         const email = getEmailFromJwt();
@@ -30,8 +28,7 @@ const InsulineEvent = () => {
             "idKindEvent": 1,
             "eventDate": dateFormatted,
             "freeNote": notes,
-            "Insulin": insulineQuantity,
-            //"hora": start ?? null
+            "insulin": insulineQuantity,
         }
 
         addInsulinEvent(data).then(() =>
@@ -42,7 +39,7 @@ const InsulineEvent = () => {
     return(
         <Section className="pt-12">
             <div className="container items-center flex w-full justify-center flex-col">
-                <TitleSection className="text-white">¿Qué evento querés cargar?</TitleSection>
+                <TitleSection className="text-white mt-12">¿Qué evento querés cargar?</TitleSection>
                 <div className="flex w-full flex-wrap gap-y-6 gap-x-24 justify-center mt-8">
                     {TYPE_EVENTS.map((event) => {
                         return(
@@ -72,7 +69,7 @@ const InsulineEvent = () => {
 
                         <CustomTimePicker
                             label="Hora de administración"
-                            value={Hour}
+                            value={hour}
                             onChange={setHour}
                             defaultValue={dayjs()}
                             width="w-1/3"

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities;
-using Diabetia.Infraestructure.EF;
+using Diabetia.Infrastructure.EF;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -45,6 +45,10 @@ namespace Diabetia.Infrastructure.Repositories
                 user.Genero = gender;
                 user.Telefono = phone;
                 user.FechaNacimiento = birthdate;
+                if (user.StepCompleted == null) {
+
+                    user.StepCompleted = (user.StepCompleted ?? 0) + 1;
+                }
                 _context.Usuarios.Update(user);
             }
 
@@ -62,6 +66,12 @@ namespace Diabetia.Infrastructure.Repositories
             pac.UsaInsulina = useInsuline;
             pac.IdSensibilidadInsulina = 1;
             pac.CorreccionCh = insulinePerCH;
+            if(user.StepCompleted == 1) {
+
+                user.StepCompleted = (user.StepCompleted) + 1;
+
+                _context.Usuarios.Update(user);
+            }
 
             _context.Pacientes.Update(pac);
 
@@ -130,6 +140,14 @@ namespace Diabetia.Infrastructure.Repositories
                 pac_phy.Duracion = duracion;
                 _context.PacienteActividadFisicas.Update(pac_phy);
             }
+
+            if (user.StepCompleted == 2)
+            {
+
+                user.StepCompleted = (user.StepCompleted) + 1;
+
+                _context.Usuarios.Update(user);
+            }
             await _context.SaveChangesAsync();
         }
 
@@ -159,6 +177,15 @@ namespace Diabetia.Infrastructure.Repositories
                 pac_div.Frecuencia = frecuencia;
                 _context.DispositivoPacientes.Update(pac_div);
             }
+
+
+            if (user.StepCompleted == 3)
+            {
+
+                user.StepCompleted = (user.StepCompleted) + 1;
+
+                _context.Usuarios.Update(user);
+            }
             await _context.SaveChangesAsync();
 
         }
@@ -185,6 +212,7 @@ namespace Diabetia.Infrastructure.Repositories
             .Select(p => new
             {
                 Peso = p.Peso,
+                CorrectionCh = p.CorreccionCh,
             })
             .FirstOrDefaultAsync();
 
@@ -195,7 +223,7 @@ namespace Diabetia.Infrastructure.Repositories
                 BirthDate = userInfo.Birthdate,
                 Gender = userInfo.Gender,
                 Phone = userInfo.Phone,
-                Weight = pacienteInfo.Peso
+                Weight = pacienteInfo.Peso,
             };
 
                 return user;
@@ -212,6 +240,7 @@ namespace Diabetia.Infrastructure.Repositories
                     BirthDate = user.FechaNacimiento,
                     Gender = user.Genero,
                     Id = user.Id,
+                    StepCompleted = user.StepCompleted
                 };
                 return userToReturn;
             }
@@ -235,7 +264,8 @@ namespace Diabetia.Infrastructure.Repositories
             {
                 TypeDiabetes = p.IdTipoDiabetes,
                 UseInsuline = p.UsaInsulina,
-                Id = p.Id
+                Id = p.Id,
+                InsulinPerCh = p.CorreccionCh
             })
             .FirstOrDefaultAsync();
 
@@ -244,7 +274,7 @@ namespace Diabetia.Infrastructure.Repositories
             .Select(i => new
             {
                 TypeInsuline = i.IdTipoInsulina,
-                Frequency = i.Frecuencia
+                Frequency = i.Frecuencia                
             })
             .FirstOrDefaultAsync();
 
@@ -253,7 +283,8 @@ namespace Diabetia.Infrastructure.Repositories
                 TypeDiabetes = pacienteInfo.TypeDiabetes,
                 UseInsuline = pacienteInfo.UseInsuline,
                 TypeInsuline = insulinaPaciente.TypeInsuline,
-                Frequency = insulinaPaciente.Frequency
+                Frequency = insulinaPaciente.Frequency,
+                ChCorrection = pacienteInfo.InsulinPerCh,
             };
 
             return patient;
