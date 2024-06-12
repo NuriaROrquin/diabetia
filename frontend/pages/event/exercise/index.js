@@ -1,53 +1,13 @@
-import {Section} from "../../../components/section";
-import {TitleSection} from "../../../components/titles";
-import {TYPE_EVENTS, TYPE_EXERCISES} from "../../../constants";
-import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
-import {useState} from "react";
-import {BlueLink, OrangeLink} from "../../../components/link";
-import {TextArea} from "../../../components/input";
-import {Select} from "../../../components/selector";
-import dayjs from "dayjs";
-import {ButtonOrange} from "../../../components/button";
-import {CustomDatePicker, CustomTimePicker} from "../../../components/pickers";
-import {addPhysicalEvent} from "../../../services/api.service";
-import {useRouter} from "next/router";
+import {Section} from "@/components/section";
+import {TitleSection} from "@/components/titles";
+import {TYPE_EVENTS} from "../../../constants";
+import {capitalizeFirstLetter} from "../../../helpers";
+import React from "react";
+import {BlueLink, OrangeLink} from "@/components/link";
+import { ExerciseEventForm } from "@/components/eventForm";
 
 const ExerciseEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 4)[0].title;
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [startHour, setStartHour] = useState()
-    const [endHour, setEndHour] = useState()
-    const [date, setDate] = useState()
-
-    const router = useRouter();
-
-    const handleOptionClick = (option) => {
-        setSelectedOption(option);
-        setIsOpen(false);
-    };
-
-    const handleSubmit = () => {
-        const start = startHour ? startHour.format('HH:mm:ss') : null;
-        const end = endHour ? endHour.format('HH:mm:ss') : null;
-        const notes = document.getElementById("notes").value;
-        const email = getEmailFromJwt();
-        const eventDateTime = date && startHour ? date.format('YYYY-MM-DD') + 'T' + startHour.format('HH:mm:ss') : null;
-
-        const data = {
-            "email": email,
-            "idKindEvent": 4,
-            "eventDate": eventDateTime,
-            "freeNote": notes,
-            "physicalActivity": selectedOption.id,
-            "iniciateTime": start,
-            "finishTime": end
-        }
-
-        addPhysicalEvent(data).then(() =>
-            router.push("/calendar")
-        )
-    }
 
     return(
         <Section className="pt-12">
@@ -68,37 +28,7 @@ const ExerciseEvent = () => {
                 </div>
 
                 {/* FORMULARIO */}
-                <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
-                    <CustomDatePicker
-                        label="Ingresá una fecha"
-                        value={date}
-                        onChange={(e) => setDate(e)}
-                        defaultValue={dayjs()}
-                        width="w-1/3"
-                    />
-
-                    <Select label="Actividad" placeholder="Elegí una actividad" options={TYPE_EXERCISES} selectedOption={selectedOption} handleOptionClick={handleOptionClick} setIsOpen={setIsOpen} isOpen={isOpen} width="w-1/3"/>
-
-                    <CustomTimePicker
-                        label="Hora de comienzo"
-                        value={startHour}
-                        onChange={setStartHour}
-                        defaultValue={dayjs()}
-                        width="w-1/3"
-                    />
-
-                    <CustomTimePicker
-                        label="Hora de finalización"
-                        value={endHour}
-                        onChange={(e) => setEndHour(e)}
-                        defaultValue={dayjs()}
-                        width="w-1/3"
-                    />
-
-                    <TextArea placeholder="¿Cómo te sentiste?" label="Describí tu experiencia" id="notes" width="w-10/12"/>
-
-                    <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3"/>
-                </div>
+                <ExerciseEventForm existingData={null} />
             </div>
         </Section>
     )

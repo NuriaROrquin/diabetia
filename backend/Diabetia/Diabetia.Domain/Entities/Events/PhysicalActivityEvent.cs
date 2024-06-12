@@ -8,5 +8,6 @@
         public DateTime DateEvent { get; set; }
         public string Title { get; set; }
         public int Duration { get; set; }
+        public string? FreeNote { get; set; }
     }
 }

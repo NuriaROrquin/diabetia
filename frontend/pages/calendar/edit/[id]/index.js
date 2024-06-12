@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Section } from "@/components/section";
 import { getEventType } from "../../../../services/api.service";
-import { GlucoseEventForm, InsulinEventForm, FoodEventForm } from "@/components/eventForm/index.js";
+import { GlucoseEventForm, InsulinEventForm, FoodEventForm, ExerciseEventForm} from "@/components/eventForm/index.js";
 import {TYPE_EVENTS} from "../../../../constants";
 import {TitleSection} from "@/components/titles";
 
@@ -53,6 +53,9 @@ const EditEvent = () => {
                     )}
                     {eventData.typeEvent === 2 && (
                         <FoodEventForm existingData={eventData.foodEvent} />
+                    )}
+                    {eventData.typeEvent === 4 && (
+                        <ExerciseEventForm existingData={eventData.physicalActivityEvent} />
                     )}
                 </div>
             )}

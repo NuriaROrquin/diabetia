@@ -219,6 +219,14 @@ export const editFoodEvent = (data) => {
         );
 }
 
+export const editPhysicalEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/editPhysicalEvent`,
+            data
+        );
+}
+
 export const getIngredients = () => {
     return axios
         .get(

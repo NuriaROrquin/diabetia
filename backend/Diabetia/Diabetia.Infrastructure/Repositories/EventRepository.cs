@@ -792,7 +792,8 @@ namespace Diabetia.Infrastructure.Repositories
                         IdPhysicalEducationEvent = joined.EventoActividadFisica.IdActividadFisica,
                         DateEvent = joined.CargaEvento.FechaEvento,
                         Title = joined.TipoEvento.Tipo,
-                        Duration = joined.EventoActividadFisica.Duracion
+                        Duration = joined.EventoActividadFisica.Duracion,
+                        FreeNote = joined.CargaEvento.NotaLibre
                     })
                 .ToListAsync();
 
@@ -1163,7 +1164,8 @@ namespace Diabetia.Infrastructure.Repositories
                           IdPhysicalEducationEvent = joined.EventoActividadFisica.IdActividadFisica,
                           DateEvent = joined.CargaEvento.FechaEvento,
                           Title = joined.ActividadFisica.Nombre,
-                          Duration = joined.EventoActividadFisica.Duracion
+                          Duration = joined.EventoActividadFisica.Duracion,
+                          FreeNote = joined.CargaEvento.NotaLibre
                       })
                 .FirstOrDefaultAsync();
 
