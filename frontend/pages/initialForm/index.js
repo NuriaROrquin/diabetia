@@ -3,13 +3,15 @@ import { TitleSection } from "../../components/titles";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { OrangeLink } from "../../components/link";
+import {jwtDecode} from "jwt-decode";
 
 const InitialForm = () => {
     const router = useRouter();
     const [stepCompleted, setStepCompleted] = useState(null);
 
     useEffect(() => {
-        const stepCompletedFromStorage = sessionStorage.getItem('stepCompleted');
+        const jwt = sessionStorage.getItem('jwt');
+        const stepCompletedFromStorage = jwtDecode(jwt).stepCompleted;
         setStepCompleted(stepCompletedFromStorage);
     }, []);
 

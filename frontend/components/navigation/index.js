@@ -71,7 +71,7 @@ export const Navigation = () => {
                     id="nav-content">
                     <ul className="lg:flex justify-end flex-1 items-center mb-0">
                         <li className="mr-3">
-                            <NavLink href="/" text="Home" className="rounded-lg !py-2 hover:bg-orange-focus transition-all"/>
+                            <NavLink href="/dashboard" text="Home" className="rounded-lg !py-2 hover:bg-orange-focus transition-all"/>
                         </li>
                         <li className="mr-3">
                             <NavLink href="/event" text="Registrar evento" className="rounded-lg !py-2 hover:bg-orange-focus transition-all"/>

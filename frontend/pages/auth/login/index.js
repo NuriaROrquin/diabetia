@@ -7,6 +7,7 @@ import {login} from "../../../services/api.service";
 import {useRouter} from "next/router";
 import {useState} from "react";
 import {useCookies} from "react-cookie";
+import {jwtDecode} from "jwt-decode";
 
 export const Login = () => {
     const [error, setError] = useState(false);
@@ -20,19 +21,23 @@ export const Login = () => {
         const password = document.getElementById("contrasena").value;
         login(username, password)
             .then((res) => {
-                if(res.data){
-                    setCookie("jwt", res.data.token, {path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)});
-                    sessionStorage.setItem("jwt", res.data.token);
-                    sessionStorage.setItem("stepCompleted", res.data.stepCompleted);
-                    
-                    if (res.data.stepCompleted !== 4){
-                        router.push(`/initialForm`)
-                    }else{
-                        router.push(`/dashboard`)
-                    }
+                setCookie("jwt", res.data.token, {path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)});
+                sessionStorage.setItem("jwt", res.data.token);
+
+                const jwt = res.data.token;
+
+                const jwtDecoded = jwtDecode(jwt)
+
+                const stepCompleted = jwtDecoded.stepCompleted
+
+                if (stepCompleted !== "4"){
+                    router.push(`/initialForm`)
+                }else{
+                    router.push(`/dashboard`)
                 }
             })
             .catch((error) => {
+                console.log(error)
                 error.response.data ? setError(error.response.data) : setError("Hubo un error")
             });
     }
