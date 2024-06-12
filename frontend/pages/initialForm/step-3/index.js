@@ -61,7 +61,6 @@ const InitialFormStep3 = () => {
     ];
 
     const handleSubmit = () => {
-        sessionStorage.setItem('stepCompleted', '3');
         const haceActividadFisica = activity;
         const frequency = selectedOptionActivityFrequency ? selectedOptionActivityFrequency.id : null;
         const idActividadFisica = selectedOptionActivity ? selectedOptionActivity.id : null;

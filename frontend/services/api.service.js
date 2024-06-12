@@ -44,11 +44,11 @@ export const passwordRecover = (email) => {
         );
 }
 
-export const passwordRecoverCode = (username, confirmationCode, password) => {
+export const passwordRecoverCode = (email, confirmationCode, password) => {
     return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/passwordRecoverCode`,
-            { username, confirmationCode, password },
+            { email, confirmationCode, password },
             { withCredentials: true }
         );
 }

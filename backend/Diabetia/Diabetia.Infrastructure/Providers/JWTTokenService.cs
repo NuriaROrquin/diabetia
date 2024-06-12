@@ -16,7 +16,7 @@ namespace Diabetia.Infrastructure.Providers
             _jwtSettings = jwtSettings.Value;
         }
 
-        public string GenerateToken(string userId, string userName, string email, bool initialFormCompleted)
+        public string GenerateToken(string userId, string userName, string email, int? stepCompleted)
         {
             var claims = new[]
             {
@@ -24,7 +24,7 @@ namespace Diabetia.Infrastructure.Providers
                 new Claim(JwtRegisteredClaimNames.UniqueName, userName),
                 new Claim("username", userName),
                 new Claim("email", email),
-                new Claim("initialFormCompleted", initialFormCompleted.ToString()),
+                new Claim("stepCompleted", stepCompleted.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

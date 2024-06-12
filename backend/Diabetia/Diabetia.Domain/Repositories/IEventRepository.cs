@@ -6,6 +6,7 @@ namespace Diabetia.Domain.Repositories
 {
     public interface IEventRepository 
     {
+        // --------------------------------------- Physical Activity ------------------------------------------
         public Task AddPhysicalActivityEventAsync(string Email, int KindEvent, DateTime EventDate, String FreeNote, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime);
 
         public Task EditPhysicalActivityEventAsync(string Email, int EventId, DateTime EventDate, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime, string FreeNote);
@@ -34,7 +35,12 @@ namespace Diabetia.Domain.Repositories
 
         public Task AddMedicalExaminationEvent(string email, DateTime eventDate, string fileSaved, string examinationType, int? idProfessional, string? freeNote);
 
-        public Task<string> DeleteMedicalExaminationEvent(int id);       
+        public Task<string> DeleteMedicalExaminationEvent(int id);
+
+        // ------------------------------------------- Medical Visit -------------------------------------------
+        public Task AddMedicalVisitEventAsync(string Email, int KindEventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string Description);
+        public Task EditMedicalVisitEventAsync(string Email, int EventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string Description);
+        public Task DeleteMedicalVisitEventAsync(int EventId);
 
         public Task<IEnumerable<AdditionalDataIngredient>> GetIngredients();
 

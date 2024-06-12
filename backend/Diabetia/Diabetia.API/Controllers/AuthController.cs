@@ -40,8 +40,7 @@ namespace Diabetia.API.Controllers
             {
                 AuthLoginResponse res = new AuthLoginResponse();
 
-                res.Token = _jwtTokenService.GenerateToken(user.Id.ToString(), user.Username, user.Email, user.InitialFormCompleted);
-                res.StepCompleted = user.StepCompleted;
+                res.Token = _jwtTokenService.GenerateToken(user.Id.ToString(), user.Username, user.Email, user.StepCompleted);
 
                 return Ok(res);
             }

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Diabetia.Application.UseCases
 {
-    public class EventMedicalExamintaionUseCase
+    public class EventMedicalExaminationUseCase
     {
         private readonly IEventRepository _eventRepository;
         private readonly ITagRecognitionProvider _tagRecognitionProvider;
 
-        public EventMedicalExamintaionUseCase(IEventRepository eventRepository, ITagRecognitionProvider tagRecognitionProvider)
+        public EventMedicalExaminationUseCase(IEventRepository eventRepository, ITagRecognitionProvider tagRecognitionProvider)
         {
             _eventRepository = eventRepository;
             _tagRecognitionProvider = tagRecognitionProvider;

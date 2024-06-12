@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Diabetia.API.DTO.EventRequest
+namespace Diabetia.API.DTO.EventRequest.PhysicalActivity
 {
-    public class EventDeletePhysicalRequest
+    public class DeletePhysicalRequest
     {
         [Required(ErrorMessage = "El Email es requerido")]
         public string Email { get; set; }
