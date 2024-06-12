@@ -122,7 +122,7 @@ const FoodEvent = () => {
                 </div>
 
                 {/* FORMULARIO */}
-                <div className="bg-white rounded-xl w-10/12 flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-start gap-x-20 gap-y-12">
+                <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
                     <CustomDatePicker
                         label="Ingresá una fecha"
                         value={date}
@@ -139,11 +139,11 @@ const FoodEvent = () => {
                         width="w-1/3"
                     />
 
-                    <TextArea placeholder="Describí tus sensaciones, estado de ánimo y cualquier otro síntoma que pueda ser de ayuda para los profesionales" label="¿Cómo te sentís?" id="notes" width="w-full" />
+                    <TextArea placeholder="Describí tus sensaciones, estado de ánimo y cualquier otro síntoma que pueda ser de ayuda para los profesionales" label="¿Cómo te sentís?" id="notes" width="w-10/12" />
 
-                    <div className="flex flex-col w-full ">
+                    <div className="flex flex-col w-full items-center">
                         {Array.from({ length: ingredientsQuantity }).map((_, index) => (
-                            <div key={index} className="flex justify-start flex-wrap my-4 gap-20 items-end">
+                            <div key={index} className="flex justify-between flex-wrap my-4 gap-20 items-end w-10/12">
                                 <SelectSearch
                                     label="Ingrediente"
                                     placeholder="Elegí un ingrediente"
@@ -159,7 +159,7 @@ const FoodEvent = () => {
                                     width="w-1/3"
                                 />
 
-                                <div className="w-1/3 flex items-end">
+                                <div className="w-2/5 flex items-end">
                                     <InputWithLabel
                                         label="Cantidad del ingrediente"
                                         placeholder="Escribí la cantidad"
@@ -170,7 +170,7 @@ const FoodEvent = () => {
                                     <div className="ml-4 w-1/4">{ingredients[index].unit}</div>
                                 </div>
 
-                                <button onClick={() => handleRemoveIngredient(index)}>
+                                <button onClick={() => handleRemoveIngredient(index)} className="w-8">
                                     <Delete className="text-blue-primary" fontSize="large" />
                                 </button>
                             </div>

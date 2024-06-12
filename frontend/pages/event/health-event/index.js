@@ -64,7 +64,7 @@ const HealthEvent = () => {
                 </div>
 
                 {/* FORMULARIO */}
-                <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12 items-start">
+                <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
 
                     <div className="flex justify-between w-10/12">
                         <CustomDatePicker
