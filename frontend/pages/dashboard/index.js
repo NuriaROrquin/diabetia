@@ -117,7 +117,7 @@ export const Home = () => {
         </Section>
         <Section className="bg-white flex flex-col min-h-fit">
             <ContainerTitles>
-                <TitleSection>Registros de hoy</TitleSection>
+                <TitleSection>Registros del día</TitleSection>
                 <SubtitleSection>Acá encontrarás todos los registros cargados en el día actual</SubtitleSection>
             </ContainerTitles>
                 {loadingTimeline &&
