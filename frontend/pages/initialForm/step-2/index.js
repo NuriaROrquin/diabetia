@@ -51,7 +51,6 @@ const InitialFormStep2 = () => {
 
 
     const handleSubmit = () => {
-        sessionStorage.setItem('stepCompleted', '2');
         const typeDiabetes = selectedOptionTipoDiabetes.id;
         const useInsuline = insuline;
         const typeInsuline = selectedOptionTipoInsulina ? selectedOptionTipoInsulina.id : null;

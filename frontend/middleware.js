@@ -7,9 +7,9 @@ export function middleware(req){
     const jwt = cookies().get("jwt");
     const userLogged = jwt?.value;
 
-    let initialFormCompleted = null;
+    let stepCompleted = null;
     if(userLogged){
-        initialFormCompleted = jwtDecode(jwt.value).initialFormCompleted;
+        stepCompleted = jwtDecode(jwt.value).stepCompleted;
     }
 
     if (authRoutes.some(route => req.nextUrl.pathname.startsWith(route))) {
@@ -25,12 +25,14 @@ export function middleware(req){
             response.cookies.delete("jwt");
             return response;
         } else {
-            if (JSON && JSON.parse(initialFormCompleted?.toLowerCase()) === false) {
+            if (JSON && stepCompleted && JSON.parse(stepCompleted?.toLowerCase()) !== 4) {
                 return NextResponse.redirect(new URL("/initialForm", req.url));
             }
             return NextResponse.next()
         }
     }
+
+
 
 }
 

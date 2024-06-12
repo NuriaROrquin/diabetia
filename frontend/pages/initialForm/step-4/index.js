@@ -45,7 +45,6 @@ const InitialFormStep4 = () => {
     ];
 
     const handleSubmit = () => {
-        sessionStorage.setItem('stepCompleted', '4');
         const tieneDispositivo = device;
         const idDispositivo = selectedOptionDevices ? selectedOptionDevices.id : null;
         const frecuencia = selectedOptionManyMeasurements ? selectedOptionManyMeasurements.id: null;
@@ -53,9 +52,7 @@ const InitialFormStep4 = () => {
 
         fourthStep({email, tieneDispositivo, idDispositivo, frecuencia})
             .then((res) => {
-                if(res){
-                    router.push("/dashboard")
-                }
+                router.push("/dashboard")
             })
             .catch((error) => {
                 console.error('Error in fourthStep:', error);
