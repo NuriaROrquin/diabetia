@@ -122,7 +122,7 @@ const FoodEvent = () => {
                 </div>
 
                 {/* FORMULARIO */}
-                <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-start gap-x-20 gap-y-12">
+                <div className="bg-white rounded-xl w-10/12 flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-start gap-x-20 gap-y-12">
                     <CustomDatePicker
                         label="Ingresá una fecha"
                         value={date}

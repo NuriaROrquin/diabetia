@@ -1,27 +1,36 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
-import {TYPE_EVENTS} from "../../../constants";
+import {TYPE_EVENTS, TYPE_ILLNESS_HEALTH_EVENT} from "../../../constants";
 import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
 import {useState} from "react";
 import {BlueLink, OrangeLink} from "../../../components/link";
 import {TextArea, InputWithLabel} from "../../../components/input";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
+import {Select} from "../../../components/selector";
 import {addInsulinEvent} from "../../../services/api.service";
 import {useRouter} from "next/router";
 import {CustomDatePicker, CustomTimePicker} from "@/components/pickers";
 
-const InsulineEvent = () => {
-    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 1)[0].title;
+const HealthEvent = () => {
+    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 5)[0].title;
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedOption, setSelectedOption] = useState(null);
     const [hour, setHour] = useState()
     const [date, setDate] = useState()
     const router = useRouter();
+
+    const handleOptionClick = (option) => {
+        setSelectedOption(option);
+        setIsOpen(false);
+    };
 
     const handleSubmit = () => {
         const dateFormatted = date && hour ? date.format("YYYY-MM-DD") + 'T' + hour.format('HH:mm:ss') : null;
         const insulineQuantity = document.getElementById("insulineQuantity").value
         const notes = document.getElementById("notes").value;
         const email = getEmailFromJwt();
+
 
         const data = {
             "email": email,
@@ -68,15 +77,26 @@ const InsulineEvent = () => {
 
 
                         <CustomTimePicker
-                            label="Hora de administración"
+                            label="Hora del evento"
                             value={hour}
                             onChange={setHour}
                             defaultValue={dayjs()}
-                            width="w-2/5"
+                            width="w-1/3"
                         />
+
+
                     </div>
+
+
                     <div className="flex w-10/12 ">
-                        <InputWithLabel label="¿Cuantas unidades de insulina se inyectó?" placeholder="Escribí la cantidad de unidades administración"  id="insulineQuantity" width="w-1/2"/>
+
+                        <Select label="Enfermedad" placeholder="Elegí una afeccion" 
+                            options={TYPE_ILLNESS_HEALTH_EVENT} selectedOption={selectedOption} 
+                            handleOptionClick={handleOptionClick} 
+                            setIsOpen={setIsOpen} isOpen={isOpen} 
+                            width="w-1/2"
+                        />
+                        
                     </div>
 
                     <TextArea placeholder="Describí tus sensaciones, estado de ánimo y cualquier otro síntoma que pueda ser de ayuda para los profesionales" label="¿Cómo te sentís?" id="notes" width="w-10/12"/>
@@ -89,4 +109,4 @@ const InsulineEvent = () => {
     )
 }
 
-export default InsulineEvent;
+export default HealthEvent;

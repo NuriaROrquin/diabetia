@@ -84,7 +84,7 @@ export const Home = () => {
                     </div>
                     <div className="flex gap-2 col-start-2 lg:place-self-center items-center">
                         <CircleRounded className="text-red-primary"/>
-                        <span className="text-gray-primary font-medium text-xl">Cuidado! Prestale atención</span>
+                        <span className="text-gray-primary font-medium text-xl">¡Cuidado! Prestale atención</span>
                     </div>
                     <div className="flex gap-2 col-start-3 lg:place-self-center items-center">
                         <CircleRounded className="text-blue-primary"/>

@@ -68,7 +68,7 @@ const StepOne = () => {
 
                     <div className="w-full flex justify-around">
                         <ButtonGreen onClick={handleUploadClick} label="Si" width="w-1/3" background="bg-gray-400 hover:bg-gray-600"/>
-                        <ButtonOrange onClick={() => router.push("/food/step-3")} label="No, continuar" width="w-1/3"/>
+                        <ButtonGreen onClick={() => router.push("/food/step-3")} label="No, continuar" width="w-1/3"/>
                     </div>
 
                 </div>
