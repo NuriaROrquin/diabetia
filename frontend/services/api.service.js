@@ -211,6 +211,14 @@ export const editInsulinEvent = (data) => {
         );
 }
 
+export const editFoodEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/EditFoodManuallyEvent`,
+            data
+        );
+}
+
 export const getIngredients = () => {
     return axios
         .get(
