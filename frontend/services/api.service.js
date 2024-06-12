@@ -203,6 +203,14 @@ export const editGlucoseEvent = (data) => {
         );
 }
 
+export const editInsulinEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/EditInsulinEvent`,
+            data
+        );
+}
+
 export const getIngredients = () => {
     return axios
         .get(

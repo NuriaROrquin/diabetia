@@ -1088,7 +1088,8 @@ namespace Diabetia.Infrastructure.Repositories
                           DateEvent = joined.CargaEvento.FechaEvento,
                           Title = joined.TipoEvento.Tipo,
                           InsulinType = ti.Nombre,
-                          Dosage = joined.EventoInsulina.InsulinaInyectada
+                          Dosage = joined.EventoInsulina.InsulinaInyectada,
+                          FreeNote = joined.CargaEvento.NotaLibre
                       })
                 .FirstOrDefaultAsync();
 
