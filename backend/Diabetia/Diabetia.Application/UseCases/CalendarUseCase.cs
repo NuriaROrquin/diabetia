@@ -134,7 +134,7 @@ namespace Diabetia.Application.UseCases
                     IdEvent = foodEvent.IdEvent,
                     Time = foodEvent.DateEvent.ToString("hh:mm tt"),
                     Title = "Comida",
-                    AdditionalInfo = $"Ingredientes: {foodEvent.IngredientName}",
+                    AdditionalInfo = foodEvent.IngredientName != null ? $"Ingredientes: {foodEvent.IngredientName}" : "Etiqueta nutricional",
                 };
 
                 events.Add(eventItem);

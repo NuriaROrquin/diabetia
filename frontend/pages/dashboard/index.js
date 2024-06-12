@@ -1,7 +1,7 @@
 import {MetricCard} from "../../components/card";
 import {Selector} from "../../components/selector";
 import {useEffect, useState} from "react";
-import {DASHBOARD_OPTIONS_FILTER_DAYS, DASHBOARD_INDICATORS, DASHBOARD_TIMELINE_EVENTS} from "../../constants";
+import {DASHBOARD_OPTIONS_FILTER_DAYS, DASHBOARD_INDICATORS} from "../../constants";
 import {CircleRounded} from "@mui/icons-material";
 import {ContainerTitles, SubtitleSection, TitleSection} from "../../components/titles";
 import {Timeline} from "../../components/timeline";
@@ -10,7 +10,7 @@ import {OrangeLink} from "../../components/link";
 import {getMetrics, getTimeline} from "../../services/api.service";
 import {useCookies} from "react-cookie";
 import CustomTooltip from "@/components/tooltip";
-import {calculateDateFilter, calculateDateRange, getEmailFromJwt} from "../../helpers";
+import {calculateDateRange, getEmailFromJwt} from "../../helpers";
 
 export const Home = () => {
     const [error, setError] = useState(false);

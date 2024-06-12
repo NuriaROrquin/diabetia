@@ -8,6 +8,11 @@ import {tagRegistration} from "../../../services/api.service";
 import {OrangeLink} from "../../../components/link";
 import {getEmailFromJwt} from "../../../helpers";
 import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const StepFour = () => {
     const { imagesUploaded, updateAIDataDetected, updateCarbohydratesConsumed } = useAIData();
@@ -41,9 +46,13 @@ const StepFour = () => {
 
         const email = getEmailFromJwt();
 
+        const eventDate = dayjs().tz('Etc/GMT+3')
+
+        console.log(eventDate.format('YYYY-MM-DDTHH:mm:ss.SSSZ'))
+
         const requestData = {
             email: email,
-            eventDate: dayjs(),
+            eventDate: eventDate.format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
             tags: tagsToRegister
         };
 
