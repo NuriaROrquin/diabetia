@@ -10,8 +10,6 @@ import { addGlucoseEvent, editGlucoseEvent } from "../../services/api.service";
 import { getEmailFromJwt } from "../../helpers";
 
 export const GlucoseEventForm = ({ existingData }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(null);
     const [hour, setHour] = useState(dayjs());
     const [date, setDate] = useState(dayjs());
     const [glucoseLevel, setGlucoseLevel] = useState('');
@@ -24,8 +22,6 @@ export const GlucoseEventForm = ({ existingData }) => {
         if (existingData) {
             var existingDate = dayjs(existingData.dateEvent).format("YYYY-MM-DD");
             var existingHour = dayjs(existingData.dateEvent);
-            var device = TYPE_DEVICES.find(d => d.id === existingData.idDevice)
-            setSelectedOption(device);
             setDate(existingDate);
             setHour(existingHour);
             setGlucoseLevel(existingData.glucoseLevel);
@@ -34,13 +30,7 @@ export const GlucoseEventForm = ({ existingData }) => {
 
     }, [existingData]);
 
-    const handleOptionClick = (option) => {
-        setSelectedOption(option);
-        setIsOpen(false);
-    };
-
     const handleSubmit = () => {
-        const device = selectedOption ? selectedOption.id : null;
         const email = getEmailFromJwt();
         var dateFormatted;
         if(!router.query.id){
@@ -55,7 +45,6 @@ export const GlucoseEventForm = ({ existingData }) => {
             "eventDate": dateFormatted,
             "freeNote": notes,
             "glucose": glucoseLevel,
-            "idDevicePacient": device
         };
         if(router.query.id){
             editGlucoseEvent({...data, idEvent: router.query.id}).then(() =>
@@ -86,25 +75,17 @@ export const GlucoseEventForm = ({ existingData }) => {
                 width="w-1/3"
                 defaultHour={hour && hour}
             />
-            <Select
-                label="Dispositivo"
-                placeholder="¿Cómo se tomó la glucosa?"
-                options={TYPE_DEVICES}
-                selectedOption={selectedOption}
-                handleOptionClick={handleOptionClick}
-                setIsOpen={setIsOpen}
-                isOpen={isOpen}
-                width="w-1/3"
-            />
+            <div className="flex items-start w-10/12">
             <InputWithLabel
                 label="Cantidad de mg/dL de glucosa"
                 placeholder="Escribí tu medición"
                 id="glycemiaMeasurement"
-                width="w-1/3"
+                width="w-2/5"
                 value={glucoseLevel}
                 defaultValue={glucoseLevel && glucoseLevel}
                 onChange={(e) => setGlucoseLevel(e.target.value)}
             />
+            </div>
             <TextArea
                 placeholder="Describí tus sensaciones, estado de ánimo y cualquier otro síntoma que pueda ser de ayuda para los profesionales"
                 label="¿Cómo te sentís?"

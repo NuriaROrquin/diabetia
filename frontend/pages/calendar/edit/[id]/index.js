@@ -4,6 +4,7 @@ import { Section } from "@/components/section";
 import { getEventType } from "../../../../services/api.service";
 import { GlucoseEventForm, InsulinEventForm } from "@/components/eventForm";
 import {TYPE_EVENTS} from "../../../../constants";
+import {TitleSection} from "@/components/titles";
 const EditEvent = () => {
     const router = useRouter();
     const [eventData, setEventData] = useState(null);
@@ -41,7 +42,7 @@ const EditEvent = () => {
             </div>
             {eventData && (
                 <div className="container items-center flex w-full justify-center flex-col">
-                    <h2>Detalles del evento {evento ? `${evento.title}` : "Evento no encontrado"}</h2>
+                    <TitleSection className="text-white mt-12">Detalles del evento {evento ? `${evento.title}` : "Evento no encontrado"}</TitleSection>
                     {eventData.typeEvent === 3 && (
                         <GlucoseEventForm existingData={eventData.glucoseEvent} />
                     )}
