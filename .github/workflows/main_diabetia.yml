@@ -24,7 +24,7 @@ jobs:
 
       - name: Build with dotnet
         run: |
-          cd Diabetia/backend/Diabetia/
+          cd ${{ github.workspace }}/backend/Diabetia/
           dotnet build --configuration Release
 
       - name: dotnet publish
