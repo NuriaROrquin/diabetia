@@ -105,28 +105,28 @@ const ReminderEvent = () => {
 
                         {reminder && (
                             <>
-                                <Select label="¿En cuanto tiempo?" placeholder=""
+                                <Select label="¿En cuanto tiempo?" placeholder="Tiempo para el recordatorio"
                                 options={TYPE_REMINDERTIME}
                                 selectedOption={selectedOption}
                                 handleOptionClick={handleOptionClick}
                                 setIsOpen={setIsOpen} isOpen={isOpen}
                                 width="w-1/3"/>
-
-                                <div className="bg-white w-full flex flex-col rounded-xl p-6 justify-center items-center"
-                                    onClick={handleUploadClick}>
-                                        <UploadFileOutlined className="text-orange-primary h-20 w-20"/>
-                                        <span className="text-lg text-gray-primary font-semibold">Hacé click para subir un archivo</span>
-                                        <span className="text-lg text-gray-primary">desde tu dispositivo</span>
-                                </div>
-
-                                <input
-                                    type="file"
-                                    ref={fileInputRef}
-                                    style={{display: 'none'}}
-                                    onChange={handleFileChange}
-                                    />
                             </>
                         )}
+                        <div className="bg-white w-full flex flex-col rounded-xl p-6 justify-center items-center"
+                             onClick={handleUploadClick}>
+                            <UploadFileOutlined className="text-orange-primary h-20 w-20"/>
+                            <span className="text-lg text-gray-primary font-semibold">Hacé click para subir un archivo</span>
+                            <span className="text-lg text-gray-primary">desde tu dispositivo</span>
+                        </div>
+
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            style={{display: 'none'}}
+                            onChange={handleFileChange}
+                        />
+
 
                     </div>
 
