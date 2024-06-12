@@ -82,10 +82,14 @@ namespace Diabetia.API.Controllers
 
             var userPatientInfo = await _dataUserUseCase.GetPatientInfo(tagsRequest.Email);
 
-            float insulinToCorrect = (float)(totalChConsumed / userPatientInfo.ChCorrection);
+            
+            if (userPatientInfo.ChCorrection != null)
+            {
+                float insulinToCorrect = (float)(totalChConsumed / userPatientInfo.ChCorrection);
+                responses.InsulinToCorrect = (float)insulinToCorrect;
+            }
 
             responses.ChConsumed = (int)totalChConsumed;
-            responses.InsulinToCorrect = insulinToCorrect;
 
             await _eventFoodUseCase.AddFoodByTagEvent(tagsRequest.Email,tagsRequest.EventDate, responses.ChConsumed);
 
