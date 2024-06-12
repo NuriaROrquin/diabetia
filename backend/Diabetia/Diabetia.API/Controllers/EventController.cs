@@ -89,10 +89,12 @@ namespace Diabetia.API.Controllers
            var totalChConsumed = await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.IdKindEvent.Value, request.Ingredients, request.FreeNote);
 
             var userPatientInfo = await _dataUserUseCase.GetPatientInfo(request.Email);
+            if (userPatientInfo.ChCorrection == null)
+            {
+                var insulinToCorrect = totalChConsumed / userPatientInfo.ChCorrection;
+                response.InsulinToCorrect = (float)insulinToCorrect;
+            }
 
-            var insulinToCorrect = totalChConsumed / userPatientInfo.ChCorrection;
-
-            response.InsulinToCorrect = (float)insulinToCorrect;
             response.ChConsumed = (int)totalChConsumed;
 
             return response;
