@@ -23,7 +23,7 @@ export const GlucoseEventForm = ({ existingData }) => {
 
         if (existingData) {
             var existingDate = dayjs(existingData.dateEvent).format("YYYY-MM-DD");
-            var existingHour = dayjs(existingData.dateEvent).format('HH:mm ss');
+            var existingHour = dayjs(existingData.dateEvent);
             var device = TYPE_DEVICES.find(d => d.id === existingData.idDevice)
             setSelectedOption(device);
             setDate(existingDate);
