@@ -8,7 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 namespace Diabetia.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]")] //Auth
     public class AuthController : ControllerBase
     {
         private readonly AuthLoginUseCase _loginUseCase;
@@ -27,7 +27,7 @@ namespace Diabetia.API.Controllers
         }
 
 
-        [HttpPost("login")]
+        [HttpPost("login")]// Auth/Login
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]

@@ -1,4 +1,5 @@
-﻿using Diabetia.Domain.Repositories;
+﻿using Diabetia.Domain.Models;
+using Diabetia.Domain.Repositories;
 using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases
@@ -14,11 +15,11 @@ namespace Diabetia.Application.UseCases
             _eventRepository = eventRepository;
         }
 
-        public async Task AddPhysicalEventAsync(string email, int KindEvent, DateTime EventDate, String FreeNote, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime)
+        public async Task AddPhysicalEventAsync(string email, EventoActividadFisica physicalActivity)
         {
             await _patientValidator.ValidatePatient(email);
 
-            await _eventRepository.AddPhysicalActivityEventAsync(email, KindEvent, EventDate, FreeNote, PhysicalActivity, IniciateTime, FinishTime);
+            await _eventRepository.AddPhysicalActivityEventAsync(physicalActivity);
         }
 
         public async Task EditPhysicalEventAsync(string email, int EventId, DateTime EventDate, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime, string FreeNote)
