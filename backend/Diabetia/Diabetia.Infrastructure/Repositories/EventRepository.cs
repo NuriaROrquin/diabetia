@@ -7,6 +7,7 @@ using Diabetia.Domain.Entities.Events;
 using Diabetia.Domain.Entities;
 using Diabetia.Infrastructure.EF;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.Data.Entity;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -552,157 +553,114 @@ namespace Diabetia.Infrastructure.Repositories
 
 
         // ------------------------------------------------------ ⇊ Medical Visit Event ⇊ ------------------------------------------------------------
-        public async Task AddMedicalVisitEventAsync(string Email, int KindEventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string Description)
+        public async Task AddMedicalVisitEventAsync(EventoVisitaMedica medicalVisit)
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            if (user == null)
-            {
-                throw new UserNotFoundOnDBException();
-            }
-            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
-            if (patient == null)
-            {
-                throw new PatientNotFoundException();
-            }
-            bool IsDone = VisitDate.Date <= DateTime.Now.Date;
+            bool IsDone = medicalVisit.IdCargaEventoNavigation.FechaEvento.Date <= DateTime.Now.Date;
             var newEvent = new CargaEvento
             {
-                IdPaciente = patient.Id,
-                IdTipoEvento = KindEventId,
+                IdPaciente = medicalVisit.IdCargaEventoNavigation.IdPaciente,
+                IdTipoEvento = medicalVisit.IdCargaEventoNavigation.IdTipoEvento,
                 FechaActual = DateTime.Now,
-                FechaEvento = VisitDate,
+                FechaEvento = medicalVisit.IdCargaEventoNavigation.FechaEvento,
                 FueRealizado = IsDone,
                 EsNotaLibre = false,
             };
 
             _context.CargaEventos.Add(newEvent);
             await _context.SaveChangesAsync();
-            int IdLoadEvent = newEvent.Id;
 
             var newMedicalVisitEvent = new EventoVisitaMedica
             {
-                IdCargaEvento = IdLoadEvent,
-                IdProfesional = ProfessionalId,
-                Descripcion = Description
+                IdCargaEvento = medicalVisit.IdCargaEventoNavigation.Id,
+                IdProfesional = medicalVisit.IdProfesional,
+                Descripcion = medicalVisit.Descripcion
             };
             _context.EventoVisitaMedicas.Add(newMedicalVisitEvent);
             await _context.SaveChangesAsync();
 
-            if (Recordatory && RecordatoryDate.HasValue)
-            {
-                var newRecordatory = new Recordatorio
-                {
-                    IdTipoEvento = KindEventId,
-                    FechaInicio = DateOnly.FromDateTime(RecordatoryDate.Value),
-                    HorarioActividad = TimeOnly.FromDateTime(RecordatoryDate.Value),
-                };
-                _context.Recordatorios.Add(newRecordatory);
-                await _context.SaveChangesAsync();
-                int IdRecordatory = newRecordatory.Id;
+            // VER QUE HACEMOS CON RECORDATORIO
+            //if (Recordatory && RecordatoryDate.HasValue)
+            //{
+            //    var newRecordatory = new Recordatorio
+            //    {
+            //        IdTipoEvento = KindEventId,
+            //        FechaInicio = DateOnly.FromDateTime(RecordatoryDate.Value),
+            //        HorarioActividad = TimeOnly.FromDateTime(RecordatoryDate.Value),
+            //    };
+            //    _context.Recordatorios.Add(newRecordatory);
+            //    await _context.SaveChangesAsync();
+            //    int IdRecordatory = newRecordatory.Id;
 
-                var newRecordatoryEvent = new RecordatorioEvento
-                {
-                    IdCargaEvento = IdLoadEvent,
-                    IdRecordatorio = IdRecordatory,
-                    IdDiaSemana = 1,
-                    FechaHoraRecordatorio = RecordatoryDate.Value
-                };
-                _context.RecordatorioEventos.Add(newRecordatoryEvent);
-                await _context.SaveChangesAsync();
-            }
+            //    var newRecordatoryEvent = new RecordatorioEvento
+            //    {
+            //        IdCargaEvento = IdLoadEvent,
+            //        IdRecordatorio = IdRecordatory,
+            //        IdDiaSemana = 1,
+            //        FechaHoraRecordatorio = RecordatoryDate.Value
+            //    };
+            //    _context.RecordatorioEventos.Add(newRecordatoryEvent);
+            //    await _context.SaveChangesAsync();
         }
 
-        public async Task EditMedicalVisitEventAsync(string Email, int EventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string Description)
+        public async Task EditMedicalVisitEventAsync(EventoVisitaMedica medicalVisit)
         {
-            var @event = await _context.CargaEventos.FirstOrDefaultAsync(e => e.Id == EventId);
-            if (@event == null)
-            {
-                throw new EventNotFoundException();
-            }
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            if (user == null)
-            {
-                throw new UserNotFoundOnDBException();
-            }
-            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
-            if (patient == null)
-            {
-                throw new PatientNotFoundException();
-            }
-            if (@event.IdPaciente != patient.Id)
-            {
-                throw new EventNotRelatedWithPatientException();
-            }
-            @event.FechaEvento = VisitDate;
-            @event.FueRealizado = VisitDate <= DateTime.Now ? true : false;
+            var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == medicalVisit.IdCargaEventoNavigation.Id);
+            @event.FechaEvento = medicalVisit.IdCargaEventoNavigation.FechaEvento;
+            @event.FueRealizado = medicalVisit.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
 
-
-            var medicalVisitEvent = await _context.EventoVisitaMedicas.FirstOrDefaultAsync(vm => vm.IdCargaEvento == EventId);
+            var medicalVisitEvent = await _context.EventoVisitaMedicas.FirstOrDefaultAsync(vm => vm.IdCargaEvento == medicalVisit.Id);
             if (medicalVisitEvent == null)
             {
                 throw new EventNotMatchException();
             }
 
-            medicalVisitEvent.IdProfesional = ProfessionalId;
-            medicalVisitEvent.Descripcion = Description;
+            medicalVisitEvent.IdProfesional = medicalVisit.IdProfesional;
+            medicalVisitEvent.Descripcion = medicalVisit.Descripcion;
             _context.CargaEventos.Update(@event);
             _context.EventoVisitaMedicas.Update(medicalVisitEvent);
 
-            if (Recordatory && RecordatoryDate.HasValue)
-            {
-                var recordatoryEvent = await _context.RecordatorioEventos.FirstOrDefaultAsync(re => re.IdCargaEvento == EventId);
-                if (recordatoryEvent == null)
-                {
-                    throw new RecordatoryNotMatchException();
-                }
-                recordatoryEvent.FechaHoraRecordatorio = RecordatoryDate.Value;
+            // VER COMO SE HACE LO DE RECORDATORIOS
+            //if (Recordatory && RecordatoryDate.HasValue)
+            //{
+            //    var recordatoryEvent = await _context.RecordatorioEventos.FirstOrDefaultAsync(re => re.IdCargaEvento == EventId);
+            //    if (recordatoryEvent == null)
+            //    {
+            //        throw new RecordatoryNotMatchException();
+            //    }
+            //    recordatoryEvent.FechaHoraRecordatorio = RecordatoryDate.Value;
 
-                var recordatory = await _context.Recordatorios.FirstOrDefaultAsync(r => r.Id == recordatoryEvent.IdRecordatorio);
-                if (recordatory == null)
-                {
-                    throw new RecordatoryNotMatchException();
-                }
-                recordatory.FechaInicio = DateOnly.FromDateTime(RecordatoryDate.Value);
-                recordatory.HorarioActividad = TimeOnly.FromDateTime(RecordatoryDate.Value);
-                _context.RecordatorioEventos.Update(recordatoryEvent);
-                _context.Recordatorios.Update(recordatory);
-            }
-            else
-            {
-                var recordatoryEvent = await _context.RecordatorioEventos.FirstOrDefaultAsync(re => re.IdCargaEvento == EventId);
-                if (recordatoryEvent != null)
-                {
-                    var recordatory = await _context.Recordatorios.FirstOrDefaultAsync(r => r.Id == recordatoryEvent.IdRecordatorio);
-                    _context.RecordatorioEventos.Remove(recordatoryEvent);
-                    _context.Recordatorios.Remove(recordatory);
+            //    var recordatory = await _context.Recordatorios.FirstOrDefaultAsync(r => r.Id == recordatoryEvent.IdRecordatorio);
+            //    if (recordatory == null)
+            //    {
+            //        throw new RecordatoryNotMatchException();
+            //    }
+            //    recordatory.FechaInicio = DateOnly.FromDateTime(RecordatoryDate.Value);
+            //    recordatory.HorarioActividad = TimeOnly.FromDateTime(RecordatoryDate.Value);
+            //    _context.RecordatorioEventos.Update(recordatoryEvent);
+            //    _context.Recordatorios.Update(recordatory);
+            //}
+            //else
+            //{
+            //    var recordatoryEvent = await _context.RecordatorioEventos.FirstOrDefaultAsync(re => re.IdCargaEvento == EventId);
+            //    if (recordatoryEvent != null)
+            //    {
+            //        var recordatory = await _context.Recordatorios.FirstOrDefaultAsync(r => r.Id == recordatoryEvent.IdRecordatorio);
+            //        _context.RecordatorioEventos.Remove(recordatoryEvent);
+            //        _context.Recordatorios.Remove(recordatory);
 
-                }
-            }
+            //    }
+            //}
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteMedicalVisitEventAsync(int EventId)
+        public async Task DeleteMedicalVisitEventAsync(int eventId)
         {
-            var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == EventId);
-            if (EventLoad == null) { throw new EventNotFoundException(); }
-            var medicalVisitEvent = await _context.EventoVisitaMedicas.FirstOrDefaultAsync(vm => vm.IdCargaEvento == EventId);
-            if (medicalVisitEvent == null)
-            {
-                throw new EventNotMatchException();
-            }
-            var recordatoryEvent = await _context.RecordatorioEventos.FirstOrDefaultAsync(re => re.IdCargaEvento == EventId);
-            if (recordatoryEvent != null)
-            {
-                var recordatory = await _context.Recordatorios.FirstOrDefaultAsync(r => r.Id == recordatoryEvent.IdRecordatorio);
-                if (recordatory == null)
-                {
-                    throw new RecordatoryNotMatchException();
-                }
-                _context.RecordatorioEventos.Remove(recordatoryEvent);
-                _context.Recordatorios.Remove(recordatory);
-            }
-            _context.EventoVisitaMedicas.Remove(medicalVisitEvent);
-            _context.CargaEventos.Remove(EventLoad);
+            var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == eventId);
+            var medicalVisitEvent = await _context.EventoActividadFisicas.FirstOrDefaultAsync(eaf => eaf.IdCargaEvento == @event.Id);
+
+            _context.EventoActividadFisicas.Remove(medicalVisitEvent);
+            _context.CargaEventos.Remove(@event);
+
             await _context.SaveChangesAsync();
         }
 

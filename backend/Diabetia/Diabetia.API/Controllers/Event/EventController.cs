@@ -3,6 +3,7 @@ using Diabetia.API.DTO;
 using Diabetia.API.DTO.EventRequest;
 using Diabetia.API.DTO.EventRequest.MedicalVisit;
 using Diabetia.API.DTO.EventRequest.PhysicalActivity;
+using Diabetia.API.DTO.RecordatoryRequest;
 using Diabetia.Application.UseCases;
 using Diabetia.Application.UseCases.EventUseCases;
 using Microsoft.AspNetCore.Authorization;
@@ -39,8 +40,8 @@ namespace Diabetia.API.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
+        // -------------------------------------------- ⬇️⬇ Physical Activity ⬇️⬇ --------------------------------------------------
         [HttpPost("AddPhysicalEvent")] // VER LOS PROTOCOLOS
-        
         public async Task <IActionResult> AddPhysicalEvent([FromBody] AddPhysicalRequest request)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
@@ -56,7 +57,7 @@ namespace Diabetia.API.Controllers
             return Ok("Evento modificado correctamente"); ;
         }
 
-
+        // -------------------------------------------- ⬇️⬇ Glucose ⬇️⬇ --------------------------------------------------
         [HttpPost("AddGlucoseEvent")]
         public async Task<IActionResult> AddGlucoseEvent([FromBody] EventGlucoseRequest request)
         {
@@ -71,7 +72,7 @@ namespace Diabetia.API.Controllers
             return Ok("Evento modificado correctamente");
         }
 
-
+        // -------------------------------------------- ⬇️⬇ Insuline ⬇️⬇ --------------------------------------------------
         [HttpPost("AddInsulinEvent")]
         public async Task<IActionResult> AddInsulinEvent([FromBody] EventInsulinRequest request)
         {
@@ -86,6 +87,8 @@ namespace Diabetia.API.Controllers
             return Ok("Evento modificado correctamente");
         }
 
+
+        // -------------------------------------------- ⬇️⬇ Food Manually ⬇️⬇ --------------------------------------------------
         [HttpPost("AddFoodManuallyEvent")]
         public async Task<EventFoodResponse> AddFoodManuallyEvent([FromBody] EventFoodRequest request)
         {
@@ -111,6 +114,8 @@ namespace Diabetia.API.Controllers
             return Ok();
         }
 
+
+        // -------------------------------------------- ⬇️⬇ Medical Examination ⬇️⬇ --------------------------------------------------
         [HttpPost("AddMedicalExaminationEvent")]
         public async Task<IActionResult> AddMedicalExaminationEvent([FromBody] EventMedicalExaminationRequest request)
         {
@@ -122,18 +127,20 @@ namespace Diabetia.API.Controllers
         [HttpPost("AddMedicalVisitEvent")]
         public async Task<IActionResult> AddMedicalEventAsync([FromBody] AddMedicalVisitRequest request)
         {
-            await _eventMedicalVisitUseCase.AddMedicalVisitEventAsync(request.Email, request.KindEventId, request.EventDate, request.ProfessionalId, request.Recordatory, request.RecordatoryDate, request.Description);
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
+            await _eventMedicalVisitUseCase.AddMedicalVisitEventAsync(email, request.ToDomain(request)); // Posible RecordatoryEventRequest
             return Ok("Visita médica agregada correctamente");
         }
 
         [HttpPost("EditMedicalVisitEvent")]
         public async Task<IActionResult> EditMedicalEventAsync([FromBody] EditMedicalVisitRequest request)
         {
-            await _eventMedicalVisitUseCase.EditMedicalVisitEventAsync(request.Email, request.EventId, request.EventDate, request.ProfessionalId, request.Recordatory, request.RecordatoryDate, request.Description);
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
+            await _eventMedicalVisitUseCase.EditMedicalVisitEventAsync(email, request.ToDomain(request));
             return Ok("Visita médica modificada correctamente");
         }
 
-
+        // ------------------------------------ General Actions ------------------------------------------
         [HttpGet("GetEventType/{id}")]
         public async Task<IActionResult> GetEventType([FromRoute] int id)
         {
