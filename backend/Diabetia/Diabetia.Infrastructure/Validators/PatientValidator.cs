@@ -1,5 +1,4 @@
 ﻿using Diabetia.Application.Exceptions;
-using Diabetia.Domain.Models;
 using Diabetia.Infrastructure.EF;
 using Diabetia.Interfaces;
 using System.Data.Entity;

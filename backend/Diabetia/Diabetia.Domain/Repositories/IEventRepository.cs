@@ -1,13 +1,14 @@
 ﻿using Diabetia.Domain.Entities;
 ﻿using Diabetia.Common.Utilities;
 using Diabetia.Domain.Entities.Events;
+using Diabetia.Domain.Models;
 
 namespace Diabetia.Domain.Repositories
 {
     public interface IEventRepository 
     {
         // --------------------------------------- Physical Activity ------------------------------------------
-        public Task AddPhysicalActivityEventAsync(string Email, int KindEvent, DateTime EventDate, String FreeNote, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime);
+        public Task AddPhysicalActivityEventAsync(EventoActividadFisica physicalActivity);
 
         public Task EditPhysicalActivityEventAsync(string Email, int EventId, DateTime EventDate, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime, string FreeNote);
 

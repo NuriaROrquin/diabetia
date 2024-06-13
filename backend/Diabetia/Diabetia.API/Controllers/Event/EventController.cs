@@ -13,6 +13,7 @@ namespace Diabetia.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class EventController : ControllerBase
     {
         private readonly EventPhysicalActivityUseCase _eventPhysicalActivityUseCase;
@@ -39,17 +40,16 @@ namespace Diabetia.API.Controllers
         }
 
         [HttpPost("AddPhysicalEvent")]
-        [Authorize]
+        
         public async Task <IActionResult> AddPhysicalEvent([FromBody] AddPhysicalRequest request)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
 
-            await _eventPhysicalActivityUseCase.AddPhysicalEventAsync(email, request.IdKindEvent, request.EventDate, request.FreeNote, request.PhysicalActivity, request.IniciateTime, request.FinishTime);
+            await _eventPhysicalActivityUseCase.AddPhysicalEventAsync(email, request.ToDomain(request));
             return Ok("Evento creado correctamente");
         }
 
         [HttpPost("EditPhysicalEvent")]
-        [Authorize]
         public async Task<IActionResult> EditPhysicalEvent([FromBody] EditPhysicalRequest request)
         {
             await _eventPhysicalActivityUseCase.EditPhysicalEventAsync(request.Email, request.EventId, request.EventDate, request.PhysicalActivity, request.IniciateTime, request.FinishTime, request.FreeNote);

@@ -19,42 +19,29 @@ namespace Diabetia.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddPhysicalActivityEventAsync(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int IdPhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime)
+        public async Task AddPhysicalActivityEventAsync(EventoActividadFisica physicalActivity)
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            if (user == null)
-            {
-                throw new UserNotFoundOnDBException();
-            }
-            var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
-            if (patient == null)
-            {
-                throw new PatientNotFoundException();
-            }
-            bool IsDone = EventDate <= DateTime.Now ? true : false;
+           
+            bool IsDone = physicalActivity.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
             var NewEvent = new CargaEvento
             {
-                IdPaciente = patient.Id,
-                IdTipoEvento = IdKindEvent,
+                IdPaciente = physicalActivity.IdCargaEventoNavigation.IdPaciente,
+                IdTipoEvento = physicalActivity.IdCargaEventoNavigation.IdTipoEvento,
                 FechaActual = DateTime.Now,
-                FechaEvento = EventDate,
-                NotaLibre = FreeNote,
+                FechaEvento = physicalActivity.IdCargaEventoNavigation.FechaEvento,
+                NotaLibre = physicalActivity.IdCargaEventoNavigation.NotaLibre,
                 FueRealizado = IsDone,
                 EsNotaLibre = false,
             };
 
             _context.CargaEventos.Add(NewEvent);
             await _context.SaveChangesAsync();
-            int IdLoadEvent = NewEvent.Id;
 
-            TimeSpan difference = FinishTime - IniciateTime;
-            double totalMinutes = difference.TotalMinutes;
-            int eventDuration = (int)Math.Ceiling(totalMinutes);
             var NewPhysicalEvent = new EventoActividadFisica
             {
-                IdCargaEvento = IdLoadEvent,
-                IdActividadFisica = IdPhysicalActivity,
-                Duracion = eventDuration,
+                IdCargaEvento = physicalActivity.IdCargaEventoNavigation.Id,
+                IdActividadFisica = physicalActivity.IdActividadFisica,
+                Duracion = physicalActivity.Duracion,
             };
 
             _context.EventoActividadFisicas.Add(NewPhysicalEvent);
