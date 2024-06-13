@@ -23,8 +23,9 @@ namespace Diabetia.API.Controllers
         private readonly DataUserUseCase _dataUserUseCase;
         private readonly EventMedicalExaminationUseCase _eventMedicalExaminationUseCase;
         private readonly EventMedicalVisitUseCase _eventMedicalVisitUseCase;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase eventGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, EventMedicalVisitUseCase eventMedicalVisitUseCase)
+        public EventController(EventPhysicalActivityUseCase eventPhysicalActivityUseCase, EventGlucoseUseCase eventGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, EventMedicalVisitUseCase eventMedicalVisitUseCase, IHttpContextAccessor httpContextAccessor)
         {
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
             _eventGlucosetUseCase = eventGlucoseUseCase;
@@ -34,13 +35,16 @@ namespace Diabetia.API.Controllers
             _dataUserUseCase = dataUserUseCase;
             _eventMedicalExaminationUseCase = eventMedicalExaminationUseCase;
             _eventMedicalVisitUseCase = eventMedicalVisitUseCase;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost("AddPhysicalEvent")]
         [Authorize]
         public async Task <IActionResult> AddPhysicalEvent([FromBody] AddPhysicalRequest request)
         {
-            await _eventPhysicalActivityUseCase.AddPhysicalEventAsync(request.Email, request.IdKindEvent, request.EventDate, request.FreeNote, request.PhysicalActivity, request.IniciateTime, request.FinishTime);
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
+
+            await _eventPhysicalActivityUseCase.AddPhysicalEventAsync(email, request.IdKindEvent, request.EventDate, request.FreeNote, request.PhysicalActivity, request.IniciateTime, request.FinishTime);
             return Ok("Evento creado correctamente");
         }
 

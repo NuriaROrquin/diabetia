@@ -1,4 +1,5 @@
-﻿using Diabetia.Domain.Entities;
+﻿using Diabetia.Application.Exceptions;
+using Diabetia.Domain.Entities;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Services;
 
@@ -15,9 +16,18 @@ namespace Diabetia.Application.UseCases
         {
             return await _userRepository.GetUserInfo(userName);
         }
-        public async Task FirstStep(string name, string email, string gender, string lastname, int weight, string phone, DateOnly birthdate)
+        public async Task<Paciente> FirstStep(string name, string email, string gender, string lastname, int weight, string phone, DateOnly birthdate)
         {
             await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone, birthdate);
+
+            var patient = await _userRepository.GetPatient(email);
+
+            if(patient == null)
+            {
+                throw new PatientNotFoundException();
+            }
+
+            return patient;
         }
 
         public async Task SecondStep(int typeDiabetes, bool useInsuline, int? typeInsuline, string email, bool? needsReminder, int? frequency, string? hourReminder, int? insulinePerCH)

@@ -4,6 +4,7 @@ using Diabetia.Application.UseCases;
 using Diabetia.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Diabetia.API.Controllers
 {
@@ -14,17 +15,20 @@ namespace Diabetia.API.Controllers
         private readonly ILogger<CalendarController> _logger;
 
         private readonly CalendarUseCase _calendarUseCase;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CalendarController(ILogger<CalendarController> logger, CalendarUseCase calendarUseCase)
+        public CalendarController(ILogger<CalendarController> logger, CalendarUseCase calendarUseCase, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _calendarUseCase = calendarUseCase;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost("events")]
         [Authorize]
         public async Task<Dictionary<string, List<EventItem>>> GetAllEvents([FromBody] CalendarRequest request)
         {
+            // var username = _httpContextAccessor.HttpContext?.User.FindFirst("username")?.Value;
             var eventsByDate = await _calendarUseCase.GetAllEvents(request.Email);
             return eventsByDate;
         }

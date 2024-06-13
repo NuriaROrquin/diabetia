@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities;
 using Diabetia.Infrastructure.EF;
+using Diabetia.Application.Exceptions;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -337,6 +338,11 @@ namespace Diabetia.Infrastructure.Repositories
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
+
+            if (patient == null)
+            {
+                throw new PatientNotFoundException();
+            }
 
             return patient;
         }
