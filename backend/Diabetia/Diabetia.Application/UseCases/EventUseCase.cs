@@ -1,12 +1,9 @@
 ﻿using Diabetia.Domain.Services;
-using Diabetia.Domain.Entities;
 using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
-using System.Numerics;
-using System.Reflection;
-using System.Xml.Linq;
 using Diabetia.Domain.Entities.Events;
-using Microsoft.Extensions.Logging;
+using Diabetia.Application.Exceptions;
+using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases
 {
@@ -14,12 +11,16 @@ namespace Diabetia.Application.UseCases
     {
         private readonly IEventRepository _eventRepository;
         private readonly ITagRecognitionProvider _tagRecognitionProvider;
+        private readonly IPatientValidator _patientValidator;
+        private readonly IPatientEventValidator _patientEventValidator;
         private object glucoseEvent;
 
-        public EventUseCase(IEventRepository eventRepository, ITagRecognitionProvider tagRecognitionProvider)
+        public EventUseCase(IEventRepository eventRepository, ITagRecognitionProvider tagRecognitionProvider, IPatientValidator patientValidator, IPatientEventValidator patientEventValidator)
         {
             _eventRepository = eventRepository;
             _tagRecognitionProvider = tagRecognitionProvider;
+            _patientValidator = patientValidator;
+            _patientEventValidator = patientEventValidator;
         }
 
         public async Task<GenericEvent?> GetEvent(int id)
@@ -82,11 +83,17 @@ namespace Diabetia.Application.UseCases
                 default:
                     return null;
             }
-
         }
 
-       public async Task DeleteEvent(int id)
+       public async Task DeleteEvent(int id, string email)
         {
+            await _patientValidator.ValidatePatient(email);
+            var @event = await _eventRepository.GetEventByIdAsync(id);
+            if (@event == null)
+            {
+                throw new EventNotFoundException();
+            }
+            await _patientEventValidator.ValidatePatientEvent(email, @event);
             var type = await _eventRepository.GetEventType(id);
 
             switch (type)

@@ -1,10 +1,10 @@
 ﻿using Diabetia.Domain.Repositories;
 namespace Diabetia.Application.UseCases.EventUseCases
 {
-    public class EventMedicalVisitUseCase
+    public class MedicalVisitUseCase
     {
         private readonly IEventRepository _eventRepository;
-        public EventMedicalVisitUseCase(IEventRepository eventRepository)
+        public MedicalVisitUseCase(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
         }

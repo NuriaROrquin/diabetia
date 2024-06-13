@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Diabetia.Infrastructure.EF;
 using Diabetia.Application.UseCases.EventUseCases;
+using Diabetia.Infrastructure.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,7 +54,7 @@ builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<DataUserUseCase>();
 builder.Services.AddScoped<TagDetectionUseCase>();
 builder.Services.AddScoped<TagCalculateUseCase>();
-builder.Services.AddScoped<EventPhysicalActivityUseCase>();
+builder.Services.AddScoped<PhysicalActivityUseCase>();
 builder.Services.AddScoped<EventGlucoseUseCase>();
 builder.Services.AddScoped<EventInsulinUseCase>();
 builder.Services.AddScoped<AuthChangePasswordUseCase>();
@@ -62,7 +63,7 @@ builder.Services.AddScoped<CalendarUseCase>();
 builder.Services.AddScoped<EventFoodUseCase>();
 builder.Services.AddScoped<EventMedicalExaminationUseCase>();
 builder.Services.AddScoped<EventUseCase>();
-builder.Services.AddScoped<EventMedicalVisitUseCase>();
+builder.Services.AddScoped<MedicalVisitUseCase>();
 
 builder.Services.AddScoped<IEmailValidator, EmailValidator>();
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
@@ -73,6 +74,8 @@ builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IHomeRepository, HomeRepository>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IInputValidator, InputValidator>();
+builder.Services.AddScoped<IPatientValidator, PatientValidator>();
+builder.Services.AddScoped<IPatientEventValidator, PatientEventValidator>();
 
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
