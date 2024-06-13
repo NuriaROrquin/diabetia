@@ -9,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Diabetia.API.Controllers
+namespace Diabetia.API.Controllers.Profile
 {
     [ApiController]
     [Route("[controller]")]

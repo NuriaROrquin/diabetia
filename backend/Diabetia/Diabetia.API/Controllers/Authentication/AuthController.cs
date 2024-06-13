@@ -5,7 +5,7 @@ using Diabetia.Infrastructure.Providers;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace Diabetia.API.Controllers
+namespace Diabetia.API.Controllers.Authentication
 {
     [ApiController]
     [Route("[controller]")] //Auth
@@ -48,7 +48,7 @@ namespace Diabetia.API.Controllers
             {
                 return BadRequest("Usuario o contrase�a invalidos");
             }
-            
+
         }
 
         [HttpPost("register")]
@@ -85,7 +85,7 @@ namespace Diabetia.API.Controllers
             await _changePasswordUseCase.ChangeUserPasswordAsync(request.AccessToken, request.PreviousPassword, request.NewPassword);
             return Ok("Contrase�a cambiada exitosamente");
         }
-        
+
         [HttpPost("passwordRecover")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

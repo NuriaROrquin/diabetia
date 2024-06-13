@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Diabetia.API.Controllers
+namespace Diabetia.API.Controllers.Calendar
 {
     [ApiController]
     [Route("[controller]")]

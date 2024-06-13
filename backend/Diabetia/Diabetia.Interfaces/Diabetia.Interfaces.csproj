@@ -5,12 +5,5 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Diabetia.Common\Diabetia.Common.csproj" />
-		<ProjectReference Include="..\Diabetia.Application\Diabetia.Application.csproj" />
-		<ProjectReference Include="..\Diabetia.Domain\Diabetia.Domain.csproj" />
-	</ItemGroup>
 	
-
 </Project>

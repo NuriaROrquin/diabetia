@@ -11,7 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Diabetia.API.Controllers
+namespace Diabetia.API.Controllers.DataUser
 {
     [ApiController]
     [Route("[controller]")]
@@ -33,7 +33,7 @@ namespace Diabetia.API.Controllers
         [HttpPut("firstStep")]
         public async Task<IActionResult> UserInformationFirstStep([FromBody] DataRequest request)
         {
-            var patient= await _dataUserUseCase.FirstStep(request.Name, request.Email, request.Gender, request.Lastname, request.Weight, request.Phone, request.Birthdate);
+            var patient = await _dataUserUseCase.FirstStep(request.Name, request.Email, request.Gender, request.Lastname, request.Weight, request.Phone, request.Birthdate);
 
             AuthLoginResponse res = new AuthLoginResponse();
 

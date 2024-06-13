@@ -6,7 +6,7 @@ using Amazon.Runtime.Internal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
-namespace Diabetia.API.Controllers
+namespace Diabetia.API.Controllers.Tag
 {
     [ApiController]
     [Route("[controller]")]
@@ -21,7 +21,7 @@ namespace Diabetia.API.Controllers
             _tagDetectionUseCase = tagDetectionUseCase;
             _tagCalculateUseCase = tagCalculateUseCase;
             _dataUserUseCase = dataUserUseCase;
-            _eventFoodUseCase = eventFoodUseCase;   
+            _eventFoodUseCase = eventFoodUseCase;
         }
 
         [HttpPost("tagDetection")]
@@ -65,7 +65,7 @@ namespace Diabetia.API.Controllers
                     GrPerPortion = tag.GrPerPortion,
                     Portion = tag.Portion,
                 };
-                
+
 
                 float consumed = await _tagCalculateUseCase.GetChPerPortionConsumed(tagConfirmationRequest);
                 totalChConsumed += consumed;
@@ -87,7 +87,7 @@ namespace Diabetia.API.Controllers
             responses.ChConsumed = (int)totalChConsumed;
             responses.InsulinToCorrect = (float)Math.Round(insulinToCorrect, 2);
 
-            await _eventFoodUseCase.AddFoodByTagEvent(tagsRequest.Email,tagsRequest.EventDate, responses.ChConsumed);
+            await _eventFoodUseCase.AddFoodByTagEvent(tagsRequest.Email, tagsRequest.EventDate, responses.ChConsumed);
 
             return responses;
         }

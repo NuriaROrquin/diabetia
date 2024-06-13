@@ -1,6 +1,6 @@
 ﻿using Diabetia.Domain.Entities;
 
-namespace Diabetia.API.DTO.EventRequest
+namespace Diabetia.API.DTO.EventRequest.Food
 {
     public class EventFoodRequest : BasicEventRequest
     {
