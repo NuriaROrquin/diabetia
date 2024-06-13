@@ -8,7 +8,7 @@ import {TextArea, CustomSwitch} from "../../../components/input";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {Select} from "../../../components/selector";
-import {addInsulinEvent} from "../../../services/api.service";
+import {addMedicalVisitEvent} from "../../../services/api.service";
 import {useRouter} from "next/router";
 import {CustomDatePicker, CustomTimePicker} from "@/components/pickers";
 
@@ -18,6 +18,7 @@ const MedicalVisitEvent = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [hour, setHour] = useState()
     const [date, setDate] = useState()
+    const [hourReminder, setHourReminder] = useState()
     const [reminder, setReminder] = useState(false);
     const router = useRouter();
 
@@ -28,20 +29,21 @@ const MedicalVisitEvent = () => {
 
     const handleSubmit = () => {
         const dateFormatted = date && hour ? date.format("YYYY-MM-DD") + 'T' + hour.format('HH:mm:ss') : null;
-        const insulineQuantity = document.getElementById("insulineQuantity").value
-        const notes = document.getElementById("notes").value;
+
         const email = getEmailFromJwt();
 
 
         const data = {
             "email": email,
-            "idKindEvent": 1,
             "eventDate": dateFormatted,
-            "freeNote": notes,
-            "insulin": insulineQuantity,
+            "kindEventId": 6,
+            "professionalId": selectedOption.id,
+            "recordatory": reminder,
+            "recordatoryDate" : hourReminder,
+            "description" : ""
         }
-
-        addInsulinEvent(data).then(() =>
+        console.log(data)
+        addMedicalVisitEvent(data).then(() =>
             router.push("/calendar")
         )
     }
@@ -107,10 +109,10 @@ const MedicalVisitEvent = () => {
                                     <CustomTimePicker
                                         label="Hora del recordatorio"
                                         value={hour}
-                                        onChange={(e) => setHour(e)}
+                                        onChange={(e) => setHourReminder(e)}
                                         defaultValue={dayjs()}
                                         width="w-2/5"
-                                        className={reminder ? '' : 'hidden'}
+                                        className={hourReminder ? '' : 'hidden'}
                                     />
                                     )}
                     </div>
