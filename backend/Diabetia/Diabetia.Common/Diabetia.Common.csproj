@@ -11,7 +11,10 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
   </ItemGroup>
 
-    <ItemGroup>
-		<ProjectReference Include="..\Diabetia.Interfaces\Diabetia.Interfaces.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Diabetia.Domain">
+      <HintPath>..\Diabetia.Domain\obj\Debug\net6.0\ref\Diabetia.Domain.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

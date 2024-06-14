@@ -2,6 +2,7 @@
 ﻿using Diabetia.Common.Utilities;
 using Diabetia.Domain.Entities.Events;
 using Diabetia.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Diabetia.Domain.Repositories
 {
@@ -84,5 +85,8 @@ namespace Diabetia.Domain.Repositories
         Task<ExamEvent> GetExamEventById(int id);
 
         Task<ExamEvent> GetFreeNoteEventById(int id);
+
+        public Task CheckPatientEvent(string email, CargaEvento eventToValidate);
+        
     }
 }

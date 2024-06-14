@@ -1176,5 +1176,14 @@ namespace Diabetia.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task CheckPatientEvent(string email, CargaEvento eventToValidate)
+        {
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuarioNavigation.Email == email);
+            if (patient.Id != eventToValidate.IdPaciente)
+            {
+                throw new EventNotRelatedWithPatientException();
+            }
+        }
+
     }
 }

@@ -21,10 +21,6 @@ namespace Diabetia.Application.UseCases.EventUseCases
         {
             await _patientValidator.ValidatePatient(email);
             await _eventRepository.AddMedicalVisitEventAsync(medicalVisit);
-            //if (recordatoryEvent != null)
-            //{
-            //    await _recordatoryRepository.AddRecordatoryEventAsync(medicaLVisit.IdCargaEventoNavigation.Id, recordatoryEvent);
-            //}
         }
 
         public async Task EditMedicalVisitEventAsync(string email, EventoVisitaMedica medicalVisit)

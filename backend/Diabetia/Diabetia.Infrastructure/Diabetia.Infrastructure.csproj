@@ -39,4 +39,8 @@
 	<ProjectReference Include="..\Diabetia.Application\Diabetia.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validators\" />
+  </ItemGroup>
+
 </Project>

@@ -65,7 +65,6 @@ builder.Services.AddScoped<EventMedicalExaminationUseCase>();
 builder.Services.AddScoped<EventUseCase>();
 builder.Services.AddScoped<MedicalVisitUseCase>();
 
-builder.Services.AddScoped<IEmailValidator, EmailValidator>();
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -73,8 +72,8 @@ builder.Services.AddScoped<ITagRecognitionProvider, TagRecognitionProvider>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IHomeRepository, HomeRepository>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<IEmailValidator, EmailValidator>();
 builder.Services.AddScoped<IInputValidator, InputValidator>();
-builder.Services.AddScoped<IPatientValidator, PatientValidator>();
 builder.Services.AddScoped<IPatientEventValidator, PatientEventValidator>();
 
 
