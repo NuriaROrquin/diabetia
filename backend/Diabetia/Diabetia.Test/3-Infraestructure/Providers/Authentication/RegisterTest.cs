@@ -4,6 +4,7 @@ using Diabetia.Domain.Models;
 using FakeItEasy;
 using Infrastructure.Provider;
 using Microsoft.Extensions.Configuration;
+using System.Net;
 
 namespace Diabetia_Infrastructure
 {
@@ -184,183 +185,176 @@ namespace Diabetia_Infrastructure
         }
 
         // Confirm Email - Register
-        //[Fact]
-        //public async Task ConfirmEmailAsync_GivenCodeSentToAccountEmail_ConfirmsEmail()
-        //{
-        //    // Arrange
-        //    var username = "testUser";
-        //    var confirmationCode = "123456";
-        //    var hashCode = "hashTest";
+        [Fact]
+        public async Task ConfirmEmailAsync_GivenCodeSentToAccountEmail_ConfirmsEmail()
+        {
+            // Arrange
+            var username = "testUser";
+            var confirmationCode = "123456";
+            var hashCode = "hashTest";
 
-        //    var fakeConfiguration = A.Fake<IConfiguration>();
-        //    fakeConfiguration["ClientId"] = "clientId";
-        //    fakeConfiguration["ClientSecret"] = "clientSecret";
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
 
-        //    var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
-        //    var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-        //    var request = new ConfirmSignUpRequest
-        //    {
-        //        ClientId = fakeConfiguration["ClientId"],
-        //        Username = username,
-        //        ConfirmationCode = confirmationCode,
-        //        SecretHash = hashCode
-        //    };
+            var request = new ConfirmSignUpRequest
+            {
+                ClientId = fakeConfiguration["ClientId"],
+                Username = username,
+                ConfirmationCode = confirmationCode,
+                SecretHash = hashCode
+            };
 
-        //    var response = new ConfirmSignUpResponse
-        //    {
-        //        HttpStatusCode = HttpStatusCode.OK
-        //    };
+            var response = new ConfirmSignUpResponse
+            {
+                HttpStatusCode = HttpStatusCode.OK
+            };
 
-        //    A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
-        //        A<ConfirmSignUpRequest>.That.Matches(req =>
-        //            req.ClientId == fakeConfiguration["ClientId"] &&
-        //            req.Username == username &&
-        //            req.ConfirmationCode == confirmationCode &&
-        //            req.SecretHash == hashCode),
-        //        CancellationToken.None))
-        //        .Returns(Task.FromResult(response));
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
+                A<ConfirmSignUpRequest>.That.Matches(req =>
+                    req.ClientId == fakeConfiguration["ClientId"] &&
+                    req.Username == username &&
+                    req.ConfirmationCode == confirmationCode &&
+                    req.SecretHash == hashCode),
+                CancellationToken.None))
+                .Returns(Task.FromResult(response));
 
-        //    // Act
-        //    var result = await authProvider.ConfirmEmailVerificationAsync(username,hashCode, confirmationCode);
+            // Act
+            var result = await authProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode);
 
-        //    // Assert
-        //    Assert.True(result);
-        //    A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
-        //        A<ConfirmSignUpRequest>.That.Matches(req =>
-        //            req.ClientId == fakeConfiguration["ClientId"] &&
-        //            req.Username == username &&
-        //            req.ConfirmationCode == confirmationCode &&
-        //            req.SecretHash == hashCode), CancellationToken.None)).MustHaveHappenedOnceExactly();
-        //}
+            // Assert
+            Assert.True(result);
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
+                A<ConfirmSignUpRequest>.That.Matches(req =>
+                    req.ClientId == fakeConfiguration["ClientId"] &&
+                    req.Username == username &&
+                    req.ConfirmationCode == confirmationCode &&
+                    req.SecretHash == hashCode), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
 
-        //[Fact]
-        //public async Task ConfirmEmailAsync_GivenExpiredCode_ThrowsExpiredCodeException()
-        //{
-        //    // Arrange
-        //    var username = "testUser";
-        //    var confirmationCode = "123456";
-        //    var hashCode = "hashTest";
+        [Fact]
+        public async Task ConfirmEmailAsync_GivenExpiredCode_ThrowsExpiredCodeException()
+        {
+            // Arrange
+            var username = "testUser";
+            var confirmationCode = "123456";
+            var hashCode = "hashTest";
 
-        //    var fakeConfiguration = A.Fake<IConfiguration>();
-        //    fakeConfiguration["ClientId"] = "clientId";
-        //    fakeConfiguration["ClientSecret"] = "clientSecret";
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
 
-        //    var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
-        //    var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(A<ConfirmSignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new ExpiredCodeException("Código vencido"));
 
-        //    A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(A<ConfirmSignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new ExpiredCodeException("Código vencido"));
+            // Act y Assert
+            var exception = await Assert.ThrowsAsync<ExpiredCodeException>(() =>
+            authProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode));
 
-        //    // Act y Assert
-        //    var exception = await Assert.ThrowsAsync<ExpiredCodeException>(() =>
-        //    authProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode));
+            Assert.Equal("Código vencido", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
+                A<ConfirmSignUpRequest>.That.Matches(req =>
+                    req.ClientId == fakeConfiguration["ClientId"] &&
+                    req.Username == username &&
+                    req.ConfirmationCode == confirmationCode &&
+                    req.SecretHash == hashCode
+                ), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
 
-        //    Assert.Equal("Código vencido", exception.Message);
-        //    A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
-        //        A<ConfirmSignUpRequest>.That.Matches(req =>
-        //            req.ClientId == fakeConfiguration["ClientId"] &&
-        //            req.Username == username &&
-        //            req.ConfirmationCode == confirmationCode &&
-        //            req.SecretHash == hashCode
-        //        ),CancellationToken.None)).MustHaveHappenedOnceExactly();
-        //}
+        [Fact]
+        public async Task ConfirmEmailAsync_GivenInvalidUser_ThrowsUserNotFoundException()
+        {
+            // Arrange
+            var username = "testUser";
+            var confirmationCode = "123456";
+            var hashCode = "hashTest";
 
-        //[Fact]
-        //public async Task ConfirmEmailAsync_GivenInvalidUser_ThrowsUserNotFoundException()
-        //{
-        //    // Arrange
-        //    var username = "testUser";
-        //    var confirmationCode = "123456";
-        //    var hashCode = "hashTest";
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
 
-        //    var fakeConfiguration = A.Fake<IConfiguration>();
-        //    fakeConfiguration["ClientId"] = "clientId";
-        //    fakeConfiguration["ClientSecret"] = "clientSecret";
-
-        //    var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
-        //    var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
 
-        //    A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(A<ConfirmSignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new UserNotFoundException("Usuario no encontrado"));
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(A<ConfirmSignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new UserNotFoundException("Usuario no encontrado"));
 
-        //    // Act y Assert
-        //    var exception = await Assert.ThrowsAsync<UserNotFoundException>(() =>
-        //    authProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode));
+            // Act y Assert
+            var exception = await Assert.ThrowsAsync<UserNotFoundException>(() =>
+            authProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode));
 
-        //    Assert.Equal("Usuario no encontrado", exception.Message);
-        //    A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
-        //        A<ConfirmSignUpRequest>.That.Matches(req =>
-        //            req.ClientId == fakeConfiguration["ClientId"] &&
-        //            req.Username == username &&
-        //            req.ConfirmationCode == confirmationCode &&
-        //            req.SecretHash == hashCode
-        //        ), CancellationToken.None)).MustHaveHappenedOnceExactly();
-        //}
+            Assert.Equal("Usuario no encontrado", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
+                A<ConfirmSignUpRequest>.That.Matches(req =>
+                    req.ClientId == fakeConfiguration["ClientId"] &&
+                    req.Username == username &&
+                    req.ConfirmationCode == confirmationCode &&
+                    req.SecretHash == hashCode
+                ), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
 
-        //[Fact]
-        //public async Task ConfirmEmailAsync_GivenInvalidParameters_ThrowsInvalidParameterException()
-        //{
-        //    // Arrange
-        //    var username = "testUser";
-        //    var confirmationCode = "123456";
-        //    var hashCode = "hashTest";
+        [Fact]
+        public async Task ConfirmEmailAsync_GivenInvalidParameters_ThrowsInvalidParameterException()
+        {
+            // Arrange
+            var username = "testUser";
+            var confirmationCode = "123456";
+            var hashCode = "hashTest";
 
-        //    var fakeConfiguration = A.Fake<IConfiguration>();
-        //    fakeConfiguration["ClientId"] = "clientId";
-        //    fakeConfiguration["ClientSecret"] = "clientSecret";
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
 
-        //    var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
-        //    var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-        //    A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(A<ConfirmSignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new InvalidParameterException("Parametros incorrectos"));
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(A<ConfirmSignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new InvalidParameterException("Parametros incorrectos"));
 
-        //    // Act y Assert
-        //    var exception = await Assert.ThrowsAsync<InvalidParameterException>(() =>
-        //    authProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode));
+            // Act y Assert
+            var exception = await Assert.ThrowsAsync<InvalidParameterException>(() =>
+            authProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode));
 
-        //    Assert.Equal("Parametros incorrectos", exception.Message);
-        //    A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
-        //        A<ConfirmSignUpRequest>.That.Matches(req =>
-        //            req.ClientId == fakeConfiguration["ClientId"] &&
-        //            req.Username == username &&
-        //            req.ConfirmationCode == confirmationCode &&
-        //            req.SecretHash == hashCode
-        //        ), CancellationToken.None)).MustHaveHappenedOnceExactly();
+            Assert.Equal("Parametros incorrectos", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
+                A<ConfirmSignUpRequest>.That.Matches(req =>
+                    req.ClientId == fakeConfiguration["ClientId"] &&
+                    req.Username == username &&
+                    req.ConfirmationCode == confirmationCode &&
+                    req.SecretHash == hashCode
+                ), CancellationToken.None)).MustHaveHappenedOnceExactly();
 
-        //}
+        }
 
-        //[Fact]
-        //public async Task ConfirmEmailAsync_GivenInvalidCode_ThrowsCodeMismatchException()
-        //{
-        //    // Arrange
-        //    var username = "testUser";
-        //    var confirmationCode = "123456";
-        //    var hashCode = "hashTest";
+        [Fact]
+        public async Task ConfirmEmailAsync_GivenInvalidCode_ThrowsCodeMismatchException()
+        {
+            // Arrange
+            var username = "testUser";
+            var confirmationCode = "123456";
+            var hashCode = "hashTest";
 
-        //    var fakeConfiguration = A.Fake<IConfiguration>();
-        //    fakeConfiguration["ClientId"] = "clientId";
-        //    fakeConfiguration["ClientSecret"] = "clientSecret";
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "clientId";
 
-        //    var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
-        //    var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-        //    A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(A<ConfirmSignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new CodeMismatchException("Código incorrecto"));
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(A<ConfirmSignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new CodeMismatchException("Código incorrecto"));
 
-        //    // Act y Assert
-        //    var exception = await Assert.ThrowsAsync<CodeMismatchException>(() =>
-        //    authProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode));
+            // Act y Assert
+            var exception = await Assert.ThrowsAsync<CodeMismatchException>(() =>
+            authProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode));
 
-        //    Assert.Equal("Código incorrecto", exception.Message);
-        //    A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
-        //        A<ConfirmSignUpRequest>.That.Matches(req =>
-        //            req.ClientId == fakeConfiguration["ClientId"] &&
-        //            req.Username == username &&
-        //            req.ConfirmationCode == confirmationCode &&
-        //            req.SecretHash == hashCode
-        //        ), CancellationToken.None)).MustHaveHappenedOnceExactly();
-
-        //}
+            Assert.Equal("Código incorrecto", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
+                A<ConfirmSignUpRequest>.That.Matches(req =>
+                    req.ClientId == fakeConfiguration["ClientId"] &&
+                    req.Username == username &&
+                    req.ConfirmationCode == confirmationCode &&
+                    req.SecretHash == hashCode
+                ), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
 
         //// Change Password
         //[Fact]
