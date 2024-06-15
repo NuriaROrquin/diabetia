@@ -66,5 +66,5 @@ jobs:
         with:
           app-name: 'Diabetia'
           slot-name: 'Production'
-          package: .
+          package: ${{ github.workspace }}/backend/Diabetia/publish/
           
