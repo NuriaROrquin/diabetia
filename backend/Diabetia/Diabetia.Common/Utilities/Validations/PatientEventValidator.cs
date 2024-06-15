@@ -2,7 +2,7 @@
 using Diabetia.Domain.Repositories;
 using Diabetia.Interfaces;
 
-namespace Diabetia.Infrastructure.Validators
+namespace Diabetia.Common.Utilities.Validations
 {
     public class PatientEventValidator : IPatientEventValidator
     {

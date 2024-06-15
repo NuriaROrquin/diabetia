@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Domain.Models;
 using Diabetia.Infrastructure.EF;
+using Diabetia.Application.Exceptions;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -26,10 +27,10 @@ namespace Diabetia.Infrastructure.Repositories
 
         public async Task<string> GetUserHashAsync(string email)
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
-            if (user != null)
+            var newUser = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (newUser != null)
             {
-                string hashCode = user.Hash;
+                string hashCode = newUser.Hash;
                 return hashCode;
             }
             return "";
@@ -52,39 +53,39 @@ namespace Diabetia.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task SaveUserHashAsync(string username, string email, string hash)
+        public async Task SaveUserHashAsync(Usuario user, string hash)
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
-            if (user != null)
+            var newUser = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == user.Email);
+            if (newUser != null)
             {
-                user.Hash = hash; //TODO: exception ya estoy registrado.
+                newUser.Hash = hash; //TODO: exception ya estoy registrado.
             }
             else
             {
-                user = new Usuario
+                newUser = new Usuario
                 {
-                    Email = email,
-                    Username = username,
-                    NombreCompleto = username,
+                    Email = user.Email,
+                    Username = user.Username,
+                    NombreCompleto = user.Username,
                     Hash = hash
                 };
-                _context.Usuarios.Add(user);
+                _context.Usuarios.Add(newUser);
             }
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task SaveUserUsernameAsync(string email, string username)
+        public async Task SaveUserUsernameAsync(Usuario user)
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
-            if (user != null)
+            var newUser = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == user.Email);
+            if (newUser != null)
             {
-                user.Username = username.ToLower();
+                newUser.Username = user.Username.ToLower();
                 await _context.SaveChangesAsync();
             }
             else
             {
-                throw new KeyNotFoundException($"No se encontró un usuario con el email {email}.");
+                throw new KeyNotFoundException($"No se encontró un usuario con el email {user.Email}.");
             }
             
         }
@@ -128,14 +129,13 @@ namespace Diabetia.Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> CheckEmailOnDatabaseAsync(string email)
+        public async Task CheckEmailOnDatabaseAsync(string email)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
-            if (user != null)
+            if (user == null)
             {
-                return true;
+                throw new EmailAlreadyExistsException();
             }
-            return false;
         }
     }
 }

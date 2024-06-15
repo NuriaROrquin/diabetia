@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using Diabetia.Interfaces;
 
-namespace Diabetia.Common.Utilities
+namespace Diabetia.Common.Utilities.Validations
 {
     public class InputValidator : IInputValidator
     {

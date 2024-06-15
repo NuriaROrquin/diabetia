@@ -1,4 +1,5 @@
 ﻿using Diabetia.Application.Exceptions;
+using Diabetia.Common.Utilities.Interfaces;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
@@ -11,38 +12,35 @@ namespace Diabetia.Application.UseCases.AuthUseCases
         private readonly IAuthRepository _authRepository;
         private readonly IAuthProvider _apiCognitoProvider;
         private readonly IEmailValidator _emailValidator;
-        public AuthRegisterUseCase(IAuthProvider apiCognitoProvider, IAuthRepository authRepository, IEmailValidator emailValidator)
+        private readonly IEmailDBValidator _emailDBValidator;
+        public AuthRegisterUseCase(IAuthProvider apiCognitoProvider, IAuthRepository authRepository, IEmailValidator emailValidator, IEmailDBValidator emailDBValidator)
         {
             _apiCognitoProvider = apiCognitoProvider;
             _authRepository = authRepository;
             _emailValidator = emailValidator;
+            _emailDBValidator = emailDBValidator;
         }
         public async Task Register(Usuario user, string password)
         {
             _emailValidator.IsValidEmail(user.Email);
-            if (await _authRepository.CheckEmailOnDatabaseAsync(user.Email))
-            {
-                throw new EmailAlreadyExistsException();
-            }
-            string hashCode = await _apiCognitoProvider.RegisterUserAsync(user.Username, password, user.Email);
-            await _authRepository.SaveUserHashAsync(user.Username, user.Email, hashCode);
-            await _authRepository.SaveUserUsernameAsync(user.Email, user.Username);
+            await _emailDBValidator.CheckEmailOnDB(user.Email);
+
+            string hashCode = await _apiCognitoProvider.RegisterUserAsync(user, password);
+            await _authRepository.SaveUserHashAsync(user, hashCode);
+            await _authRepository.SaveUserUsernameAsync(user);
         }
 
-        public async Task<bool> ConfirmEmailVerification(string username, string email, string confirmationCode)
+        public async Task<bool> ConfirmEmailVerification(Usuario user, string confirmationCode)
         {
-            if (!_emailValidator.IsValidEmail(email))
-            {
-                throw new InvalidEmailException();
-            }
+            _emailValidator.IsValidEmail(user.Email);
 
-            string hashCode = await _authRepository.GetUserHashAsync(email);
+            string hashCode = await _authRepository.GetUserHashAsync(user.Email);
             if (string.IsNullOrEmpty(hashCode))
             {
                 throw new InvalidOperationException();
             }
-            bool response = await _apiCognitoProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode);
-            await _authRepository.SetUserStateActiveAsync(email);
+            bool response = await _apiCognitoProvider.ConfirmEmailVerificationAsync(user.Username, hashCode, confirmationCode);
+            await _authRepository.SetUserStateActiveAsync(user.Email);
             return response;
         }
     }

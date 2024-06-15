@@ -1,12 +1,14 @@
-﻿namespace Diabetia.Domain.Repositories
+﻿using Diabetia.Domain.Models;
+
+namespace Diabetia.Domain.Repositories
 {
     public interface IAuthRepository
     {
-        public Task SaveUserHashAsync(string username, string email, string hashCode);
+        public Task SaveUserHashAsync(Usuario user, string hashCode);
 
         public Task<string> GetUserHashAsync(string email);
 
-        public Task SaveUserUsernameAsync(string email, string username);
+        public Task SaveUserUsernameAsync(Usuario user);
 
         public Task <string> GetUsernameByEmailAsync(string email);
 
@@ -16,7 +18,7 @@
 
         public Task <bool> CheckUsernameOnDatabaseAsync(string username);
 
-        public Task <bool> CheckEmailOnDatabaseAsync(string email);
+        public Task CheckEmailOnDatabaseAsync(string email);
 
         public Task ResetUserAttemptsAsync(string username);
     }

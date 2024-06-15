@@ -6,7 +6,6 @@ using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities.Events;
 using Diabetia.Domain.Entities;
 using Diabetia.Infrastructure.EF;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Data.Entity;
 
 namespace Diabetia.Infrastructure.Repositories

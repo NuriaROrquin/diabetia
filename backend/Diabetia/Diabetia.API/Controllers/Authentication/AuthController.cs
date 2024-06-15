@@ -67,7 +67,8 @@ namespace Diabetia.API.Controllers.Authentication
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ConfirmEmailVerificationAsync([FromBody] AuthConfirmEmailRequest request)
         {
-            bool isSuccess = await _registerUseCase.ConfirmEmailVerification(request.Username, request.Email, request.ConfirmationCode);
+            var user = request.ToDomain(request);
+            bool isSuccess = await _registerUseCase.ConfirmEmailVerification(user, request.ConfirmationCode);
             if (isSuccess)
             {
                 return Ok(new { Message = "Se ha verificado el Email correctamente. Ya puede ingresar al sitio." });

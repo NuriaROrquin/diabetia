@@ -2,7 +2,6 @@ using Amazon.CognitoIdentity.Model;
 using Amazon.CognitoIdentityProvider;
 using Diabetia.API.Controllers;
 using Diabetia.Application.UseCases;
-using Diabetia.Common.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Infrastructure.Middlewares;
@@ -15,8 +14,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Diabetia.Infrastructure.EF;
 using Diabetia.Application.UseCases.EventUseCases;
-using Diabetia.Infrastructure.Validators;
 using Diabetia.Application.UseCases.AuthUseCases;
+using Diabetia.Common.Utilities.Validations;
 
 var builder = WebApplication.CreateBuilder(args);
 
