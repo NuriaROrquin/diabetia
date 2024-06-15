@@ -14,12 +14,14 @@ namespace Diabetia.API.Controllers.Tag
         private readonly TagCalculateUseCase _tagCalculateUseCase;
         private readonly DataUserUseCase _dataUserUseCase;
         private readonly EventFoodUseCase _eventFoodUseCase;
-        public TagController(TagDetectionUseCase tagDetectionUseCase, TagCalculateUseCase tagCalculateUseCase, DataUserUseCase dataUserUseCase, EventFoodUseCase eventFoodUseCase)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public TagController(TagDetectionUseCase tagDetectionUseCase, TagCalculateUseCase tagCalculateUseCase, DataUserUseCase dataUserUseCase, EventFoodUseCase eventFoodUseCase, IHttpContextAccessor httpContextAccessor)
         {
             _tagDetectionUseCase = tagDetectionUseCase;
             _tagCalculateUseCase = tagCalculateUseCase;
             _dataUserUseCase = dataUserUseCase;
             _eventFoodUseCase = eventFoodUseCase;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost("tagDetection")]
@@ -52,6 +54,7 @@ namespace Diabetia.API.Controllers.Tag
         [Authorize]
         public async Task<TagRegistrationResponse> ConfirmTagRegistration([FromBody] TagRegistrationRequest tagsRequest)
         {
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
             TagRegistrationResponse responses = new TagRegistrationResponse();
             float totalChConsumed = 0;
 
@@ -78,14 +81,14 @@ namespace Diabetia.API.Controllers.Tag
                 });
             }
 
-            var userPatientInfo = await _dataUserUseCase.GetPatientInfo(tagsRequest.Email);
+            var userPatientInfo = await _dataUserUseCase.GetPatientInfo(email);
 
             float insulinToCorrect = (float)(totalChConsumed / userPatientInfo.ChCorrection);
 
             responses.ChConsumed = (int)totalChConsumed;
             responses.InsulinToCorrect = (float)Math.Round(insulinToCorrect, 2);
 
-            await _eventFoodUseCase.AddFoodByTagEvent(tagsRequest.Email, tagsRequest.EventDate, responses.ChConsumed);
+            await _eventFoodUseCase.AddFoodByTagEvent(email, tagsRequest.EventDate, responses.ChConsumed);
 
             return responses;
         }
