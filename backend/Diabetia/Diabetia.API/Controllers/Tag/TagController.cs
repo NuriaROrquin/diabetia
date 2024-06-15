@@ -2,9 +2,7 @@
 using Diabetia.Application.UseCases;
 using Diabetia.API.DTO;
 using Diabetia.Domain.Entities;
-using Amazon.Runtime.Internal;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 
 namespace Diabetia.API.Controllers.Tag
 {

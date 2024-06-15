@@ -1,12 +1,7 @@
 ﻿using Diabetia.Domain.Services;
 using Diabetia.Domain.Entities;
-using Diabetia.Common.Utilities;
-using System.Numerics;
-using System.Reflection;
-using System.Xml.Linq;
+using Diabetia.Domain.Utilities;
 using Diabetia.Domain.Repositories;
-using Diabetia.Domain.Entities.Events;
-using Amazon.Runtime;
 
 namespace Diabetia.Application.UseCases
 {

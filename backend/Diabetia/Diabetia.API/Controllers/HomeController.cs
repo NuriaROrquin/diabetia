@@ -1,7 +1,7 @@
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Diabetia.Common.Utilities;
+using Diabetia.Domain.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Diabetia.API.DTO.HomeRequest;
 

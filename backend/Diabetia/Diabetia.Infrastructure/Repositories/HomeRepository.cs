@@ -1,6 +1,6 @@
 ﻿using Diabetia.Domain.Services;
 using Microsoft.EntityFrameworkCore;
-using Diabetia.Common.Utilities;
+using Diabetia.Domain.Utilities;
 using Diabetia.Infrastructure.EF;
 using Diabetia.Domain.Models;
 

@@ -3,7 +3,7 @@ using Diabetia.Domain.Services;
 using Diabetia.Domain.Repositories;
 using Diabetia.Application.UseCases;
 using Diabetia.Interfaces;
-using Diabetia.Application.Exceptions;
+using Diabetia.Domain.Exceptions;
 
 namespace Diabetia_Core.Auth
 {

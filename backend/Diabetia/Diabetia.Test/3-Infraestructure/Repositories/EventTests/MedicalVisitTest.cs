@@ -2,7 +2,7 @@
 using Diabetia.Infrastructure.Repositories;
 using Diabetia.Domain.Models;
 using Moq.EntityFrameworkCore;
-using Diabetia.Application.Exceptions;
+using Diabetia.Domain.Exceptions;
 using Diabetia.Infrastructure.EF;
 
 namespace Diabetia.Test._3_Infraestructure.Repositories.EventRepositoryTests

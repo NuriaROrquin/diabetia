@@ -2,7 +2,7 @@
 using Diabetia.Infrastructure.Repositories;
 using Diabetia.Domain.Models;
 using Moq.EntityFrameworkCore;
-using Diabetia.Application.Exceptions;
+using Diabetia.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Diabetia.Infrastructure.EF;
 

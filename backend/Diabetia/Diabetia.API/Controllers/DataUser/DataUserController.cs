@@ -1,6 +1,6 @@
 using Diabetia.API.DTO.AuthRequest;
 using Diabetia.Application.UseCases;
-using Diabetia.Common.Utilities;
+using Diabetia.Domain.Utilities;
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Services;
 using Microsoft.AspNetCore.Authorization;

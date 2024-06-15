@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Diabetia.Application.Exceptions;
-using Diabetia.Common.Utilities;
+using Diabetia.Domain.Exceptions;
+using Diabetia.Domain.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities.Events;

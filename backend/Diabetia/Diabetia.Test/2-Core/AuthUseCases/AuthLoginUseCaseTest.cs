@@ -1,5 +1,5 @@
 ﻿using Amazon.CognitoIdentityProvider.Model;
-using Diabetia.Application.Exceptions;
+using Diabetia.Domain.Exceptions;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Repositories;

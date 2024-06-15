@@ -1,4 +1,4 @@
-﻿using Diabetia.Application.Exceptions;
+﻿using Diabetia.Domain.Exceptions;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;

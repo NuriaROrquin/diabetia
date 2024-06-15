@@ -1,13 +1,13 @@
-﻿using Diabetia.Common.Utilities.Interfaces;
+﻿using Diabetia.Domain.Utilities.Interfaces;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 
-namespace Diabetia.Application.UseCases
+namespace Diabetia.Application.UseCases.AuthUseCases
 {
     public class AuthForgotPasswordUseCase
     {
-    
+
         private readonly IAuthProvider _apiCognitoProvider;
         private readonly IEmailValidator _emailValidator;
         private readonly IUsernameDBValidator _usernameDBValidator;

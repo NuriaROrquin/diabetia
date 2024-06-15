@@ -45,7 +45,6 @@ namespace Infrastructure.Provider
                 Username = user.Username
             };
 
-                
             await _cognitoClient.SignUpAsync(request, CancellationToken.None).ConfigureAwait(true);
 
             return secretHash;

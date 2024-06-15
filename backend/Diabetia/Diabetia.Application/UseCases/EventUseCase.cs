@@ -1,8 +1,8 @@
 ﻿using Diabetia.Domain.Services;
-using Diabetia.Common.Utilities;
+using Diabetia.Domain.Utilities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Entities.Events;
-using Diabetia.Application.Exceptions;
+using Diabetia.Domain.Exceptions;
 using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases

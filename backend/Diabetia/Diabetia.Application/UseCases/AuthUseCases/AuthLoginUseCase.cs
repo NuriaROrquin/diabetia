@@ -1,10 +1,10 @@
-﻿using Diabetia.Application.Exceptions;
+﻿using Diabetia.Domain.Exceptions;
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 
-namespace Diabetia.Application.UseCases
+namespace Diabetia.Application.UseCases.AuthUseCases
 {
     public class AuthLoginUseCase
     {
@@ -65,7 +65,7 @@ namespace Diabetia.Application.UseCases
                 StepCompleted = userInformation.StepCompleted
             };
 
-            return user;            
-        }        
+            return user;
+        }
     }
 }

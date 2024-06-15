@@ -1,4 +1,4 @@
-﻿namespace Diabetia.Application.Exceptions
+﻿namespace Diabetia.Common.Exceptions
 {
     public class UserNotFoundOnDBException : Exception
     {

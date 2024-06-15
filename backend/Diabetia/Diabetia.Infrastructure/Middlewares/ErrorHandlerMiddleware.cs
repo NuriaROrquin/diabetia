@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Text.Json;
-using Diabetia.Application.Exceptions;
+using Diabetia.Domain.Exceptions;
 
 namespace Diabetia.Infrastructure.Middlewares
 {

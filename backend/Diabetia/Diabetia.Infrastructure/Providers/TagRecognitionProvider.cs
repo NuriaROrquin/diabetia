@@ -15,7 +15,7 @@ using Amazon.Textract.Model;
 using Amazon.Textract;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using Diabetia.Application.Exceptions;
+using Diabetia.Domain.Exceptions;
 
 
 namespace Diabetia.Infrastructure.Providers
