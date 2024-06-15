@@ -1,3 +1,5 @@
+using Diabetia.Domain.Models;
+
 namespace Diabetia.API
 {
     public class DataRequest
@@ -9,6 +11,7 @@ namespace Diabetia.API
         public string Phone { get; set; }
         public int Weight { get; set; }
         public string Lastname { get; set; }
+
     }
 
 
