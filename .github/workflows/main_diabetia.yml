@@ -29,6 +29,10 @@ jobs:
           cd ${{ github.workspace }}/backend/Diabetia
           dotnet publish -c Release -o ${{ github.workspace }}/backend/Diabetia/publish/
 
+      - name: List files after publish
+        run: |
+          dir ${{ github.workspace }}/backend/Diabetia/publish/
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
@@ -49,7 +53,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: .net-app
-          path: ${{ github.workspace }}/backend/Diabetia/publish/
+
+      - name: List files in downloaded artifact
+        run: |
+          dir ${{ github.workspace }}/backend/Diabetia/publish/
 
       - name: Login to Azure
         uses: azure/login@v1
@@ -63,4 +70,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'Diabetia'
-          package: ${{ github.workspace }}/backend/Diabetia/publish/
+          package: './backend/Diabetia/publish/'
