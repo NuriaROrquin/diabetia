@@ -16,6 +16,7 @@ using System.Text;
 using Diabetia.Infrastructure.EF;
 using Diabetia.Application.UseCases.EventUseCases;
 using Diabetia.Infrastructure.Validators;
+using Diabetia.Application.UseCases.AuthUseCases;
 
 var builder = WebApplication.CreateBuilder(args);
 

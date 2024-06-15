@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -16,5 +16,6 @@
       <HintPath>..\Diabetia.Domain\obj\Debug\net6.0\ref\Diabetia.Domain.dll</HintPath>
     </Reference>
   </ItemGroup>
+
 
 </Project>

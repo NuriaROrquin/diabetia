@@ -1,18 +1,22 @@
 ﻿using System.Text.RegularExpressions;
+using Diabetia.Common.Exceptions;
 using Diabetia.Interfaces;
 
 namespace Diabetia.Common.Utilities
 {
     public class EmailValidator : IEmailValidator
     {
-        public bool IsValidEmail(string email) 
+        public void IsValidEmail(string email) 
         {
             if (string.IsNullOrWhiteSpace(email))
             {
-                return false;
+                throw new InvalidEmailException();
             }
             string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-            return Regex.IsMatch(email, pattern);
+            if (! Regex.IsMatch(email, pattern))
+            {
+                throw new InvalidEmailException();
+            }
         }
     }
 }

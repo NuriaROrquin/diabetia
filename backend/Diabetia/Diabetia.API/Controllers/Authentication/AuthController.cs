@@ -1,9 +1,8 @@
 using Diabetia.API.DTO.AuthRequest;
 using Diabetia.Application.UseCases;
+using Diabetia.Application.UseCases.AuthUseCases;
 using Diabetia.Domain.Services;
-using Diabetia.Infrastructure.Providers;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace Diabetia.API.Controllers.Authentication
 {
@@ -57,7 +56,8 @@ namespace Diabetia.API.Controllers.Authentication
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegisterAsync([FromBody] AuthRegisterRequest request)
         {
-            await _registerUseCase.Register(request.Username, request.Email, request.Password);
+            var user = request.ToDomain(request);
+            await _registerUseCase.Register(user, request.Password);
             return Ok("Usuario registrado exitosamente");
         }
 
@@ -68,7 +68,6 @@ namespace Diabetia.API.Controllers.Authentication
         public async Task<IActionResult> ConfirmEmailVerificationAsync([FromBody] AuthConfirmEmailRequest request)
         {
             bool isSuccess = await _registerUseCase.ConfirmEmailVerification(request.Username, request.Email, request.ConfirmationCode);
-            Console.Write("hola");
             if (isSuccess)
             {
                 return Ok(new { Message = "Se ha verificado el Email correctamente. Ya puede ingresar al sitio." });

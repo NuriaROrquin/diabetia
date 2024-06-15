@@ -1,9 +1,10 @@
 ﻿using Diabetia.Application.Exceptions;
+using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 
-namespace Diabetia.Application.UseCases
+namespace Diabetia.Application.UseCases.AuthUseCases
 {
     public class AuthRegisterUseCase
     {
@@ -16,21 +17,18 @@ namespace Diabetia.Application.UseCases
             _authRepository = authRepository;
             _emailValidator = emailValidator;
         }
-        public async Task Register(string username, string email, string password)
+        public async Task Register(Usuario user, string password)
         {
-            if (!_emailValidator.IsValidEmail(email))
-            {
-                throw new InvalidEmailException();
-            }
-            if (await _authRepository.CheckEmailOnDatabaseAsync(email))
+            _emailValidator.IsValidEmail(user.Email);
+            if (await _authRepository.CheckEmailOnDatabaseAsync(user.Email))
             {
                 throw new EmailAlreadyExistsException();
             }
-            string hashCode = await _apiCognitoProvider.RegisterUserAsync(username, password, email);
-            await _authRepository.SaveUserHashAsync(username,email,hashCode);
-            await _authRepository.SaveUserUsernameAsync(email, username);
+            string hashCode = await _apiCognitoProvider.RegisterUserAsync(user.Username, password, user.Email);
+            await _authRepository.SaveUserHashAsync(user.Username, user.Email, hashCode);
+            await _authRepository.SaveUserUsernameAsync(user.Email, user.Username);
         }
-        
+
         public async Task<bool> ConfirmEmailVerification(string username, string email, string confirmationCode)
         {
             if (!_emailValidator.IsValidEmail(email))
@@ -39,7 +37,7 @@ namespace Diabetia.Application.UseCases
             }
 
             string hashCode = await _authRepository.GetUserHashAsync(email);
-            if (string.IsNullOrEmpty(hashCode)) 
+            if (string.IsNullOrEmpty(hashCode))
             {
                 throw new InvalidOperationException();
             }
@@ -49,4 +47,3 @@ namespace Diabetia.Application.UseCases
         }
     }
 }
- 
