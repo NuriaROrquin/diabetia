@@ -16,6 +16,7 @@ using Diabetia.Infrastructure.EF;
 using Diabetia.Application.UseCases.EventUseCases;
 using Diabetia.Application.UseCases.AuthUseCases;
 using Diabetia.Common.Utilities.Validations;
+using Diabetia.Common.Utilities.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,7 +76,9 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IEmailValidator, EmailValidator>();
 builder.Services.AddScoped<IInputValidator, InputValidator>();
 builder.Services.AddScoped<IPatientEventValidator, PatientEventValidator>();
-
+builder.Services.AddScoped<IEmailDBValidator, EmailDBValidator>();
+builder.Services.AddScoped<IUsernameDBValidator, UsernameDBValidator>();
+builder.Services.AddScoped<IUserStatusValidator, UserStatusValidator>();
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
