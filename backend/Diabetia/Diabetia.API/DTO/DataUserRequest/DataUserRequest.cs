@@ -1,4 +1,4 @@
-namespace Diabetia.API
+namespace Diabetia.API.DTO.DataUserRequest
 {
     public class DataRequest
     {
