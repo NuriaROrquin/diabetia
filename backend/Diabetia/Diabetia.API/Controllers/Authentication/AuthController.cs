@@ -92,8 +92,9 @@ namespace Diabetia.API.Controllers.Authentication
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PasswordEmailRecoverAsync([FromBody] AuthForgotPasswordRequest request)
         {
-            await _forgotPasswordUseCase.ForgotPasswordEmailAsync(request.Email);
-            return Ok("C�digo enviado exitosamente, revise su casilla de correo.");
+            var user = request.ToDomain(request);
+            await _forgotPasswordUseCase.ForgotPasswordEmailAsync(user);
+            return Ok("Código enviado exitosamente, revise su casilla de correo.");
         }
 
         [HttpPost("passwordRecoverCode")]
@@ -103,7 +104,7 @@ namespace Diabetia.API.Controllers.Authentication
         public async Task<IActionResult> ForgotPasswordCodeRecoverAsync([FromBody] AuthConfirmPasswordRecoverRequest request)
         {
             await _forgotPasswordUseCase.ConfirmForgotPasswordAsync(request.Email, request.ConfirmationCode, request.Password);
-            return Ok("Contrase�a cambiada exitosamente");
+            return Ok("Contraseña cambiada exitosamente");
         }
 
     }

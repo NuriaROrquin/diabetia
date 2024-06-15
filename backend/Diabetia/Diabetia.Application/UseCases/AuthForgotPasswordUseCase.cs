@@ -1,4 +1,6 @@
 ﻿using Diabetia.Application.Exceptions;
+using Diabetia.Common.Utilities.Interfaces;
+using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
@@ -11,38 +13,29 @@ namespace Diabetia.Application.UseCases
         private readonly IAuthProvider _apiCognitoProvider;
         private readonly IAuthRepository _authRepository;
         private readonly IEmailValidator _emailValidator;
-        public AuthForgotPasswordUseCase(IAuthProvider apiCognitoProvider, IAuthRepository authRepository, IEmailValidator emailValidator)
+        private readonly IUsernameDBValidator _usernameDBValidator;
+        private readonly IUserStatusValidator _userStatusValidator;
+        public AuthForgotPasswordUseCase(IAuthProvider apiCognitoProvider, IAuthRepository authRepository, IEmailValidator emailValidator, IUsernameDBValidator usernameDBValidator, IUserStatusValidator userStatusValidator)
         {
             _apiCognitoProvider = apiCognitoProvider;
             _authRepository = authRepository;
             _emailValidator = emailValidator;
+            _usernameDBValidator = usernameDBValidator;
+            _userStatusValidator = userStatusValidator;
         }
 
-        public async Task ForgotPasswordEmailAsync(string email)
+        public async Task ForgotPasswordEmailAsync(Usuario user)
         {
-            if (!_emailValidator.IsValidEmail(email))
-            {
-                throw new InvalidEmailException();
-            }
-            string username = await _authRepository.GetUsernameByEmailAsync(email);
-            if (username == "")
-            {
-                throw new UsernameNotFoundException();
-            }
-            bool userState = await _authRepository.GetUserStateAsync(email);
-            if (!userState) 
-            { 
-                throw new UserNotAuthorizedException();
-            }
+            _emailValidator.IsValidEmail(user.Email);
+            var username = await _usernameDBValidator.CheckUsernameOnDB(user.Email);
+            await _userStatusValidator.checkUserStatus(user.Email);
+
             await _apiCognitoProvider.ForgotPasswordRecoverAsync(username);
         }
 
         public async Task ConfirmForgotPasswordAsync(string email, string confirmationCode, string password)
         {
-            if (!_emailValidator.IsValidEmail(email))
-            {
-                throw new InvalidEmailException();
-            }
+            _emailValidator.IsValidEmail(email);
             string username = await _authRepository.GetUsernameByEmailAsync(email);
             if (username == "")
             {
