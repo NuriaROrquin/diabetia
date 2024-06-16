@@ -1,10 +1,8 @@
 ﻿using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
-using Diabetia.Domain.Models;
 using FakeItEasy;
 using Infrastructure.Provider;
 using Microsoft.Extensions.Configuration;
-using System.Net;
 
 namespace Diabetia.Test._3_Infraestructure.Providers.Authentication
 {
@@ -262,300 +260,272 @@ namespace Diabetia.Test._3_Infraestructure.Providers.Authentication
                 req.SecretHash == authProvider.CalculateSecretHash(fakeConfiguration["ClientId"], fakeConfiguration["ClientSecret"], username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
         }
 
-        //// Recover Password Email
-        //[Fact]
-        //public async Task ConfirmForgotPasswordCodeAsync_GivenValidCode_ShouldChangeUserPassword()
-        //{
-        //    // Arrange
-        //    var username = "testUser";
-        //    var confirmationCode = "123456";
-        //    var password = "testPassword";
+        // Recover Password Email
+        [Fact]
+        public async Task ConfirmForgotPasswordCodeAsync_GivenValidCode_ShouldChangeUserPassword()
+        {
+            // Arrange
+            var username = "testUser";
+            var confirmationCode = "123456";
+            var password = "testPassword";
 
-        //    var fakeConfiguration = A.Fake<IConfiguration>();
-        //    fakeConfiguration["ClientId"] = "fakeClientId";
-        //    fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
-        //    fakeConfiguration["ClientSecret"] = "fakeClientSecret";
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "fakeClientId";
+            fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
+            fakeConfiguration["ClientSecret"] = "fakeClientSecret";
 
-        //    var clientId = fakeConfiguration["ClientId"];
-        //    var userPoolId = fakeConfiguration["UserPoolId"];
-        //    var clientSecret = fakeConfiguration["ClientSecret"];
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-        //    var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
-        //    var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+            var confirmRequest = new ConfirmForgotPasswordRequest
+            {
+                ClientId = fakeConfiguration["ClientId"],
+                Username = username,
+                ConfirmationCode = confirmationCode,
+                Password = password,
+                SecretHash = authProvider.CalculateSecretHash(fakeConfiguration["ClientId"], fakeConfiguration["ClientSecret"], username)
+            };
 
-        //    var confirmRequest = new ConfirmForgotPasswordRequest
-        //    {
-        //        ClientId = clientId,
-        //        Username = username,
-        //        ConfirmationCode = confirmationCode,
-        //        Password = password,
-        //        SecretHash = authProvider.CalculateSecretHash(clientId, clientSecret, username)
-        //    };
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(confirmRequest, CancellationToken.None));
 
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(confirmRequest, CancellationToken.None));
+            var passwordRequest = new AdminSetUserPasswordRequest
+            {
+                Password = password,
+                Username = username,
+                Permanent = true,
+                UserPoolId = fakeConfiguration["UserPoolId"],
+            };
+            A.CallTo(() => fakeCognitoClient.AdminSetUserPasswordAsync(passwordRequest, CancellationToken.None));
 
-        //    var passwordRequest = new AdminSetUserPasswordRequest
-        //    {
-        //        Password = password,
-        //        Username = username,
-        //        Permanent = true,
-        //        UserPoolId = userPoolId,
-        //    };
-        //    A.CallTo(() => fakeCognitoClient.AdminSetUserPasswordAsync(passwordRequest, CancellationToken.None));
-
-        //    // Act
-        //    await authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password);
+            // Act
+            await authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password);
 
 
-        //    // Assert
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
-        //        req.ClientId == clientId &&
-        //        req.Username == username &&
-        //        req.ConfirmationCode == confirmationCode &&
-        //        req.Password == password &&
-        //        req.SecretHash == authProvider.CalculateSecretHash(clientId, clientSecret, username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
+            // Assert
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
+                req.ClientId == fakeConfiguration["ClientId"] &&
+                req.Username == username &&
+                req.ConfirmationCode == confirmationCode &&
+                req.Password == password &&
+                req.SecretHash == authProvider.CalculateSecretHash(fakeConfiguration["ClientId"], fakeConfiguration["ClientSecret"], username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
 
-        //    A.CallTo(() => fakeCognitoClient.AdminSetUserPasswordAsync(A<AdminSetUserPasswordRequest>.That.Matches(req =>
-        //        req.Username == username &&
-        //        req.Password == password &&
-        //        req.UserPoolId == userPoolId), CancellationToken.None)).MustHaveHappenedOnceExactly();
-        //}
+            A.CallTo(() => fakeCognitoClient.AdminSetUserPasswordAsync(A<AdminSetUserPasswordRequest>.That.Matches(req =>
+                req.Username == username &&
+                req.Password == password &&
+                req.UserPoolId == fakeConfiguration["UserPoolId"]), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
 
-        //[Fact]
-        //public async Task ConfirmForgotPasswordCodeAsync_GivenExpiredCode_ThrowsExpiredCodeException()
-        //{
-        //    // Arrange
-        //    var username = "testUser";
-        //    var confirmationCode = "testConfirmationCode";
-        //    var password = "testPassword";
+        [Fact]
+        public async Task ConfirmForgotPasswordCodeAsync_GivenExpiredCode_ThrowsExpiredCodeException()
+        {
+            // Arrange
+            var username = "testUser";
+            var confirmationCode = "testConfirmationCode";
+            var password = "testPassword";
 
-        //    var fakeConfiguration = A.Fake<IConfiguration>();
-        //    fakeConfiguration["ClientId"] = "fakeClientId";
-        //    fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
-        //    fakeConfiguration["ClientSecret"] = "fakeClientSecret";
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "fakeClientId";
+            fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
+            fakeConfiguration["ClientSecret"] = "fakeClientSecret";
 
-        //    var clientId = fakeConfiguration["ClientId"];
-        //    var userPoolId = fakeConfiguration["UserPoolId"];
-        //    var clientSecret = fakeConfiguration["ClientSecret"];
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-        //    var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
-        //    var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new ExpiredCodeException("Código expirado"));
 
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new ExpiredCodeException("Código expirado"));
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<ExpiredCodeException>(() => authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
 
-        //    // Act & Assert
-        //    var exception = await Assert.ThrowsAsync<ExpiredCodeException>(() => authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
+            Assert.Equal("Código expirado", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
+                req.ClientId == fakeConfiguration["ClientId"] &&
+                req.Username == username &&
+                req.ConfirmationCode == confirmationCode &&
+                req.Password == password &&
+                req.SecretHash == authProvider.CalculateSecretHash(fakeConfiguration["ClientId"], fakeConfiguration["ClientSecret"], username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
 
-        //    Assert.Equal("Código expirado", exception.Message);
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
-        //        req.ClientId == clientId &&
-        //        req.Username == username &&
-        //        req.ConfirmationCode == confirmationCode &&
-        //        req.Password == password &&
-        //        req.SecretHash == authProvider.CalculateSecretHash(clientId, clientSecret, username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
-        //}
+        [Fact]
+        public async Task ConfirmForgotPasswordCodeAsync_TryingTooManyTimes_ThrowsTooManyFailedAttemptsException()
+        {
+            // Arrange
+            var username = "testUser";
+            var confirmationCode = "testConfirmationCode";
+            var password = "testPassword";
 
-        //[Fact]
-        //public async Task ConfirmForgotPasswordCodeAsync_TryingTooManyTimes_ThrowsTooManyFailedAttemptsException()
-        //{
-        //    // Arrange
-        //    var username = "testUser";
-        //    var confirmationCode = "testConfirmationCode";
-        //    var password = "testPassword";
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "fakeClientId";
+            fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
+            fakeConfiguration["ClientSecret"] = "fakeClientSecret";
 
-        //    var fakeConfiguration = A.Fake<IConfiguration>();
-        //    fakeConfiguration["ClientId"] = "fakeClientId";
-        //    fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
-        //    fakeConfiguration["ClientSecret"] = "fakeClientSecret";
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-        //    var clientId = fakeConfiguration["ClientId"];
-        //    var userPoolId = fakeConfiguration["UserPoolId"];
-        //    var clientSecret = fakeConfiguration["ClientSecret"];
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new TooManyFailedAttemptsException("Demasiados intentos fallidos"));
 
-        //    var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
-        //    var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<TooManyFailedAttemptsException>(() => authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
 
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new TooManyFailedAttemptsException("Demasiados intentos fallidos"));
+            Assert.Equal("Demasiados intentos fallidos", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
+                req.ClientId == fakeConfiguration["ClientId"] &&
+                req.Username == username &&
+                req.ConfirmationCode == confirmationCode &&
+                req.Password == password &&
+                req.SecretHash == authProvider.CalculateSecretHash(fakeConfiguration["ClientId"], fakeConfiguration["ClientSecret"], username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
 
-        //    // Act & Assert
-        //    var exception = await Assert.ThrowsAsync<TooManyFailedAttemptsException>(() => authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
+        [Fact]
+        public async Task ConfirmForgotPasswordCodeAsync_GivenNotConfirmUser_ThrowsUserNotConfirmedException()
+        {
+            // Arrange
+            var username = "testUser";
+            var confirmationCode = "testConfirmationCode";
+            var password = "testPassword";
 
-        //    Assert.Equal("Demasiados intentos fallidos", exception.Message);
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
-        //        req.ClientId == clientId &&
-        //        req.Username == username &&
-        //        req.ConfirmationCode == confirmationCode &&
-        //        req.Password == password &&
-        //        req.SecretHash == authProvider.CalculateSecretHash(clientId, clientSecret, username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
-        //}
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "fakeClientId";
+            fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
+            fakeConfiguration["ClientSecret"] = "fakeClientSecret";
 
-        //[Fact]
-        //public async Task ConfirmForgotPasswordCodeAsync_GivenNotConfirmUser_ThrowsUserNotConfirmedException()
-        //{
-        //    // Arrange
-        //    var username = "testUser";
-        //    var confirmationCode = "testConfirmationCode";
-        //    var password = "testPassword";
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-        //    var fakeConfiguration = A.Fake<IConfiguration>();
-        //    fakeConfiguration["ClientId"] = "fakeClientId";
-        //    fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
-        //    fakeConfiguration["ClientSecret"] = "fakeClientSecret";
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new UserNotConfirmedException("Usuario no autenticado"));
 
-        //    var clientId = fakeConfiguration["ClientId"];
-        //    var userPoolId = fakeConfiguration["UserPoolId"];
-        //    var clientSecret = fakeConfiguration["ClientSecret"];
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<UserNotConfirmedException>(() => authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
 
-        //    var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
-        //    var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+            Assert.Equal("Usuario no autenticado", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
+                req.ClientId == fakeConfiguration["ClientId"] &&
+                req.Username == username &&
+                req.ConfirmationCode == confirmationCode &&
+                req.Password == password &&
+                req.SecretHash == authProvider.CalculateSecretHash(fakeConfiguration["ClientId"], fakeConfiguration["ClientSecret"], username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
 
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new UserNotConfirmedException("Usuario no autenticado"));
+        [Fact]
+        public async Task ConfirmForgotPasswordCodeAsync_GivenNotRegisterUser_ThrowsUserNotFoundException()
+        {
+            // Arrange
+            var username = "testUser";
+            var confirmationCode = "testConfirmationCode";
+            var password = "testPassword";
 
-        //    // Act & Assert
-        //    var exception = await Assert.ThrowsAsync<UserNotConfirmedException>(() => authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "fakeClientId";
+            fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
+            fakeConfiguration["ClientSecret"] = "fakeClientSecret";
 
-        //    Assert.Equal("Usuario no autenticado", exception.Message);
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
-        //        req.ClientId == clientId &&
-        //        req.Username == username &&
-        //        req.ConfirmationCode == confirmationCode &&
-        //        req.Password == password &&
-        //        req.SecretHash == authProvider.CalculateSecretHash(clientId, clientSecret, username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
-        //}
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-        //[Fact]
-        //public async Task ConfirmForgotPasswordCodeAsync_GivenNotRegisterUser_ThrowsUserNotFoundException()
-        //{
-        //    // Arrange
-        //    var username = "testUser";
-        //    var confirmationCode = "testConfirmationCode";
-        //    var password = "testPassword";
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new UserNotFoundException("Usuario no encontrado"));
 
-        //    var fakeConfiguration = A.Fake<IConfiguration>();
-        //    fakeConfiguration["ClientId"] = "fakeClientId";
-        //    fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
-        //    fakeConfiguration["ClientSecret"] = "fakeClientSecret";
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<UserNotFoundException>(() => authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
 
-        //    var clientId = fakeConfiguration["ClientId"];
-        //    var userPoolId = fakeConfiguration["UserPoolId"];
-        //    var clientSecret = fakeConfiguration["ClientSecret"];
+            Assert.Equal("Usuario no encontrado", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
+                req.ClientId == fakeConfiguration["ClientId"] &&
+                req.Username == username &&
+                req.ConfirmationCode == confirmationCode &&
+                req.Password == password &&
+                req.SecretHash == authProvider.CalculateSecretHash(fakeConfiguration["ClientId"], fakeConfiguration["ClientSecret"], username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
 
-        //    var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
-        //    var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+        [Fact]
+        public async Task ConfirmForgotPasswordCodeAsync_GivenNotValidPassword_ThrowsInvalidPasswordException()
+        {
+            // Arrange
+            var username = "testUser";
+            var confirmationCode = "123456";
+            var password = "testPassword";
 
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new UserNotFoundException("Usuario no encontrado"));
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "fakeClientId";
+            fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
+            fakeConfiguration["ClientSecret"] = "fakeClientSecret";
 
-        //    // Act & Assert
-        //    var exception = await Assert.ThrowsAsync<UserNotFoundException>(() => authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-        //    Assert.Equal("Usuario no encontrado", exception.Message);
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
-        //        req.ClientId == clientId &&
-        //        req.Username == username &&
-        //        req.ConfirmationCode == confirmationCode &&
-        //        req.Password == password &&
-        //        req.SecretHash == authProvider.CalculateSecretHash(clientId, clientSecret, username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
-        //}
+            var confirmRequest = new ConfirmForgotPasswordRequest
+            {
+                ClientId = fakeConfiguration["ClientId"],
+                Username = username,
+                ConfirmationCode = confirmationCode,
+                Password = password,
+                SecretHash = authProvider.CalculateSecretHash(fakeConfiguration["ClientId"], fakeConfiguration["ClientSecret"], username)
+            };
 
-        //[Fact]
-        //public async Task ConfirmForgotPasswordCodeAsync_GivenNotValidPassword_ThrowsInvalidPasswordException()
-        //{
-        //    // Arrange
-        //    var username = "testUser";
-        //    var confirmationCode = "123456";
-        //    var password = "testPassword";
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(confirmRequest, CancellationToken.None));
 
-        //    var fakeConfiguration = A.Fake<IConfiguration>();
-        //    fakeConfiguration["ClientId"] = "fakeClientId";
-        //    fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
-        //    fakeConfiguration["ClientSecret"] = "fakeClientSecret";
+            A.CallTo(() => fakeCognitoClient.AdminSetUserPasswordAsync(A<AdminSetUserPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new InvalidPasswordException("Contraseña inválida"));
 
-        //    var clientId = fakeConfiguration["ClientId"];
-        //    var userPoolId = fakeConfiguration["UserPoolId"];
-        //    var clientSecret = fakeConfiguration["ClientSecret"];
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<InvalidPasswordException>(() => authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
 
-        //    var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
-        //    var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
+            Assert.Equal("Contraseña inválida", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
+                req.ClientId == fakeConfiguration["ClientId"] &&
+                req.Username == username &&
+                req.ConfirmationCode == confirmationCode &&
+                req.Password == password &&
+                req.SecretHash == authProvider.CalculateSecretHash(fakeConfiguration["ClientId"], fakeConfiguration["ClientSecret"], username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
 
-        //    var confirmRequest = new ConfirmForgotPasswordRequest
-        //    {
-        //        ClientId = clientId,
-        //        Username = username,
-        //        ConfirmationCode = confirmationCode,
-        //        Password = password,
-        //        SecretHash = authProvider.CalculateSecretHash(clientId, clientSecret, username)
-        //    };
+            A.CallTo(() => fakeCognitoClient.AdminSetUserPasswordAsync(A<AdminSetUserPasswordRequest>.That.Matches(req =>
+                req.Username == username &&
+                req.Password == password &&
+                req.UserPoolId == fakeConfiguration["UserPoolId"]), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
 
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(confirmRequest, CancellationToken.None));
+        [Fact]
+        public async Task ConfirmForgotPasswordCodeAsync_GivenNotRegisteredUser_ThrowsUserNotFoundException()
+        {
+            // Arrange
+            var username = "testUser";
+            var confirmationCode = "123456";
+            var password = "testPassword";
 
-        //    A.CallTo(() => fakeCognitoClient.AdminSetUserPasswordAsync(A<AdminSetUserPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new InvalidPasswordException("Contraseña inválida"));
+            var fakeConfiguration = A.Fake<IConfiguration>();
+            fakeConfiguration["ClientId"] = "fakeClientId";
+            fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
+            fakeConfiguration["ClientSecret"] = "fakeClientSecret";
 
-        //    // Act & Assert
-        //    var exception = await Assert.ThrowsAsync<InvalidPasswordException>(() => authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
+            var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
+            var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-        //    Assert.Equal("Contraseña inválida", exception.Message);
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
-        //        req.ClientId == clientId &&
-        //        req.Username == username &&
-        //        req.ConfirmationCode == confirmationCode &&
-        //        req.Password == password &&
-        //        req.SecretHash == authProvider.CalculateSecretHash(clientId, clientSecret, username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
+            var confirmRequest = new ConfirmForgotPasswordRequest
+            {
+                ClientId = fakeConfiguration["ClientId"],
+                Username = username,
+                ConfirmationCode = confirmationCode,
+                Password = password,
+                SecretHash = authProvider.CalculateSecretHash(fakeConfiguration["ClientId"], fakeConfiguration["ClientSecret"], username)
+            };
 
-        //    A.CallTo(() => fakeCognitoClient.AdminSetUserPasswordAsync(A<AdminSetUserPasswordRequest>.That.Matches(req =>
-        //        req.Username == username &&
-        //        req.Password == password &&
-        //        req.UserPoolId == userPoolId), CancellationToken.None)).MustHaveHappenedOnceExactly();
-        //}
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(confirmRequest, CancellationToken.None));
 
-        //[Fact]
-        //public async Task ConfirmForgotPasswordCodeAsync_GivenNotRegisteredUser_ThrowsUserNotFoundException()
-        //{
-        //    // Arrange
-        //    var username = "testUser";
-        //    var confirmationCode = "123456";
-        //    var password = "testPassword";
+            A.CallTo(() => fakeCognitoClient.AdminSetUserPasswordAsync(A<AdminSetUserPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new UserNotFoundException("Usuario no encontrado"));
 
-        //    var fakeConfiguration = A.Fake<IConfiguration>();
-        //    fakeConfiguration["ClientId"] = "fakeClientId";
-        //    fakeConfiguration["UserPoolId"] = "fakeUserPoolId";
-        //    fakeConfiguration["ClientSecret"] = "fakeClientSecret";
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<UserNotFoundException>(() => authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
 
-        //    var clientId = fakeConfiguration["ClientId"];
-        //    var userPoolId = fakeConfiguration["UserPoolId"];
-        //    var clientSecret = fakeConfiguration["ClientSecret"];
+            Assert.Equal("Usuario no encontrado", exception.Message);
+            A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
+                req.ClientId == fakeConfiguration["ClientId"] &&
+                req.Username == username &&
+                req.ConfirmationCode == confirmationCode &&
+                req.Password == password &&
+                req.SecretHash == authProvider.CalculateSecretHash(fakeConfiguration["ClientId"], fakeConfiguration["ClientSecret"], username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
 
-        //    var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
-        //    var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
-
-        //    var confirmRequest = new ConfirmForgotPasswordRequest
-        //    {
-        //        ClientId = clientId,
-        //        Username = username,
-        //        ConfirmationCode = confirmationCode,
-        //        Password = password,
-        //        SecretHash = authProvider.CalculateSecretHash(clientId, clientSecret, username)
-        //    };
-
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(confirmRequest, CancellationToken.None));
-
-        //    A.CallTo(() => fakeCognitoClient.AdminSetUserPasswordAsync(A<AdminSetUserPasswordRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new UserNotFoundException("Usuario no encontrado"));
-
-        //    // Act & Assert
-        //    var exception = await Assert.ThrowsAsync<UserNotFoundException>(() => authProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
-
-        //    Assert.Equal("Usuario no encontrado", exception.Message);
-        //    A.CallTo(() => fakeCognitoClient.ConfirmForgotPasswordAsync(A<ConfirmForgotPasswordRequest>.That.Matches(req =>
-        //        req.ClientId == clientId &&
-        //        req.Username == username &&
-        //        req.ConfirmationCode == confirmationCode &&
-        //        req.Password == password &&
-        //        req.SecretHash == authProvider.CalculateSecretHash(clientId, clientSecret, username)), CancellationToken.None)).MustHaveHappenedOnceExactly();
-
-        //    A.CallTo(() => fakeCognitoClient.AdminSetUserPasswordAsync(A<AdminSetUserPasswordRequest>.That.Matches(req =>
-        //        req.Username == username &&
-        //        req.Password == password &&
-        //        req.UserPoolId == userPoolId), CancellationToken.None)).MustHaveHappenedOnceExactly();
-        //}
+            A.CallTo(() => fakeCognitoClient.AdminSetUserPasswordAsync(A<AdminSetUserPasswordRequest>.That.Matches(req =>
+                req.Username == username &&
+                req.Password == password &&
+                req.UserPoolId == fakeConfiguration["UserPoolId"]), CancellationToken.None)).MustHaveHappenedOnceExactly();
+        }
 
         //// Login Tests 
 
