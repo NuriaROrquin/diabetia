@@ -3,6 +3,7 @@ using Diabetia.Domain.Entities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
+using Diabetia.Domain.Utilities.Interfaces;
 
 namespace Diabetia.Application.UseCases.AuthUseCases
 {
@@ -12,13 +13,15 @@ namespace Diabetia.Application.UseCases.AuthUseCases
         private readonly IAuthRepository _authRepository;
         private readonly IAuthProvider _apiCognitoProvider;
         private readonly IInputValidator _inputValidator;
+        private readonly IUsernameDBValidator _usernameDBValidator;
 
-        public AuthLoginUseCase(IAuthProvider apiCognitoProvider, IUserRepository userRepository, IAuthRepository authRepository, IInputValidator inputValidator)
+        public AuthLoginUseCase(IAuthProvider apiCognitoProvider, IUserRepository userRepository, IAuthRepository authRepository, IInputValidator inputValidator, IUsernameDBValidator usernameDBValidator)
         {
             _apiCognitoProvider = apiCognitoProvider;
             _userRepository = userRepository;
             _authRepository = authRepository;
             _inputValidator = inputValidator;
+            _usernameDBValidator = usernameDBValidator; 
         }
 
         public async Task<User> UserLoginAsync(string userInput, string password)
@@ -28,11 +31,7 @@ namespace Diabetia.Application.UseCases.AuthUseCases
 
             if (_inputValidator.IsEmail(userInput))
             {
-                username = await _authRepository.GetUsernameByEmailAsync(userInput);
-                if (string.IsNullOrEmpty(username))
-                {
-                    throw new UsernameNotFoundException();
-                }
+                username = await _usernameDBValidator.CheckUsernameOnDB(userInput);
                 userExists = true;
             }
             else
