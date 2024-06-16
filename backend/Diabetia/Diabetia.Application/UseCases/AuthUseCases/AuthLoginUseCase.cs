@@ -27,20 +27,14 @@ namespace Diabetia.Application.UseCases.AuthUseCases
         public async Task<User> UserLoginAsync(string userInput, string password)
         {
             string username = null;
-            bool userExists = false;
 
             if (_inputValidator.IsEmail(userInput))
             {
-                username = await _usernameDBValidator.CheckUsernameOnDB(userInput);
-                userExists = true;
+                username = await _usernameDBValidator.GetUsernameByEmail(userInput);
             }
             else
             {
-                userExists = await _authRepository.CheckUsernameOnDatabaseAsync(userInput);
-                if (!userExists)
-                {
-                    throw new UsernameNotFoundException();
-                }
+                await _usernameDBValidator.CheckUsernameOnDataBase(userInput);
                 username = userInput;
             }
 

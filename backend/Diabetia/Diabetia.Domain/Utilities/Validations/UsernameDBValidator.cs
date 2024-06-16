@@ -12,7 +12,7 @@ namespace Diabetia.Domain.Utilities.Validations
             _authRepository = authRepository;
         }
 
-        public async Task <string> CheckUsernameOnDB(string email)
+        public async Task <string> GetUsernameByEmail(string email)
         {
             string username = await _authRepository.GetUsernameByEmailAsync(email);
             if (username == "") 
@@ -20,6 +20,15 @@ namespace Diabetia.Domain.Utilities.Validations
                 throw new UsernameNotFoundException();
             }
             return username;
+        }
+
+        public async Task CheckUsernameOnDataBase(string username)
+        {
+            var userExists = await _authRepository.CheckUsernameOnDatabaseAsync(username);
+            if (!userExists) 
+            {
+                throw new UsernameNotFoundException();
+            }
         }
     }
 }
