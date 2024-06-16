@@ -79,6 +79,7 @@ builder.Services.AddScoped<IPatientEventValidator, PatientEventValidator>();
 builder.Services.AddScoped<IEmailDBValidator, EmailDBValidator>();
 builder.Services.AddScoped<IUsernameDBValidator, UsernameDBValidator>();
 builder.Services.AddScoped<IUserStatusValidator, UserStatusValidator>();
+builder.Services.AddScoped<IHashValidator, HashValidator>();
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
