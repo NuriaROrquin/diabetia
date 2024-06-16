@@ -1,188 +1,221 @@
-﻿//using Diabetia.Domain.Exceptions;
-//using Diabetia.Application.UseCases;
-//using Diabetia.Domain.Repositories;
-//using Diabetia.Domain.Services;
-//using Diabetia.Interfaces;
-//using FakeItEasy;
+﻿using Diabetia.Domain.Exceptions;
+using Diabetia.Domain.Services;
+using Diabetia.Interfaces;
+using FakeItEasy;
+using Diabetia.Domain.Models;
+using Diabetia.Domain.Utilities.Interfaces;
+using Diabetia.Application.UseCases.AuthUseCases;
 
-//namespace Diabetia_Core.Auth
-//{
-//    public class AuthForgotPasswordUseCaseTest
-//    {
-//        [Fact]
-//        public async Task ForgotPasswordUseCase_WhenCalledWithValidData_ShouldSendEmailSuccessfully()
-//        {
-//            // Arrange
-//            var email = "testEmail@gmail.com";
-//            var username = "testUsername";
-//            var state = true;
-//            var fakeAuthProvider = A.Fake<IAuthProvider>();
-//            var fakeAuthRepository = A.Fake<IAuthRepository>();
-//            var fakeEmailValidator = A.Fake<IEmailValidator>();
+namespace Diabetia_Core.Auth
+{
+    public class AuthForgotPasswordUseCaseTest
+    {
+        [Fact]
+        public async Task ForgotPasswordUseCase_WhenCalledWithValidData_ShouldSendEmailSuccessfully()
+        {
+            // Arrange
+            var email = "testEmail@gmail.com";
+            var username = "testUsername";
+            var user = new Usuario()
+            {
+                Email = email,
+                Username = username,
+            };
 
-//            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).Returns(true);
-//            A.CallTo(() => fakeAuthRepository.GetUsernameByEmailAsync(email)).Returns(username);
-//            A.CallTo(() => fakeAuthRepository.GetUserStateAsync(email)).Returns(state);
+            var state = true;
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
+            var fakeUsernameDBValidator = A.Fake<IUsernameDBValidator>();
+            var fakeUserStatusValidator = A.Fake<IUserStatusValidator>();
 
-//            A.CallTo(() => fakeAuthProvider.ForgotPasswordRecoverAsync(username));
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDB(user.Email)).Returns(username);
+            A.CallTo(() => fakeAuthProvider.ForgotPasswordRecoverAsync(username));
 
-//            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeEmailValidator, fakeUsernameDBValidator, fakeUserStatusValidator);
 
-//            // Act
-//            await forgotPasswordUseCase.ForgotPasswordEmailAsync(email);
+            // Act
+            await forgotPasswordUseCase.ForgotPasswordEmailAsync(user);
 
-//            // Asserts
-//            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).MustHaveHappenedOnceExactly();
+            // Asserts
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDB(user.Email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUserStatusValidator.CheckUserStatus(user.Email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeAuthProvider.ForgotPasswordRecoverAsync(username)).MustHaveHappenedOnceExactly();
+        }
 
-//            A.CallTo(() => fakeAuthRepository.GetUsernameByEmailAsync(email)).MustHaveHappenedOnceExactly();
+        [Fact]
+        public async Task ForgotPasswordUseCase_GivenInvalidEmail_ShouldThrowInvalidEmailException()
+        {
+            // Arrange
+            var email = "invalidEmail";
+            var username = "fakeUsername";
+            var user = new Usuario()
+            {
+                Email = email,
+                Username = username,
+            };
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
+            var fakeUsernameDBValidator = A.Fake<IUsernameDBValidator>();
+            var fakeUserStatusValidator = A.Fake<IUserStatusValidator>();
 
-//            A.CallTo(() => fakeAuthRepository.GetUserStateAsync(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).Throws<InvalidEmailException>();
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeEmailValidator, fakeUsernameDBValidator, fakeUserStatusValidator);
 
-//            A.CallTo(() => fakeAuthProvider.ForgotPasswordRecoverAsync(username)).MustHaveHappenedOnceExactly();
-//        }
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidEmailException>(() => forgotPasswordUseCase.ForgotPasswordEmailAsync(user));
 
-//        [Fact]
-//        public async Task ForgotPasswordUseCase_GivenInvalidEmail_ShouldThrowInvalidEmailException()
-//        {
-//            // Arrange
-//            var email = "invalidEmail";
-//            var fakeAuthProvider = A.Fake<IAuthProvider>();
-//            var fakeAuthRepository = A.Fake<IAuthRepository>();
-//            var fakeEmailValidator = A.Fake<IEmailValidator>();
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).MustHaveHappenedOnceExactly();
 
-//            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).Returns(false);
+        }
 
-//            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
+        [Fact]
+        public async Task ForgotPasswordUseCase_WhenGivenNotRegisteredEmail_ShouldThrowUsernameNotFoundException()
+        {
+            // Arrange
+            var email = "email.test@gmail.com";
+            var username = "";
+            var user = new Usuario()
+            {
+                Email = email,
+                Username = username,
+            };
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
+            var fakeUsernameDBValidator = A.Fake<IUsernameDBValidator>();
+            var fakeUserStatusValidator = A.Fake<IUserStatusValidator>();
 
-//            // Act & Assert
-//            await Assert.ThrowsAsync<InvalidEmailException>(() => forgotPasswordUseCase.ForgotPasswordEmailAsync(email));
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDB(user.Email)).Throws<UsernameNotFoundException>();
 
-//            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).MustHaveHappenedOnceExactly();
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeEmailValidator, fakeUsernameDBValidator, fakeUserStatusValidator);
 
-//        }
+            // Act & Assert
+            await Assert.ThrowsAsync<UsernameNotFoundException>(() => forgotPasswordUseCase.ForgotPasswordEmailAsync(user));
 
-//        [Fact]
-//        public async Task ForgotPasswordUseCase_WhenGivenNotRegisteredEmail_ShouldThrowUsernameNotFoundException()
-//        {
-//            // Arrange
-//            var email = "email.test@gmail.com";
-//            var username = "";
-//            var fakeAuthProvider = A.Fake<IAuthProvider>();
-//            var fakeAuthRepository = A.Fake<IAuthRepository>();
-//            var fakeEmailValidator = A.Fake<IEmailValidator>();
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDB(user.Email)).MustHaveHappenedOnceExactly();
+        }
 
-//            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).Returns(true);
-
-//            A.CallTo(() => fakeAuthRepository.GetUsernameByEmailAsync(email)).Returns(username);
-
-//            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
-
-//            // Act & Assert
-//            await Assert.ThrowsAsync<UsernameNotFoundException>(() => forgotPasswordUseCase.ForgotPasswordEmailAsync(email));
-
-//            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).MustHaveHappenedOnceExactly();
-
-//            A.CallTo(() => fakeAuthRepository.GetUsernameByEmailAsync(email)).MustHaveHappenedOnceExactly();
-//        }
-
-//        [Fact]
-//        public async Task ForgotPasswordUseCase_WhenUserIsNotConfirmed_ShouldThrowUserNotAuthorizedException()
-//        {
-//            // Arrange
-//            var email = "email.test@gmail.com";
-//            var username = "testUsername";
-//            var state = false;
-//            var fakeAuthProvider = A.Fake<IAuthProvider>();
-//            var fakeAuthRepository = A.Fake<IAuthRepository>();
-//            var fakeEmailValidator = A.Fake<IEmailValidator>();
-
-//            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).Returns(true);
-
-//            A.CallTo(() => fakeAuthRepository.GetUsernameByEmailAsync(email)).Returns(username);
-
-//            A.CallTo(() => fakeAuthRepository.GetUserStateAsync(email)).Returns(state);
-
-//            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
-
-//            // Act & Assert
-//            await Assert.ThrowsAsync<UserNotAuthorizedException>(() => forgotPasswordUseCase.ForgotPasswordEmailAsync(email));
-
-//            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).MustHaveHappenedOnceExactly();
-
-//            A.CallTo(() => fakeAuthRepository.GetUsernameByEmailAsync(email)).MustHaveHappenedOnceExactly();
-
-//            A.CallTo(() => fakeAuthRepository.GetUserStateAsync(email)).MustHaveHappenedOnceExactly();
-//        }
+        [Fact]
+        public async Task ForgotPasswordUseCase_WhenUserIsNotConfirmed_ShouldThrowUserNotAuthorizedException()
+        {
+            // Arrange
+            var email = "email.test@gmail.com";
+            var username = "testUsername";
+            var user = new Usuario()
+            {
+                Email = email,
+                Username = username,
+            };
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
+            var fakeUsernameDBValidator = A.Fake<IUsernameDBValidator>();
+            var fakeUserStatusValidator = A.Fake<IUserStatusValidator>();
 
 
-//        // Confirm Forgot Password Test
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDB(user.Email)).Returns(username);
+            A.CallTo(() => fakeUserStatusValidator.CheckUserStatus(user.Email)).Throws<UserNotAuthorizedException>();
 
-//        [Fact]
-//        public async Task ForgotPasswordUseCase_WhenCalledWithValidData_ShouldChangePasswordSuccessfully()
-//        {
-//            // Arrange
-//            var email = "testEmail@gmail.com";
-//            var username = "testUsername";
-//            var confirmationCode = "123456";
-//            var password = "testPassword";
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeEmailValidator, fakeUsernameDBValidator, fakeUserStatusValidator);
 
-//            var fakeAuthProvider = A.Fake<IAuthProvider>();
-//            var fakeAuthRepository = A.Fake<IAuthRepository>();
-//            var fakeEmailValidator = A.Fake<IEmailValidator>();
+            // Act & Assert
+            await Assert.ThrowsAsync<UserNotAuthorizedException>(() => forgotPasswordUseCase.ForgotPasswordEmailAsync(user));
 
-//            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).Returns(true);
-//            A.CallTo(() => fakeAuthRepository.GetUsernameByEmailAsync(email)).Returns(username);
-//            A.CallTo(() => fakeAuthProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDB(user.Email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUserStatusValidator.CheckUserStatus(user.Email)).MustHaveHappenedOnceExactly();
+        }
 
-//            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
 
-//            // Act
-//            await forgotPasswordUseCase.ConfirmForgotPasswordAsync(email, confirmationCode, password);
+        // Confirm Forgot Password Test
 
-//            // Asserts
-//            A.CallTo(() => fakeAuthProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password)).MustHaveHappenedOnceExactly();
-//        }
+        [Fact]
+        public async Task ForgotPasswordUseCase_WhenCalledWithValidData_ShouldChangePasswordSuccessfully()
+        {
+            // Arrange
+            var email = "testEmail@gmail.com";
+            var username = "testUsername";
+            var confirmationCode = "123456";
+            var password = "testPassword";
+            var user = new Usuario()
+            {
+                Email = email,
+                Username = username,
+            };
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
+            var fakeUsernameDBValidator = A.Fake<IUsernameDBValidator>();
+            var fakeUserStatusValidator = A.Fake<IUserStatusValidator>();
 
-//        [Fact]
-//        public async Task ForgotPasswordUseCase_GivenNotValidEmail_ShouldThrowInvalidEmailException()
-//        {
-//            // Arrange
-//            var email = "testUsername";
-//            var confirmationCode = "123456";
-//            var password = "testPassword";
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDB(user.Email)).Returns(username);
+            A.CallTo(() => fakeAuthProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password));
 
-//            var fakeAuthProvider = A.Fake<IAuthProvider>();
-//            var fakeAuthRepository = A.Fake<IAuthRepository>();
-//            var fakeEmailValidator = A.Fake<IEmailValidator>();
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeEmailValidator, fakeUsernameDBValidator, fakeUserStatusValidator);
 
-//            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).Returns(false);
+            // Act
+            await forgotPasswordUseCase.ConfirmForgotPasswordAsync(user, confirmationCode, password);
 
-//            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
+            // Asserts
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(user.Email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDB(user.Email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeAuthProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password)).MustHaveHappenedOnceExactly();
 
-//            // Act & Assert
-//            await Assert.ThrowsAsync<InvalidEmailException>(() => forgotPasswordUseCase.ConfirmForgotPasswordAsync(email, confirmationCode, password));
-//        }
+        }
 
-//        [Fact]
-//        public async Task ForgotPasswordUseCase_GivenNotRegisteredUsername_ShouldThrowUsernameNotFoundException()
-//        {
-//            // Arrange
-//            var email = "testEmail@gmail.com";
-//            var username = "";
-//            var confirmationCode = "123456";
-//            var password = "testPassword";
+        [Fact]
+        public async Task ForgotPasswordUseCase_GivenNotValidEmail_ShouldThrowInvalidEmailException()
+        {
+            // Arrange
+            var email = "testUsername";
+            var confirmationCode = "123456";
+            var password = "testPassword";
+            var username = "fakeUsername";
+            var user = new Usuario()
+            {
+                Email = email,
+                Username = username,
+            };
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
+            var fakeUsernameDBValidator = A.Fake<IUsernameDBValidator>();
+            var fakeUserStatusValidator = A.Fake<IUserStatusValidator>();
 
-//            var fakeAuthProvider = A.Fake<IAuthProvider>();
-//            var fakeAuthRepository = A.Fake<IAuthRepository>();
-//            var fakeEmailValidator = A.Fake<IEmailValidator>();
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(user.Email)).Throws<InvalidEmailException>();
 
-//            A.CallTo(() => fakeEmailValidator.IsValidEmail(email)).Returns(true);
-//            A.CallTo(() => fakeAuthRepository.GetUsernameByEmailAsync(email)).Returns(username);
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeEmailValidator, fakeUsernameDBValidator, fakeUserStatusValidator);
 
-//            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeAuthRepository, fakeEmailValidator);
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidEmailException>(() => forgotPasswordUseCase.ConfirmForgotPasswordAsync(user, confirmationCode, password));
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(user.Email)).MustHaveHappenedOnceExactly();
+        }
 
-//            // Act & Assert
-//            await Assert.ThrowsAsync<UsernameNotFoundException>(() => forgotPasswordUseCase.ConfirmForgotPasswordAsync(email, confirmationCode, password));
-//        }
-//    }
-//}
+        [Fact]
+        public async Task ForgotPasswordUseCase_GivenNotRegisteredUsername_ShouldThrowUsernameNotFoundException()
+        {
+            // Arrange
+            var email = "testEmail@gmail.com";
+            var confirmationCode = "123456";
+            var password = "testPassword";
+            var username = "fakeUsername";
+            var user = new Usuario()
+            {
+                Email = email,
+                Username = username,
+            };
+            var fakeAuthProvider = A.Fake<IAuthProvider>();
+            var fakeEmailValidator = A.Fake<IEmailValidator>();
+            var fakeUsernameDBValidator = A.Fake<IUsernameDBValidator>();
+            var fakeUserStatusValidator = A.Fake<IUserStatusValidator>();
+
+
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDB(user.Email)).Throws<UsernameNotFoundException>();
+
+            var forgotPasswordUseCase = new AuthForgotPasswordUseCase(fakeAuthProvider, fakeEmailValidator, fakeUsernameDBValidator, fakeUserStatusValidator);
+
+            // Act & Assert
+            await Assert.ThrowsAsync<UsernameNotFoundException>(() => forgotPasswordUseCase.ConfirmForgotPasswordAsync(user, confirmationCode, password));
+            A.CallTo(() => fakeEmailValidator.IsValidEmail(user.Email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDB(user.Email)).MustHaveHappenedOnceExactly();
+        }
+    }
+}

@@ -11,7 +11,7 @@ namespace Diabetia.Domain.Utilities.Validations
         {
             _authRepository = authRepository;
         }
-        public async Task checkUserStatus(string email)
+        public async Task CheckUserStatus(string email)
         {
             var userState = await _authRepository.GetUserStateAsync(email);
             if (!userState)

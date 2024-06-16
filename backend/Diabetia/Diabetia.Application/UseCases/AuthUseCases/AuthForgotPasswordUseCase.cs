@@ -24,7 +24,7 @@ namespace Diabetia.Application.UseCases.AuthUseCases
         {
             _emailValidator.IsValidEmail(user.Email);
             var username = await _usernameDBValidator.CheckUsernameOnDB(user.Email);
-            await _userStatusValidator.checkUserStatus(user.Email);
+            await _userStatusValidator.CheckUserStatus(user.Email);
 
             await _apiCognitoProvider.ForgotPasswordRecoverAsync(username);
         }
