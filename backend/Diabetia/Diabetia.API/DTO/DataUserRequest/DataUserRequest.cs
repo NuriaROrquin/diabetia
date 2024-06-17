@@ -1,6 +1,6 @@
 namespace Diabetia.API.DTO.DataUserRequest
 {
-    public class DataRequest
+    /*public class DataRequest
     {
         public string Name { get; set; }
         public DateOnly Birthdate { get; set; }
@@ -9,7 +9,7 @@ namespace Diabetia.API.DTO.DataUserRequest
         public string Phone { get; set; }
         public int Weight { get; set; }
         public string Lastname { get; set; }
-    }
+    }*/
 
 
     public class PatientRequest

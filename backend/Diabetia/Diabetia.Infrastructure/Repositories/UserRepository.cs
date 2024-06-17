@@ -24,7 +24,7 @@ namespace Diabetia.Infrastructure.Repositories
             return user;
         }
 
-        public async Task CompleteUserInfo(string name, string email, string gender, string lastname, int weight, string phone, DateOnly birthdate)
+        public async Task CompleteUserInfo(Paciente usuario)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
@@ -34,7 +34,7 @@ namespace Diabetia.Infrastructure.Repositories
                 var pac_new = new Paciente
                 {
                     IdUsuario = user.Id,
-                    Peso = weight,
+                    Peso = usuario.Peso,
                     IdTipoDiabetes = 0
                 };
                 _context.Pacientes.Add(pac_new);

@@ -2,7 +2,7 @@ using Diabetia.Domain.Models;
 
 namespace Diabetia.API.DTO.DataUserRequest
 {
-    public class DataRequest2
+    public class DataRequest
     {
         public string Name { get; set; }
         public DateOnly Birthdate { get; set; }
@@ -12,13 +12,18 @@ namespace Diabetia.API.DTO.DataUserRequest
         public int Weight { get; set; }
         public string Lastname { get; set; }
 
-        public Usuario ToDomain(DataRequest request)
+        public Paciente ToDomain()
         {
             var usuario = new Usuario();
-            usuario.NombreCompleto = String.Concat(request.Name, " ", request.Lastname);
-            usuario.FechaNacimiento = request.Birthdate;
-            usuario.Genero = request.Gender;
-            usuario.Telefono = request.Phone;
+            var patient = new Paciente();
+
+            usuario.NombreCompleto = String.Concat(Name, " ", Lastname);
+            usuario.FechaNacimiento = Birthdate;
+            usuario.Genero = Gender;
+            usuario.Telefono = Phone;
+
+            patient.Peso = Weight;
+            return patient;
         }
     }
 

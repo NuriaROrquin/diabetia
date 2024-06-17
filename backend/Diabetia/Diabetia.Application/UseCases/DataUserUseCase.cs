@@ -2,12 +2,18 @@
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Services;
+using Amazon.Runtime.Internal;
+using Diabetia.Domain.Repositories;
+using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases
 {
     public class DataUserUseCase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPatientValidator _patientValidator;
+        private readonly IPatientEventValidator _patientEventValidator;
+
         public DataUserUseCase(IUserRepository userRepository)
         {
             _userRepository = userRepository;
@@ -16,9 +22,10 @@ namespace Diabetia.Application.UseCases
         {
             return await _userRepository.GetUserInfo(userName);
         }
-        public async Task<Paciente> FirstStep(string name, string email, string gender, string lastname, int weight, string phone, DateOnly birthdate)
+        public async Task<Paciente> FirstStep(string email, Paciente user)
         {
-            await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone, birthdate);
+            await _patientValidator.ValidatePatient(email);
+            await _userRepository.CompleteUserInfo(user);
 
             var patient = await _userRepository.GetPatient(email);
 
