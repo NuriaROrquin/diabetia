@@ -20,13 +20,13 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
         // -------------------------------------------------------- ⇊ Physical Activity Event ⇊ -------------------------------------------------------
-        public async Task AddPhysicalActivityEventAsync(EventoActividadFisica physicalActivity)
+        public async Task AddPhysicalActivityEventAsync(int patientId, EventoActividadFisica physicalActivity)
         {
            
             bool IsDone = physicalActivity.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
-            var NewEvent = new CargaEvento
+            var newEvent = new CargaEvento
             {
-                IdPaciente = physicalActivity.IdCargaEventoNavigation.IdPaciente,
+                IdPaciente = patientId,
                 IdTipoEvento = physicalActivity.IdCargaEventoNavigation.IdTipoEvento,
                 FechaActual = DateTime.Now,
                 FechaEvento = physicalActivity.IdCargaEventoNavigation.FechaEvento,
@@ -35,17 +35,11 @@ namespace Diabetia.Infrastructure.Repositories
                 EsNotaLibre = false,
             };
 
-            _context.CargaEventos.Add(NewEvent);
+            _context.CargaEventos.Add(newEvent);
             await _context.SaveChangesAsync();
 
-            var NewPhysicalEvent = new EventoActividadFisica
-            {
-                IdCargaEvento = physicalActivity.IdCargaEventoNavigation.Id,
-                IdActividadFisica = physicalActivity.IdActividadFisica,
-                Duracion = physicalActivity.Duracion,
-            };
-
-            _context.EventoActividadFisicas.Add(NewPhysicalEvent);
+            physicalActivity.IdCargaEventoNavigation = newEvent;
+            _context.EventoActividadFisicas.Add(physicalActivity);
             await _context.SaveChangesAsync();
         }
 
@@ -1175,13 +1169,14 @@ namespace Diabetia.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task CheckPatientEvent(string email, CargaEvento eventToValidate)
+        public async Task<bool> CheckPatientEvent(string email, CargaEvento eventToValidate)
         {
             var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuarioNavigation.Email == email);
             if (patient.Id != eventToValidate.IdPaciente)
             {
-                throw new EventNotRelatedWithPatientException();
+                return false;
             }
+            return true;
         }
 
     }

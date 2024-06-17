@@ -23,9 +23,9 @@ namespace Diabetia.Infrastructure.Providers
                 new Claim(JwtRegisteredClaimNames.Sub, userId),
                 new Claim(JwtRegisteredClaimNames.UniqueName, userName),
                 new Claim("username", userName),
-                new Claim("email", email),
+                new Claim(ClaimTypes.Email, email),
                 new Claim("stepCompleted", stepCompleted.ToString()),
-                idPatient != null ? new Claim("idPatient", idPatient.ToString()) : null,
+                //new Claim("idPatient", idPatient?.ToString() ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

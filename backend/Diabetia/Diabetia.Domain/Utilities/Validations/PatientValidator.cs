@@ -1,8 +1,10 @@
-﻿using Diabetia.Domain.Services;
+﻿using Diabetia.Domain.Exceptions;
+using Diabetia.Domain.Services;
+using Diabetia.Interfaces;
 
 namespace Diabetia.Domain.Utilities.Validations
 {
-    public class PatientValidator
+    public class PatientValidator : IPatientValidator
     {
         private readonly IUserRepository _userRepository;
 
@@ -13,7 +15,11 @@ namespace Diabetia.Domain.Utilities.Validations
 
         public async Task ValidatePatient(string email)
         {
-            _ = _userRepository.GetPatient(email);
+            var patient = await _userRepository.GetPatient(email);
+            if (patient == null)
+            {
+                throw new PatientNotFoundException();
+            }
         }
     }
 }

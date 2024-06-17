@@ -66,7 +66,6 @@ namespace Diabetia.Infrastructure.Middlewares
             { typeof(TooManyFailedAttemptsException), (HttpStatusCode.BadRequest, "Alcanzó el número máximo de intentos") },
             { typeof(PasswordResetRequiredException), (HttpStatusCode.BadRequest, "La contraseña ingresada caducó, necesita renovarla") },
             { typeof(NoInformationUserException), (HttpStatusCode.BadRequest, "Información del usuario no encontrada") },
-            { typeof(Amazon.CognitoIdentityProvider.Model.NotAuthorizedException), (HttpStatusCode.BadRequest, "Usuario o contraseña incorrectos") },
             { typeof(Amazon.Runtime.Internal.HttpErrorResponseException), (HttpStatusCode.BadRequest, "Usuario o contraseña incorrectos") },
             { typeof(EventNotFoundException), (HttpStatusCode.BadRequest, "Evento no encontrado") },
             { typeof(UserEventNotFoundException), (HttpStatusCode.BadRequest, "El usuario no tiene asociado el evento seleccionado") },

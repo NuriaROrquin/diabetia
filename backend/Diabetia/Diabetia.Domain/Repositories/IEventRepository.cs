@@ -9,7 +9,7 @@ namespace Diabetia.Domain.Repositories
     public interface IEventRepository 
     {
         // --------------------------------------- ⇊ Physical Activity ⇊ ---------------------------------------------------
-        public Task AddPhysicalActivityEventAsync(EventoActividadFisica physicalActivity);
+        public Task AddPhysicalActivityEventAsync(int patientId, EventoActividadFisica physicalActivity);
 
         public Task EditPhysicalActivityEventAsync(EventoActividadFisica physicalActivity);
 
@@ -86,7 +86,7 @@ namespace Diabetia.Domain.Repositories
 
         Task<ExamEvent> GetFreeNoteEventById(int id);
 
-        public Task CheckPatientEvent(string email, CargaEvento eventToValidate);
+        public Task <bool> CheckPatientEvent(string email, CargaEvento eventToValidate);
         
     }
 }
