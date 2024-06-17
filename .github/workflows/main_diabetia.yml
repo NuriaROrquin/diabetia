@@ -21,23 +21,23 @@ jobs:
 
       - name: Build with dotnet
         run: |
-          cd ${{ github.workspace }}/backend/Diabetia/
+          cd backend/Diabetia
           dotnet build --configuration Release
 
       - name: dotnet publish
         run: |
-          cd ${{ github.workspace }}/backend/Diabetia
-          dotnet publish -c Release -o ${{ github.workspace }}/backend/Diabetia/publish/
+          cd backend/Diabetia
+          dotnet publish -c Release -o publish/
 
       - name: List files after publish
         run: |
-          dir ${{ github.workspace }}/backend/Diabetia/publish/
+          dir backend/Diabetia/publish
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
-          path: ${{ github.workspace }}/backend/Diabetia/publish/
+          path: backend/Diabetia/publish/
 
   deploy:
     runs-on: windows-latest
@@ -46,17 +46,18 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: .net-app
+          path: backend/Diabetia/publish/
 
       - name: List files in downloaded artifact
         run: |
-          dir ${{ github.workspace }}/backend/Diabetia/publish/
+          dir backend/Diabetia/publish/
 
       - name: Login to Azure
         uses: azure/login@v1
@@ -70,4 +71,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'Diabetia'
-          package: './backend/Diabetia/publish/'
+          package: 'backend/Diabetia/publish/'
