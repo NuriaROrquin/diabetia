@@ -32,8 +32,8 @@ namespace Diabetia.Infrastructure.Providers
         public async Task<NutritionTag> GetChFromDocument(string ocrRequest)
         {
 
-            string awsAccessKey = _configuration["AWS_ACCESS_KEY_ID"];
-            string awsSecretKey = _configuration["AWS_SECRET_ACCESS_KEY"];
+            string awsAccessKey = _configuration["AwsAccessKeyID"];
+            string awsSecretKey = _configuration["AwsSecretAccessKey"];
             var region = RegionEndpoint.USEast2;
             var uniqueId = getUniqueId();
 
@@ -57,8 +57,8 @@ namespace Diabetia.Infrastructure.Providers
 
         public async Task<string> SaveMedicalExaminationOnBucket(string file)
         {
-            string awsAccessKey = _configuration["AWS_ACCESS_KEY_ID"];
-            string awsSecretKey = _configuration["AWS_SECRET_ACCESS_KEY"];
+            string awsAccessKey = _configuration["AwsAccessKeyID"];
+            string awsSecretKey = _configuration["AwsSecretAccessKey"];
             var region = RegionEndpoint.USEast2;
             var uniqueId = getUniqueId();
 
@@ -141,8 +141,8 @@ namespace Diabetia.Infrastructure.Providers
 
         public async Task DeleteFileFromBucket(string idOnBucket)
         {
-            string awsAccessKey = _configuration["AWS_ACCESS_KEY_ID"];
-            string awsSecretKey = _configuration["AWS_SECRET_ACCESS_KEY"];
+            string awsAccessKey = _configuration["AwsAccessKeyID"];
+            string awsSecretKey = _configuration["AwsSecretAccessKey"];
             var region = RegionEndpoint.USEast2; ;
 
             var client = new AmazonS3Client(awsAccessKey, awsSecretKey, region);
