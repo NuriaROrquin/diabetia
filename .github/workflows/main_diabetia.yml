@@ -1,0 +1,74 @@
+name: Build and deploy ASP.Net Core app to Azure Web App - Diabetia
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: true
+
+      - name: Build with dotnet
+        run: |
+          cd backend/Diabetia
+          dotnet build --configuration Release
+
+      - name: dotnet publish
+        run: |
+          cd backend/Diabetia
+          dotnet publish -c Release -o publish/
+
+      - name: List files after publish
+        run: |
+          dir backend/Diabetia/publish
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: .net-app
+          path: backend/Diabetia/publish/
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write # This is required for requesting the JWT
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: .net-app
+          path: backend/Diabetia/publish/
+
+      - name: List files in downloaded artifact
+        run: |
+          dir backend/Diabetia/publish/
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_6B3F1FB426434E359EB22CDA8C7341B5 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C8DB66D20E7B4C7587989E3CF98C3EE9 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7DF38F7EA6D749FE8201F0AEF14C046F }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'Diabetia'
+          package: 'backend/Diabetia/publish/'
