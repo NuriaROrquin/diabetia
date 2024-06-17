@@ -1,6 +1,4 @@
-﻿using Diabetia.Domain.Entities;
-using System.Security.Claims;
-
+﻿
 namespace Diabetia.Domain.Services
 {
     public interface IJwtTokenService

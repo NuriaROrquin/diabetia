@@ -2,6 +2,7 @@
 using Diabetia.Application.UseCases.EventUseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Diabetia.API.Controllers.Event
 {
@@ -21,8 +22,9 @@ namespace Diabetia.API.Controllers.Event
         [HttpPost("AddPhysicalEvent")] // VER LOS PROTOCOLOS
         public async Task<IActionResult> AddPhysicalEvent([FromBody] AddPhysicalRequest request)
         {
-            var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
-            await _eventPhysicalActivityUseCase.AddPhysicalEventAsync(email, request.ToDomain(request));
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var physicalEvent = request.ToDomain();
+            await _eventPhysicalActivityUseCase.AddPhysicalEventAsync(email, physicalEvent);
             return Ok("Evento creado correctamente");
         }
 
@@ -30,7 +32,8 @@ namespace Diabetia.API.Controllers.Event
         public async Task<IActionResult> EditPhysicalEvent([FromBody] EditPhysicalRequest request)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
-            await _eventPhysicalActivityUseCase.EditPhysicalEventAsync(email, request.ToDomain(request));
+            var physicalEvent = request.ToDomain(request);
+            await _eventPhysicalActivityUseCase.EditPhysicalEventAsync(email, physicalEvent);
             return Ok("Evento modificado correctamente"); ;
         }
     }

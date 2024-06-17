@@ -23,8 +23,8 @@ namespace Diabetia.Application.UseCases.AuthUseCases
         public async Task ForgotPasswordEmailAsync(Usuario user)
         {
             _emailValidator.IsValidEmail(user.Email);
-            var username = await _usernameDBValidator.CheckUsernameOnDB(user.Email);
-            await _userStatusValidator.checkUserStatus(user.Email);
+            var username = await _usernameDBValidator.GetUsernameByEmail(user.Email);
+            await _userStatusValidator.CheckUserStatus(user.Email);
 
             await _apiCognitoProvider.ForgotPasswordRecoverAsync(username);
         }
@@ -32,7 +32,7 @@ namespace Diabetia.Application.UseCases.AuthUseCases
         public async Task ConfirmForgotPasswordAsync(Usuario user, string confirmationCode, string password)
         {
             _emailValidator.IsValidEmail(user.Email);
-            var username = await _usernameDBValidator.CheckUsernameOnDB(user.Email);
+            var username = await _usernameDBValidator.GetUsernameByEmail(user.Email);
             await _apiCognitoProvider.ConfirmForgotPasswordCodeAsync(username, confirmationCode, password);
         }
     }

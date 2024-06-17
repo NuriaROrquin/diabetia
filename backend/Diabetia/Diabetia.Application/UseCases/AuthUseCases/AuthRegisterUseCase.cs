@@ -13,12 +13,14 @@ namespace Diabetia.Application.UseCases.AuthUseCases
         private readonly IAuthProvider _apiCognitoProvider;
         private readonly IEmailValidator _emailValidator;
         private readonly IEmailDBValidator _emailDBValidator;
-        public AuthRegisterUseCase(IAuthProvider apiCognitoProvider, IAuthRepository authRepository, IEmailValidator emailValidator, IEmailDBValidator emailDBValidator)
+        private readonly IHashValidator _hashValidator;
+        public AuthRegisterUseCase(IAuthProvider apiCognitoProvider, IAuthRepository authRepository, IEmailValidator emailValidator, IEmailDBValidator emailDBValidator, IHashValidator hashValidator)
         {
             _apiCognitoProvider = apiCognitoProvider;
             _authRepository = authRepository;
             _emailValidator = emailValidator;
             _emailDBValidator = emailDBValidator;
+            _hashValidator = hashValidator;
         }
         public async Task Register(Usuario user, string password)
         {
@@ -33,12 +35,8 @@ namespace Diabetia.Application.UseCases.AuthUseCases
         public async Task<bool> ConfirmEmailVerification(Usuario user, string confirmationCode)
         {
             _emailValidator.IsValidEmail(user.Email);
-
-            string hashCode = await _authRepository.GetUserHashAsync(user.Email);
-            if (string.IsNullOrEmpty(hashCode))
-            {
-                throw new InvalidOperationException();
-            }
+            var hashCode = await _hashValidator.GetUserHash(user.Email);
+            
             bool response = await _apiCognitoProvider.ConfirmEmailVerificationAsync(user.Username, hashCode, confirmationCode);
             await _authRepository.SetUserStateActiveAsync(user.Email);
             return response;

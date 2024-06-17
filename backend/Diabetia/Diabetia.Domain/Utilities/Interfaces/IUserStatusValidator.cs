@@ -3,6 +3,6 @@ namespace Diabetia.Domain.Utilities.Interfaces
 {
     public interface IUserStatusValidator
     {
-        public Task checkUserStatus(string email);
+        public Task CheckUserStatus(string email);
     }
 }

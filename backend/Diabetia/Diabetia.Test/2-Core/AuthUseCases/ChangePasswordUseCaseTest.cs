@@ -1,5 +1,4 @@
-﻿using Diabetia.Application.UseCases;
-using Diabetia.Domain.Repositories;
+﻿using Diabetia.Application.UseCases.AuthUseCases;
 using Diabetia.Domain.Services;
 using FakeItEasy;
 

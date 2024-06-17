@@ -27,23 +27,21 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
-
-    options.TokenValidationParameters = new TokenValidationParameters
+}).AddJwtBearer(options =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = "http://localhost:3000",
-        ValidAudience = "diabetia_users",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
-    };
-})
-.AddCertificate();
+        var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "http://localhost:7289", // CAMBIAR ACORDE AL PUERTO QUE SE LEVANTA, CAMBIAR EN EL APP SETTINGS
+            ValidAudience = "diabetia_users",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+        };
+    }).AddCertificate();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -75,10 +73,12 @@ builder.Services.AddScoped<IHomeRepository, HomeRepository>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IEmailValidator, EmailValidator>();
 builder.Services.AddScoped<IInputValidator, InputValidator>();
+builder.Services.AddScoped<IPatientValidator, PatientValidator>();
 builder.Services.AddScoped<IPatientEventValidator, PatientEventValidator>();
 builder.Services.AddScoped<IEmailDBValidator, EmailDBValidator>();
 builder.Services.AddScoped<IUsernameDBValidator, UsernameDBValidator>();
 builder.Services.AddScoped<IUserStatusValidator, UserStatusValidator>();
+builder.Services.AddScoped<IHashValidator, HashValidator>();
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
