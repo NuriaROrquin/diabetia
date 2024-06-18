@@ -12,11 +12,16 @@ using Diabetia.Interfaces;
 using Infrastructure.Provider;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Logging.ApplicationInsights;
 using System.Text;
 using Diabetia.Infrastructure.EF;
 using Diabetia.Application.UseCases.EventUseCases;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Application Insights
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration.GetSection("ApplicationInsights:InstrumentationKey"));
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
