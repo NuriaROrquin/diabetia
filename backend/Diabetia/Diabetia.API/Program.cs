@@ -66,6 +66,7 @@ builder.Services.AddScoped<TagCalculateUseCase>();
 builder.Services.AddScoped<EventPhysicalActivityUseCase>();
 builder.Services.AddScoped<EventGlucoseUseCase>();
 builder.Services.AddScoped<EventInsulinUseCase>();
+builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();
 builder.Services.AddScoped<CalendarUseCase>();
 builder.Services.AddScoped<EventFoodUseCase>();
