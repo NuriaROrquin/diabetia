@@ -930,8 +930,8 @@ namespace Diabetia.Infrastructure.Repositories
         // ------------------------------------------------------------------------------------------------------------
         public async Task<CargaEvento> GetEventByIdAsync(int eventId)
         {
-            var cargaEvento = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == eventId);
-            return cargaEvento;
+            var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == eventId);
+            return @event;
         }
 
         public async Task<TypeEventEnum> GetEventType(int idEvent)

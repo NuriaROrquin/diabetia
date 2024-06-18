@@ -12,7 +12,7 @@ namespace Diabetia_Core.Events
     public class PhysicalEventUseCaseTest
     {
         [Fact]
-        public async Task EventPhysicalActivityUseCase_WhenCalledWithValidData_ShouldAddEventSuccessfully()
+        public async Task AddEventPhysicalActivityUseCase_WhenCalledWithValidData_ShouldAddEventSuccessfully()
         {
             var email = "emailTest@example.com";
             var physicalActivityEvent = new EventoActividadFisica();
@@ -38,7 +38,7 @@ namespace Diabetia_Core.Events
         }
 
         [Fact]
-        public async Task EventPhysicalActivityUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
+        public async Task AddEventPhysicalActivityUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
         {
             var email = "emailTest@example.com";
             var physicalActivityEvent = new EventoActividadFisica();
@@ -62,25 +62,113 @@ namespace Diabetia_Core.Events
 
             A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
         }
+
+        [Fact]
+        public async Task EditPhysicalActivityUseCase_WhenCalledWithValidData_ShouldUpdateEventSuccessfully()
+        {
+            // Assert
+            var email = "emailTest@example.com";
+            var physicalActivityEvent = new EventoActividadFisica()
+            {
+                IdCargaEventoNavigation = new CargaEvento
+                {
+                    IdTipoEvento = 1,
+                }
+            };
+
+            var @event = new CargaEvento()
+            {
+                FechaEvento = DateTime.Now.AddDays(1),
+                NotaLibre = "Test Note",
+                FechaActual = DateTime.Now,
+                FueRealizado = false,
+                EsNotaLibre = false
+            };
+
+            var fakeEventRepository = A.Fake<IEventRepository>();
+            var fakePatientValidator = A.Fake<IPatientValidator>();
+            var fakePatientEventValidator = A.Fake<IPatientEventValidator>();
+            var fakeUserRepository = A.Fake<IUserRepository>();
+
+            A.CallTo(() => fakeEventRepository.GetEventByIdAsync(physicalActivityEvent.IdCargaEventoNavigation.Id)).Returns(@event);
+
+            var fakeEventPhysicalActivityUseCase = new PhysicalActivityUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
+
+            // Act
+            await fakeEventPhysicalActivityUseCase.EditPhysicalEventAsync(email, physicalActivityEvent);
+
+            // Assert 
+            A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakePatientEventValidator.ValidatePatientEvent(email, @event)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeEventRepository.EditPhysicalActivityEventAsync(physicalActivityEvent)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task EditPhysicalActivityUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
+        {
+            // Assert
+            var email = "emailTest@example.com";
+            var physicalActivityEvent = new EventoActividadFisica()
+            {
+                IdCargaEventoNavigation = new CargaEvento
+                {
+                    IdTipoEvento = 1,
+                }
+            };
+
+            var fakeEventRepository = A.Fake<IEventRepository>();
+            var fakePatientValidator = A.Fake<IPatientValidator>();
+            var fakePatientEventValidator = A.Fake<IPatientEventValidator>();
+            var fakeUserRepository = A.Fake<IUserRepository>();
+
+            var fakeEventPhysicalActivityUseCase = new PhysicalActivityUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
+
+            A.CallTo(() => fakePatientValidator.ValidatePatient(email)).Throws<PatientNotFoundException>();
+
+            // Act & Assert 
+            await Assert.ThrowsAsync<PatientNotFoundException>(() => fakeEventPhysicalActivityUseCase.EditPhysicalEventAsync(email, physicalActivityEvent));
+
+            A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task EditPhysicalActivityUseCase_WhenCalledValidPatientInvalidEvent_ThrowsEventNotRelatedWithPatientException()
+        {
+            // Assert
+            var email = "emailTest@example.com";
+            var physicalActivityEvent = new EventoActividadFisica()
+            {
+                IdCargaEventoNavigation = new CargaEvento
+                {
+                    IdTipoEvento = 1,
+                }
+            };
+
+            var @event = new CargaEvento()
+            {
+                FechaEvento = DateTime.Now.AddDays(1),
+                NotaLibre = "Test Note",
+                FechaActual = DateTime.Now,
+                FueRealizado = false,
+                EsNotaLibre = false
+            };
+
+            var fakeEventRepository = A.Fake<IEventRepository>();
+            var fakePatientValidator = A.Fake<IPatientValidator>();
+            var fakePatientEventValidator = A.Fake<IPatientEventValidator>();
+            var fakeUserRepository = A.Fake<IUserRepository>();
+
+            var fakeEventPhysicalActivityUseCase = new PhysicalActivityUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
+
+            A.CallTo(() => fakeEventRepository.GetEventByIdAsync(physicalActivityEvent.IdCargaEventoNavigation.Id)).Returns(@event);
+            A.CallTo(() => fakePatientEventValidator.ValidatePatientEvent(email, @event)).Throws<EventNotRelatedWithPatientException>();
+
+            // Act & Assert 
+            await Assert.ThrowsAsync<EventNotRelatedWithPatientException>(() => fakeEventPhysicalActivityUseCase.EditPhysicalEventAsync(email, physicalActivityEvent));
+
+            A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeEventRepository.GetEventByIdAsync(physicalActivityEvent.IdCargaEventoNavigation.Id)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakePatientEventValidator.ValidatePatientEvent(email, @event)).MustHaveHappenedOnceExactly();
+        }
     }
 }
-
-
-
-//        //[Fact]
-//        //public async Task EventPhysicalActivityUseCase_WhenCalledWithValidData_ShouldDeleteEventSuccessfully()
-//        //{
-//        //    var email = "emailTest@example.com";
-//        //    var eventId = 1;
-
-//        //    var fakeEventRepository = A.Fake<IEventRepository>();
-
-//        //    var fakeEventPhysicalActivityUseCase = new EventPhysicalActivityUseCase(fakeEventRepository);
-
-//        //    await fakeEventPhysicalActivityUseCase.DeletePhysicalEventAsync(email, eventId);
-
-//        //    // Act & Assert 
-//        //    A.CallTo(() => fakeEventRepository.DeletePhysicalActivityEventAsync(email, eventId)).MustHaveHappenedOnceExactly();
-//        //}
-//    }
-//}
