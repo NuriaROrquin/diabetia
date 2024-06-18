@@ -16,18 +16,22 @@ using System.Text;
 using Diabetia.Infrastructure.EF;
 using Diabetia.Application.UseCases.EventUseCases;
 using Azure.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.AzureKeyVault;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Application Insights
 builder.Services.AddApplicationInsightsTelemetry(builder.Configuration.GetSection("ApplicationInsights:InstrumentationKey"));
 
-// Add Azure Key Vault configuration
-builder.Configuration.AddAzureKeyVault(
-    new Uri("https://usersecretsdiabetia.vault.azure.net/"),
-    new DefaultAzureCredential());
+if (builder.Environment.IsProduction())
+{
+    builder.Configuration.AddAzureKeyVault(
+        new Uri("https://usersecretsdiabetia.vault.azure.net/"),
+        new DefaultAzureCredential());
+}
+else
+{
+    builder.Configuration.AddUserSecrets<Program>();
+}
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
