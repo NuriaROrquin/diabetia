@@ -24,6 +24,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure Application Insights
 builder.Services.AddApplicationInsightsTelemetry(builder.Configuration.GetSection("ApplicationInsights:InstrumentationKey"));
 
+// Add Azure Key Vault configuration
 builder.Configuration.AddAzureKeyVault(
     new Uri("https://usersecretsdiabetia.vault.azure.net/"),
     new DefaultAzureCredential());
@@ -82,21 +83,18 @@ builder.Services.AddScoped<IHomeRepository, HomeRepository>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IInputValidator, InputValidator>();
 
-builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
-
-var configuration = builder.Services.BuildServiceProvider().GetService<IConfiguration>();
-
-var awsOptions = configuration.GetAWSOptions();
+// Configure AWS services
+var awsOptions = builder.Configuration.GetAWSOptions();
 awsOptions.Region = Amazon.RegionEndpoint.USEast1;
-
 awsOptions.Credentials = new Credentials()
 {
-    AccessKeyId = configuration["AwsAccessKeyID"],
-    SecretKey = configuration["AwsSecretAccessKey"],
+    AccessKeyId = builder.Configuration["AwsAccessKeyID"],
+    SecretKey = builder.Configuration["AwsSecretAccessKey"],
 };
-
 builder.Services.AddDefaultAWSOptions(awsOptions);
 builder.Services.AddAWSService<IAmazonCognitoIdentityProvider>();
+
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckles
 builder.Services.AddEndpointsApiExplorer();
@@ -131,6 +129,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
 
 var app = builder.Build();
 
