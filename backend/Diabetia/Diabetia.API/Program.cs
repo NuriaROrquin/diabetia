@@ -12,11 +12,13 @@ using Diabetia.Interfaces;
 using Infrastructure.Provider;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Logging.ApplicationInsights;
 using System.Text;
 using Diabetia.Infrastructure.EF;
 using Diabetia.Application.UseCases.EventUseCases;
-using Microsoft.ApplicationInsights.AspNetCore.Extensions;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
+using Azure.Identity;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -147,6 +149,11 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+if (app.Environment.IsProduction())
+{
+    builder.Configuration.AddAzureKeyVault(new Uri("https://usersecretsdiabetia.vault.azure.net/"), new DefaultAzureCredential());
 }
 
 app.UseHttpsRedirection();
