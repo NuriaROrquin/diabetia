@@ -15,15 +15,18 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Diabetia.Infrastructure.EF;
 using Diabetia.Application.UseCases.EventUseCases;
-using Microsoft.Azure.KeyVault;
-using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Azure.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Application Insights
 builder.Services.AddApplicationInsightsTelemetry(builder.Configuration.GetSection("ApplicationInsights:InstrumentationKey"));
+
+builder.Configuration.AddAzureKeyVault(
+    new Uri("https://usersecretsdiabetia.vault.azure.net/"),
+    new DefaultAzureCredential());
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
@@ -62,7 +65,6 @@ builder.Services.AddScoped<TagCalculateUseCase>();
 builder.Services.AddScoped<EventPhysicalActivityUseCase>();
 builder.Services.AddScoped<EventGlucoseUseCase>();
 builder.Services.AddScoped<EventInsulinUseCase>();
-builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();
 builder.Services.AddScoped<CalendarUseCase>();
 builder.Services.AddScoped<EventFoodUseCase>();
@@ -85,7 +87,6 @@ builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 var configuration = builder.Services.BuildServiceProvider().GetService<IConfiguration>();
 
 var awsOptions = configuration.GetAWSOptions();
-
 awsOptions.Region = Amazon.RegionEndpoint.USEast1;
 
 awsOptions.Credentials = new Credentials()
@@ -95,7 +96,6 @@ awsOptions.Credentials = new Credentials()
 };
 
 builder.Services.AddDefaultAWSOptions(awsOptions);
-
 builder.Services.AddAWSService<IAmazonCognitoIdentityProvider>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckles
@@ -151,16 +151,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwaggerUI();
 }
 
-if (app.Environment.IsProduction())
-{
-    builder.Configuration.AddAzureKeyVault(new Uri("https://usersecretsdiabetia.vault.azure.net/"), new DefaultAzureCredential());
-}
-
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
