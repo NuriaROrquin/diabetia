@@ -4,6 +4,8 @@ using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities;
 using Diabetia.Infrastructure.EF;
 using Diabetia.Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -11,10 +13,13 @@ namespace Diabetia.Infrastructure.Repositories
     {
 
         private diabetiaContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserRepository(diabetiaContext context)
+
+        public UserRepository(diabetiaContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Usuario> GetUserInfo(string userName)
@@ -24,8 +29,9 @@ namespace Diabetia.Infrastructure.Repositories
             return user;
         }
 
-        public async Task CompleteUserInfo(string name, string email, string gender, string lastname, int weight, string phone, DateOnly birthdate)
+        public async Task CompleteUserInfo(Paciente usuario)
         {
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
 
@@ -34,7 +40,7 @@ namespace Diabetia.Infrastructure.Repositories
                 var pac_new = new Paciente
                 {
                     IdUsuario = user.Id,
-                    Peso = weight,
+                    Peso = usuario.Peso,
                     IdTipoDiabetes = 0
                 };
                 _context.Pacientes.Add(pac_new);
@@ -42,10 +48,10 @@ namespace Diabetia.Infrastructure.Repositories
 
             if (user != null)
             {
-                user.NombreCompleto = String.Concat(name, " ", lastname);
-                user.Genero = gender;
-                user.Telefono = phone;
-                user.FechaNacimiento = birthdate;
+                user.NombreCompleto = usuario.IdUsuarioNavigation.NombreCompleto;
+                user.Genero = usuario.IdUsuarioNavigation.Genero;
+                user.Telefono = usuario.IdUsuarioNavigation.Telefono;
+                user.FechaNacimiento = usuario.IdUsuarioNavigation.FechaNacimiento;
                 if (user.StepCompleted == null) {
 
                     user.StepCompleted = (user.StepCompleted ?? 0) + 1;

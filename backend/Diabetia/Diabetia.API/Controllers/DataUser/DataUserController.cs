@@ -1,15 +1,12 @@
 using Diabetia.API.DTO.AuthRequest;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Utilities;
-using Diabetia.Domain.Entities;
 using Diabetia.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+using Diabetia.API.DTO.DataUserRequest;
+using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using System.Text;
 
 namespace Diabetia.API.Controllers.DataUser
 {
@@ -18,27 +15,32 @@ namespace Diabetia.API.Controllers.DataUser
     [Authorize]
     public class DataController : ControllerBase
     {
-        private readonly ILogger<DataController> _logger;
+        private readonly ILogger<DataController> _logger;// queda?
+        private readonly IJwtTokenService _jwtTokenService; //queda?
 
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataUserUseCase _dataUserUseCase;
-        private readonly IJwtTokenService _jwtTokenService;
+        
 
-        public DataController(ILogger<DataController> logger, DataUserUseCase dataUserUseCase, IJwtTokenService jwtTokenService)
+        public DataController(ILogger<DataController> logger, DataUserUseCase dataUserUseCase, IJwtTokenService jwtTokenService, IHttpContextAccessor httpContextAccessor)
         {
-            _logger = logger;
+            _logger = logger; // queda?
+            _jwtTokenService = jwtTokenService; // queda?
+
             _dataUserUseCase = dataUserUseCase;
-            _jwtTokenService = jwtTokenService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPut("firstStep")]
         public async Task<IActionResult> UserInformationFirstStep([FromBody] DataRequest request)
         {
-            var patient = await _dataUserUseCase.FirstStep(request.Name, request.Email, request.Gender, request.Lastname, request.Weight, request.Phone, request.Birthdate);
 
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var user = request.ToDomain();
+            var patient = await _dataUserUseCase.FirstStep(email, user);
+            
             AuthLoginResponse res = new AuthLoginResponse();
-
             res.Token = _jwtTokenService.GenerateToken(patient.IdUsuario.ToString(), patient.IdUsuarioNavigation.Username, request.Email, (int)StepCompletedEnum.STEP1, patient.Id);
-
             return Ok(res);
         }
 
