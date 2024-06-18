@@ -31,12 +31,8 @@ namespace Diabetia.Application.UseCases.EventUseCases
         public async Task EditPhysicalEventAsync(string email, EventoActividadFisica physicalActivity)
         {
             await _patientValidator.ValidatePatient(email);
-            var @event = await _eventRepository.GetEventByIdAsync(physicalActivity.IdCargaEventoNavigation.Id);
-            if (@event == null)
-            {
-                throw new EventNotFoundException();
-            }
-            await _patientEventValidator.ValidatePatientEvent(email, @event);
+            var cargaEvento = await _eventRepository.GetEventByIdAsync(physicalActivity.IdCargaEventoNavigation.Id);
+            await _patientEventValidator.ValidatePatientEvent(email, cargaEvento);
             await _eventRepository.EditPhysicalActivityEventAsync(physicalActivity);
         }
     }

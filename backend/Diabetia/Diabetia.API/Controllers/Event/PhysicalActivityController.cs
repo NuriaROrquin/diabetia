@@ -31,8 +31,8 @@ namespace Diabetia.API.Controllers.Event
         [HttpPost("EditPhysicalEvent")] // VER LOS PROTOCOLOS
         public async Task<IActionResult> EditPhysicalEvent([FromBody] EditPhysicalRequest request)
         {
-            var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
-            var physicalEvent = request.ToDomain(request);
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var physicalEvent = request.ToDomain();
             await _eventPhysicalActivityUseCase.EditPhysicalEventAsync(email, physicalEvent);
             return Ok("Evento modificado correctamente"); ;
         }

@@ -6,7 +6,7 @@ using Diabetia.Domain.Models;
 using Diabetia.Domain.Entities.Events;
 using Diabetia.Domain.Entities;
 using Diabetia.Infrastructure.EF;
-using System.Data.Entity;
+//using System.Data.Entity;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -50,7 +50,7 @@ namespace Diabetia.Infrastructure.Repositories
             @event.FueRealizado = physicalActivity.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
             @event.NotaLibre = physicalActivity.IdCargaEventoNavigation.NotaLibre;
 
-            var physicalEvent = await _context.EventoActividadFisicas.FirstOrDefaultAsync(pe => pe.IdCargaEvento == physicalActivity.Id);
+            var physicalEvent = await _context.EventoActividadFisicas.FirstOrDefaultAsync(pe => pe.IdCargaEvento == physicalActivity.IdCargaEventoNavigation.Id);
             if (physicalEvent == null)
             {
                 throw new PhysicalEventNotMatchException();
@@ -930,7 +930,8 @@ namespace Diabetia.Infrastructure.Repositories
         // ------------------------------------------------------------------------------------------------------------
         public async Task<CargaEvento> GetEventByIdAsync(int eventId)
         {
-            return await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == eventId);
+            var cargaEvento = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == eventId);
+            return cargaEvento;
         }
 
         public async Task<TypeEventEnum> GetEventType(int idEvent)
