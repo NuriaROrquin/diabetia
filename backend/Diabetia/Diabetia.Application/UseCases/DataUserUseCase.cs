@@ -12,11 +12,11 @@ namespace Diabetia.Application.UseCases
     {
         private readonly IUserRepository _userRepository;
         private readonly IPatientValidator _patientValidator;
-        private readonly IPatientEventValidator _patientEventValidator;
 
-        public DataUserUseCase(IUserRepository userRepository)
+        public DataUserUseCase(IUserRepository userRepository, IPatientValidator patienValidator)
         {
             _userRepository = userRepository;
+            _patientValidator = patienValidator;
         }
         public async Task<Usuario> GetUserInfo(string userName)
         {
@@ -28,11 +28,6 @@ namespace Diabetia.Application.UseCases
             await _userRepository.CompleteUserInfo(user);
 
             var patient = await _userRepository.GetPatient(email);
-
-            if(patient == null)
-            {
-                throw new PatientNotFoundException();
-            }
 
             return patient;
         }

@@ -14,13 +14,15 @@ namespace Diabetia.API.DTO.DataUserRequest
 
         public Paciente ToDomain()
         {
-            var usuario = new Usuario();
             var patient = new Paciente();
 
-            usuario.NombreCompleto = String.Concat(Name, " ", Lastname);
-            usuario.FechaNacimiento = Birthdate;
-            usuario.Genero = Gender;
-            usuario.Telefono = Phone;
+            patient.IdUsuarioNavigation = new Usuario()
+            {
+                NombreCompleto = String.Concat(Name, " ", Lastname),
+                FechaNacimiento = Birthdate,
+                Genero = Gender,
+                Telefono = Phone
+            };
 
             patient.Peso = Weight;
             return patient;

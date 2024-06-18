@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Diabetia.API.DTO.DataUserRequest;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace Diabetia.API.Controllers.DataUser
 {
@@ -34,7 +35,7 @@ namespace Diabetia.API.Controllers.DataUser
         public async Task<IActionResult> UserInformationFirstStep([FromBody] DataRequest request)
         {
 
-            var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = request.ToDomain();
             var patient = await _dataUserUseCase.FirstStep(email, user);
             
