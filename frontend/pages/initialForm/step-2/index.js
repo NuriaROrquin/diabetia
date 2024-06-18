@@ -138,7 +138,7 @@ const InitialFormStep2 = () => {
                     )}
                     <div className="flex justify-around w-full">
                         <OrangeLink href="/initialForm/step-1" label="Atrás" width="w-1/3" background="bg-gray-400 hover:bg-gray-600"/>
-                        <ButtonOrange onClick={handleSubmit} label="Finalizar" width="w-1/3"/>
+                        <ButtonOrange onClick={handleSubmit} label="Siguiente" width="w-1/3"/>
                     </div>
                 </div>
             </div>

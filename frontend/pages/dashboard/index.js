@@ -1,7 +1,7 @@
 import {MetricCard} from "../../components/card";
 import {Selector} from "../../components/selector";
 import {useEffect, useState} from "react";
-import {DASHBOARD_OPTIONS_FILTER_DAYS, DASHBOARD_INDICATORS, DASHBOARD_TIMELINE_EVENTS} from "../../constants";
+import {DASHBOARD_OPTIONS_FILTER_DAYS, DASHBOARD_INDICATORS} from "../../constants";
 import {CircleRounded} from "@mui/icons-material";
 import {ContainerTitles, SubtitleSection, TitleSection} from "../../components/titles";
 import {Timeline} from "../../components/timeline";
@@ -10,7 +10,7 @@ import {OrangeLink} from "../../components/link";
 import {getMetrics, getTimeline} from "../../services/api.service";
 import {useCookies} from "react-cookie";
 import CustomTooltip from "@/components/tooltip";
-import {calculateDateFilter, calculateDateRange, getEmailFromJwt} from "../../helpers";
+import {calculateDateRange, getEmailFromJwt} from "../../helpers";
 
 export const Home = () => {
     const [error, setError] = useState(false);
@@ -84,7 +84,7 @@ export const Home = () => {
                     </div>
                     <div className="flex gap-2 col-start-2 lg:place-self-center items-center">
                         <CircleRounded className="text-red-primary"/>
-                        <span className="text-gray-primary font-medium text-xl">Cuidado! Prestale atención</span>
+                        <span className="text-gray-primary font-medium text-xl">¡Cuidado! Prestale atención</span>
                     </div>
                     <div className="flex gap-2 col-start-3 lg:place-self-center items-center">
                         <CircleRounded className="text-blue-primary"/>
@@ -117,7 +117,7 @@ export const Home = () => {
         </Section>
         <Section className="bg-white flex flex-col min-h-fit">
             <ContainerTitles>
-                <TitleSection>Registros de hoy</TitleSection>
+                <TitleSection>Registros del día</TitleSection>
                 <SubtitleSection>Acá encontrarás todos los registros cargados en el día actual</SubtitleSection>
             </ContainerTitles>
                 {loadingTimeline &&

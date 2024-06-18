@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Section } from "@/components/section";
 import { getEventType } from "../../../../services/api.service";
-import { GlucoseEventForm, InsulinEventForm } from "@/components/eventForm";
+import { GlucoseEventForm, InsulinEventForm } from "@/components/eventForm/index.js";
 import {TYPE_EVENTS} from "../../../../constants";
 import {TitleSection} from "@/components/titles";
 const EditEvent = () => {
@@ -18,6 +18,7 @@ const EditEvent = () => {
                 try {
                     const response = await getEventType({ id: router.query.id });
                     setEventData(response.data);
+                    console.log(response.data);
                     const eventType = TYPE_EVENTS.find(e => e.id === response.data.typeEvent);
                     setEvento(eventType);
 
@@ -46,7 +47,7 @@ const EditEvent = () => {
                     {eventData.typeEvent === 3 && (
                         <GlucoseEventForm existingData={eventData.glucoseEvent} />
                     )}
-                    {eventData.typeEvent === 4 && (
+                    {eventData.typeEvent === 1 && (
                         <InsulinEventForm existingData={eventData.insulinEvent} />
                     )}
                 </div>

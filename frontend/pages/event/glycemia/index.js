@@ -4,7 +4,7 @@ import { TYPE_EVENTS } from "../../../constants";
 import { capitalizeFirstLetter } from "../../../helpers";
 import { useState } from "react";
 import { BlueLink, OrangeLink } from "../../../components/link";
-import { GlucoseEventForm } from "../../../components/eventForm";
+import { GlucoseEventForm } from "@/components/eventForm/index.js";
 
 const GlycemiaEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 3)[0].title;

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Xml.Linq;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Entities.Events;
+using Amazon.Runtime;
 
 namespace Diabetia.Application.UseCases
 {
@@ -58,7 +59,8 @@ namespace Diabetia.Application.UseCases
                         items.Items.Add(new TimelineItem
                         {
                             Title = glucose.Title + " " + (int)glucose.GlucoseLevel,
-                            DateTime = glucose.DateEvent
+                            DateTime = glucose.DateEvent,
+                            IsWarning = glucose.GlucoseLevel < (int)GlucoseEnum.HIPOGLUCEMIA || glucose.GlucoseLevel > (int)GlucoseEnum.HIPERGLUCEMIA
                         });
                         break;
                     case TypeEventEnum.INSULINA:

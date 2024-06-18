@@ -801,7 +801,7 @@ namespace Diabetia.Infrastructure.Repositories
 
         public async Task<IEnumerable<FoodEvent>> GetFoods(int patientId, DateTime? date = null)
         {
-            var query = _context.CargaEventos
+            IQueryable<CargaEvento> query = _context.CargaEventos
                 .Where(ce => ce.IdPaciente == patientId);
 
             if (date.HasValue)
@@ -810,30 +810,39 @@ namespace Diabetia.Infrastructure.Repositories
             }
 
             var foodEvents = await query
-               .Join(_context.TipoEventos,
-                   ce => ce.IdTipoEvento,
-                   te => te.Id,
-                   (ce, te) => new { CargaEvento = ce, TipoEvento = te })
-               .Join(_context.EventoComida,
-                   joined => joined.CargaEvento.Id,
-                   ec => ec.IdCargaEvento,
-                   (joined, ec) => new { joined.CargaEvento, joined.TipoEvento, EventoComida = ec })
-               .Join(_context.IngredienteComida,
-                   joined => joined.EventoComida.Id,
-                   ic => ic.IdEventoComida,
-                   (joined, ic) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoComida, IngredienteComida = ic })
-               .Join(_context.Ingredientes,
-                   joined => joined.IngredienteComida.IdIngrediente,
-                   i => i.Id,
-                   (joined, i) => new FoodEvent
-                   {
-                       IdEvent = joined.CargaEvento.Id,
-                       IdEventType = joined.TipoEvento.Id,
-                       DateEvent = joined.CargaEvento.FechaEvento,
-                       Title = joined.TipoEvento.Tipo,
-                       IngredientName = i.Nombre,
-                   })
-               .ToListAsync();
+                .Join(_context.TipoEventos,
+                    ce => ce.IdTipoEvento,
+                    te => te.Id,
+                    (ce, te) => new { CargaEvento = ce, TipoEvento = te })
+                .Join(_context.EventoComida,
+                    joined => joined.CargaEvento.Id,
+                    ec => ec.IdCargaEvento,
+                    (joined, ec) => new { joined.CargaEvento, joined.TipoEvento, EventoComida = ec })
+                .Select(joined =>
+                    joined.EventoComida.IdTipoCargaComida == 1 ?
+                    _context.IngredienteComida
+                        .Where(ic => ic.IdEventoComida == joined.EventoComida.Id)
+                        .Join(_context.Ingredientes,
+                              ic => ic.IdIngrediente,
+                              i => i.Id,
+                              (ic, i) => new FoodEvent
+                              {
+                                  IdEvent = joined.CargaEvento.Id,
+                                  IdEventType = joined.TipoEvento.Id,
+                                  DateEvent = joined.CargaEvento.FechaEvento,
+                                  Title = joined.TipoEvento.Tipo,
+                                  IngredientName = i.Nombre,
+                              })
+                        .FirstOrDefault() :
+                    new FoodEvent
+                    {
+                        IdEvent = joined.CargaEvento.Id,
+                        IdEventType = joined.TipoEvento.Id,
+                        DateEvent = joined.CargaEvento.FechaEvento,
+                        Title = joined.TipoEvento.Tipo,
+                        IngredientName = null,
+                    })
+                .ToListAsync();
 
             return foodEvents;
         }
@@ -1079,7 +1088,8 @@ namespace Diabetia.Infrastructure.Repositories
                           DateEvent = joined.CargaEvento.FechaEvento,
                           Title = joined.TipoEvento.Tipo,
                           InsulinType = ti.Nombre,
-                          Dosage = joined.EventoInsulina.InsulinaInyectada
+                          Dosage = joined.EventoInsulina.InsulinaInyectada,
+                          FreeNote = joined.CargaEvento.NotaLibre
                       })
                 .FirstOrDefaultAsync();
 
@@ -1098,21 +1108,30 @@ namespace Diabetia.Infrastructure.Repositories
                       joined => joined.CargaEvento.Id,
                       ec => ec.IdCargaEvento,
                       (joined, ec) => new { joined.CargaEvento, joined.TipoEvento, EventoComida = ec })
-                .Join(_context.IngredienteComida,
-                      joined => joined.EventoComida.Id,
-                      ic => ic.IdEventoComida,
-                      (joined, ic) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoComida, IngredienteComida = ic })
-                .Join(_context.Ingredientes,
-                      joined => joined.IngredienteComida.IdIngrediente,
-                      i => i.Id,
-                      (joined, i) => new FoodEvent
-                      {
-                          IdEvent = joined.CargaEvento.Id,
-                          IdEventType = joined.TipoEvento.Id,
-                          DateEvent = joined.CargaEvento.FechaEvento,
-                          Title = joined.TipoEvento.Tipo,
-                          IngredientName = i.Nombre,
-                      })
+                .Select(joined =>
+                    joined.EventoComida.IdTipoCargaComida == 1 ?
+                    _context.IngredienteComida
+                        .Where(ic => ic.IdEventoComida == joined.EventoComida.Id)
+                        .Join(_context.Ingredientes,
+                              ic => ic.IdIngrediente,
+                              i => i.Id,
+                              (ic, i) => new FoodEvent
+                              {
+                                  IdEvent = joined.CargaEvento.Id,
+                                  IdEventType = joined.TipoEvento.Id,
+                                  DateEvent = joined.CargaEvento.FechaEvento,
+                                  Title = joined.TipoEvento.Tipo,
+                                  IngredientName = i.Nombre,
+                              })
+                        .FirstOrDefault() :
+                    new FoodEvent
+                    {
+                        IdEvent = joined.CargaEvento.Id,
+                        IdEventType = joined.TipoEvento.Id,
+                        DateEvent = joined.CargaEvento.FechaEvento,
+                        Title = joined.TipoEvento.Tipo,
+                        IngredientName = null,
+                    })
                 .FirstOrDefaultAsync();
 
             return foodEvent;

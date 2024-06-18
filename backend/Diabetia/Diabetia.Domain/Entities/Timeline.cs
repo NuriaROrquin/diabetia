@@ -20,5 +20,6 @@ namespace Diabetia.Domain.Entities
     {
         public DateTime DateTime { get; set; }
         public string Title { get; set; }
+        public bool? IsWarning { get; set; }
     }
 }

@@ -531,3 +531,73 @@ export const STEPS = [
         url: '/profile/step-4'
     }
 ];
+
+export const TYPE_ILLNESS_HEALTH_EVENT = [
+    {
+        "id": 1,
+        "title": "Gripe"
+    },
+    {
+        "id": 2,
+        "title": "Faringitis"
+    },
+    {
+        "id": 3,
+        "title": "Neumonia"
+    },
+    {
+        "id": 4,
+        "title": "Rinitis"
+    },
+    {
+        "id": 5,
+        "title": "Conjuntivitis"
+    },
+    {
+        "id": 6,
+        "title": "Gastroenterocolitis"
+    },
+    {
+        "id": 7,
+        "title": "Gastritis"
+    },
+    {
+        "id": 8,
+        "title": "Migraña"
+    }
+]
+
+export const TYPE_MEDIC = [
+    {
+        "id": 1,
+        "title": "Diabetologo"
+    },
+    {
+        "id": 2,
+        "title": "Nutricionista"
+    },
+    {
+        "id": 3,
+        "title": "Cardiologo"
+    },
+    {
+        "id": 4,
+        "title": "Gastroenterologo"
+    },
+    {
+        "id": 5,
+        "title": "Dermatologo"
+    },
+    {
+        "id": 6,
+        "title": "Oculista"
+    },
+    {
+        "id": 7,
+        "title": "Clinico"
+    },
+    {
+        "id": 8,
+        "title": "Pediatra"
+    }
+]

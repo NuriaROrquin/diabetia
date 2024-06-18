@@ -28,7 +28,7 @@ export const Timeline = ({events, className = "", limit = events.length}) => {
                             <span className="text-gray-primary font-medium text-base flex">{formatDateTime(event.dateTime)}</span>
                         </div>
                         <div className="relative flex items-center min-h-20">
-                            <div className="bg-orange-primary h-8 w-8 rounded-full flex justify-center items-center z-10">
+                            <div className={` ${event.isWarning ? "bg-red-primary" : "bg-orange-primary"} h-8 w-8 rounded-full flex justify-center items-center z-10`}>
                                 <CircleRounded fontSize='small' className="circleRoundedTimeline"/>
                             </div>
                             <div className="h-full w-1 bg-gray-300 absolute left-3.5"></div>
