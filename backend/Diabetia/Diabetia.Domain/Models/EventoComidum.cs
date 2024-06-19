@@ -1,11 +1,12 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+
 namespace Diabetia.Domain.Models
 {
     public partial class EventoComidum
     {
         public EventoComidum()
         {
-            EventoGlucosas = new HashSet<EventoGlucosa>();
             EventoInsulinas = new HashSet<EventoInsulina>();
             IngredienteComida = new HashSet<IngredienteComidum>();
         }
@@ -23,7 +24,6 @@ namespace Diabetia.Domain.Models
 
         public virtual CargaEvento IdCargaEventoNavigation { get; set; } = null!;
         public virtual TipoCargaComidum IdTipoCargaComidaNavigation { get; set; } = null!;
-        public virtual ICollection<EventoGlucosa> EventoGlucosas { get; set; }
         public virtual ICollection<EventoInsulina> EventoInsulinas { get; set; }
         public virtual ICollection<IngredienteComidum> IngredienteComida { get; set; }
     }

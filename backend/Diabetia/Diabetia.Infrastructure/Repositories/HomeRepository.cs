@@ -1,7 +1,8 @@
 ﻿using Diabetia.Domain.Services;
 using Microsoft.EntityFrameworkCore;
-using Diabetia.Common.Utilities;
-using Diabetia.Infraestructure.EF;
+using Diabetia.Domain.Utilities;
+using Diabetia.Infrastructure.EF;
+using Diabetia.Domain.Models;
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -15,7 +16,6 @@ namespace Diabetia.Infrastructure.Repositories
             _context = context;
         }
 
-
         public async Task<int?> GetPhysicalActivity(string email, int idEvent, DateFilter? dateFilter)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
@@ -26,7 +26,7 @@ namespace Diabetia.Infrastructure.Repositories
                         eaf => eaf.IdCargaEvento,
                         ce => ce.Id,
                         (eaf, ce) => new { eaf, ce })
-                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent);
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent && joined.ce.FueRealizado == true);
 
             if (dateFilter != null)
             {
@@ -46,7 +46,6 @@ namespace Diabetia.Infrastructure.Repositories
             return totalPhysicalActivity;
         }
 
-
         public async Task<decimal?> GetChMetrics(string email, int idEvent, DateFilter? dateFilter)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
@@ -60,7 +59,7 @@ namespace Diabetia.Infrastructure.Repositories
                       ec => ec.IdCargaEvento,
                       ce => ce.Id,
                       (ec, ce) => new { ec, ce })
-                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent);
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent && joined.ce.FueRealizado == true);
 
             if (dateFilter != null)
             {
@@ -93,7 +92,7 @@ namespace Diabetia.Infrastructure.Repositories
                       eg => eg.IdCargaEvento,
                       ce => ce.Id,
                       (eg, ce) => new { eg, ce })
-                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == IdEvent);
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == IdEvent && joined.ce.FueRealizado == true);
 
             if (dateFilter != null)
             {
@@ -134,7 +133,7 @@ namespace Diabetia.Infrastructure.Repositories
                       eg => eg.IdCargaEvento,
                       ce => ce.Id,
                       (eg, ce) => new { eg, ce })
-                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.eg.Glucemia < hipo);
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.FueRealizado == true && joined.eg.Glucemia < hipo);
 
             if (dateFilter != null)
             {
@@ -169,7 +168,7 @@ namespace Diabetia.Infrastructure.Repositories
                       eg => eg.IdCargaEvento,
                       ce => ce.Id,
                       (eg, ce) => new { eg, ce })
-                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.eg.Glucemia > hiper);
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.FueRealizado == true && joined.eg.Glucemia > hiper);
 
             if (dateFilter != null)
             {
@@ -189,7 +188,6 @@ namespace Diabetia.Infrastructure.Repositories
             return totalHiperglycemias;
         }
 
-
         public async Task<int?> GetInsulin(string email, int idEvent, DateFilter? dateFilter)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
@@ -203,7 +201,7 @@ namespace Diabetia.Infrastructure.Repositories
                       ei => ei.IdCargaEvento,
                       ce => ce.Id,
                       (ei, ce) => new { ei, ce })
-                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent);
+                .Where(joined => joined.ce.IdPaciente == patient.Id && joined.ce.IdTipoEvento == idEvent && joined.ce.FueRealizado == true);
 
             if (dateFilter != null)
             {
@@ -223,6 +221,24 @@ namespace Diabetia.Infrastructure.Repositories
             return unitsOfInsulinPerDay;
         }
 
+        public async Task<List<CargaEvento>> GetLastEvents(string email)
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) return null;
+
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(p => p.IdUsuario == user.Id);
+            if (patient == null) return null;
+
+            var query = _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patient.Id && ce.FueRealizado == true);
+
+            var lastEvents = await query
+                .OrderByDescending(ce => ce.Id)
+                .Take(10)
+                .ToListAsync();
+
+            return lastEvents;
+        }
 
     }
 

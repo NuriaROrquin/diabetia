@@ -44,11 +44,11 @@ export const passwordRecover = (email) => {
         );
 }
 
-export const passwordRecoverCode = (username, confirmationCode, password) => {
+export const passwordRecoverCode = (email, confirmationCode, password) => {
     return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/passwordRecoverCode`,
-            { username, confirmationCode, password },
+            { email, confirmationCode, password },
             { withCredentials: true }
         );
 }
@@ -105,7 +105,7 @@ export const addInsulinEvent = (data) => {
 export const addFoodEvent = (data) => {
     return axios
         .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/Event/AddInsulinEvent`,
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/AddFoodManuallyEvent`,
             data
         );
 }
@@ -175,4 +175,45 @@ export const getEventsByDate = (date, email) => {
         { date: date, email: email },
         { headers: { 'Content-Type': 'application/json' } }
     );
+}
+
+export const deleteEventById = (eventId) => {
+    return axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/Event/DeleteEvent/${eventId}`
+    )
+}
+
+export const getTimeline = (email) => {
+    return axios
+        .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/Home/timeline/${email}`)
+}
+
+export const getEventType = (data) => {
+    return axios
+        .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/GetEventType/${data.id}`)
+}
+
+export const editGlucoseEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/EditGlucoseEvent`,
+            data
+        );
+}
+
+export const editInsulinEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/EditInsulinEvent`,
+            data
+        );
+}
+
+export const getIngredients = () => {
+    return axios
+        .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/GetIngredients`
+        );
 }

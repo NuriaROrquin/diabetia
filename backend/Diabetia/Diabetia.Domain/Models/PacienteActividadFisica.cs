@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 
 namespace Diabetia.Domain.Models
 {
@@ -10,7 +11,6 @@ namespace Diabetia.Domain.Models
         public int Frecuencia { get; set; }
         public int Duracion { get; set; }
 
-        public virtual ActividadFisica IdActividadFisicaNavigation { get; set; } = null!;
         public virtual Paciente IdPacienteNavigation { get; set; } = null!;
     }
 }

@@ -13,7 +13,7 @@ import {addPhysicalEvent} from "../../../services/api.service";
 import {useRouter} from "next/router";
 
 const ExerciseEvent = () => {
-    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 1)[0].title;
+    const eventSelected = TYPE_EVENTS.filter((event) => event.id === 4)[0].title;
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [startHour, setStartHour] = useState()
@@ -28,17 +28,16 @@ const ExerciseEvent = () => {
     };
 
     const handleSubmit = () => {
-        const exercise = selectedOption;
-        const dateFormatted = date ? date.format('DD-MM-YYYY') : null;
         const start = startHour ? startHour.format('HH:mm:ss') : null;
         const end = endHour ? endHour.format('HH:mm:ss') : null;
         const notes = document.getElementById("notes").value;
         const email = getEmailFromJwt();
+        const eventDateTime = date && startHour ? date.format('YYYY-MM-DD') + 'T' + startHour.format('HH:mm:ss') : null;
 
         const data = {
             "email": email,
             "idKindEvent": 4,
-            "eventDate": "2024-05-22T23:03:17.219Z",
+            "eventDate": eventDateTime,
             "freeNote": notes,
             "physicalActivity": selectedOption.id,
             "iniciateTime": start,
@@ -53,7 +52,7 @@ const ExerciseEvent = () => {
     return(
         <Section className="pt-12">
             <div className="container items-center flex w-full justify-center flex-col">
-                <TitleSection className="text-white">¿Qué evento querés cargar?</TitleSection>
+                <TitleSection className="text-white mt-12">¿Qué evento querés cargar?</TitleSection>
                 <div className="flex w-full flex-wrap gap-y-6 gap-x-24 justify-center mt-8">
                     {TYPE_EVENTS.map((event) => {
                         return(

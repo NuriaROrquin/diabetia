@@ -1,7 +1,10 @@
-﻿using Diabetia.Domain.Models;
+﻿using System;
+using System.Collections.Generic;
+using Diabetia.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Diabetia.Infraestructure.EF
+namespace Diabetia.Infrastructure.EF
 {
     public partial class diabetiaContext : DbContext
     {
@@ -413,12 +416,7 @@ namespace Diabetia.Infraestructure.EF
                 entity.HasOne(d => d.IdDispositivoPacienteNavigation)
                     .WithMany(p => p.EventoGlucosas)
                     .HasForeignKey(d => d.IdDispositivoPaciente)
-                    .HasConstraintName("evento_glucosa_ibfk_2");
-
-                entity.HasOne(d => d.IdEventoComidaNavigation)
-                    .WithMany(p => p.EventoGlucosas)
-                    .HasForeignKey(d => d.IdEventoComida)
-                    .HasConstraintName("evento_glucosa_ibfk_3");
+                    .HasConstraintName("evento_glucosa_dispositivo_FK");
             });
 
             modelBuilder.Entity<EventoInsulina>(entity =>
@@ -801,17 +799,6 @@ namespace Diabetia.Infraestructure.EF
 
                 entity.Property(e => e.UsaInsulina).HasColumnName("usa_insulina");
 
-                entity.HasOne(d => d.IdSensibilidadInsulinaNavigation)
-                    .WithMany(p => p.Pacientes)
-                    .HasForeignKey(d => d.IdSensibilidadInsulina)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("paciente_ibfk_3");
-
-                entity.HasOne(d => d.IdTipoDiabetesNavigation)
-                    .WithMany(p => p.Pacientes)
-                    .HasForeignKey(d => d.IdTipoDiabetes)
-                    .HasConstraintName("paciente_ibfk_2");
-
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.Pacientes)
                     .HasForeignKey(d => d.IdUsuario)
@@ -838,12 +825,6 @@ namespace Diabetia.Infraestructure.EF
                 entity.Property(e => e.IdActividadFisica).HasColumnName("id_actividad_fisica");
 
                 entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
-
-                entity.HasOne(d => d.IdActividadFisicaNavigation)
-                    .WithMany(p => p.PacienteActividadFisicas)
-                    .HasForeignKey(d => d.IdActividadFisica)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("paciente_actividad_fisica_ibfk_2");
 
                 entity.HasOne(d => d.IdPacienteNavigation)
                     .WithMany(p => p.PacienteActividadFisicas)

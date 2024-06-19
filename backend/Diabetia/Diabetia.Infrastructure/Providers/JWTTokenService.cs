@@ -16,15 +16,16 @@ namespace Diabetia.Infrastructure.Providers
             _jwtSettings = jwtSettings.Value;
         }
 
-        public string GenerateToken(string userId, string userName, string email, bool initialFormCompleted)
+        public string GenerateToken(string userId, string userName, string email, int? stepCompleted, int? idPatient)
         {
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userId),
                 new Claim(JwtRegisteredClaimNames.UniqueName, userName),
                 new Claim("username", userName),
-                new Claim("email", email),
-                new Claim("initialFormCompleted", initialFormCompleted.ToString()),
+                new Claim(ClaimTypes.Email, email),
+                new Claim("stepCompleted", stepCompleted.ToString()),
+                //new Claim("idPatient", idPatient?.ToString() ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -35,7 +36,7 @@ namespace Diabetia.Infrastructure.Providers
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.UtcNow.AddHours(8),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

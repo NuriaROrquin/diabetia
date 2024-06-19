@@ -1,22 +1,26 @@
 ﻿using Diabetia.Domain.Services;
-using Diabetia.Domain.Entities;
-using Diabetia.Common.Utilities;
+using Diabetia.Domain.Utilities;
 using Diabetia.Domain.Repositories;
-using System.Numerics;
-using System.Reflection;
-using System.Xml.Linq;
 using Diabetia.Domain.Entities.Events;
+using Diabetia.Domain.Exceptions;
+using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases.EventUseCases
 {
     public class EventUseCase
     {
         private readonly IEventRepository _eventRepository;
+        private readonly ITagRecognitionProvider _tagRecognitionProvider;
+        private readonly IPatientValidator _patientValidator;
+        private readonly IPatientEventValidator _patientEventValidator;
         private object glucoseEvent;
 
-        public EventUseCase(IEventRepository eventRepository)
+        public EventUseCase(IEventRepository eventRepository, ITagRecognitionProvider tagRecognitionProvider, IPatientValidator patientValidator, IPatientEventValidator patientEventValidator)
         {
             _eventRepository = eventRepository;
+            _tagRecognitionProvider = tagRecognitionProvider;
+            _patientValidator = patientValidator;
+            _patientEventValidator = patientEventValidator;
         }
 
         public async Task<GenericEvent?> GetEvent(int id)
@@ -78,6 +82,45 @@ namespace Diabetia.Application.UseCases.EventUseCases
                     return null;
                 default:
                     return null;
+            }
+        }
+
+       public async Task DeleteEvent(int id, string email)
+        {
+            await _patientValidator.ValidatePatient(email);
+            var @event = await _eventRepository.GetEventByIdAsync(id);
+            if (@event == null)
+            {
+                throw new EventNotFoundException();
+            }
+            await _patientEventValidator.ValidatePatientEvent(email, @event);
+            var type = await _eventRepository.GetEventType(id);
+
+            switch (type)
+            {
+                case TypeEventEnum.INSULINA:
+                    await _eventRepository.DeleteInsulinEvent(id);
+                    break;
+                case TypeEventEnum.GLUCOSA:
+                    await _eventRepository.DeleteGlucoseEvent(id);
+                    break;
+                case TypeEventEnum.ACTIVIDADFISICA:
+                    await _eventRepository.DeletePhysicalActivityEventAsync(id);
+                    break;
+                case TypeEventEnum.NOTALIBRE:
+                    break;
+                case TypeEventEnum.COMIDA:
+                    await _eventRepository.DeleteFoodEven(id);
+                    break;
+                case TypeEventEnum.VISITAMEDICA:
+                    await _eventRepository.DeleteMedicalVisitEventAsync(id);
+                    break;
+                case TypeEventEnum.ESTUDIOS:
+                    string idOnBucket = await _eventRepository.DeleteMedicalExaminationEvent(id);
+                    await _tagRecognitionProvider.DeleteFileFromBucket(idOnBucket);
+                    break;
+                default:
+                    break;
             }
 
         }

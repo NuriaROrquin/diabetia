@@ -1,5 +1,10 @@
-﻿using Diabetia.Application.UseCases;
+﻿using Diabetia.Application.UseCases.EventUseCases;
+using Diabetia.Domain.Entities;
+using Diabetia.Domain.Exceptions;
+using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
+using Diabetia.Domain.Services;
+using Diabetia.Interfaces;
 using FakeItEasy;
 
 namespace Diabetia_Core.Events
@@ -7,59 +12,163 @@ namespace Diabetia_Core.Events
     public class PhysicalEventUseCaseTest
     {
         [Fact]
-        public async Task EventPhysicalActivityUseCase_WhenCalledWithValidData_ShouldAddEventSuccessfully()
+        public async Task AddEventPhysicalActivityUseCase_WhenCalledWithValidData_ShouldAddEventSuccessfully()
         {
             var email = "emailTest@example.com";
-            var kindEventId = 1;
-            var eventDate = DateTime.Now.AddDays(1);
-            var freeNote = "Test note";
-            var physicalActivityId = 1;
-            var iniciateTime = new TimeSpan(10, 0, 0);
-            var finishTime = new TimeSpan(11, 0, 0);
+            var physicalActivityEvent = new EventoActividadFisica();
+            var patient = new Paciente()
+            {
+                Id = 1
+            };
+
             var fakeEventRepository = A.Fake<IEventRepository>();
+            var fakePatientValidator = A.Fake<IPatientValidator>();
+            var fakePatientEventValidator = A.Fake<IPatientEventValidator>();
+            var fakeUserRepository = A.Fake<IUserRepository>();
 
-            var fakeEventPhysicalActivityUseCase = new EventPhysicalActivityUseCase(fakeEventRepository);
+            var fakeEventPhysicalActivityUseCase = new PhysicalActivityUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
 
-            await fakeEventPhysicalActivityUseCase.AddPhysicalEventAsync(email, kindEventId, eventDate, freeNote, physicalActivityId, iniciateTime, finishTime);
+            A.CallTo(() => fakeUserRepository.GetPatient(email)).Returns(patient);
+            await fakeEventPhysicalActivityUseCase.AddPhysicalEventAsync(email, physicalActivityEvent);
 
             // Act & Assert 
-            A.CallTo(() => fakeEventRepository.AddPhysicalActivityEventAsync(email, kindEventId, eventDate, freeNote, physicalActivityId, iniciateTime, finishTime)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUserRepository.GetPatient(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeEventRepository.AddPhysicalActivityEventAsync(patient.Id, physicalActivityEvent)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
-        public async Task EventPhysicalActivityUseCase_WhenCalledWithValidData_ShouldEditEventSuccessfully()
+        public async Task AddEventPhysicalActivityUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
         {
             var email = "emailTest@example.com";
-            var eventId = 1;
-            var eventDate = DateTime.Now.AddDays(1);
-            var physicalActivity = 1;
-            var iniciateTime = new TimeSpan(10, 0, 0);
-            var finishTime = new TimeSpan(11, 0, 0);
-            var freeNote = "Test note";
+            var physicalActivityEvent = new EventoActividadFisica();
+            var patient = new Paciente()
+            {
+                Id = 1
+            };
+
             var fakeEventRepository = A.Fake<IEventRepository>();
+            var fakePatientValidator = A.Fake<IPatientValidator>();
+            var fakePatientEventValidator = A.Fake<IPatientEventValidator>();
+            var fakeUserRepository = A.Fake<IUserRepository>();
 
-            var fakeEventPhysicalActivityUseCase = new EventPhysicalActivityUseCase(fakeEventRepository);
+            var fakeEventPhysicalActivityUseCase = new PhysicalActivityUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
 
-            await fakeEventPhysicalActivityUseCase.EditPhysicalEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote);
+            A.CallTo(() => fakePatientValidator.ValidatePatient(email)).Throws<PatientNotFoundException>();
+
 
             // Act & Assert 
-            A.CallTo(() => fakeEventRepository.EditPhysicalActivityEventAsync(email, eventId, eventDate, physicalActivity, iniciateTime, finishTime, freeNote)).MustHaveHappenedOnceExactly();
+            await Assert.ThrowsAsync<PatientNotFoundException>(() => fakeEventPhysicalActivityUseCase.AddPhysicalEventAsync(email, physicalActivityEvent));
+
+            A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
-        public async Task EventPhysicalActivityUseCase_WhenCalledWithValidData_ShouldDeleteEventSuccessfully()
+        public async Task EditPhysicalActivityUseCase_WhenCalledWithValidData_ShouldUpdateEventSuccessfully()
         {
+            // Assert
             var email = "emailTest@example.com";
-            var eventId = 1;
-           
+            var physicalActivityEvent = new EventoActividadFisica()
+            {
+                IdCargaEventoNavigation = new CargaEvento
+                {
+                    IdTipoEvento = 1,
+                }
+            };
+
+            var @event = new CargaEvento()
+            {
+                FechaEvento = DateTime.Now.AddDays(1),
+                NotaLibre = "Test Note",
+                FechaActual = DateTime.Now,
+                FueRealizado = false,
+                EsNotaLibre = false
+            };
+
             var fakeEventRepository = A.Fake<IEventRepository>();
+            var fakePatientValidator = A.Fake<IPatientValidator>();
+            var fakePatientEventValidator = A.Fake<IPatientEventValidator>();
+            var fakeUserRepository = A.Fake<IUserRepository>();
 
-            var fakeEventPhysicalActivityUseCase = new EventPhysicalActivityUseCase(fakeEventRepository);
+            A.CallTo(() => fakeEventRepository.GetEventByIdAsync(physicalActivityEvent.IdCargaEventoNavigation.Id)).Returns(@event);
 
-            await fakeEventPhysicalActivityUseCase.DeletePhysicalEventAsync(email, eventId);
+            var fakeEventPhysicalActivityUseCase = new PhysicalActivityUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
+
+            // Act
+            await fakeEventPhysicalActivityUseCase.EditPhysicalEventAsync(email, physicalActivityEvent);
+
+            // Assert 
+            A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakePatientEventValidator.ValidatePatientEvent(email, @event)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeEventRepository.EditPhysicalActivityEventAsync(physicalActivityEvent)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task EditPhysicalActivityUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
+        {
+            // Assert
+            var email = "emailTest@example.com";
+            var physicalActivityEvent = new EventoActividadFisica()
+            {
+                IdCargaEventoNavigation = new CargaEvento
+                {
+                    IdTipoEvento = 1,
+                }
+            };
+
+            var fakeEventRepository = A.Fake<IEventRepository>();
+            var fakePatientValidator = A.Fake<IPatientValidator>();
+            var fakePatientEventValidator = A.Fake<IPatientEventValidator>();
+            var fakeUserRepository = A.Fake<IUserRepository>();
+
+            var fakeEventPhysicalActivityUseCase = new PhysicalActivityUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
+
+            A.CallTo(() => fakePatientValidator.ValidatePatient(email)).Throws<PatientNotFoundException>();
 
             // Act & Assert 
-            A.CallTo(() => fakeEventRepository.DeletePhysicalActivityEventAsync(email, eventId)).MustHaveHappenedOnceExactly();
+            await Assert.ThrowsAsync<PatientNotFoundException>(() => fakeEventPhysicalActivityUseCase.EditPhysicalEventAsync(email, physicalActivityEvent));
+
+            A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task EditPhysicalActivityUseCase_WhenCalledValidPatientInvalidEvent_ThrowsEventNotRelatedWithPatientException()
+        {
+            // Assert
+            var email = "emailTest@example.com";
+            var physicalActivityEvent = new EventoActividadFisica()
+            {
+                IdCargaEventoNavigation = new CargaEvento
+                {
+                    IdTipoEvento = 1,
+                }
+            };
+
+            var @event = new CargaEvento()
+            {
+                FechaEvento = DateTime.Now.AddDays(1),
+                NotaLibre = "Test Note",
+                FechaActual = DateTime.Now,
+                FueRealizado = false,
+                EsNotaLibre = false
+            };
+
+            var fakeEventRepository = A.Fake<IEventRepository>();
+            var fakePatientValidator = A.Fake<IPatientValidator>();
+            var fakePatientEventValidator = A.Fake<IPatientEventValidator>();
+            var fakeUserRepository = A.Fake<IUserRepository>();
+
+            var fakeEventPhysicalActivityUseCase = new PhysicalActivityUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
+
+            A.CallTo(() => fakeEventRepository.GetEventByIdAsync(physicalActivityEvent.IdCargaEventoNavigation.Id)).Returns(@event);
+            A.CallTo(() => fakePatientEventValidator.ValidatePatientEvent(email, @event)).Throws<EventNotRelatedWithPatientException>();
+
+            // Act & Assert 
+            await Assert.ThrowsAsync<EventNotRelatedWithPatientException>(() => fakeEventPhysicalActivityUseCase.EditPhysicalEventAsync(email, physicalActivityEvent));
+
+            A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeEventRepository.GetEventByIdAsync(physicalActivityEvent.IdCargaEventoNavigation.Id)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakePatientEventValidator.ValidatePatientEvent(email, @event)).MustHaveHappenedOnceExactly();
         }
     }
 }

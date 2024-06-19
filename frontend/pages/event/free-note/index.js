@@ -29,7 +29,7 @@ const ExerciseEvent = () => {
             "idKindEvent": 8,
             "eventDate": dateFormatted,
             "freeNote": notes,
-            "hora": start ?? null
+            "hora": start ?? null //TODO: chequear que este campo se llame hora, ver si no hay que pasarlo en el datetime
         }
 
         addPhysicalEvent(data).then(() =>
@@ -40,7 +40,7 @@ const ExerciseEvent = () => {
     return(
         <Section className="pt-12">
             <div className="container items-center flex w-full justify-center flex-col">
-                <TitleSection className="text-white">¿Qué evento querés cargar?</TitleSection>
+                <TitleSection className="text-white mt-12">¿Qué evento querés cargar?</TitleSection>
                 <div className="flex w-full flex-wrap gap-y-6 gap-x-24 justify-center mt-8">
                     {TYPE_EVENTS.map((event) => {
                         return(
