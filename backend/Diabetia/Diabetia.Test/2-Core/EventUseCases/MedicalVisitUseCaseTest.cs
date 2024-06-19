@@ -1,5 +1,10 @@
 ﻿using Diabetia.Application.UseCases.EventUseCases;
+using Diabetia.Domain.Entities.Events;
+using Diabetia.Domain.Exceptions;
+using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
+using Diabetia.Domain.Services;
+using Diabetia.Interfaces;
 using FakeItEasy;
 using System;
 using System.Collections.Generic;
@@ -11,24 +16,72 @@ namespace Diabetia.Test._2_Core.EventUseCases
 {
     public class MedicalVisitUseCaseTest
     {
+        private readonly IEventRepository _fakeEventRepository;
+        private readonly IPatientValidator _fakePatientValidator;
+        private readonly IPatientEventValidator _fakePatientEventValidator;
+        private readonly IUserRepository _fakeUserRepository;
+        private readonly MedicalVisitUseCase _fakeMedicalVisitUseCase;
+        public MedicalVisitUseCaseTest()
+        {
+            _fakeEventRepository = A.Fake<IEventRepository>();
+            _fakePatientValidator = A.Fake<IPatientValidator>();
+            _fakePatientEventValidator = A.Fake<IPatientEventValidator>();
+            _fakeUserRepository = A.Fake<IUserRepository>();
+            _fakeMedicalVisitUseCase = new MedicalVisitUseCase(_fakeEventRepository, _fakePatientValidator, _fakePatientEventValidator, _fakeUserRepository);
+        }
+
         [Fact]
         public async Task EventMedicalVisitUseCase_WhenCalledWithValidData_ShouldAddEventSuccessfully()
         {
             var email = "emailTest@example.com";
-            var kindEventId = 1;
-            var eventDate = DateTime.Now.AddDays(1);
-            var professionalId = 1;
-            var recordatory = true;
-            var recordatoryDate = DateTime.Now.AddDays(2);
-            var description = "Test useCase";
-            var fakeEventRepository = A.Fake<IEventRepository>();
+            var patient = new Paciente()
+            {
+                Id = 1
+            };
+            var medicalEvent = new EventoVisitaMedica()
+            {
+                IdProfesional = 1,
+                Descripcion = "Testing",
+                IdCargaEventoNavigation = new CargaEvento()
+                {
+                    Id = 1,
+                }
+            };
 
-            var fakeEventMedicalVisitUseCase = new EventMedicalVisitUseCase(fakeEventRepository);
+            A.CallTo(() => _fakeUserRepository.GetPatient(email)).Returns(patient);
+       
+            // Act
+            await _fakeMedicalVisitUseCase.AddMedicalVisitEventAsync(email, medicalEvent);
 
-            await fakeEventMedicalVisitUseCase.AddMedicalVisitEventAsync(email, kindEventId, eventDate, professionalId, recordatory, recordatoryDate, description);
+            // Assert 
+            A.CallTo(() => _fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _fakeUserRepository.GetPatient(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _fakeEventRepository.AddMedicalVisitEventAsync(patient.Id, medicalEvent)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task EventMedicalVisitUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
+        {
+            var email = "emailTest@example.com";
+            var patient = new Paciente()
+            {
+                Id = 1
+            };
+            var medicalEvent = new EventoVisitaMedica()
+            {
+                IdProfesional = 1,
+                Descripcion = "Testing",
+                IdCargaEventoNavigation = new CargaEvento()
+                {
+                    Id = 1,
+                }
+            };
+
+            A.CallTo(() => _fakeUserRepository.GetPatient(email)).Throws<PatientNotFoundException>();
 
             // Act & Assert 
-            A.CallTo(() => fakeEventRepository.AddMedicalVisitEventAsync(email,kindEventId,eventDate,professionalId,recordatory,recordatoryDate,description)).MustHaveHappenedOnceExactly();
+            await Assert.ThrowsAsync<PatientNotFoundException>(() => _fakeMedicalVisitUseCase.AddMedicalVisitEventAsync(email, medicalEvent));
+            A.CallTo(() => _fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
         }
     }
 }
