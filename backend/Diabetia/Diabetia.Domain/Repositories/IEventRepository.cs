@@ -45,7 +45,7 @@ namespace Diabetia.Domain.Repositories
         public Task<string> DeleteMedicalExaminationEvent(int id);
 
         // ------------------------------------------- Medical Visit ---------------------------------------------------------
-        public Task AddMedicalVisitEventAsync(EventoVisitaMedica medicalVisit);
+        public Task AddMedicalVisitEventAsync(int patientId, EventoVisitaMedica medicalVisit);
         public Task EditMedicalVisitEventAsync(EventoVisitaMedica medicalVisit);
         public Task DeleteMedicalVisitEventAsync(int eventId);
 
