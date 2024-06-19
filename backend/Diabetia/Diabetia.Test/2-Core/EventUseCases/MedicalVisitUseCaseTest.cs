@@ -30,6 +30,7 @@ namespace Diabetia.Test._2_Core.EventUseCases
             _fakeMedicalVisitUseCase = new MedicalVisitUseCase(_fakeEventRepository, _fakePatientValidator, _fakePatientEventValidator, _fakeUserRepository);
         }
 
+        // --------------------------------------- ⬇⬇ Add Medical Event ⬇⬇ ---------------------------------------
         [Fact]
         public async Task EventMedicalVisitUseCase_WhenCalledWithValidData_ShouldAddEventSuccessfully()
         {
@@ -82,6 +83,103 @@ namespace Diabetia.Test._2_Core.EventUseCases
             // Act & Assert 
             await Assert.ThrowsAsync<PatientNotFoundException>(() => _fakeMedicalVisitUseCase.AddMedicalVisitEventAsync(email, medicalEvent));
             A.CallTo(() => _fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
+        }
+
+
+        // --------------------------------------- ⬇⬇ Edit Medical Event ⬇⬇ ---------------------------------------
+        [Fact]
+        public async Task EditMedicalVisitUseCase_WhenCalledWithValidData_ShouldUpdateEventSuccessfully()
+        {
+            // Assert
+            var email = "emailTest@example.com";
+            var medicalVisit = new EventoVisitaMedica()
+            {
+                IdCargaEventoNavigation = new CargaEvento
+                {
+                    IdTipoEvento = 1,
+                }
+            };
+
+            var @event = new CargaEvento()
+            {
+                FechaEvento = DateTime.Now.AddDays(1),
+                NotaLibre = "Test Note",
+                FechaActual = DateTime.Now,
+                FueRealizado = false,
+                EsNotaLibre = false
+            };
+
+            A.CallTo(() => _fakeEventRepository.GetEventByIdAsync(medicalVisit.IdCargaEventoNavigation.Id)).Returns(@event);
+
+            // Act
+            await _fakeMedicalVisitUseCase.EditMedicalVisitEventAsync(email, medicalVisit);
+
+            // Assert 
+            A.CallTo(() => _fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _fakeEventRepository.GetEventByIdAsync(medicalVisit.IdCargaEventoNavigation.Id)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _fakePatientEventValidator.ValidatePatientEvent(email, @event)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _fakeEventRepository.EditMedicalVisitEventAsync(medicalVisit)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task EditMedicalVisitUseCase_WhenCalledWithInvalidPatient_ThrowsPatientNotFoundException()
+        {
+            // Assert
+            var email = "emailTest@example.com";
+            var medicalVisit = new EventoVisitaMedica()
+            {
+                IdCargaEventoNavigation = new CargaEvento
+                {
+                    IdTipoEvento = 1,
+                }
+            };
+
+            var @event = new CargaEvento()
+            {
+                FechaEvento = DateTime.Now.AddDays(1),
+                NotaLibre = "Test Note",
+                FechaActual = DateTime.Now,
+                FueRealizado = false,
+                EsNotaLibre = false
+            };
+            A.CallTo(() => _fakePatientValidator.ValidatePatient(email)).Throws<PatientNotFoundException>();
+
+            // Act & Assert 
+            await Assert.ThrowsAsync<PatientNotFoundException>(() => _fakeMedicalVisitUseCase.EditMedicalVisitEventAsync(email, medicalVisit));
+
+            A.CallTo(() => _fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public async Task EditMedicalVisitUseCase_WhenCalledWithValidPatientInvalidEvent_ThrowsEventNotRelatedWithPatientException()
+        {
+            // Assert
+            var email = "emailTest@example.com";
+            var medicalVisit = new EventoVisitaMedica()
+            {
+                IdCargaEventoNavigation = new CargaEvento
+                {
+                    IdTipoEvento = 1,
+                }
+            };
+
+            var @event = new CargaEvento()
+            {
+                FechaEvento = DateTime.Now.AddDays(1),
+                NotaLibre = "Test Note",
+                FechaActual = DateTime.Now,
+                FueRealizado = false,
+                EsNotaLibre = false
+            };
+            A.CallTo(() => _fakeEventRepository.GetEventByIdAsync(medicalVisit.IdCargaEventoNavigation.Id)).Returns(@event);
+            A.CallTo(() => _fakePatientEventValidator.ValidatePatientEvent(email, @event)).Throws<EventNotRelatedWithPatientException>();
+
+            // Act & Assert 
+            await Assert.ThrowsAsync<EventNotRelatedWithPatientException>(() => _fakeMedicalVisitUseCase.EditMedicalVisitEventAsync(email, medicalVisit));
+
+            A.CallTo(() => _fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _fakeEventRepository.GetEventByIdAsync(medicalVisit.IdCargaEventoNavigation.Id)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _fakePatientEventValidator.ValidatePatientEvent(email, @event)).MustHaveHappenedOnceExactly();
         }
     }
 }

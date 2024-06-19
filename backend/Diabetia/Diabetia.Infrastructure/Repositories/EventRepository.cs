@@ -608,7 +608,7 @@ namespace Diabetia.Infrastructure.Repositories
             medicalVisitEvent.Descripcion = medicalVisit.Descripcion;
             _context.CargaEventos.Update(@event);
             _context.EventoVisitaMedicas.Update(medicalVisitEvent);
-
+            await _context.SaveChangesAsync();
             // VER COMO SE HACE LO DE RECORDATORIOS
             //if (Recordatory && RecordatoryDate.HasValue)
             //{
@@ -640,7 +640,7 @@ namespace Diabetia.Infrastructure.Repositories
 
             //    }
             //}
-            await _context.SaveChangesAsync();
+
         }
 
         public async Task DeleteMedicalVisitEventAsync(int eventId)

@@ -25,6 +25,8 @@ namespace Diabetia_Core.Events
             _fakeUserRepository = A.Fake<IUserRepository>();
             _fakePhysicalActivityUseCase = new PhysicalActivityUseCase(_fakeEventRepository, _fakePatientValidator, _fakePatientEventValidator, _fakeUserRepository);
         }
+
+        // --------------------------------------- ⬇⬇ Add Physical Event ⬇⬇ ---------------------------------------
         [Fact]
         public async Task AddEventPhysicalActivityUseCase_WhenCalledWithValidData_ShouldAddEventSuccessfully()
         {
@@ -63,6 +65,7 @@ namespace Diabetia_Core.Events
             A.CallTo(() => _fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
         }
 
+        // --------------------------------------- ⬇⬇ Edit Physical Event ⬇⬇ ---------------------------------------
         [Fact]
         public async Task EditPhysicalActivityUseCase_WhenCalledWithValidData_ShouldUpdateEventSuccessfully()
         {

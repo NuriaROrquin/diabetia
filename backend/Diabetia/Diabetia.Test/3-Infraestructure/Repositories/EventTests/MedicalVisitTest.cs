@@ -4,6 +4,7 @@ using Diabetia.Domain.Models;
 using Moq.EntityFrameworkCore;
 using Diabetia.Domain.Exceptions;
 using Diabetia.Infrastructure.EF;
+using Diabetia.API.DTO.HomeRequest;
 
 namespace Diabetia.Test._3_Infraestructure.Repositories.EventRepositoryTests
 {
@@ -39,8 +40,6 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventRepositoryTests
             mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(2));
             mockContext.Verify(m => m.CargaEventos.Add(It.IsAny<CargaEvento>()), Times.Once);
             mockContext.Verify(m => m.EventoVisitaMedicas.Add(It.IsAny<EventoVisitaMedica>()), Times.Once);
-            //mockContext.Verify(m => m.Recordatorios.Add(It.IsAny<Recordatorio>()), Times.Once);
-            //mockContext.Verify(m => m.RecordatorioEventos.Add(It.IsAny<RecordatorioEvento>()), Times.Once);
         }
         private Mock<diabetiaContext> CreateMockContextAddMedicalVisit()
         {
@@ -57,8 +56,117 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventRepositoryTests
             mockContext.Setup(m => m.RecordatorioEventos).ReturnsDbSet(new List<RecordatorioEvento>());
 
             return mockContext;
-        } 
+        }
 
-        //        // --------------------------------------- AddMedicalVisitEvent Test --------------------------------------
+        // --------------------------------------- EditMedicalVisitEvent Test --------------------------------------
+        [Fact]
+        public async Task EditMedicalVisitEventAsync_GivenValidData_ShouldEditEventandMedicalVisitSuccessfully()
+        {
+            // Arrange
+            var mockContext = CreateMockContextEditMedicalVisit();
+            var fakeRepository = new EventRepository(mockContext.Object);
+            var medicalVisit = new EventoVisitaMedica()
+            {
+                IdProfesional = 1,
+                Descripcion = "Test description",
+                IdCargaEventoNavigation = new CargaEvento()
+                {
+                    Id = 1,
+                    FechaEvento = DateTime.Now.AddDays(1),
+                    NotaLibre = "Test description",
+                    FueRealizado = false
+                }
+            };
+
+            // Act
+            await fakeRepository.EditMedicalVisitEventAsync(medicalVisit);
+
+            // Assert
+            var @event = mockContext.Object.CargaEventos.First();
+            var medicalVisitEvent = mockContext.Object.EventoVisitaMedicas.First();
+
+            mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            mockContext.Verify(m => m.CargaEventos.Update(It.IsAny<CargaEvento>()), Times.Once);
+            mockContext.Verify(m => m.EventoVisitaMedicas.Update(It.IsAny<EventoVisitaMedica>()), Times.Once);
+
+            Assert.Equal(medicalVisitEvent.IdCargaEventoNavigation.FechaEvento, @event.FechaEvento);
+            Assert.Equal(medicalVisitEvent.IdCargaEventoNavigation.NotaLibre, @event.NotaLibre);
+            Assert.Equal("Test description", medicalVisitEvent.Descripcion);
+        }
+        private Mock<diabetiaContext> CreateMockContextEditMedicalVisit()
+        {
+            var @event = new CargaEvento 
+            { 
+                Id = 1, 
+                IdPaciente = 1, 
+                FechaEvento = DateTime.Now, 
+                NotaLibre = "Test Note", 
+                FueRealizado = false 
+            };
+            var medicalVisitEvent = new EventoVisitaMedica 
+            { 
+                IdCargaEvento = @event.Id, 
+                IdProfesional = 1, 
+                Descripcion = "Test Visita",
+                IdCargaEventoNavigation = @event
+            };
+
+            var mockContext = new Mock<diabetiaContext>();
+
+            mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
+            mockContext.Setup(m => m.EventoVisitaMedicas).ReturnsDbSet(new List<EventoVisitaMedica> { medicalVisitEvent });
+
+            return mockContext;
+        }
+
+        [Fact]
+        public async Task EditMedicalVisitEventAsync_GivenInvalidEvent_ThrowsEventNotMatchException()
+        {
+            // Arrange
+            var mockContext = CreateMockContextEditFailMedicalVisit();
+            var fakeRepository = new EventRepository(mockContext.Object);
+            var medicalVisit = new EventoVisitaMedica()
+            {
+                IdProfesional = 1,
+                Descripcion = "Test description",
+                IdCargaEventoNavigation = new CargaEvento()
+                {
+                    Id = 1,
+                    FechaEvento = DateTime.Now.AddDays(1),
+                    NotaLibre = "Test description",
+                    FueRealizado = false
+                }
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<EventNotMatchException>(async () => 
+            await fakeRepository.EditMedicalVisitEventAsync(medicalVisit));
+        }
+        private Mock<diabetiaContext> CreateMockContextEditFailMedicalVisit()
+        {
+            var @event = new CargaEvento
+            {
+                Id = 1,
+                IdPaciente = 1,
+                FechaEvento = DateTime.Now,
+                NotaLibre = "Test Note",
+                FueRealizado = false
+            };
+            var medicalVisitEvent = new EventoVisitaMedica
+            {
+                Id = 1,
+                IdCargaEvento = 2,
+                IdProfesional = 1,
+                Descripcion = "Test Visita",
+                IdCargaEventoNavigation = @event
+            };
+
+            var mockContext = new Mock<diabetiaContext>();
+
+            mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
+            mockContext.Setup(m => m.EventoVisitaMedicas).ReturnsDbSet(new List<EventoVisitaMedica> { medicalVisitEvent });
+
+            return mockContext;
+        }
     }
 }
