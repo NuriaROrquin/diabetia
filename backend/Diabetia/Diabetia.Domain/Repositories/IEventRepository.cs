@@ -16,11 +16,11 @@ namespace Diabetia.Domain.Repositories
         public Task DeletePhysicalActivityEventAsync(int IdEvent);
 
         // -------------------------------------------- ⇊ Glucose ⇊ ---------------------------------------------------------
-        public Task AddGlucoseEvent(string Email, int KindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdFoodEvent, bool? PostFoodMedition);
+        public Task AddGlucoseEventAsync(int patientId, EventoGlucosa glucose);
 
-        public Task EditGlucoseEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, decimal Glucose, int? IdFoodEvent, bool? PostFoodMedition);
+        public Task EditGlucoseEventAsync(EventoGlucosa glucose);
 
-        public Task DeleteGlucoseEvent(int IdEvent);
+        public Task DeleteGlucoseEventAsync(int IdEvent);
 
         // -------------------------------------------- ⇊ Insuline ⇊ ---------------------------------------------------------
         public Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin);

@@ -3,6 +3,7 @@ using Diabetia.Application.UseCases;
 using Diabetia.Application.UseCases.EventUseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Diabetia.API.Controllers
 {
@@ -150,7 +151,7 @@ namespace Diabetia.API.Controllers
         [HttpPost("DeleteEvent/{id}")]
         public async Task<IActionResult> DeleteEvent([FromRoute] int id)
         {
-            var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
             await _getEventUseCase.DeleteEvent(id, email);
             return Ok();
         }

@@ -139,5 +139,35 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
             return mockContext;
         }
 
+        [Fact]
+        public async Task DeleteGlucoseEventAsync_ShouldDeleteGlucoseEventAndRelatedCargaEvent()
+        {
+            var mockContext = CreateMockContextDeletePassCorrect();
+            var fakeRepository = new EventRepository(mockContext.Object);
+
+            var cargaEvento = new CargaEvento
+            {
+                Id = 1,
+            };
+
+            await fakeRepository.DeleteGlucoseEventAsync(cargaEvento.Id);
+
+            mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            mockContext.Verify(m => m.CargaEventos.Remove(It.IsAny<CargaEvento>()), Times.Once);
+            mockContext.Verify(m => m.EventoGlucosas.Remove(It.IsAny<EventoGlucosa>()), Times.Once);
+        }
+
+        private Mock<diabetiaContext> CreateMockContextDeletePassCorrect()
+        {
+            var loadedEvent = new CargaEvento { Id = 1, IdPaciente = 11, FechaEvento = DateTime.Now, NotaLibre = "Edit Test Note" };
+            var glucoseEvent = new EventoGlucosa { Id = 1, IdCargaEvento = 1, Glucemia = 200 };
+            var mockContext = new Mock<diabetiaContext>();
+
+            mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { loadedEvent });
+            mockContext.Setup(m => m.EventoGlucosas).ReturnsDbSet(new List<EventoGlucosa> { glucoseEvent });
+
+            return mockContext;
+        }
+
     }
 }
