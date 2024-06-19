@@ -90,8 +90,8 @@ awsOptions.Region = Amazon.RegionEndpoint.USEast1;
 
 awsOptions.Credentials = new Credentials()
 {
-    AccessKeyId = configuration["AWS_ACCESS_KEY_ID"],
-    SecretKey = configuration["AWS_SECRET_ACCESS_KEY"],
+    AccessKeyId = configuration["AwsAccessKeyId"],
+    SecretKey = configuration["AwsSecretAccessKey"],
 };
 
 builder.Services.AddDefaultAWSOptions(awsOptions);

@@ -2,6 +2,7 @@
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Entities.Events;
+using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases
 {
@@ -9,15 +10,19 @@ namespace Diabetia.Application.UseCases
     {
         private readonly IEventRepository _eventRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IPatientValidator _patientValidator;
 
-        public CalendarUseCase(IEventRepository eventRepository, IUserRepository userRepository)
+        public CalendarUseCase(IEventRepository eventRepository, IUserRepository userRepository, IPatientValidator patientValidator)
         {
             _eventRepository = eventRepository;
             _userRepository = userRepository;
+            _patientValidator = patientValidator;
         }
 
         public async Task<Dictionary<string, List<EventItem>>> GetAllEvents(string email)
         {
+            await _patientValidator.ValidatePatient(email);
+
             var eventsByDate = new Dictionary<string, List<EventItem>>();
 
             var patient = await _userRepository.GetPatient(email);
@@ -92,6 +97,7 @@ namespace Diabetia.Application.UseCases
 
         public async Task<IEnumerable<EventItem>> GetAllEventsByDate(DateTime date, string email)
         {
+            await _patientValidator.ValidatePatient(email);
 
             var patient = await _userRepository.GetPatient(email);
 
