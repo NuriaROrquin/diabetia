@@ -69,7 +69,7 @@ namespace Diabetia_Infrastructure
             {
                 IdActividadFisica = 1,
                 Duracion = 50,
-                IdCargaEventoNavigation = new CargaEvento
+                IdCargaEventoNavigation = new CargaEvento ()
                 {
                     Id = 1,
                     IdTipoEvento = 1,
@@ -97,7 +97,7 @@ namespace Diabetia_Infrastructure
         private Mock<diabetiaContext> CreateMockContextEditPassCorrect()
         {
             var @event = new CargaEvento { Id = 1, IdPaciente = 1, FechaEvento = DateTime.Now, NotaLibre = "Test Note" };
-            var physicalEvent = new EventoActividadFisica { IdCargaEvento = @event.Id, IdActividadFisica = 1, Duracion = 50 };
+            var physicalEvent = new EventoActividadFisica { IdCargaEvento = @event.Id, IdActividadFisica = 1, Duracion = 50, IdCargaEventoNavigation = @event };
 
             var mockContext = new Mock<diabetiaContext>();
 

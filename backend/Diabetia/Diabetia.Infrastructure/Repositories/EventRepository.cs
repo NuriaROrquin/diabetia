@@ -559,10 +559,11 @@ namespace Diabetia.Infrastructure.Repositories
         public async Task EditMedicalVisitEventAsync(EventoVisitaMedica medicalVisit)
         {
             var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == medicalVisit.IdCargaEventoNavigation.Id);
-            @event.FechaEvento = medicalVisit.IdCargaEventoNavigation.FechaEvento;
             @event.FueRealizado = medicalVisit.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
+            @event.FechaEvento = medicalVisit.IdCargaEventoNavigation.FechaEvento;
+            @event.NotaLibre = medicalVisit.IdCargaEventoNavigation.NotaLibre;
 
-            var medicalVisitEvent = await _context.EventoVisitaMedicas.FirstOrDefaultAsync(vm => vm.IdCargaEvento == medicalVisit.Id);
+            var medicalVisitEvent = await _context.EventoVisitaMedicas.FirstOrDefaultAsync(vm => vm.IdCargaEvento == medicalVisit.IdCargaEventoNavigation.Id);
             if (medicalVisitEvent == null)
             {
                 throw new EventNotMatchException();
@@ -572,7 +573,7 @@ namespace Diabetia.Infrastructure.Repositories
             medicalVisitEvent.Descripcion = medicalVisit.Descripcion;
             _context.CargaEventos.Update(@event);
             _context.EventoVisitaMedicas.Update(medicalVisitEvent);
-
+            await _context.SaveChangesAsync();
             // VER COMO SE HACE LO DE RECORDATORIOS
             //if (Recordatory && RecordatoryDate.HasValue)
             //{
@@ -604,7 +605,7 @@ namespace Diabetia.Infrastructure.Repositories
 
             //    }
             //}
-            await _context.SaveChangesAsync();
+
         }
 
         public async Task DeleteMedicalVisitEventAsync(int eventId)

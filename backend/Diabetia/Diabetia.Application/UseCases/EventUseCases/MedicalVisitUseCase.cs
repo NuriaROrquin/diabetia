@@ -1,5 +1,4 @@
-﻿using Diabetia.Domain.Exceptions;
-using Diabetia.Domain.Models;
+﻿using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
@@ -31,10 +30,6 @@ namespace Diabetia.Application.UseCases.EventUseCases
         {
             await _patientValidator.ValidatePatient(email);
             var @event = await _eventRepository.GetEventByIdAsync(medicalVisit.IdCargaEventoNavigation.Id);
-            if (@event == null)
-            {
-                throw new EventNotFoundException();
-            }
             await _patientEventValidator.ValidatePatientEvent(email, @event);
             await _eventRepository.EditMedicalVisitEventAsync(medicalVisit);
         }

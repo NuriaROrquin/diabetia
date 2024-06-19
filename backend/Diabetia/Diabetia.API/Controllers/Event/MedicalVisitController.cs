@@ -31,8 +31,9 @@ namespace Diabetia.API.Controllers.Event
         [HttpPost("EditMedicalVisitEvent")] // VER PROTOCOLOS
         public async Task<IActionResult> EditMedicalEventAsync([FromBody] EditMedicalVisitRequest request)
         {
-            var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
-            await _eventMedicalVisitUseCase.EditMedicalVisitEventAsync(email, request.ToDomain(request)); // TODO: Recordatorio
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var medicalVisit = request.ToDomain();
+            await _eventMedicalVisitUseCase.EditMedicalVisitEventAsync(email, medicalVisit); // TODO: Recordatorio
             return Ok("Visita médica modificada correctamente");
         }
     }

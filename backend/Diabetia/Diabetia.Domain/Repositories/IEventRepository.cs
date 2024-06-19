@@ -2,7 +2,7 @@
 ﻿using Diabetia.Domain.Utilities;
 using Diabetia.Domain.Entities.Events;
 using Diabetia.Domain.Models;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace Diabetia.Domain.Repositories
 {
