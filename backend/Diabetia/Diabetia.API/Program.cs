@@ -63,6 +63,7 @@ builder.Services.AddScoped<EventFoodUseCase>();
 builder.Services.AddScoped<EventMedicalExaminationUseCase>();
 builder.Services.AddScoped<EventUseCase>();
 builder.Services.AddScoped<MedicalVisitUseCase>();
+builder.Services.AddScoped<FreeNoteUseCase>();
 
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();

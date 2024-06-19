@@ -49,6 +49,10 @@ namespace Diabetia.Domain.Repositories
         public Task EditMedicalVisitEventAsync(EventoVisitaMedica medicalVisit);
         public Task DeleteMedicalVisitEventAsync(int eventId);
 
+        // ------------------------------------------- Medical Visit ---------------------------------------------------------
+
+        public Task AddFreeNoteEventAsync(int patientId, CargaEvento freeNote);
+
         // ------------------------------------------- General Gets ----------------------------------------------------------
 
         public Task<CargaEvento> GetEventByIdAsync(int eventId);

@@ -619,6 +619,24 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        // -------------------------------------------------------- ⇊ Free Note Event ⇊ -------------------------------------------------------
+        public async Task AddFreeNoteEventAsync(int patientId, CargaEvento freeNoteEvent)
+        {
+            bool IsDone = freeNoteEvent.FechaEvento.Date <= DateTime.Now.Date;
+            var newEvent = new CargaEvento
+            {
+                IdPaciente = patientId,
+                IdTipoEvento = freeNoteEvent.IdTipoEvento,
+                FechaActual = DateTime.Now,
+                FechaEvento = freeNoteEvent.FechaEvento,
+                FueRealizado = IsDone,
+                EsNotaLibre = true,
+                NotaLibre = freeNoteEvent.NotaLibre
+            };
+            _context.CargaEventos.Add(newEvent);
+            await _context.SaveChangesAsync();
+        }
+
         // -------------------------------------------------------- ⇊ General Gets ⇊ -----------------------------------------------------------------
         public async Task<IEnumerable<AdditionalDataIngredient>> GetIngredients()
         {
