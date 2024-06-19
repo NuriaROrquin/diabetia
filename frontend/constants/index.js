@@ -32,7 +32,7 @@ export const DASHBOARD_INDICATORS = [
         "unit": "G",
         "title": "En total",
         "description": "Cuando cargues una comida, este número se verá afectado.",
-        "tooltipContent":"Se visualiza la cantidad de carbohidratos presentes en sus comidas "
+        "tooltipContent":"Se visualiza la cantidad de carbohidratos presentes en sus comidas ",
     },
     {
         "textIndicator": "Insulina",
@@ -40,7 +40,7 @@ export const DASHBOARD_INDICATORS = [
         "key": "insulin",
         "unit": "U",
         "title": "En total",
-        "description": "Su insulina rápida y tu insulina lenta",
+        "description": "Tu insulina rápida y tu insulina lenta",
         "tooltipContent":"Se visualiza la cantidad de dosis de insulina administrada "
     },
     {
@@ -56,67 +56,47 @@ export const DASHBOARD_INDICATORS = [
 
 export const DASHBOARD_TIMELINE_EVENTS = [
     {
-        "time": "19:00",
-        "title": "Desayuno - Registro de alimentos"
+        "dateTime": "2024-06-10T15:00:00",
+        "title": "Glucosa"
     },
     {
-        "time": "18:00",
-        "title": "Deporte running 25 min"
+        "dateTime": "2024-06-10T13:40:00",
+        "title": "Visita Medica"
     },
     {
-        "time": "17:21",
-        "title": "Hipogucemia"
+        "dateTime": "2024-06-10T15:30:00",
+        "title": "Insulina"
     },
-    {
-        "time": "15:30",
-        "title": "Carga merienda"
-    },
-    {
-        "time": "14:02",
-        "title": "Carga almuerzo"
-    },
-    {
-        "time": "13:30",
-        "title": "Medida de glucemia"
-    },
-    {
-        "time": "12:26",
-        "title": "Medida de glucemia"
-    },
-    {
-        "time": "09:39",
-        "title": "Carga desayuno"
-    }
 ]
 
 export const TYPE_EVENTS = [
     {
         "id": 1,
-        "title": "ACTIVIDAD FÍSICA",
-        "image": "/actividad-fisica.jpg",
-        "link": "/event/exercise"
-    },
-    {
-        "id": 2,
-        "title": "GLUCEMIA",
-        "image": "/glucemia.jpg",
-        "link": "/event/glycemia"
-    },
-    {
-        "id": 3,
-        "title": "COMIDA",
-        "image": "/comida.jpg",
-        "link": "/event/food"
-    },
-    {
-        "id": 4,
         "title": "INSULINA",
         "image": "/insulina.jpg",
         "link": "/event/insulin"
     },
     {
+        "id": 2,
+        "title": "COMIDA",
+        "image": "/comida.jpg",
+        "link": "/event/food"
+    },
+    {
+        "id": 3,
+        "title": "GLUCOSA",
+        "image": "/glucemia.jpg",
+        "link": "/event/glycemia"
+    },
+    {
+        "id": 4,
+        "title": "ACTIVIDAD FÍSICA",
+        "image": "/actividad-fisica.jpg",
+        "link": "/event/exercise"
+    },
+    {
         "id": 5,
-        "title": "EVENTO DE SALUD",
+        "title": "SALUD",
         "image": "/salud.jpg",
         "link": "/event/health-event"
     },
@@ -470,7 +450,19 @@ export const TYPE_UNITOFMEASUREMENT = [
     },
     {
         "id": 3,
-        "title": "porcion"
+        "title": "unidad"
+    },
+    {
+        "id": 4,
+        "title": "cucharada"
+    },
+    {
+        "id": 5,
+        "title": "taza"
+    },
+    {
+        "id": 6,
+        "title": "cc"
     }
 ]
 
@@ -539,3 +531,73 @@ export const STEPS = [
         url: '/profile/step-4'
     }
 ];
+
+export const TYPE_ILLNESS_HEALTH_EVENT = [
+    {
+        "id": 1,
+        "title": "Gripe"
+    },
+    {
+        "id": 2,
+        "title": "Faringitis"
+    },
+    {
+        "id": 3,
+        "title": "Neumonia"
+    },
+    {
+        "id": 4,
+        "title": "Rinitis"
+    },
+    {
+        "id": 5,
+        "title": "Conjuntivitis"
+    },
+    {
+        "id": 6,
+        "title": "Gastroenterocolitis"
+    },
+    {
+        "id": 7,
+        "title": "Gastritis"
+    },
+    {
+        "id": 8,
+        "title": "Migraña"
+    }
+]
+
+export const TYPE_MEDIC = [
+    {
+        "id": 1,
+        "title": "Diabetologo"
+    },
+    {
+        "id": 2,
+        "title": "Nutricionista"
+    },
+    {
+        "id": 3,
+        "title": "Cardiologo"
+    },
+    {
+        "id": 4,
+        "title": "Gastroenterologo"
+    },
+    {
+        "id": 5,
+        "title": "Dermatologo"
+    },
+    {
+        "id": 6,
+        "title": "Oculista"
+    },
+    {
+        "id": 7,
+        "title": "Clinico"
+    },
+    {
+        "id": 8,
+        "title": "Pediatra"
+    }
+]

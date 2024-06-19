@@ -46,15 +46,13 @@ const InitialFormStep4 = () => {
 
     const handleSubmit = () => {
         const tieneDispositivo = device;
-        const idDispositivo = selectedOptionDevices.id ;
-        const frecuencia = selectedOptionManyMeasurements.id;
+        const idDispositivo = selectedOptionDevices ? selectedOptionDevices.id : null;
+        const frecuencia = selectedOptionManyMeasurements ? selectedOptionManyMeasurements.id: null;
 
 
         fourthStep({email, tieneDispositivo, idDispositivo, frecuencia})
             .then((res) => {
-                if(res){
-                    router.push("/dashboard")
-                }
+                router.push("/dashboard")
             })
             .catch((error) => {
                 console.error('Error in fourthStep:', error);
@@ -121,7 +119,7 @@ const InitialFormStep4 = () => {
                         )}
                     </div>
 
-                    <OrangeLink href="/initialForm/step-3" label="Atrás" width="w-1/3"/>
+                    <OrangeLink href="/initialForm/step-3" label="Atrás" width="w-1/3" background="bg-gray-400 hover:bg-gray-600"/>
                     <ButtonOrange onClick={handleSubmit} label="Finalizar" width="w-1/3"/>
                 </div>
             </div>

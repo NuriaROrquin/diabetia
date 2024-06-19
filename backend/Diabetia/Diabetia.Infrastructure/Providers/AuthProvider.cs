@@ -1,5 +1,6 @@
 ﻿using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
+using Diabetia.Domain.Models;
 using Diabetia.Domain.Services;
 using Microsoft.Extensions.Configuration;
 using System.Net;
@@ -27,10 +28,10 @@ namespace Infrastructure.Provider
             _userPoolId = _configuration["UserPoolId"];
         }
 
-        public async Task<string> RegisterUserAsync(string username, string password, string email)
+        public async Task<string> RegisterUserAsync(Usuario user, string password)
         {
 
-            string secretHash = CalculateSecretHash(_clientId, _clientSecret, username);
+            string secretHash = CalculateSecretHash(_clientId, _clientSecret, user.Username);
 
             var request = new SignUpRequest
             {
@@ -39,12 +40,11 @@ namespace Infrastructure.Provider
                 SecretHash = secretHash,
                 UserAttributes = new List<AttributeType>
                 {
-                    new AttributeType { Name = "email", Value = email}
+                    new AttributeType { Name = "email", Value = user.Email}
                 },
-                Username = username
+                Username = user.Username
             };
 
-                
             await _cognitoClient.SignUpAsync(request, CancellationToken.None).ConfigureAwait(true);
 
             return secretHash;

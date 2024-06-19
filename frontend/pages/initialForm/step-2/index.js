@@ -53,11 +53,13 @@ const InitialFormStep2 = () => {
     const handleSubmit = () => {
         const typeDiabetes = selectedOptionTipoDiabetes.id;
         const useInsuline = insuline;
-        const typeInsuline = selectedOptionTipoInsulina.id;
-        const frequency = selectedOptionFrecuenciaInsulina.id;
+        const typeInsuline = selectedOptionTipoInsulina ? selectedOptionTipoInsulina.id : null;
+        const frequency = selectedOptionTipoInsulina ? selectedOptionFrecuenciaInsulina.id : null ;
         const needsReminder = reminder;
         const hourReminder = hour ? hour.format('HH:mm') : null;
-        const insulinePerCH = parseInt(document.getElementById("insulinePerCH").value);
+        const insulinePerCHElement = document.getElementById("insulinePerCH");
+        const insulinePerCHValue = insulinePerCHElement ? insulinePerCHElement.value : null;
+        const insulinePerCH = insulinePerCHValue ? parseInt(insulinePerCHValue, 10) : null;
 
         secondStep({email, typeDiabetes, useInsuline, typeInsuline, frequency, needsReminder, hourReminder, insulinePerCH})
             .then((res) => {
@@ -135,8 +137,8 @@ const InitialFormStep2 = () => {
                         </>
                     )}
                     <div className="flex justify-around w-full">
-                        <OrangeLink href="/initialForm/step-1" label="Atrás" width="w-1/3"/>
-                        <ButtonOrange onClick={handleSubmit} label="Finalizar" width="w-1/3"/>
+                        <OrangeLink href="/initialForm/step-1" label="Atrás" width="w-1/3" background="bg-gray-400 hover:bg-gray-600"/>
+                        <ButtonOrange onClick={handleSubmit} label="Siguiente" width="w-1/3"/>
                     </div>
                 </div>
             </div>

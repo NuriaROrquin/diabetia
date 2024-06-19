@@ -6,6 +6,7 @@ import {useEffect, useRef, useState} from 'react'
 import {useRouter} from "next/router";
 import {v4 as uuidv4 } from 'uuid';
 import {useAIData} from "../../context";
+import {NavLink} from "@/components/link";
 
 const FoodPage = () => {
     const { saveFiles } = useAIData();
@@ -91,19 +92,26 @@ const FoodPage = () => {
                     <SubtitleSection className="text-white">Subí tu imagen</SubtitleSection>
                 </div>
 
-                <div className="bg-white w-1/5 flex flex-col rounded-xl p-6 justify-center items-center cursor-pointer"
-                     onClick={handleCameraClick}>
-                    <CameraAltOutlined className="text-orange-primary h-20 w-20"/>
-                    <span className="text-lg text-gray-primary font-semibold">Hacé click para abrir la cámara</span>
-                    <span className="text-lg text-gray-primary">de tu dispositivo</span>
+                <div className="flex w-full gap-20 justify-center">
+                    <div className="bg-white w-1/5 flex flex-col rounded-xl p-6 justify-center items-center cursor-pointer"
+                         onClick={handleCameraClick}>
+                        <CameraAltOutlined className="text-orange-primary h-20 w-20"/>
+                        <span className="text-lg text-gray-primary font-semibold">Hacé click para abrir la cámara</span>
+                        <span className="text-lg text-gray-primary">de tu dispositivo</span>
+                    </div>
+
+                    <div className="bg-white w-1/5 flex flex-col rounded-xl p-6 justify-center items-center cursor-pointer"
+                         onClick={handleUploadClick}>
+                        <UploadFileOutlined className="text-orange-primary h-20 w-20"/>
+                        <span className="text-lg text-gray-primary font-semibold">Hacé click para subir un archivo</span>
+                        <span className="text-lg text-gray-primary">desde tu dispositivo</span>
+                    </div>
                 </div>
 
-                <div className="bg-white w-1/5 flex flex-col rounded-xl p-6 justify-center items-center cursor-pointer"
-                     onClick={handleUploadClick}>
-                    <UploadFileOutlined className="text-orange-primary h-20 w-20"/>
-                    <span className="text-lg text-gray-primary font-semibold">Hacé click para subir un archivo</span>
-                    <span className="text-lg text-gray-primary">desde tu dispositivo</span>
-                </div>
+                <SubtitleSection className="text-white">O cargá tu comida manualmente</SubtitleSection>
+                <li className="mr-3 list-none">
+                    <NavLink href="/event/food" text="Registrar comida manual" className="rounded-lg !py-2 bg-orange-primary hover:bg-orange-focus transition-all"/>
+                </li>
 
                 <input
                     type="file"

@@ -1,66 +1,53 @@
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Diabetia.Common.Utilities;
+using Diabetia.Domain.Utilities;
 using Microsoft.AspNetCore.Authorization;
+using Diabetia.API.DTO.HomeRequest;
+using System.Security.Claims;
 
 namespace Diabetia.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class HomeController : ControllerBase
     {
         private readonly ILogger<HomeController> _logger;
 
         private readonly HomeUseCase _homeUseCase;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HomeController(ILogger<HomeController> logger, HomeUseCase homeUseCase)
+        public HomeController(ILogger<HomeController> logger, HomeUseCase homeUseCase, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _homeUseCase = homeUseCase;
+            _httpContextAccessor = httpContextAccessor;
         }
-        
-        [HttpPost("metrics")]
-        [Authorize]
-        public async Task<MetricsResponse> ShowAllMetrics([FromBody] MetricsRequest request)
-        {
-            Metrics metrics = await _homeUseCase.ShowMetrics(request.Email, request.DateFilter);
 
-            MetricsResponse metricsResponse = new MetricsResponse
-            {
-                Carbohidrates = new Carbohidrates
-                {
-                    Quantity = metrics.Carbohydrates
-                },
-                PhysicalActivity = new PhysicalActivity
-                {
-                    Quantity = metrics.PhysicalActivity,
-                    IsWarning = metrics.PhysicalActivity < 30
-                },
-                Glycemia = new Glycemia
-                {
-                    Quantity = metrics.Glycemia,
-                    IsWarning = metrics.Glycemia < (int)GlucoseEnum.HIPOGLUCEMIA || metrics.Glycemia > (int)GlucoseEnum.HIPERGLUCEMIA
-                },
-                Hypoglycemia = new Hypoglycemia
-                {
-                    Quantity = metrics.Hypoglycemia,
-                    IsWarning = metrics.Hypoglycemia >= 1
-                },
-                Hyperglycemia = new Hyperglycemia
-                {
-                    Quantity = metrics.Hyperglycemia,
-                    IsWarning = metrics.Hyperglycemia >= 1
-                },
-                Insulin = new Insulin
-                {
-                    Quantity = metrics.Insulin
-                },
-            };
+        [HttpGet("metrics")]
+        public async Task<MetricsResponse> ShowAllMetrics([FromQuery] DateFilter? dateFilter)
+        {
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            Metrics metrics = await _homeUseCase.ShowMetrics(email, dateFilter);
+
+            MetricsResponse metricsResponse = new MetricsResponse(metrics);
 
             return metricsResponse;
         }
 
+        [HttpGet("timeline")]
+        public async Task<TimelineResponse> GetTimeline() 
+        {
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            Timeline timeline = await _homeUseCase.GetTimeline(email);
+
+            TimelineResponse timelineResponse = new TimelineResponse(timeline);
+
+            return timelineResponse;
+        }
     }
 }
 

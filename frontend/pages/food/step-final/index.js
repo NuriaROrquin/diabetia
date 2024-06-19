@@ -6,6 +6,8 @@ import {OrangeLink} from "../../../components/link";
 const StepFinal = () => {
     const { finalCalcCarbos } = useAIData();
 
+    console.log(finalCalcCarbos)
+
     return(
         <Section>
             <div className="container">
@@ -23,18 +25,35 @@ const StepFinal = () => {
                         registro individual. Este total representa la cantidad total de carbohidratos consumidos.
                     </p>
 
-                    {finalCalcCarbos && finalCalcCarbos[0] && finalCalcCarbos[0].chTotal ?
+                    <div className="flex w-full justify-center gap-8">
+                    {finalCalcCarbos && finalCalcCarbos.chConsumed ?
                         <MetricCard
                             key="chCalculated"
                             textIndicator=""
                             unit="gr"
-                            number={finalCalcCarbos && finalCalcCarbos[0] && finalCalcCarbos[0].chTotal}
+                            number={finalCalcCarbos.chConsumed}
                             title="Carbohidratos Consumidos"
                             description="Estos son los carbohidratos que se han detectado según el algoritmo de cálculo"
+                            isWarning={null}
                         />
                         :
                         <span>Ocurrió un error calculando los carbohidratos. Intentá recargar la página</span>
                     }
+
+                    {finalCalcCarbos && finalCalcCarbos.insulinToCorrect ?
+                        <MetricCard
+                            key="insulineToCorrect"
+                            textIndicator=""
+                            unit="u"
+                            number={finalCalcCarbos.insulinToCorrect}
+                            title="Insulina Recomendada"
+                            description="Esta es la insulina recomendada en base a tu formulario inicial"
+                            isWarning={null}
+                        />
+                        :
+                        <span>Ocurrió un error calculando la insulina. Intentá recargar la página</span>
+                    }
+                    </div>
 
 
                         <OrangeLink href="/" label="Ir al home" width="w-1/3"/>

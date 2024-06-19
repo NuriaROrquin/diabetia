@@ -2,6 +2,7 @@
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Entities.Events;
+using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases
 {
@@ -9,15 +10,19 @@ namespace Diabetia.Application.UseCases
     {
         private readonly IEventRepository _eventRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IPatientValidator _patientValidator;
 
-        public CalendarUseCase(IEventRepository eventRepository, IUserRepository userRepository)
+        public CalendarUseCase(IEventRepository eventRepository, IUserRepository userRepository, IPatientValidator patientValidator)
         {
             _eventRepository = eventRepository;
             _userRepository = userRepository;
+            _patientValidator = patientValidator;
         }
 
         public async Task<Dictionary<string, List<EventItem>>> GetAllEvents(string email)
         {
+            await _patientValidator.ValidatePatient(email);
+
             var eventsByDate = new Dictionary<string, List<EventItem>>();
 
             var patient = await _userRepository.GetPatient(email);
@@ -43,7 +48,8 @@ namespace Diabetia.Application.UseCases
             AddEventsToDictionary(eventsByDate, physicalActivityEvents, e => e.DateEvent, e => new EventItem
             {
                 Time = e.DateEvent.ToString("hh:mm tt"),
-                Title = e.Title
+                Title = e.Title,
+                AdditionalInfo = $"Duración: {e.Duration}min"
             });
 
             AddEventsToDictionary(eventsByDate, groupedFoodEvents, e => e.DateEvent, e => new EventItem
@@ -91,6 +97,7 @@ namespace Diabetia.Application.UseCases
 
         public async Task<IEnumerable<EventItem>> GetAllEventsByDate(DateTime date, string email)
         {
+            await _patientValidator.ValidatePatient(email);
 
             var patient = await _userRepository.GetPatient(email);
 
@@ -120,6 +127,7 @@ namespace Diabetia.Application.UseCases
                     IdEvent = physicalActivityEvent.IdEvent,
                     Time = physicalActivityEvent.DateEvent.ToString("hh:mm tt"),
                     Title = physicalActivityEvent.Title,
+                    AdditionalInfo = $"Duración: {physicalActivityEvent.Duration}min"
                 };
 
                 events.Add(eventItem);
@@ -132,7 +140,7 @@ namespace Diabetia.Application.UseCases
                     IdEvent = foodEvent.IdEvent,
                     Time = foodEvent.DateEvent.ToString("hh:mm tt"),
                     Title = "Comida",
-                    AdditionalInfo = $"Ingredientes: {foodEvent.IngredientName}",
+                    AdditionalInfo = foodEvent.IngredientName != null ? $"Ingredientes: {foodEvent.IngredientName}" : "Etiqueta nutricional",
                 };
 
                 events.Add(eventItem);
@@ -157,6 +165,7 @@ namespace Diabetia.Application.UseCases
                     IdEvent = glucoseEvent.IdEvent,
                     Time = glucoseEvent.DateEvent.ToString("hh:mm tt"),
                     Title = glucoseEvent.Title,
+                    AdditionalInfo = $"Nivel: {glucoseEvent.GlucoseLevel}mg/dL",
                 };
 
                 events.Add(eventItem);
