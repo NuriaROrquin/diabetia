@@ -10,16 +10,19 @@ namespace Diabetia.API.DTO.EventRequest.MedicalVisit
         public DateTime? RecordatoryDate { get; set; }
         public string Description { get; set; }
 
-        public EventoVisitaMedica ToDomain(EditMedicalVisitRequest request)
+        public EventoVisitaMedica ToDomain()
         {
-            var medicalVisit = new EventoVisitaMedica();
-
-            medicalVisit.IdCargaEventoNavigation.Id = request.EventId;
-            medicalVisit.IdCargaEventoNavigation.FechaEvento = request.EventDate;
-            medicalVisit.IdCargaEventoNavigation.NotaLibre = request.Description;
-            medicalVisit.IdProfesional = request.ProfessionalId;
-            medicalVisit.Descripcion = request.Description;
-
+            var medicalVisit = new EventoVisitaMedica()
+            {
+                IdProfesional = ProfessionalId,
+                Descripcion = Description,
+                IdCargaEventoNavigation = new CargaEvento()
+                {
+                    Id = EventId,
+                    FechaEvento = EventDate,
+                    NotaLibre = Description,
+                }
+            };
             return medicalVisit;
         }
     }

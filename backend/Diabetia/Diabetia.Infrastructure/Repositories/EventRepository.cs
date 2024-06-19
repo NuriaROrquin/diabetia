@@ -594,10 +594,11 @@ namespace Diabetia.Infrastructure.Repositories
         public async Task EditMedicalVisitEventAsync(EventoVisitaMedica medicalVisit)
         {
             var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == medicalVisit.IdCargaEventoNavigation.Id);
-            @event.FechaEvento = medicalVisit.IdCargaEventoNavigation.FechaEvento;
             @event.FueRealizado = medicalVisit.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
+            @event.FechaEvento = medicalVisit.IdCargaEventoNavigation.FechaEvento;
+            @event.NotaLibre = medicalVisit.IdCargaEventoNavigation.NotaLibre;
 
-            var medicalVisitEvent = await _context.EventoVisitaMedicas.FirstOrDefaultAsync(vm => vm.IdCargaEvento == medicalVisit.Id);
+            var medicalVisitEvent = await _context.EventoVisitaMedicas.FirstOrDefaultAsync(vm => vm.IdCargaEvento == medicalVisit.IdCargaEventoNavigation.Id);
             if (medicalVisitEvent == null)
             {
                 throw new EventNotMatchException();
