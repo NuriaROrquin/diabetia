@@ -1,5 +1,6 @@
 using Amazon.Runtime.Internal;
 using Diabetia.API.DTO;
+using Diabetia.API.DTO.EventRequest;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +11,7 @@ namespace Diabetia.API.Controllers.Calendar
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class CalendarController : ControllerBase
     {
         private readonly ILogger<CalendarController> _logger;
@@ -24,20 +26,19 @@ namespace Diabetia.API.Controllers.Calendar
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpPost("events")]
-        [Authorize]
-        public async Task<Dictionary<string, List<EventItem>>> GetAllEvents([FromBody] CalendarRequest request)
+        [HttpGet("events")]
+        public async Task<Dictionary<string, List<EventItem>>> GetAllEvents()
         {
-            // var username = _httpContextAccessor.HttpContext?.User.FindFirst("username")?.Value;
-            var eventsByDate = await _calendarUseCase.GetAllEvents(request.Email);
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var eventsByDate = await _calendarUseCase.GetAllEvents(email);
             return eventsByDate;
         }
 
-        [HttpPost("eventsByDate")]
-        [Authorize]
-        public async Task<IEnumerable<EventItem>> GetEventsByDate([FromBody] CalendarRequestByDay request)
+        [HttpGet("eventsByDate")]
+        public async Task<IEnumerable<EventItem>> GetEventsByDate([FromQuery] BasicEventRequest request)
         {
-            var eventsByDate = await _calendarUseCase.GetAllEventsByDate(request.Date, request.Email);
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var eventsByDate = await _calendarUseCase.GetAllEventsByDate(request.EventDate, email);
             return eventsByDate;
         }
 

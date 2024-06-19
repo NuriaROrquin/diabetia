@@ -1,21 +1,4 @@
-import axios from "axios";
-
-const getToken = () => {
-    return sessionStorage.getItem("jwt");
-}
-
-axios.interceptors.request.use(
-    config => {
-        const token = getToken();
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    error => {
-        return Promise.reject(error);
-    }
-);
+import axios from './axios';
 
 export const login = (username, password) => {
     return axios
@@ -110,13 +93,6 @@ export const addFoodEvent = (data) => {
         );
 }
 
-export const getMetrics = (data) => {
-    return axios
-        .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/Home/metrics`,
-            data)
-}
-
 export const firstStep = (data) => {
     return axios
         .put(
@@ -161,32 +137,10 @@ export const getPatientInfo = (data) => {
             `${process.env.NEXT_PUBLIC_API_URL}/Profile/getPatientInfo?email=${data.email}`)
 }
 
-export const getAllEvents = (data) => {
-    return axios
-        .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/Calendar/events`,
-            data
-        );
-}
-
-export const getEventsByDate = (date, email) => {
-    return axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/Calendar/eventsByDate`,
-        { date: date, email: email },
-        { headers: { 'Content-Type': 'application/json' } }
-    );
-}
-
 export const deleteEventById = (eventId) => {
     return axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/Event/DeleteEvent/${eventId}`
     )
-}
-
-export const getTimeline = (email) => {
-    return axios
-        .get(
-            `${process.env.NEXT_PUBLIC_API_URL}/Home/timeline/${email}`)
 }
 
 export const getEventType = (data) => {
