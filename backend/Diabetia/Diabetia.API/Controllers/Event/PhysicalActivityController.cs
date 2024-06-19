@@ -34,7 +34,7 @@ namespace Diabetia.API.Controllers.Event
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
             var physicalEvent = request.ToDomain();
             await _eventPhysicalActivityUseCase.EditPhysicalEventAsync(email, physicalEvent);
-            return Ok("Evento modificado correctamente"); ;
+            return Ok("Evento modificado correctamente");
         }
     }
 }

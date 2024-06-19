@@ -54,7 +54,7 @@ builder.Services.AddScoped<DataUserUseCase>();
 builder.Services.AddScoped<TagDetectionUseCase>();
 builder.Services.AddScoped<TagCalculateUseCase>();
 builder.Services.AddScoped<PhysicalActivityUseCase>();
-builder.Services.AddScoped<EventGlucoseUseCase>();
+builder.Services.AddScoped<GlucoseUseCase>();
 builder.Services.AddScoped<EventInsulinUseCase>();
 builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();
@@ -90,8 +90,8 @@ awsOptions.Region = Amazon.RegionEndpoint.USEast1;
 
 awsOptions.Credentials = new Credentials()
 {
-    AccessKeyId = configuration["AWS_ACCESS_KEY_ID"],
-    SecretKey = configuration["AWS_SECRET_ACCESS_KEY"],
+    AccessKeyId = configuration["AwsAccessKeyId"],
+    SecretKey = configuration["AwsSecretAccessKey"],
 };
 
 builder.Services.AddDefaultAWSOptions(awsOptions);

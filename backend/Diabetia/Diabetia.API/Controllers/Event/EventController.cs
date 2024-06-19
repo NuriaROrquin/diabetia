@@ -15,7 +15,7 @@ namespace Diabetia.API.Controllers
     public class EventController : ControllerBase
     {
         //private readonly PhysicalActivityUseCase _eventPhysicalActivityUseCase;
-        private readonly EventGlucoseUseCase _eventGlucosetUseCase;
+        //private readonly EventGlucoseUseCase _eventGlucosetUseCase;
         private readonly EventInsulinUseCase _eventInsulintUseCase;
         private readonly EventFoodUseCase _eventFoodManuallyUseCase;
         private readonly EventUseCase _getEventUseCase;
@@ -24,10 +24,10 @@ namespace Diabetia.API.Controllers
         // private readonly MedicalVisitUseCase _eventMedicalVisitUseCase;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EventController(EventGlucoseUseCase eventGlucoseUseCase, EventInsulinUseCase eventInsulinUseCase, EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, IHttpContextAccessor httpContextAccessor)
+        public EventController(EventInsulinUseCase eventInsulinUseCase, EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, IHttpContextAccessor httpContextAccessor)
         {
             //_eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
-            _eventGlucosetUseCase = eventGlucoseUseCase;
+            //_eventGlucosetUseCase = eventGlucoseUseCase;
             _eventInsulintUseCase = eventInsulinUseCase;
             _eventFoodManuallyUseCase = eventFoodManuallyUseCase;
             _getEventUseCase = eventUseCase;
