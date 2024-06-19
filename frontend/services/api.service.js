@@ -93,13 +93,6 @@ export const addFoodEvent = (data) => {
         );
 }
 
-export const getMetrics = (data) => {
-    return axios
-        .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/Home/metrics`,
-            data)
-}
-
 export const firstStep = (data) => {
     return axios
         .put(
@@ -148,12 +141,6 @@ export const deleteEventById = (eventId) => {
     return axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/Event/DeleteEvent/${eventId}`
     )
-}
-
-export const getTimeline = (email) => {
-    return axios
-        .get(
-            `${process.env.NEXT_PUBLIC_API_URL}/Home/timeline/${email}`)
 }
 
 export const getEventType = (data) => {
