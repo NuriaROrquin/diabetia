@@ -5,7 +5,7 @@ using Diabetia.Domain.Entities.Events;
 using Diabetia.Domain.Exceptions;
 using Diabetia.Interfaces;
 
-namespace Diabetia.Application.UseCases
+namespace Diabetia.Application.UseCases.EventUseCases
 {
     public class EventUseCase
     {

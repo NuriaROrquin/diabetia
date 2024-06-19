@@ -1,6 +1,7 @@
 ﻿using Diabetia.Domain.Exceptions;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
+using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases.EventUseCases
@@ -10,17 +11,20 @@ namespace Diabetia.Application.UseCases.EventUseCases
         private readonly IEventRepository _eventRepository;
         private readonly IPatientValidator _patientValidator;
         private readonly IPatientEventValidator _patientEventValidator;
-        public MedicalVisitUseCase(IEventRepository eventRepository, IPatientValidator patientValidator, IPatientEventValidator patientEventValidator)
+        private readonly IUserRepository _userRepository;
+        public MedicalVisitUseCase(IEventRepository eventRepository, IPatientValidator patientValidator, IPatientEventValidator patientEventValidator, IUserRepository userRepository)
         {
             _eventRepository = eventRepository;
             _patientValidator = patientValidator;
             _patientEventValidator = patientEventValidator;
+            _userRepository = userRepository;
         }
 
         public async Task AddMedicalVisitEventAsync(string email, EventoVisitaMedica medicalVisit)
         {
             await _patientValidator.ValidatePatient(email);
-            await _eventRepository.AddMedicalVisitEventAsync(medicalVisit);
+            var patient = await _userRepository.GetPatient(email);
+            await _eventRepository.AddMedicalVisitEventAsync(patient.Id, medicalVisit);
         }
 
         public async Task EditMedicalVisitEventAsync(string email, EventoVisitaMedica medicalVisit)

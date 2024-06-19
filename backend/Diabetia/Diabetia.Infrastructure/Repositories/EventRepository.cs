@@ -515,29 +515,25 @@ namespace Diabetia.Infrastructure.Repositories
 
 
         // ------------------------------------------------------ ⇊ Medical Visit Event ⇊ ------------------------------------------------------------
-        public async Task AddMedicalVisitEventAsync(EventoVisitaMedica medicalVisit)
+        public async Task AddMedicalVisitEventAsync(int patientId, EventoVisitaMedica medicalVisit)
         {
             bool IsDone = medicalVisit.IdCargaEventoNavigation.FechaEvento.Date <= DateTime.Now.Date;
             var newEvent = new CargaEvento
             {
-                IdPaciente = medicalVisit.IdCargaEventoNavigation.IdPaciente,
+                IdPaciente = patientId,
                 IdTipoEvento = medicalVisit.IdCargaEventoNavigation.IdTipoEvento,
                 FechaActual = DateTime.Now,
                 FechaEvento = medicalVisit.IdCargaEventoNavigation.FechaEvento,
                 FueRealizado = IsDone,
                 EsNotaLibre = false,
+                NotaLibre = medicalVisit.IdCargaEventoNavigation.NotaLibre
             };
 
             _context.CargaEventos.Add(newEvent);
             await _context.SaveChangesAsync();
 
-            var newMedicalVisitEvent = new EventoVisitaMedica
-            {
-                IdCargaEvento = medicalVisit.IdCargaEventoNavigation.Id,
-                IdProfesional = medicalVisit.IdProfesional,
-                Descripcion = medicalVisit.Descripcion
-            };
-            _context.EventoVisitaMedicas.Add(newMedicalVisitEvent);
+            medicalVisit.IdCargaEventoNavigation = newEvent;
+            _context.EventoVisitaMedicas.Add(medicalVisit);
             await _context.SaveChangesAsync();
 
             // VER QUE HACEMOS CON RECORDATORIO
