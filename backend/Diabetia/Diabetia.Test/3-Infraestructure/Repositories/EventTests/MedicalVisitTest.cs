@@ -9,7 +9,7 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventRepositoryTests
 {
     public class MedicalVisitTest
     {
-        // --------------------------------------- ⬇⬇ AddMedicalVisitEvent Test ⬇⬇ ---------------------------------------
+        // --------------------------------------- ⬇⬇ Add MedicalVisitEvent Test ⬇⬇ ---------------------------------------
         [Fact]
         public async Task AddMedicalVisitEventAsync_GivenValidData_ShouldAddEventAndMedicalVisit()
         {
@@ -57,7 +57,7 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventRepositoryTests
             return mockContext;
         }
 
-        // --------------------------------------- ⬇⬇ EditMedicalVisitEvent Test ⬇⬇ --------------------------------------
+        // --------------------------------------- ⬇⬇ Edit MedicalVisitEvent Test ⬇⬇ --------------------------------------
         [Fact]
         public async Task EditMedicalVisitEventAsync_GivenValidData_ShouldEditEventandMedicalVisitSuccessfully()
         {
@@ -160,6 +160,35 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventRepositoryTests
                 IdCargaEventoNavigation = @event
             };
 
+            var mockContext = new Mock<diabetiaContext>();
+
+            mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
+            mockContext.Setup(m => m.EventoVisitaMedicas).ReturnsDbSet(new List<EventoVisitaMedica> { medicalVisitEvent });
+
+            return mockContext;
+        }
+
+        // --------------------------------------- ⬇⬇ Delete MedicalVisitEvent Test ⬇⬇ --------------------------------------
+        [Fact]
+        public async Task DeleteMedicalVisitEvent_GivenValidData_ShouldDeleteEventSuccessfully()
+        {
+            var mockContext = CreateMockContextDeletePassCorrect();
+            var fakeRepository = new EventRepository(mockContext.Object);
+            var cargaEvento = new CargaEvento
+            {
+                Id = 1,
+            };
+
+            await fakeRepository.DeleteMedicalVisitEventAsync(cargaEvento.Id);
+
+            mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            mockContext.Verify(m => m.CargaEventos.Remove(It.IsAny<CargaEvento>()), Times.Once);
+            mockContext.Verify(m => m.EventoVisitaMedicas.Remove(It.IsAny<EventoVisitaMedica>()), Times.Once);
+        }
+        private Mock<diabetiaContext> CreateMockContextDeletePassCorrect()
+        {
+            var @event = new CargaEvento { Id = 1, IdPaciente = 11, FechaEvento = DateTime.Now, NotaLibre = "Testing Note" };
+            var medicalVisitEvent = new EventoVisitaMedica { Id = 1, IdCargaEvento = @event.Id, Descripcion = "Testing" };
             var mockContext = new Mock<diabetiaContext>();
 
             mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });

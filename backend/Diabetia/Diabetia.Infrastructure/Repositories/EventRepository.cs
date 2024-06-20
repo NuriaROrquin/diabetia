@@ -611,9 +611,9 @@ namespace Diabetia.Infrastructure.Repositories
         public async Task DeleteMedicalVisitEventAsync(int eventId)
         {
             var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == eventId);
-            var medicalVisitEvent = await _context.EventoActividadFisicas.FirstOrDefaultAsync(eaf => eaf.IdCargaEvento == @event.Id);
+            var medicalVisitEvent = await _context.EventoVisitaMedicas.FirstOrDefaultAsync(eaf => eaf.IdCargaEvento == @event.Id);
 
-            _context.EventoActividadFisicas.Remove(medicalVisitEvent);
+            _context.EventoVisitaMedicas.Remove(medicalVisitEvent);
             _context.CargaEventos.Remove(@event);
 
             await _context.SaveChangesAsync();
