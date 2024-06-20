@@ -22,30 +22,32 @@ namespace Diabetia.Application.UseCases
         {
             return await _userRepository.GetUserInfo(userName);
         }
-        public async Task<Paciente> FirstStep(string email, Paciente user)
+        public async Task<Paciente> FirstStep(string email, Paciente patient)
         {
             await _patientValidator.ValidatePatient(email);
-            await _userRepository.CompleteUserInfo(user);
+            await _userRepository.CompleteUserInfo(patient);
 
-            var patient = await _userRepository.GetPatient(email);
+            var patient_local = await _userRepository.GetPatient(email);
 
-            return patient;
+            return patient_local;
         }
 
-        public async Task SecondStep(int typeDiabetes, bool useInsuline, int? typeInsuline, string email, bool? needsReminder, int? frequency, string? hourReminder, int? insulinePerCH)
+        public async Task SecondStep(string email, Paciente patient)
         {
-            await _userRepository.UpdateUserInfo(typeDiabetes, useInsuline, typeInsuline, email, needsReminder, frequency, hourReminder, insulinePerCH);
+            await _patientValidator.ValidatePatient(email);
+            await _userRepository.UpdateUserInfo(patient);
         }
 
-        public async Task ThirdStep(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica, int duracion)
+        public async Task ThirdStep(string email, PacienteActividadFisica patient_actfisica)
         {
-
-            await _userRepository.CompletePhysicalUserInfo(email, haceActividadFisica, frecuencia, idActividadFisica, duracion);
+            await _patientValidator.ValidatePatient(email);
+            await _userRepository.CompletePhysicalUserInfo(patient_actfisica);
         }
 
-        public async Task FourthStep(string email, bool tieneDispositivo, int? idDispositivo, int? frecuencia)
+        public async Task FourthStep(string email, DispositivoPaciente patient_dispo, bool TieneDispositivo)
         {
-            await _userRepository.CompleteDeviceslUserInfo(email, tieneDispositivo, idDispositivo, frecuencia);
+            await _patientValidator.ValidatePatient(email);
+            await _userRepository.CompleteDeviceslUserInfo(patient_dispo, TieneDispositivo);
         }
 
         public async Task<User> GetEditUserInfo(string email)
