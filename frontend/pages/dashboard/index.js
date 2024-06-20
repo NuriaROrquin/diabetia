@@ -8,7 +8,7 @@ import {Timeline} from "../../components/timeline";
 import {Section} from "../../components/section";
 import {OrangeLink} from "../../components/link";
 import {useCookies} from "react-cookie";
-import CustomTooltip from "@/components/tooltip";
+import CustomTooltip from "../../components/tooltip";
 import {calculateDateRange} from "../../helpers";
 import {getMetrics, getTimeline} from "../../services/home.service";
 
@@ -65,7 +65,7 @@ export const Home = () => {
                 </div>
                 <div className="flex flex-col md:flex-row gap-3 md:gap-0">
                     <div className="w-full flex justify-self-start">
-                        <Selector width="w-full md:w-1/3 lg:w-1/5" setIsOpen={setIsOpen} isOpen={isOpen} selectedOption={selectedOption}
+                        <Selector dataTestId="selector-button" width="w-full md:w-1/3 lg:w-1/5" setIsOpen={setIsOpen} isOpen={isOpen} selectedOption={selectedOption}
                                   options={DASHBOARD_OPTIONS_FILTER_DAYS} handleOptionClick={handleOptionClick}/>
                     </div>
                     <CustomTooltip title={registrarEventoTooltipText} arrow>

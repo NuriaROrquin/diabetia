@@ -1,12 +1,12 @@
 import {CircleRounded} from "@mui/icons-material";
 import {formatDateTime} from "../../helpers";
-import {OrangeLink} from "@/components/link";
+import {OrangeLink} from "../link";
 
 export const Timeline = ({events, className = "", limit = events.length}) => {
 
     if(events.length == 0){
         return (
-        <div className="w-10/12 mx-auto lg:w-full flex flex-col justify-center items-center h-full py-40">
+        <div data-testid="timeline" className="w-10/12 mx-auto lg:w-full flex flex-col justify-center items-center h-full py-40">
             <div className="bg-white shadow-2xl flex flex-col p-12 rounded-2xl gap-4 items-center">
                 <div className="text-gray-primary text-2xl">No se encontraron registros</div>
                 <div className="text-gray-primary text-xl">Para que comiences a ver registros, te sugerimos cargar un evento</div>
