@@ -4,7 +4,6 @@ using Diabetia.Domain.Models;
 using Moq.EntityFrameworkCore;
 using Diabetia.Infrastructure.EF;
 using Diabetia.Domain.Exceptions;
-using Diabetia.Domain.Entities.Events;
 
 namespace Diabetia_Infrastructure
 {
@@ -167,7 +166,7 @@ namespace Diabetia_Infrastructure
         }
         private Mock<diabetiaContext> CreateMockContextDeletePassCorrect()
         {
-            var @event = new CargaEvento { Id = 1, IdPaciente = 11, FechaEvento = DateTime.Now, NotaLibre = "Edit Test Note" };
+            var @event = new CargaEvento { Id = 1, IdPaciente = 11, FechaEvento = DateTime.Now, NotaLibre = "Testing Note" };
             var physicalActivityEvent = new EventoActividadFisica { Id = 1, IdCargaEvento = @event.Id, Duracion = 50 };
             var mockContext = new Mock<diabetiaContext>();
 

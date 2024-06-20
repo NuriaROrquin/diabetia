@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Diabetia.Domain.Models;
+﻿using Diabetia.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Diabetia.Infrastructure.EF
 {
@@ -459,7 +456,6 @@ namespace Diabetia.Infrastructure.EF
                 entity.HasOne(d => d.IdInsulinaPacienteNavigation)
                     .WithMany(p => p.EventoInsulinas)
                     .HasForeignKey(d => d.IdInsulinaPaciente)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("evento_insulina_ibfk_2");
             });
 
@@ -927,12 +923,6 @@ namespace Diabetia.Infrastructure.EF
                     .HasColumnName("horario_actividad");
 
                 entity.Property(e => e.IdTipoEvento).HasColumnName("id_tipo_evento");
-
-                entity.HasOne(d => d.IdTipoEventoNavigation)
-                    .WithMany(p => p.Recordatorios)
-                    .HasForeignKey(d => d.IdTipoEvento)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("recordatorio_ibfk_1");
             });
 
             modelBuilder.Entity<RecordatorioEvento>(entity =>

@@ -134,39 +134,25 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
         // -------------------------------------------------------- ⬇⬇ Insuline Event ⬇⬇ -------------------------------------------------------
-        public async Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin)
+        public async Task AddInsulinEventAsync(int patientId, EventoInsulina insulin)
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
-            var patientInsulin = await _context.InsulinaPacientes.FirstOrDefaultAsync(u => u.IdPaciente == patient.Id);
-
-            // 1- Guardar el evento
-            bool IsDone = EventDate <= DateTime.Now ? true : false;
-            var NewEvent = new CargaEvento
+            bool IsDone = insulin.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
+            var newEvent = new CargaEvento
             {
-                IdPaciente = patient.Id,
-                IdTipoEvento = IdKindEvent,
+                IdPaciente = patientId,
+                IdTipoEvento = insulin.IdCargaEventoNavigation.IdTipoEvento,
                 FechaActual = DateTime.Now,
-                FechaEvento = EventDate,
-                NotaLibre = FreeNote,
+                FechaEvento = insulin.IdCargaEventoNavigation.FechaEvento,
+                NotaLibre = insulin.IdCargaEventoNavigation.NotaLibre,
                 FueRealizado = IsDone,
                 EsNotaLibre = false,
             };
 
-            _context.CargaEventos.Add(NewEvent);
+            _context.CargaEventos.Add(newEvent);
             await _context.SaveChangesAsync();
 
-            var lastInsertedIdEvent = await _context.CargaEventos.OrderByDescending(e => e.Id).FirstOrDefaultAsync();
-
-            // 2- Guardar evento Glucosa            
-            var NewInsulinEvent = new EventoInsulina
-            {
-                IdCargaEvento = lastInsertedIdEvent.Id,
-                InsulinaInyectada = Insulin,
-                IdInsulinaPaciente = patientInsulin.Id,
-            };
-
-            _context.EventoInsulinas.Add(NewInsulinEvent);
+            insulin.IdCargaEventoNavigation = newEvent;
+            _context.EventoInsulinas.Add(insulin);
             await _context.SaveChangesAsync();
         }
 
@@ -611,9 +597,9 @@ namespace Diabetia.Infrastructure.Repositories
         public async Task DeleteMedicalVisitEventAsync(int eventId)
         {
             var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == eventId);
-            var medicalVisitEvent = await _context.EventoActividadFisicas.FirstOrDefaultAsync(eaf => eaf.IdCargaEvento == @event.Id);
+            var medicalVisitEvent = await _context.EventoVisitaMedicas.FirstOrDefaultAsync(eaf => eaf.IdCargaEvento == @event.Id);
 
-            _context.EventoActividadFisicas.Remove(medicalVisitEvent);
+            _context.EventoVisitaMedicas.Remove(medicalVisitEvent);
             _context.CargaEventos.Remove(@event);
 
             await _context.SaveChangesAsync();

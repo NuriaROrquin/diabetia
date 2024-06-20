@@ -19,7 +19,6 @@ namespace Diabetia.Domain.Models
         public bool? FueEliminado { get; set; }
         public DateTime? FechaEliminacion { get; set; }
 
-        public virtual TipoEvento IdTipoEventoNavigation { get; set; } = null!;
         public virtual ICollection<RecordatorioEvento> RecordatorioEventos { get; set; }
     }
 }

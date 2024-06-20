@@ -12,17 +12,14 @@ namespace Diabetia.API.Controllers
     [Authorize]
     public class EventController : ControllerBase
     {
-        private readonly EventInsulinUseCase _eventInsulintUseCase;
         private readonly EventFoodUseCase _eventFoodManuallyUseCase;
         private readonly EventUseCase _getEventUseCase;
         private readonly DataUserUseCase _dataUserUseCase;
         private readonly EventMedicalExaminationUseCase _eventMedicalExaminationUseCase;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EventController(EventInsulinUseCase eventInsulinUseCase, EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, IHttpContextAccessor httpContextAccessor)
+        public EventController(EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, IHttpContextAccessor httpContextAccessor)
         {
-            //_eventGlucosetUseCase = eventGlucoseUseCase;
-            _eventInsulintUseCase = eventInsulinUseCase;
             _eventFoodManuallyUseCase = eventFoodManuallyUseCase;
             _getEventUseCase = eventUseCase;
             _dataUserUseCase = dataUserUseCase;
