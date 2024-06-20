@@ -25,9 +25,11 @@ namespace Diabetia.API.Controllers.Event
         public async Task<IActionResult> AddFoodManuallyAsync([FromBody] AddFoodManuallyRequest request)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            // var foodManually = request.ToDomain();
             await _foodManuallyUseCase.AddFoodManuallyEventAsync(email, request);
             return Ok("Comida agregada correctamente");
         }
+
         /*
         [HttpPost("EditFoodManuallyEvent")]
         public async Task<IActionResult> EditMedicalEventAsync([FromBody] EditFoodManuallyRequest request)

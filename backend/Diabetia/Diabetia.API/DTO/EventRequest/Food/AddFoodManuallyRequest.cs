@@ -16,7 +16,7 @@ namespace Diabetia.API.DTO.EventRequest.Food
 
         public EventoComidum ToDomain()
         {
-            var manuallyFood = new EventoGlucosa();
+            var manuallyFood = new EventoComidum();
 
             manuallyFood.IdCargaEventoNavigation = new CargaEvento
             {
