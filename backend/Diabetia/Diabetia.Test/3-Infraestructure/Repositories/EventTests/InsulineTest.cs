@@ -8,7 +8,7 @@ using Moq.EntityFrameworkCore;
 
 namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
 {
-    public class GlucoseTest
+    public class InsulineTest
     {
         [Fact]
         public async Task AddGlucoseEventAsync_GivenValidData_ShouldAddAGlucoseEvent()
@@ -17,12 +17,12 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
 
             var repository = new EventRepository(mockContext.Object);
 
-            var glucose = new EventoGlucosa()
+            var insulin = new EventoInsulina()
             {
-                Glucemia = 160,
+                InsulinaInyectada = 7,
                 IdCargaEventoNavigation = new CargaEvento
                 {
-                    IdTipoEvento = 3,
+                    IdTipoEvento = 1,
                     FechaEvento = DateTime.Now.AddDays(1),
                     NotaLibre = "Test Note",
                     FechaActual = DateTime.Now,
@@ -32,11 +32,11 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
             };
             int patientId = 11;
 
-            await repository.AddGlucoseEventAsync(patientId, glucose);
+            await repository.AddInsulinEventAsync(patientId, insulin);
 
             mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(2));
             mockContext.Verify(m => m.CargaEventos.Add(It.IsAny<CargaEvento>()), Times.Once);
-            mockContext.Verify(m => m.EventoGlucosas.Add(It.IsAny<EventoGlucosa>()), Times.Once);
+            mockContext.Verify(m => m.EventoInsulinas.Add(It.IsAny<EventoInsulina>()), Times.Once);
         }
         private Mock<diabetiaContext> CreateMockContextAddPassCorrect()
         {
@@ -46,10 +46,11 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
 
             mockContext.Setup(m => m.Pacientes).ReturnsDbSet(new List<Paciente> { patient });
             mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento>());
-            mockContext.Setup(m => m.EventoGlucosas).ReturnsDbSet(new List<EventoGlucosa>());
+            mockContext.Setup(m => m.EventoInsulinas).ReturnsDbSet(new List<EventoInsulina>());
 
             return mockContext;
         }
+        /*
 
         [Fact]
         public async Task EditGlucoseEvent_ShouldUpdateEventAndGlucoseEvent()
@@ -88,7 +89,7 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
         private Mock<diabetiaContext> CreateMockContextEditPassCorrect()
         {
             var loadedEvent = new CargaEvento { Id = 1, IdPaciente = 11, FechaEvento = DateTime.Now, NotaLibre = "Edit Test Note" };
-            var glucoseEvent = new EventoGlucosa { IdCargaEvento = loadedEvent.Id, Glucemia = 200};
+            var glucoseEvent = new EventoGlucosa { IdCargaEvento = loadedEvent.Id, Glucemia = 200 };
 
             var mockContext = new Mock<diabetiaContext>();
 
@@ -126,7 +127,7 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
         private Mock<diabetiaContext> CreateMockContextThrowGlucoseEventException()
         {
             var loadedEvent = new CargaEvento { Id = 1, IdPaciente = 11, FechaEvento = DateTime.Now, NotaLibre = "Edit Test Note" };
-            var glucoseEvent = new EventoGlucosa { Id = 1, IdCargaEvento = 3, Glucemia = 200};
+            var glucoseEvent = new EventoGlucosa { Id = 1, IdCargaEvento = 3, Glucemia = 200 };
             var mockContext = new Mock<diabetiaContext>();
 
             mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { loadedEvent });
@@ -163,7 +164,6 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
             mockContext.Setup(m => m.EventoGlucosas).ReturnsDbSet(new List<EventoGlucosa> { glucoseEvent });
 
             return mockContext;
-        }
-
+        }*/
     }
 }
