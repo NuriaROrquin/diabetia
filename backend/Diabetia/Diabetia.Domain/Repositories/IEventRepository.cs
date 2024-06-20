@@ -27,7 +27,7 @@ namespace Diabetia.Domain.Repositories
 
         public Task EditInsulinEventAsync(EventoInsulina insulin);
 
-        public Task DeleteInsulinEvent(int IdEvent);
+        public Task DeleteInsulinEventAsync(int IdEvent);
 
         // -------------------------------------------- ⬇⬇ Food Manually ⬇⬇ ----------------------------------------------------
         public Task<float> AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote);

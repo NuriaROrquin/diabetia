@@ -99,7 +99,7 @@ namespace Diabetia.Application.UseCases.EventUseCases
             switch (type)
             {
                 case TypeEventEnum.INSULINA:
-                    await _eventRepository.DeleteInsulinEvent(id);
+                    await _eventRepository.DeleteInsulinEventAsync(id);
                     break;
                 case TypeEventEnum.GLUCOSA:
                     await _eventRepository.DeleteGlucoseEventAsync(id);

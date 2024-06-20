@@ -135,9 +135,9 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
 
             return mockContext;
         }
-        /*
+        
         [Fact]
-        public async Task DeleteGlucoseEventAsync_ShouldDeleteGlucoseEventAndRelatedCargaEvent()
+        public async Task DeleteInsulinEventAsync_ShouldDeleteInsulinEventAndRelatedCargaEvent()
         {
             var mockContext = CreateMockContextDeletePassCorrect();
             var fakeRepository = new EventRepository(mockContext.Object);
@@ -147,23 +147,23 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
                 Id = 1,
             };
 
-            await fakeRepository.DeleteGlucoseEventAsync(cargaEvento.Id);
+            await fakeRepository.DeleteInsulinEventAsync(cargaEvento.Id);
 
             mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
             mockContext.Verify(m => m.CargaEventos.Remove(It.IsAny<CargaEvento>()), Times.Once);
-            mockContext.Verify(m => m.EventoGlucosas.Remove(It.IsAny<EventoGlucosa>()), Times.Once);
+            mockContext.Verify(m => m.EventoInsulinas.Remove(It.IsAny<EventoInsulina>()), Times.Once);
         }
 
         private Mock<diabetiaContext> CreateMockContextDeletePassCorrect()
         {
             var loadedEvent = new CargaEvento { Id = 1, IdPaciente = 11, FechaEvento = DateTime.Now, NotaLibre = "Edit Test Note" };
-            var glucoseEvent = new EventoGlucosa { Id = 1, IdCargaEvento = 1, Glucemia = 200 };
+            var insulinEvent = new EventoInsulina { Id = 1, IdCargaEvento = 1, InsulinaInyectada = 200 };
             var mockContext = new Mock<diabetiaContext>();
 
             mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { loadedEvent });
-            mockContext.Setup(m => m.EventoGlucosas).ReturnsDbSet(new List<EventoGlucosa> { glucoseEvent });
+            mockContext.Setup(m => m.EventoInsulinas).ReturnsDbSet(new List<EventoInsulina> { insulinEvent });
 
             return mockContext;
-        }*/
+        }
     }
 }

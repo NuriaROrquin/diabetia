@@ -53,7 +53,7 @@ namespace Diabetia.Test._2_Core.EventUseCases
             switch (eventType)
             {
                 case TypeEventEnum.INSULINA:
-                    A.CallTo(() => _fakeEventRepository.DeleteInsulinEvent(eventId)).MustHaveHappenedOnceExactly();
+                    A.CallTo(() => _fakeEventRepository.DeleteInsulinEventAsync(eventId)).MustHaveHappenedOnceExactly();
                     break;
                 case TypeEventEnum.GLUCOSA:
                     A.CallTo(() => _fakeEventRepository.DeleteGlucoseEventAsync(eventId)).MustHaveHappenedOnceExactly();

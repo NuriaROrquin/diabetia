@@ -176,7 +176,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteInsulinEvent(int IdEvent)
+        public async Task DeleteInsulinEventAsync(int IdEvent)
         {
             var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
             if (EventLoad == null) { throw new EventNotFoundException(); }
