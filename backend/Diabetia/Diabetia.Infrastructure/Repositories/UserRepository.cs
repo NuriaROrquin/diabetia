@@ -120,8 +120,9 @@ namespace Diabetia.Infrastructure.Repositories
             return allFieldsNotNull;
         }
 
-        public async Task CompletePhysicalUserInfo(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica, int duracion)
+        public async Task CompletePhysicalUserInfo(PacienteActividadFisica patient_actfisica)
         {
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
             var pac_phy = await _context.PacienteActividadFisicas.FirstOrDefaultAsync(u => u.IdPaciente == pac.Id);
@@ -131,18 +132,18 @@ namespace Diabetia.Infrastructure.Repositories
                 var pac_new = new PacienteActividadFisica
                 {
                     IdPaciente = pac.Id,
-                    IdActividadFisica = idActividadFisica,
-                    Frecuencia = frecuencia,
-                    Duracion = duracion
+                    IdActividadFisica = patient_actfisica.IdActividadFisica,
+                    Frecuencia = patient_actfisica.Frecuencia,
+                    Duracion = patient_actfisica.Duracion
                 };
                 _context.PacienteActividadFisicas.Add(pac_new);
             }
             else
             {
                 pac_phy.IdPaciente = pac.Id;
-                pac_phy.IdActividadFisica = idActividadFisica;
-                pac_phy.Frecuencia = frecuencia;
-                pac_phy.Duracion = duracion;
+                pac_phy.IdActividadFisica = patient_actfisica.IdActividadFisica;
+                pac_phy.Frecuencia = patient_actfisica.Frecuencia;
+                pac_phy.Duracion = patient_actfisica.Duracion;
                 _context.PacienteActividadFisicas.Update(pac_phy);
             }
 
@@ -153,6 +154,7 @@ namespace Diabetia.Infrastructure.Repositories
 
                 _context.Usuarios.Update(user);
             }
+
             await _context.SaveChangesAsync();
         }
 
