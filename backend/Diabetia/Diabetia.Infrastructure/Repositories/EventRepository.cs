@@ -636,6 +636,7 @@ namespace Diabetia.Infrastructure.Repositories
             _context.CargaEventos.Add(newEvent);
             await _context.SaveChangesAsync();
         }
+
         public async Task EditFreeNoteEventAsync(CargaEvento freeNoteEvent)
         {
             var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == freeNoteEvent.Id);
@@ -644,6 +645,14 @@ namespace Diabetia.Infrastructure.Repositories
             @event.NotaLibre = freeNoteEvent.NotaLibre;
 
             _context.CargaEventos.Update(@event);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteFreeNoteEventAsync(int eventId)
+        {
+            var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == eventId);
+            _context.CargaEventos.Remove(@event);
+
             await _context.SaveChangesAsync();
         }
 

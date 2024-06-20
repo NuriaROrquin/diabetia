@@ -101,6 +101,7 @@ namespace Diabetia.API.Controllers
             await _getEventUseCase.DeleteEvent(id, email);
             return Ok();
         }
+
         [HttpGet("GetIngredients")]
         public async Task<IngredientResponse> GetIngredients()
         {

@@ -53,6 +53,7 @@ namespace Diabetia.Domain.Repositories
 
         public Task AddFreeNoteEventAsync(int patientId, CargaEvento freeNote);
         public Task EditFreeNoteEventAsync(CargaEvento freeNoteEvent);
+        public Task DeleteFreeNoteEventAsync(int eventId);
 
         // ------------------------------------------- ⬇⬇ General Gets ⬇⬇ ----------------------------------------------------------
 

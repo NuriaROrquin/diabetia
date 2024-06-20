@@ -85,7 +85,7 @@ namespace Diabetia.Application.UseCases.EventUseCases
             }
         }
 
-       public async Task DeleteEvent(int id, string email)
+        public async Task DeleteEvent(int id, string email)
         {
             await _patientValidator.ValidatePatient(email);
             var @event = await _eventRepository.GetEventByIdAsync(id);
@@ -108,6 +108,7 @@ namespace Diabetia.Application.UseCases.EventUseCases
                     await _eventRepository.DeletePhysicalActivityEventAsync(id);
                     break;
                 case TypeEventEnum.NOTALIBRE:
+                    await _eventRepository.DeleteFreeNoteEventAsync(id);
                     break;
                 case TypeEventEnum.COMIDA:
                     await _eventRepository.DeleteFoodEven(id);
