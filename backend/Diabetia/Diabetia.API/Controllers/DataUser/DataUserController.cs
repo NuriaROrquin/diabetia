@@ -16,7 +16,7 @@ namespace Diabetia.API.Controllers.DataUser
     public class DataController : ControllerBase
     {
         private readonly ILogger<DataController> _logger;// queda?
-        private readonly IJwtTokenService _jwtTokenService; //queda?
+        private readonly IJwtTokenService _jwtTokenService; 
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataUserUseCase _dataUserUseCase;
