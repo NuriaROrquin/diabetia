@@ -8,7 +8,7 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
 {
     public class FreeNoteTest
     {
-        // --------------------------------------- AddFreeNoteEvent Test ---------------------------------------
+        // --------------------------------------- ⬇⬇ AddFreeNoteEvent Test ⬇⬇ ---------------------------------------
         [Fact]
         public async Task AddFreeNoteEventAsync_GivenValidData_ShouldAddEventSuccessfully()
         {

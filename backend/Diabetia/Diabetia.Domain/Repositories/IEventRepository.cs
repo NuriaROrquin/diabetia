@@ -8,52 +8,53 @@ namespace Diabetia.Domain.Repositories
 {
     public interface IEventRepository 
     {
-        // --------------------------------------- ⇊ Physical Activity ⇊ ---------------------------------------------------
+        // --------------------------------------- ⬇⬇ Physical Activity ⬇⬇ ---------------------------------------------------
         public Task AddPhysicalActivityEventAsync(int patientId, EventoActividadFisica physicalActivity);
 
         public Task EditPhysicalActivityEventAsync(EventoActividadFisica physicalActivity);
 
         public Task DeletePhysicalActivityEventAsync(int IdEvent);
 
-        // -------------------------------------------- ⇊ Glucose ⇊ ---------------------------------------------------------
+        // -------------------------------------------- ⬇⬇ Glucose ⬇⬇ ---------------------------------------------------------
         public Task AddGlucoseEventAsync(int patientId, EventoGlucosa glucose);
 
         public Task EditGlucoseEventAsync(EventoGlucosa glucose);
 
         public Task DeleteGlucoseEventAsync(int IdEvent);
 
-        // -------------------------------------------- ⇊ Insuline ⇊ ---------------------------------------------------------
+        // -------------------------------------------- ⬇⬇ Insuline ⬇⬇ ---------------------------------------------------------
         public Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin);
 
         public Task EditInsulinEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, int Insulin);
 
         public Task DeleteInsulinEvent(int IdEvent);
 
-        // -------------------------------------------- ⇊ Food Manually ⇊ ----------------------------------------------------
+        // -------------------------------------------- ⬇⬇ Food Manually ⬇⬇ ----------------------------------------------------
         public Task<float> AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote);
 
         public Task EditFoodManuallyEvent(int idEvent, string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote);
 
-        // -------------------------------------------- ⇊ Tag Food ⇊ ---------------------------------------------------------
+        // -------------------------------------------- ⬇⬇ Tag Food ⬇⬇ ---------------------------------------------------------
         public Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates);
 
         public Task DeleteFoodEven(int id);
 
-        // -------------------------------------------- ⇊ Medical Examination ⇊ -----------------------------------------------
+        // -------------------------------------------- ⬇⬇ Medical Examination ⬇⬇ -----------------------------------------------
         public Task AddMedicalExaminationEvent(string email, DateTime eventDate, string fileSaved, string examinationType, int? idProfessional, string? freeNote);
 
         public Task<string> DeleteMedicalExaminationEvent(int id);
 
-        // ------------------------------------------- Medical Visit ---------------------------------------------------------
+        // ------------------------------------------- ⬇⬇ Medical Visit ⬇⬇ ---------------------------------------------------------
         public Task AddMedicalVisitEventAsync(int patientId, EventoVisitaMedica medicalVisit);
         public Task EditMedicalVisitEventAsync(EventoVisitaMedica medicalVisit);
         public Task DeleteMedicalVisitEventAsync(int eventId);
 
-        // ------------------------------------------- Medical Visit ---------------------------------------------------------
+        // ------------------------------------------- ⬇⬇ Free Note ⬇⬇ ---------------------------------------------------------
 
         public Task AddFreeNoteEventAsync(int patientId, CargaEvento freeNote);
+        public Task EditFreeNoteEventAsync(CargaEvento freeNoteEvent);
 
-        // ------------------------------------------- General Gets ----------------------------------------------------------
+        // ------------------------------------------- ⬇⬇ General Gets ⬇⬇ ----------------------------------------------------------
 
         public Task<CargaEvento> GetEventByIdAsync(int eventId);
         public Task<IEnumerable<AdditionalDataIngredient>> GetIngredients();

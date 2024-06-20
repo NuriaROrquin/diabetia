@@ -4,13 +4,12 @@ using Diabetia.Domain.Models;
 using Moq.EntityFrameworkCore;
 using Diabetia.Domain.Exceptions;
 using Diabetia.Infrastructure.EF;
-using Diabetia.API.DTO.HomeRequest;
 
 namespace Diabetia.Test._3_Infraestructure.Repositories.EventRepositoryTests
 {
     public class MedicalVisitTest
     {
-        // --------------------------------------- AddMedicalVisitEvent Test ---------------------------------------
+        // --------------------------------------- ⬇⬇ AddMedicalVisitEvent Test ⬇⬇ ---------------------------------------
         [Fact]
         public async Task AddMedicalVisitEventAsync_GivenValidData_ShouldAddEventAndMedicalVisit()
         {
@@ -58,7 +57,7 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventRepositoryTests
             return mockContext;
         }
 
-        // --------------------------------------- EditMedicalVisitEvent Test --------------------------------------
+        // --------------------------------------- ⬇⬇ EditMedicalVisitEvent Test ⬇⬇ --------------------------------------
         [Fact]
         public async Task EditMedicalVisitEventAsync_GivenValidData_ShouldEditEventandMedicalVisitSuccessfully()
         {

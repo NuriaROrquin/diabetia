@@ -20,7 +20,7 @@ namespace Diabetia.Infrastructure.Repositories
             _context = context;
         }
 
-        // -------------------------------------------------------- ⇊ Physical Activity Event ⇊ -------------------------------------------------------
+        // -------------------------------------------------------- ⬇⬇ Physical Activity Event ⬇⬇ -------------------------------------------------------
         public async Task AddPhysicalActivityEventAsync(int patientId, EventoActividadFisica physicalActivity)
         {
 
@@ -76,7 +76,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // -------------------------------------------------------- ⇊ Glucose Event ⇊ -------------------------------------------------------
+        // -------------------------------------------------------- ⬇⬇ Glucose Event ⬇⬇ -------------------------------------------------------
         public async Task AddGlucoseEventAsync(int patientId, EventoGlucosa glucose)
         {
             bool IsDone = glucose.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
@@ -133,7 +133,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // -------------------------------------------------------- ⇊ Insuline Event ⇊ -------------------------------------------------------
+        // -------------------------------------------------------- ⬇⬇ Insuline Event ⬇⬇ -------------------------------------------------------
         public async Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
@@ -214,7 +214,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // -------------------------------------------------------- ⇊ Food Manually Event ⇊ -------------------------------------------------------
+        // -------------------------------------------------------- ⬇⬇ Food Manually Event ⬇⬇ -------------------------------------------------------
         public async Task<float> AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote)
         {
             // Obtener el usuario por email
@@ -376,7 +376,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // -------------------------------------------------------- ⇊ Tag Food Event ⇊ -------------------------------------------------------------
+        // -------------------------------------------------------- ⬇⬇ Tag Food Event ⬇⬇ -------------------------------------------------------------
         public async Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates)
         {
             var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
@@ -449,7 +449,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // --------------------------------------------------- ⇊ Medical Examination Event ⇊ --------------------------------------------------------
+        // --------------------------------------------------- ⬇⬇ Medical Examination Event ⬇⬇ --------------------------------------------------------
         public async Task AddMedicalExaminationEvent(string email, DateTime eventDate, string file, string examinationType, int? idProfessional, string? freeNote)
         {
             var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
@@ -510,7 +510,7 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
 
-        // ------------------------------------------------------ ⇊ Medical Visit Event ⇊ ------------------------------------------------------------
+        // ------------------------------------------------------ ⬇⬇ Medical Visit Event ⬇⬇ ------------------------------------------------------------
         public async Task AddMedicalVisitEventAsync(int patientId, EventoVisitaMedica medicalVisit)
         {
             bool IsDone = medicalVisit.IdCargaEventoNavigation.FechaEvento.Date <= DateTime.Now.Date;
@@ -619,7 +619,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // -------------------------------------------------------- ⇊ Free Note Event ⇊ -------------------------------------------------------
+        // -------------------------------------------------------- ⬇⬇ Free Note Event ⬇⬇ -------------------------------------------------------
         public async Task AddFreeNoteEventAsync(int patientId, CargaEvento freeNoteEvent)
         {
             bool IsDone = freeNoteEvent.FechaEvento.Date <= DateTime.Now.Date;
@@ -636,8 +636,18 @@ namespace Diabetia.Infrastructure.Repositories
             _context.CargaEventos.Add(newEvent);
             await _context.SaveChangesAsync();
         }
+        public async Task EditFreeNoteEventAsync(CargaEvento freeNoteEvent)
+        {
+            var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == freeNoteEvent.Id);
+            @event.FechaEvento = freeNoteEvent.FechaEvento;
+            @event.FueRealizado = freeNoteEvent.FechaEvento <= DateTime.Now ? true : false;
+            @event.NotaLibre = freeNoteEvent.NotaLibre;
 
-        // -------------------------------------------------------- ⇊ General Gets ⇊ -----------------------------------------------------------------
+            _context.CargaEventos.Update(@event);
+            await _context.SaveChangesAsync();
+        }
+
+        // -------------------------------------------------------- ⬇⬇ General Gets ⬇⬇ -----------------------------------------------------------------
         public async Task<IEnumerable<AdditionalDataIngredient>> GetIngredients()
         {
             var ingredientsDatabase = await _context.Ingredientes.Join(_context.UnidadMedidaIngredientes,

@@ -9,7 +9,7 @@ namespace Diabetia_Infrastructure
 {
     public class EventRepositoryTests
     {
-        // --------------------------------------- AddPhysicalActivityEvent Test ---------------------------------------
+        // --------------------------------------- ⬇⬇ AddPhysicalActivityEvent Test ⬇⬇ ---------------------------------------
         [Fact]
         public async Task AddPhysicalActivityEventAsync_GivenValidData_ShouldAddEventAndPhysicalEvent()
         {
@@ -56,7 +56,7 @@ namespace Diabetia_Infrastructure
         }
 
 
-        // --------------------------------------- EditPhysicalActivityEvent Test ---------------------------------------
+        // --------------------------------------- ⬇⬇ EditPhysicalActivityEvent Test ⬇⬇ ---------------------------------------
         [Fact]
         public async Task EditPhysicalActivityEvent_ShouldUpdateEventAndPhysicalEvent()
         {
