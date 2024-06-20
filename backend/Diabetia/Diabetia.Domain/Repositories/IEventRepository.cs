@@ -25,7 +25,7 @@ namespace Diabetia.Domain.Repositories
         // -------------------------------------------- ⬇⬇ Insuline ⬇⬇ ---------------------------------------------------------
         public Task AddInsulinEventAsync(int patientId, EventoInsulina insulin);
 
-        //public Task EditInsulinEventAsync(int patientId, EventoInsulina insulin);
+        public Task EditInsulinEventAsync(EventoInsulina insulin);
 
         public Task DeleteInsulinEvent(int IdEvent);
 

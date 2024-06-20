@@ -156,32 +156,23 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task EditInsulinEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, int Insulin)
+        public async Task EditInsulinEventAsync(EventoInsulina insulin)
         {
-            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            if (User == null) { throw new UserEventNotFoundException(); }
-            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
-            if (Patient == null) { throw new PatientNotFoundException(); }
-            var PatientInsulin = await _context.InsulinaPacientes.FirstOrDefaultAsync(ip => ip.IdPaciente == Patient.Id);
-            if (PatientInsulin == null) { throw new PatientInsulinRelationNotFoundException(); }
-            var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
-            if (EventLoad == null) { throw new EventNotFoundException(); }
-            if (EventLoad.IdPaciente != Patient.Id) { throw new EventNotRelatedWithPatientException(); }
-            var InsulinEvent = await _context.EventoInsulinas.FirstOrDefaultAsync(ei => ei.IdCargaEvento == EventLoad.Id);
-            if (InsulinEvent == null) { throw new InsulinEventNotMatchException("No se encontró la carga de insulina relacionada."); }
+            var loadedEvent = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == insulin.IdCargaEventoNavigation.Id);
+            loadedEvent.FechaEvento = insulin.IdCargaEventoNavigation.FechaEvento;
+            loadedEvent.FueRealizado = insulin.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
+            loadedEvent.NotaLibre = insulin.IdCargaEventoNavigation.NotaLibre;
 
-            // 1- Modificar el evento
-            bool IsDone = EventDate <= DateTime.Now ? true : false;
-            var FechaActual = DateTime.Now;
-            EventLoad.FechaEvento = EventDate;
-            EventLoad.NotaLibre = FreeNote;
-            EventLoad.FueRealizado = IsDone;
-            EventLoad.EsNotaLibre = false;
+            var insulinEvent = await _context.EventoInsulinas.FirstOrDefaultAsync(pe => pe.IdCargaEvento == insulin.IdCargaEventoNavigation.Id);
+            if (insulinEvent == null)
+            {
+                throw new GlucoseEventNotMatchException();
+            }
 
-            InsulinEvent.InsulinaInyectada = Insulin;
+            insulinEvent.InsulinaInyectada = insulin.InsulinaInyectada;
 
-            _context.CargaEventos.Update(EventLoad);
-            _context.EventoInsulinas.Update(InsulinEvent);
+            _context.CargaEventos.Update(loadedEvent);
+            _context.EventoInsulinas.Update(insulinEvent);
             await _context.SaveChangesAsync();
         }
 

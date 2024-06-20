@@ -28,7 +28,6 @@ namespace Diabetia.Application.UseCases.EventUseCases
             await _eventRepository.AddInsulinEventAsync(patient.Id, insulin);
         }
 
-        /*
         public async Task EditInsulinEventAsync(string email, EventoInsulina insulin)
         {
             await _patientValidator.ValidatePatient(email);
@@ -38,6 +37,5 @@ namespace Diabetia.Application.UseCases.EventUseCases
             await _patientEventValidator.ValidatePatientEvent(email, loadedEvent);
             await _eventRepository.EditInsulinEventAsync(insulin);
         }
-        */
     }
 }
