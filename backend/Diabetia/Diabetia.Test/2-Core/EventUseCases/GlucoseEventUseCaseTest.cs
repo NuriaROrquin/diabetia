@@ -41,7 +41,7 @@ namespace Diabetia.Test._2_Core.EventUseCases
         }
 
         [Fact]
-        public async Task AddEventPhysicalActivityUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
+        public async Task AddGlucoseEventUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
         {
             var email = "emailTest@example.com";
             var glucoseEvent = new EventoGlucosa();
