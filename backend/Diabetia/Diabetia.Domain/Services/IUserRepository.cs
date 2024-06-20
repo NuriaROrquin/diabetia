@@ -9,7 +9,7 @@ namespace Diabetia.Domain.Services
         public Task CompleteUserInfo(Paciente patient);
         public Task UpdateUserInfo(Paciente patient);
         public Task<bool> GetStatusInformationCompletedAsync(string username);
-        public Task CompletePhysicalUserInfo(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica, int duracion);
+        public Task CompletePhysicalUserInfo(PacienteActividadFisica patient_actfisica);
         public Task CompleteDeviceslUserInfo(string email, bool tieneDispositivo, int? idDispositivo, int? frecuencia);
         public Task<User> GetEditUserInfo(string email);
         public Task<Patient> GetPatientInfo(string email);

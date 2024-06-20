@@ -56,8 +56,9 @@ namespace Diabetia.API.Controllers.DataUser
         [HttpPut("thirdStep")]
         public async Task<IActionResult> PhysicalInformationThirdStep([FromBody] PhysicalRequest request)
         {
-            await _dataUserUseCase.ThirdStep(request.Email, request.HaceActividadFisica, request.Frecuencia, request.IdActividadFisica, request.Duracion);
-
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var patient_actifisica = request.ToDomain();
+            await _dataUserUseCase.ThirdStep(email, patient_actifisica);
             return Ok();
         }
 
