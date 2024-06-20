@@ -1,3 +1,4 @@
+using Diabetia.Domain.Entities;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Utilities.Validations;
 using System.Numerics;
@@ -44,17 +45,29 @@ namespace Diabetia.API.DTO.DataUserRequest
         public string? HourReminder { get; set; }
         public int? InsulinePerCH { get; set; }
 
-        public Paciente ToDomain()
+        public Paciente ToDomain(out InsulinaPaciente patientInsuline)
         {
-            var patient = new Paciente();
+            var patient = new Paciente()
+            {
+                UsaInsulina = UseInsuline,
+                IdTipoDiabetes = TypeDiabetes,
+                IdSensibilidadInsulina = 1,
+                CorreccionCh = InsulinePerCH
+            };
 
+            patientInsuline = null;
 
-            patient.UsaInsulina = UseInsuline;
-            patient.IdTipoDiabetes = TypeDiabetes;
-            patient.IdSensibilidadInsulina = 1;
-            patient.CorreccionCh = InsulinePerCH;
-
+            if(UseInsuline == true)
+            {
+                patientInsuline = new InsulinaPaciente
+                {
+                    IdTipoInsulina = (int)TypeInsuline,
+                    Frecuencia = (int)Frequency,
+                    IdPacienteNavigation = patient
+                };
+            }
             return patient;
+;
         }
     }
 

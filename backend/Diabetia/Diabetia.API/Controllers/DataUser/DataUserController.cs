@@ -48,8 +48,8 @@ namespace Diabetia.API.Controllers.DataUser
         public async Task<IActionResult> PatientInformationSecondStep([FromBody] PatientRequest request)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
-            var patient = request.ToDomain();
-            await _dataUserUseCase.SecondStep(email, patient);
+            var patient = request.ToDomain(out var patientInsuline);
+            await _dataUserUseCase.SecondStep(email, patient, patientInsuline);
             return Ok();
         }
 
