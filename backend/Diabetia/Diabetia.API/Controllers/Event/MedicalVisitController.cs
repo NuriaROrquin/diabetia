@@ -2,6 +2,7 @@
 using Diabetia.Application.UseCases.EventUseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Diabetia.API.Controllers.Event
 {
@@ -21,16 +22,18 @@ namespace Diabetia.API.Controllers.Event
         [HttpPost("AddMedicalVisitEvent")] // VER PROTOCOLOS
         public async Task<IActionResult> AddMedicalEventAsync([FromBody] AddMedicalVisitRequest request)
         {
-            var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
-            await _eventMedicalVisitUseCase.AddMedicalVisitEventAsync(email, request.ToDomain(request)); // TODO: Recordatorio
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var medicalVisit = request.ToDomain();
+            await _eventMedicalVisitUseCase.AddMedicalVisitEventAsync(email, medicalVisit); // TODO: Recordatorio
             return Ok("Visita médica agregada correctamente");
         }
 
         [HttpPost("EditMedicalVisitEvent")] // VER PROTOCOLOS
         public async Task<IActionResult> EditMedicalEventAsync([FromBody] EditMedicalVisitRequest request)
         {
-            var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
-            await _eventMedicalVisitUseCase.EditMedicalVisitEventAsync(email, request.ToDomain(request)); // TODO: Recordatorio
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var medicalVisit = request.ToDomain();
+            await _eventMedicalVisitUseCase.EditMedicalVisitEventAsync(email, medicalVisit); // TODO: Recordatorio
             return Ok("Visita médica modificada correctamente");
         }
     }

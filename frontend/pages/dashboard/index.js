@@ -7,10 +7,10 @@ import {ContainerTitles, SubtitleSection, TitleSection} from "../../components/t
 import {Timeline} from "../../components/timeline";
 import {Section} from "../../components/section";
 import {OrangeLink} from "../../components/link";
-import {getMetrics, getTimeline} from "../../services/api.service";
 import {useCookies} from "react-cookie";
-import CustomTooltip from "@/components/tooltip";
-import {calculateDateRange, getEmailFromJwt} from "../../helpers";
+import CustomTooltip from "../../components/tooltip";
+import {calculateDateRange} from "../../helpers";
+import {getMetrics, getTimeline} from "../../services/home.service";
 
 export const Home = () => {
     const [error, setError] = useState(false);
@@ -22,11 +22,9 @@ export const Home = () => {
     const [loadingTimeline, setLoadingTimeline] = useState(true);
     const [eventsTimeline, setEventsTimeline] = useState(true);
 
-    const email = getEmailFromJwt();
-
     useEffect(() => {
         setLoadingTimeline(true)
-        email && getTimeline(email)
+        getTimeline()
             .then((res) => {
                 setEventsTimeline(res.data);
                 setLoadingTimeline(false);
@@ -39,7 +37,7 @@ export const Home = () => {
     useEffect(() => {
         const { dateFrom, dateTo } = calculateDateRange(selectedOption);
         setLoadingMetrics(true)
-        email && getMetrics({email, dateFilter: {dateFrom, dateTo}})
+        getMetrics(dateFrom, dateTo)
             .then((res) => {
                 setMetrics(res.data);
                 setLoadingMetrics(false);
@@ -67,7 +65,7 @@ export const Home = () => {
                 </div>
                 <div className="flex flex-col md:flex-row gap-3 md:gap-0">
                     <div className="w-full flex justify-self-start">
-                        <Selector width="w-full md:w-1/3 lg:w-1/5" setIsOpen={setIsOpen} isOpen={isOpen} selectedOption={selectedOption}
+                        <Selector dataTestId="selector-button" width="w-full md:w-1/3 lg:w-1/5" setIsOpen={setIsOpen} isOpen={isOpen} selectedOption={selectedOption}
                                   options={DASHBOARD_OPTIONS_FILTER_DAYS} handleOptionClick={handleOptionClick}/>
                     </div>
                     <CustomTooltip title={registrarEventoTooltipText} arrow>

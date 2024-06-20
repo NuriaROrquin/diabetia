@@ -4,6 +4,7 @@ using Diabetia.Domain.Entities.Events;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
+using Diabetia.Interfaces;
 using FakeItEasy;
 
 namespace Diabetia_Core.Events;
@@ -11,14 +12,16 @@ public class CalendarUseCaseTests
 {
     private readonly IUserRepository _userRepository;
     private readonly IEventRepository _eventRepository;
+    private readonly IPatientValidator _patientValidator;
     private readonly CalendarUseCase _calendarUseCase;
 
     public CalendarUseCaseTests()
     {
         _userRepository = A.Fake<IUserRepository>();
         _eventRepository = A.Fake<IEventRepository>();
+        _patientValidator = A.Fake<IPatientValidator>();
 
-        _calendarUseCase = new CalendarUseCase(_eventRepository, _userRepository);
+        _calendarUseCase = new CalendarUseCase(_eventRepository, _userRepository, _patientValidator);
     }
 
     [Fact]
@@ -87,8 +90,9 @@ public class CalendarUseCaseTests
         // Arrange
         var userRepository = A.Fake<IUserRepository>();
         var eventRepository = A.Fake<IEventRepository>();
+        var fakePatientValidator = A.Fake<IPatientValidator>();
 
-        var calendarUseCase = new CalendarUseCase(eventRepository, userRepository);
+        var calendarUseCase = new CalendarUseCase(eventRepository, userRepository, fakePatientValidator);
 
         var date = new DateTime(2024, 6, 7);
         var email = "test@example.com";
@@ -115,6 +119,7 @@ public class CalendarUseCaseTests
         var events = await calendarUseCase.GetAllEventsByDate(date, email);
 
         // Assert
+
         Assert.NotNull(events);
         Assert.Contains(events, e => e.Title == "Comida" && e.AdditionalInfo == "Ingredientes: Ingredient 1");
         Assert.Contains(events, e => e.Title == "Physical Activity 2");

@@ -5,33 +5,33 @@ using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases.EventUseCases
 {
-    public class MedicalVisitUseCase
+    public class FreeNoteUseCase
     {
         private readonly IEventRepository _eventRepository;
         private readonly IPatientValidator _patientValidator;
-        private readonly IPatientEventValidator _patientEventValidator;
         private readonly IUserRepository _userRepository;
-        public MedicalVisitUseCase(IEventRepository eventRepository, IPatientValidator patientValidator, IPatientEventValidator patientEventValidator, IUserRepository userRepository)
+        private readonly IPatientEventValidator _patientEventValidator;
+        public FreeNoteUseCase(IEventRepository eventRepository, IPatientValidator patientValidator, IUserRepository userRepository, IPatientEventValidator patientEventValidator) 
         {
             _eventRepository = eventRepository;
             _patientValidator = patientValidator;
+            _userRepository = userRepository; 
             _patientEventValidator = patientEventValidator;
-            _userRepository = userRepository;
         }
 
-        public async Task AddMedicalVisitEventAsync(string email, EventoVisitaMedica medicalVisit)
+        public async Task AddFreeNoteEventAsync(string email, CargaEvento freeNoteEvent)
         {
             await _patientValidator.ValidatePatient(email);
             var patient = await _userRepository.GetPatient(email);
-            await _eventRepository.AddMedicalVisitEventAsync(patient.Id, medicalVisit);
+            await _eventRepository.AddFreeNoteEventAsync(patient.Id, freeNoteEvent);
         }
 
-        public async Task EditMedicalVisitEventAsync(string email, EventoVisitaMedica medicalVisit)
+        public async Task EditFreeNoteEventAsync(string email, CargaEvento freeNoteEvent)
         {
             await _patientValidator.ValidatePatient(email);
-            var @event = await _eventRepository.GetEventByIdAsync(medicalVisit.IdCargaEventoNavigation.Id);
+            var @event = await _eventRepository.GetEventByIdAsync(freeNoteEvent.Id);
             await _patientEventValidator.ValidatePatientEvent(email, @event);
-            await _eventRepository.EditMedicalVisitEventAsync(medicalVisit);
+            await _eventRepository.EditFreeNoteEventAsync(freeNoteEvent);
         }
     }
 }

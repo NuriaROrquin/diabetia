@@ -11,25 +11,20 @@ namespace Diabetia.API.DTO.EventRequest.MedicalVisit
         public DateTime? RecordatoryDate { get; set; }
         public string Description { get; set; }
 
-        public EventoVisitaMedica ToDomain(AddMedicalVisitRequest request)
+        public EventoVisitaMedica ToDomain()
         {
-            var medicalVisit = new EventoVisitaMedica();
-            medicalVisit.IdCargaEventoNavigation.IdTipoEvento = request.KindEventId;
-            medicalVisit.IdCargaEventoNavigation.FechaEvento = request.EventDate;
-            medicalVisit.IdCargaEventoNavigation.NotaLibre = medicalVisit.IdCargaEventoNavigation.NotaLibre != null ? request.Description : null;
-
-            //if (request.Recordatory)
-            //{
-            //    var recordatory = new Recordatorio();
-            //    recordatory.FechaInicio = request.RecordatoryDate.Date;
-            //    recordatory.HorarioActividad = request.RecordatoryDate.Hour;
-
-            //    recordatoryEvent.IdCargaEvento = medicalVisit.IdCargaEvento;
-            //    recordatoryEvent.FechaHoraRecordatorio = request.RecordatoryDate;
-            //}
-            
-            medicalVisit.IdProfesional = request.ProfessionalId;
-            medicalVisit.Descripcion = request.Description;
+            var medicalVisit = new EventoVisitaMedica()
+            {
+                IdProfesional = ProfessionalId,
+                Descripcion = Description != null ? Description : null,
+                IdCargaEventoNavigation = new CargaEvento()
+                {
+                    IdTipoEvento = KindEventId,
+                    FechaEvento = EventDate,
+                    NotaLibre = Description != null ? Description : null,
+                    EsNotaLibre = false
+                }
+            };
             return medicalVisit;
         }
     }
