@@ -30,13 +30,12 @@ namespace Diabetia.API.Controllers.Event
         }
         
         [HttpPost("EditInsulinEvent")]
-        public async Task<IActionResult> EditMedicalEventAsync([FromBody] EditInsulinRequest request)
+        public async Task<IActionResult> EditInsulinEventAsync([FromBody] EditInsulinRequest request)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
             var insulin = request.ToDomain();
             await _insulinUseCase.EditInsulinEventAsync(email, insulin);
             return Ok("Registro de insulina modificado correctamente");
         }
-
     }
 }

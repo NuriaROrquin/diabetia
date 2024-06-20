@@ -67,7 +67,7 @@ namespace Diabetia.Test.Presentation.Controllers.Event
                 PostFoodMedition = false
             };
 
-            var result = await controller.EditMedicalEventAsync(request);
+            var result = await controller.EditGlucoseEventAsync(request);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal("Registro de glucosa modificado correctamente", okResult.Value);

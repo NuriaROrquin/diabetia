@@ -131,7 +131,7 @@ namespace Diabetia.Test._2_Core.EventUseCases
 
 
         [Fact]
-        public async Task EditPhysicalActivityUseCase_WhenCalledValidPatientInvalidEvent_ThrowsEventNotRelatedWithPatientException()
+        public async Task EditGlucoseUseCase_WhenCalledValidPatientInvalidEvent_ThrowsEventNotRelatedWithPatientException()
         {
             var email = "emailTest@example.com";
             var GlucoseEvent = new EventoGlucosa()

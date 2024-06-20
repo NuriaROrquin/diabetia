@@ -30,7 +30,7 @@ namespace Diabetia.API.Controllers.Event
         }
         
         [HttpPost("EditGlucoseEvent")]
-        public async Task<IActionResult> EditMedicalEventAsync([FromBody] EditGlucoseRequest request)
+        public async Task<IActionResult> EditGlucoseEventAsync([FromBody] EditGlucoseRequest request)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
             var glucose = request.ToDomain();

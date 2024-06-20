@@ -1,4 +1,5 @@
 ﻿using Diabetia.API.Controllers.Event;
+using Diabetia.API.DTO.EventRequest.Glucose;
 using Diabetia.API.DTO.EventRequest.Insuline;
 using Diabetia.Application.UseCases.EventUseCases;
 using FakeItEasy;
@@ -18,7 +19,6 @@ namespace Diabetia.Test.Presentation.Controllers.Event
         [Fact]
         public async Task AddInsulinAsync_ReturnsOk()
         {
-            // Arrange
             var httpContextAccessor = A.Fake<IHttpContextAccessor>();
             var insulinUseCase = A.Fake<InsulinUseCase>();
 
@@ -45,6 +45,34 @@ namespace Diabetia.Test.Presentation.Controllers.Event
 
             var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal("Registro de insulina agregado correctamente", okResult.Value);
+        }
+
+        [Fact]
+        public async Task EditInsulinAsync_ShouldReturnOkResult()
+        {
+            var httpContextAccessor = A.Fake<IHttpContextAccessor>();
+            var insulinUseCase = A.Fake<InsulinUseCase>();
+
+            var context = new DefaultHttpContext();
+            var claimsIdentity = new ClaimsIdentity(new Claim[]
+            {
+            new Claim(ClaimTypes.Email, "test@example.com")
+            });
+            context.User = new ClaimsPrincipal(claimsIdentity);
+            A.CallTo(() => httpContextAccessor.HttpContext).Returns(context);
+
+            var controller = new InsulinController(httpContextAccessor, insulinUseCase);
+
+            var request = new EditInsulinRequest
+            {
+                FreeNote = "string",
+                InsulinInjected = 9
+            };
+
+            var result = await controller.EditInsulinEventAsync(request);
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal("Registro de insulina modificado correctamente", okResult.Value);
         }
     }
 }
