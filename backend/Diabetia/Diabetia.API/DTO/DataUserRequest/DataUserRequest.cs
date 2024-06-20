@@ -34,7 +34,7 @@ namespace Diabetia.API.DTO.DataUserRequest
 
     }*/
 
-    public class IllnessRequest
+   /* public class IllnessRequest
     {
         public string Email { get; set; }
         public int IdEnfermedad { get; set; }
@@ -48,5 +48,5 @@ namespace Diabetia.API.DTO.DataUserRequest
         public int? IdDispositivo { get; set; }
         public int? Frecuencia { get; set; }
 
-    }
+    }*/
 }

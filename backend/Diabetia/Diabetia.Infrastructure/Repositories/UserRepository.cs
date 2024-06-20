@@ -158,8 +158,9 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task CompleteDeviceslUserInfo(string email, bool tieneDispositivo, int? idDispositivo, int? frecuencia)
+        public async Task CompleteDeviceslUserInfo(DispositivoPaciente patient_dispo, bool tieneDispositivo)
         {
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
             var pac_div = await _context.DispositivoPacientes.FirstOrDefaultAsync(u => u.IdPaciente == pac.Id);
@@ -171,8 +172,8 @@ namespace Diabetia.Infrastructure.Repositories
                     var pac_new = new DispositivoPaciente
                     {
                         IdPaciente = pac.Id,
-                        IdDispositivo = idDispositivo,
-                        Frecuencia = frecuencia
+                        IdDispositivo = patient_dispo.IdDispositivo,
+                        Frecuencia = patient_dispo.Frecuencia
                     };
                     _context.DispositivoPacientes.Add(pac_new);
                 }
@@ -180,8 +181,8 @@ namespace Diabetia.Infrastructure.Repositories
             else
             {
                 pac_div.IdPaciente = pac.Id;
-                pac_div.IdDispositivo = idDispositivo;
-                pac_div.Frecuencia = frecuencia;
+                pac_div.IdDispositivo = patient_dispo.IdDispositivo;
+                pac_div.Frecuencia = patient_dispo.Frecuencia;
                 _context.DispositivoPacientes.Update(pac_div);
             }
 

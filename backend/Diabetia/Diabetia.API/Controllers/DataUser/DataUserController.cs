@@ -65,8 +65,9 @@ namespace Diabetia.API.Controllers.DataUser
         [HttpPut("fourthStep")]
         public async Task<IActionResult> DevicesInformationFourthStep([FromBody] DevicesRequest request)
         {
-            await _dataUserUseCase.FourthStep(request.Email, request.TieneDispositivo, request.IdDispositivo, request.Frecuencia);
-
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var patient_dispo = request.ToDomain();
+            await _dataUserUseCase.FourthStep(email, patient_dispo, request.TieneDispositivo);
             return Ok();
         }
 

@@ -44,9 +44,10 @@ namespace Diabetia.Application.UseCases
             await _userRepository.CompletePhysicalUserInfo(patient_actfisica);
         }
 
-        public async Task FourthStep(string email, bool tieneDispositivo, int? idDispositivo, int? frecuencia)
+        public async Task FourthStep(string email, DispositivoPaciente patient_dispo, bool TieneDispositivo)
         {
-            await _userRepository.CompleteDeviceslUserInfo(email, tieneDispositivo, idDispositivo, frecuencia);
+            await _patientValidator.ValidatePatient(email);
+            await _userRepository.CompleteDeviceslUserInfo(patient_dispo, TieneDispositivo);
         }
 
         public async Task<User> GetEditUserInfo(string email)

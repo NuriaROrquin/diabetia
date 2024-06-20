@@ -73,10 +73,29 @@ namespace Diabetia.API.DTO.DataUserRequest
             patient_actfisica.IdActividadFisica = IdActividadFisica;
             patient_actfisica.Frecuencia = Frecuencia;
             patient_actfisica.Duracion = Duracion;
-           
+
             return patient_actfisica;
         }
 
+    }
+
+    public class DevicesRequest
+    {
+        public string Email { get; set; }
+        public bool TieneDispositivo { get; set; }
+        public int? IdDispositivo { get; set; }
+        public int? Frecuencia { get; set; }
+
+      public DispositivoPaciente ToDomain()
+        {
+            var patient_disp = new DispositivoPaciente();
+
+            patient_disp.IdDispositivo = IdDispositivo;
+            patient_disp.Frecuencia = Frecuencia;
+
+            return patient_disp;
+        }
+        
     }
 
 }
