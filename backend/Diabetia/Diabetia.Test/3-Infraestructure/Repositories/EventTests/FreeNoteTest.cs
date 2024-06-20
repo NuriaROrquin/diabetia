@@ -8,7 +8,7 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
 {
     public class FreeNoteTest
     {
-        // --------------------------------------- ⬇⬇ AddFreeNoteEvent Test ⬇⬇ ---------------------------------------
+        // --------------------------------------- ⬇⬇ Add FreeNoteEvent Test ⬇⬇ ---------------------------------------
         [Fact]
         public async Task AddFreeNoteEventAsync_GivenValidData_ShouldAddEventSuccessfully()
         {
@@ -46,7 +46,7 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
             return mockContext;
         }
 
-        // --------------------------------------- ⬇⬇ EditFreeNoteEvent Test ⬇⬇ ---------------------------------------
+        // --------------------------------------- ⬇⬇ Edit FreeNoteEvent Test ⬇⬇ ---------------------------------------
         [Fact]
         public async Task EditFreeNoteEvent_GivenValidData_ShouldUpdateEventSuccessfully()
         {
@@ -80,6 +80,34 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
             var mockContext = new Mock<diabetiaContext>();
 
             mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
+
+            return mockContext;
+        }
+
+        // --------------------------------------- ⬇⬇ Delete FreeNoteEvent Test ⬇⬇ ---------------------------------------
+        [Fact]
+        public async Task DeleteFreeNoteEvent_ShouldDeleteEventSuccessfully()
+        {
+            var mockContext = CreateMockContextDeletePassCorrect();
+            var fakeRepository = new EventRepository(mockContext.Object);
+
+            var cargaEvento = new CargaEvento
+            {
+                Id = 1,
+            };
+
+            await fakeRepository.DeleteFreeNoteEventAsync(cargaEvento.Id);
+
+            mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            mockContext.Verify(m => m.CargaEventos.Remove(It.IsAny<CargaEvento>()), Times.Once);
+        }
+
+        private Mock<diabetiaContext> CreateMockContextDeletePassCorrect()
+        {
+            var freeNoteEvent = new CargaEvento { Id = 1, IdPaciente = 11, FechaEvento = DateTime.Now, NotaLibre = "Edit Test Note" };
+            var mockContext = new Mock<diabetiaContext>();
+
+            mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { freeNoteEvent });
 
             return mockContext;
         }
