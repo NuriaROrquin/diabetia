@@ -32,10 +32,10 @@ namespace Diabetia.Application.UseCases
             return patient_local;
         }
 
-        public async Task SecondStep(string email, Paciente patient)
+        public async Task SecondStep(string email, Paciente patient, InsulinaPaciente patientInsuline)
         {
             await _patientValidator.ValidatePatient(email);
-            await _userRepository.UpdateUserInfo(patient);
+            await _userRepository.UpdateUserInfo(patient, patientInsuline);
         }
 
         public async Task ThirdStep(string email, PacienteActividadFisica patient_actfisica)
