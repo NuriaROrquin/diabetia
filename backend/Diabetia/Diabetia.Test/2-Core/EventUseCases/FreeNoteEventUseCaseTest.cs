@@ -1,12 +1,10 @@
 ﻿using Diabetia.Application.UseCases.EventUseCases;
-using Diabetia.Domain.Entities.Events;
 using Diabetia.Domain.Exceptions;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 using FakeItEasy;
-using Microsoft.Extensions.Logging;
 
 namespace Diabetia.Test._2_Core.EventUseCases
 {
