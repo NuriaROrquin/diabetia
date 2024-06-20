@@ -89,10 +89,10 @@ namespace Diabetia.Application.UseCases.EventUseCases
         {
             await _patientValidator.ValidatePatient(email);
             var @event = await _eventRepository.GetEventByIdAsync(id);
-            if (@event == null)
-            {
-                throw new EventNotFoundException();
-            }
+            //if (@event == null) ESTA VALIDACION YA ESTARIA HECHA EN EL GET
+            //{
+            //    throw new EventNotFoundException();
+            //}
             await _patientEventValidator.ValidatePatientEvent(email, @event);
             var type = await _eventRepository.GetEventType(id);
 
