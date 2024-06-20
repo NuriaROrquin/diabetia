@@ -24,7 +24,7 @@ namespace Diabetia.API.DTO.DataUserRequest
         public int? InsulinePerCH { get; set; }
     }*/
 
-    public class PhysicalRequest
+   /* public class PhysicalRequest
     {
         public string Email { get; set; }
         public int IdActividadFisica { get; set; }
@@ -32,7 +32,7 @@ namespace Diabetia.API.DTO.DataUserRequest
         public int Duracion { get; set; }
         public bool HaceActividadFisica { get; set; }
 
-    }
+    }*/
 
     public class IllnessRequest
     {
