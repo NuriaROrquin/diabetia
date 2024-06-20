@@ -8,21 +8,21 @@ using Moq.EntityFrameworkCore;
 
 namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
 {
-    public class GlucoseTest
+    public class InsulineTest
     {
         [Fact]
-        public async Task AddGlucoseEventAsync_GivenValidData_ShouldAddAGlucoseEvent()
+        public async Task AddInsulinEventAsync_GivenValidData_ShouldAddAInsulinEvent()
         {
             var mockContext = CreateMockContextAddPassCorrect();
 
             var repository = new EventRepository(mockContext.Object);
 
-            var glucose = new EventoGlucosa()
+            var insulin = new EventoInsulina()
             {
-                Glucemia = 160,
+                InsulinaInyectada = 7,
                 IdCargaEventoNavigation = new CargaEvento
                 {
-                    IdTipoEvento = 3,
+                    IdTipoEvento = 1,
                     FechaEvento = DateTime.Now.AddDays(1),
                     NotaLibre = "Test Note",
                     FechaActual = DateTime.Now,
@@ -32,11 +32,11 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
             };
             int patientId = 11;
 
-            await repository.AddGlucoseEventAsync(patientId, glucose);
+            await repository.AddInsulinEventAsync(patientId, insulin);
 
             mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(2));
             mockContext.Verify(m => m.CargaEventos.Add(It.IsAny<CargaEvento>()), Times.Once);
-            mockContext.Verify(m => m.EventoGlucosas.Add(It.IsAny<EventoGlucosa>()), Times.Once);
+            mockContext.Verify(m => m.EventoInsulinas.Add(It.IsAny<EventoInsulina>()), Times.Once);
         }
         private Mock<diabetiaContext> CreateMockContextAddPassCorrect()
         {
@@ -46,26 +46,27 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
 
             mockContext.Setup(m => m.Pacientes).ReturnsDbSet(new List<Paciente> { patient });
             mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento>());
-            mockContext.Setup(m => m.EventoGlucosas).ReturnsDbSet(new List<EventoGlucosa>());
+            mockContext.Setup(m => m.EventoInsulinas).ReturnsDbSet(new List<EventoInsulina>());
 
             return mockContext;
         }
+        
 
         [Fact]
-        public async Task EditGlucoseEvent_ShouldUpdateEventAndGlucoseEvent()
+        public async Task EditInsulinEvent_ShouldUpdateEventAndInsulinEvent()
         {
             // Arrange
             var mockContext = CreateMockContextEditPassCorrect();
 
             var fakerepository = new EventRepository(mockContext.Object);
 
-            var glucose = new EventoGlucosa()
+            var insulin = new EventoInsulina()
             {
-                Glucemia = 180,
+                InsulinaInyectada = 8,
                 IdCargaEventoNavigation = new CargaEvento
                 {
                     Id = 1,
-                    IdTipoEvento = 3,
+                    IdTipoEvento = 1,
                     FechaEvento = DateTime.Now.AddDays(1),
                     NotaLibre = "Test Note",
                     FechaActual = DateTime.Now,
@@ -74,40 +75,40 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
                 }
             };
 
-            await fakerepository.EditGlucoseEventAsync(glucose);
+            await fakerepository.EditInsulinEventAsync(insulin);
 
             mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
 
             var loadedEvent = mockContext.Object.CargaEventos.First();
-            var glucoseEvent = mockContext.Object.EventoGlucosas.First();
+            var insulinEvent = mockContext.Object.EventoInsulinas.First();
 
-            Assert.Equal(glucose.IdCargaEventoNavigation.FechaEvento, loadedEvent.FechaEvento);
-            Assert.Equal(glucose.IdCargaEventoNavigation.NotaLibre, loadedEvent.NotaLibre);
-            Assert.Equal(180, glucoseEvent.Glucemia);
+            Assert.Equal(insulin.IdCargaEventoNavigation.FechaEvento, loadedEvent.FechaEvento);
+            Assert.Equal(insulin.IdCargaEventoNavigation.NotaLibre, loadedEvent.NotaLibre);
+            Assert.Equal(8, insulinEvent.InsulinaInyectada);
         }
         private Mock<diabetiaContext> CreateMockContextEditPassCorrect()
         {
             var loadedEvent = new CargaEvento { Id = 1, IdPaciente = 11, FechaEvento = DateTime.Now, NotaLibre = "Edit Test Note" };
-            var glucoseEvent = new EventoGlucosa { IdCargaEvento = loadedEvent.Id, Glucemia = 200};
+            var insulinEvent = new EventoInsulina { IdCargaEvento = loadedEvent.Id, InsulinaInyectada = 4 };
 
             var mockContext = new Mock<diabetiaContext>();
 
             mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { loadedEvent });
-            mockContext.Setup(m => m.EventoGlucosas).ReturnsDbSet(new List<EventoGlucosa> { glucoseEvent });
+            mockContext.Setup(m => m.EventoInsulinas).ReturnsDbSet(new List<EventoInsulina> { insulinEvent });
 
             return mockContext;
         }
-
+        
         [Fact]
-        public async Task EditGlucoseEvent_GivenInvalidEvent_ThrowsGlucoseEventNotMatchException()
+        public async Task EditInsulinEvent_GivenInvalidEvent_ThrowsInsulinEventNotMatchException()
         {
             var mockContext = CreateMockContextThrowGlucoseEventException();
 
             var fakeRepository = new EventRepository(mockContext.Object);
 
-            var glucose = new EventoGlucosa()
+            var insulin = new EventoInsulina()
             {
-                Glucemia = 180,
+                InsulinaInyectada = 8,
                 IdCargaEventoNavigation = new CargaEvento
                 {
                     Id = 1,
@@ -121,22 +122,22 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
             };
 
             await Assert.ThrowsAsync<GlucoseEventNotMatchException>(async () =>
-            await fakeRepository.EditGlucoseEventAsync(glucose));
+            await fakeRepository.EditInsulinEventAsync(insulin));
         }
         private Mock<diabetiaContext> CreateMockContextThrowGlucoseEventException()
         {
             var loadedEvent = new CargaEvento { Id = 1, IdPaciente = 11, FechaEvento = DateTime.Now, NotaLibre = "Edit Test Note" };
-            var glucoseEvent = new EventoGlucosa { Id = 1, IdCargaEvento = 3, Glucemia = 200};
+            var insulinEvent = new EventoInsulina { Id = 1, IdCargaEvento = 3, InsulinaInyectada = 20 };
             var mockContext = new Mock<diabetiaContext>();
 
             mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { loadedEvent });
-            mockContext.Setup(m => m.EventoGlucosas).ReturnsDbSet(new List<EventoGlucosa> { glucoseEvent });
+            mockContext.Setup(m => m.EventoInsulinas).ReturnsDbSet(new List<EventoInsulina> { insulinEvent });
 
             return mockContext;
         }
-
+        
         [Fact]
-        public async Task DeleteGlucoseEventAsync_ShouldDeleteGlucoseEventAndRelatedCargaEvent()
+        public async Task DeleteInsulinEventAsync_ShouldDeleteInsulinEventAndRelatedCargaEvent()
         {
             var mockContext = CreateMockContextDeletePassCorrect();
             var fakeRepository = new EventRepository(mockContext.Object);
@@ -146,24 +147,23 @@ namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
                 Id = 1,
             };
 
-            await fakeRepository.DeleteGlucoseEventAsync(cargaEvento.Id);
+            await fakeRepository.DeleteInsulinEventAsync(cargaEvento.Id);
 
             mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
             mockContext.Verify(m => m.CargaEventos.Remove(It.IsAny<CargaEvento>()), Times.Once);
-            mockContext.Verify(m => m.EventoGlucosas.Remove(It.IsAny<EventoGlucosa>()), Times.Once);
+            mockContext.Verify(m => m.EventoInsulinas.Remove(It.IsAny<EventoInsulina>()), Times.Once);
         }
 
         private Mock<diabetiaContext> CreateMockContextDeletePassCorrect()
         {
             var loadedEvent = new CargaEvento { Id = 1, IdPaciente = 11, FechaEvento = DateTime.Now, NotaLibre = "Edit Test Note" };
-            var glucoseEvent = new EventoGlucosa { Id = 1, IdCargaEvento = 1, Glucemia = 200 };
+            var insulinEvent = new EventoInsulina { Id = 1, IdCargaEvento = 1, InsulinaInyectada = 200 };
             var mockContext = new Mock<diabetiaContext>();
 
             mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { loadedEvent });
-            mockContext.Setup(m => m.EventoGlucosas).ReturnsDbSet(new List<EventoGlucosa> { glucoseEvent });
+            mockContext.Setup(m => m.EventoInsulinas).ReturnsDbSet(new List<EventoInsulina> { insulinEvent });
 
             return mockContext;
         }
-
     }
 }

@@ -85,21 +85,21 @@ namespace Diabetia.Application.UseCases.EventUseCases
             }
         }
 
-       public async Task DeleteEvent(int id, string email)
+        public async Task DeleteEvent(int id, string email)
         {
             await _patientValidator.ValidatePatient(email);
             var @event = await _eventRepository.GetEventByIdAsync(id);
-            if (@event == null)
-            {
-                throw new EventNotFoundException();
-            }
+            //if (@event == null) ESTA VALIDACION YA ESTARIA HECHA EN EL GET
+            //{
+            //    throw new EventNotFoundException();
+            //}
             await _patientEventValidator.ValidatePatientEvent(email, @event);
             var type = await _eventRepository.GetEventType(id);
 
             switch (type)
             {
                 case TypeEventEnum.INSULINA:
-                    await _eventRepository.DeleteInsulinEvent(id);
+                    await _eventRepository.DeleteInsulinEventAsync(id);
                     break;
                 case TypeEventEnum.GLUCOSA:
                     await _eventRepository.DeleteGlucoseEventAsync(id);
@@ -108,6 +108,7 @@ namespace Diabetia.Application.UseCases.EventUseCases
                     await _eventRepository.DeletePhysicalActivityEventAsync(id);
                     break;
                 case TypeEventEnum.NOTALIBRE:
+                    await _eventRepository.DeleteFreeNoteEventAsync(id);
                     break;
                 case TypeEventEnum.COMIDA:
                     await _eventRepository.DeleteFoodEven(id);

@@ -20,7 +20,7 @@ namespace Diabetia.Infrastructure.Repositories
             _context = context;
         }
 
-        // -------------------------------------------------------- ⇊ Physical Activity Event ⇊ -------------------------------------------------------
+        // -------------------------------------------------------- ⬇⬇ Physical Activity Event ⬇⬇ -------------------------------------------------------
         public async Task AddPhysicalActivityEventAsync(int patientId, EventoActividadFisica physicalActivity)
         {
 
@@ -76,7 +76,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // -------------------------------------------------------- ⇊ Glucose Event ⇊ -------------------------------------------------------
+        // -------------------------------------------------------- ⬇⬇ Glucose Event ⬇⬇ -------------------------------------------------------
         public async Task AddGlucoseEventAsync(int patientId, EventoGlucosa glucose)
         {
             bool IsDone = glucose.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
@@ -133,73 +133,50 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // -------------------------------------------------------- ⇊ Insuline Event ⇊ -------------------------------------------------------
-        public async Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin)
+        // -------------------------------------------------------- ⬇⬇ Insuline Event ⬇⬇ -------------------------------------------------------
+        public async Task AddInsulinEventAsync(int patientId, EventoInsulina insulin)
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
-            var patientInsulin = await _context.InsulinaPacientes.FirstOrDefaultAsync(u => u.IdPaciente == patient.Id);
-
-            // 1- Guardar el evento
-            bool IsDone = EventDate <= DateTime.Now ? true : false;
-            var NewEvent = new CargaEvento
+            bool IsDone = insulin.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
+            var newEvent = new CargaEvento
             {
-                IdPaciente = patient.Id,
-                IdTipoEvento = IdKindEvent,
+                IdPaciente = patientId,
+                IdTipoEvento = insulin.IdCargaEventoNavigation.IdTipoEvento,
                 FechaActual = DateTime.Now,
-                FechaEvento = EventDate,
-                NotaLibre = FreeNote,
+                FechaEvento = insulin.IdCargaEventoNavigation.FechaEvento,
+                NotaLibre = insulin.IdCargaEventoNavigation.NotaLibre,
                 FueRealizado = IsDone,
                 EsNotaLibre = false,
             };
 
-            _context.CargaEventos.Add(NewEvent);
+            _context.CargaEventos.Add(newEvent);
             await _context.SaveChangesAsync();
 
-            var lastInsertedIdEvent = await _context.CargaEventos.OrderByDescending(e => e.Id).FirstOrDefaultAsync();
-
-            // 2- Guardar evento Glucosa            
-            var NewInsulinEvent = new EventoInsulina
-            {
-                IdCargaEvento = lastInsertedIdEvent.Id,
-                InsulinaInyectada = Insulin,
-                IdInsulinaPaciente = patientInsulin.Id,
-            };
-
-            _context.EventoInsulinas.Add(NewInsulinEvent);
+            insulin.IdCargaEventoNavigation = newEvent;
+            _context.EventoInsulinas.Add(insulin);
             await _context.SaveChangesAsync();
         }
 
-        public async Task EditInsulinEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, int Insulin)
+        public async Task EditInsulinEventAsync(EventoInsulina insulin)
         {
-            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            if (User == null) { throw new UserEventNotFoundException(); }
-            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
-            if (Patient == null) { throw new PatientNotFoundException(); }
-            var PatientInsulin = await _context.InsulinaPacientes.FirstOrDefaultAsync(ip => ip.IdPaciente == Patient.Id);
-            if (PatientInsulin == null) { throw new PatientInsulinRelationNotFoundException(); }
-            var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
-            if (EventLoad == null) { throw new EventNotFoundException(); }
-            if (EventLoad.IdPaciente != Patient.Id) { throw new EventNotRelatedWithPatientException(); }
-            var InsulinEvent = await _context.EventoInsulinas.FirstOrDefaultAsync(ei => ei.IdCargaEvento == EventLoad.Id);
-            if (InsulinEvent == null) { throw new InsulinEventNotMatchException("No se encontró la carga de insulina relacionada."); }
+            var loadedEvent = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == insulin.IdCargaEventoNavigation.Id);
+            loadedEvent.FechaEvento = insulin.IdCargaEventoNavigation.FechaEvento;
+            loadedEvent.FueRealizado = insulin.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
+            loadedEvent.NotaLibre = insulin.IdCargaEventoNavigation.NotaLibre;
 
-            // 1- Modificar el evento
-            bool IsDone = EventDate <= DateTime.Now ? true : false;
-            var FechaActual = DateTime.Now;
-            EventLoad.FechaEvento = EventDate;
-            EventLoad.NotaLibre = FreeNote;
-            EventLoad.FueRealizado = IsDone;
-            EventLoad.EsNotaLibre = false;
+            var insulinEvent = await _context.EventoInsulinas.FirstOrDefaultAsync(pe => pe.IdCargaEvento == insulin.IdCargaEventoNavigation.Id);
+            if (insulinEvent == null)
+            {
+                throw new GlucoseEventNotMatchException();
+            }
 
-            InsulinEvent.InsulinaInyectada = Insulin;
+            insulinEvent.InsulinaInyectada = insulin.InsulinaInyectada;
 
-            _context.CargaEventos.Update(EventLoad);
-            _context.EventoInsulinas.Update(InsulinEvent);
+            _context.CargaEventos.Update(loadedEvent);
+            _context.EventoInsulinas.Update(insulinEvent);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteInsulinEvent(int IdEvent)
+        public async Task DeleteInsulinEventAsync(int IdEvent)
         {
             var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
             if (EventLoad == null) { throw new EventNotFoundException(); }
@@ -214,7 +191,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // -------------------------------------------------------- ⇊ Food Manually Event ⇊ -------------------------------------------------------
+        // -------------------------------------------------------- ⬇⬇ Food Manually Event ⬇⬇ -------------------------------------------------------
         public async Task<float> AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote)
         {
             // Obtener el usuario por email
@@ -376,7 +353,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // -------------------------------------------------------- ⇊ Tag Food Event ⇊ -------------------------------------------------------------
+        // -------------------------------------------------------- ⬇⬇ Tag Food Event ⬇⬇ -------------------------------------------------------------
         public async Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates)
         {
             var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
@@ -449,7 +426,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // --------------------------------------------------- ⇊ Medical Examination Event ⇊ --------------------------------------------------------
+        // --------------------------------------------------- ⬇⬇ Medical Examination Event ⬇⬇ --------------------------------------------------------
         public async Task AddMedicalExaminationEvent(string email, DateTime eventDate, string file, string examinationType, int? idProfessional, string? freeNote)
         {
             var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
@@ -510,7 +487,7 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
 
-        // ------------------------------------------------------ ⇊ Medical Visit Event ⇊ ------------------------------------------------------------
+        // ------------------------------------------------------ ⬇⬇ Medical Visit Event ⬇⬇ ------------------------------------------------------------
         public async Task AddMedicalVisitEventAsync(int patientId, EventoVisitaMedica medicalVisit)
         {
             bool IsDone = medicalVisit.IdCargaEventoNavigation.FechaEvento.Date <= DateTime.Now.Date;
@@ -611,15 +588,15 @@ namespace Diabetia.Infrastructure.Repositories
         public async Task DeleteMedicalVisitEventAsync(int eventId)
         {
             var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == eventId);
-            var medicalVisitEvent = await _context.EventoActividadFisicas.FirstOrDefaultAsync(eaf => eaf.IdCargaEvento == @event.Id);
+            var medicalVisitEvent = await _context.EventoVisitaMedicas.FirstOrDefaultAsync(eaf => eaf.IdCargaEvento == @event.Id);
 
-            _context.EventoActividadFisicas.Remove(medicalVisitEvent);
+            _context.EventoVisitaMedicas.Remove(medicalVisitEvent);
             _context.CargaEventos.Remove(@event);
 
             await _context.SaveChangesAsync();
         }
 
-        // -------------------------------------------------------- ⇊ Free Note Event ⇊ -------------------------------------------------------
+        // -------------------------------------------------------- ⬇⬇ Free Note Event ⬇⬇ -------------------------------------------------------
         public async Task AddFreeNoteEventAsync(int patientId, CargaEvento freeNoteEvent)
         {
             bool IsDone = freeNoteEvent.FechaEvento.Date <= DateTime.Now.Date;
@@ -637,7 +614,26 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // -------------------------------------------------------- ⇊ General Gets ⇊ -----------------------------------------------------------------
+        public async Task EditFreeNoteEventAsync(CargaEvento freeNoteEvent)
+        {
+            var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == freeNoteEvent.Id);
+            @event.FechaEvento = freeNoteEvent.FechaEvento;
+            @event.FueRealizado = freeNoteEvent.FechaEvento <= DateTime.Now ? true : false;
+            @event.NotaLibre = freeNoteEvent.NotaLibre;
+
+            _context.CargaEventos.Update(@event);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteFreeNoteEventAsync(int eventId)
+        {
+            var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == eventId);
+            _context.CargaEventos.Remove(@event);
+
+            await _context.SaveChangesAsync();
+        }
+
+        // -------------------------------------------------------- ⬇⬇ General Gets ⬇⬇ -----------------------------------------------------------------
         public async Task<IEnumerable<AdditionalDataIngredient>> GetIngredients()
         {
             var ingredientsDatabase = await _context.Ingredientes.Join(_context.UnidadMedidaIngredientes,

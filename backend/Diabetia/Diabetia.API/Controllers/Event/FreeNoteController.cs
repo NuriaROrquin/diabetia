@@ -28,5 +28,14 @@ namespace Diabetia.API.Controllers.Event
             await _eventFreeNoteUseCase.AddFreeNoteEventAsync(email, freeNoteEvent);
             return Ok("La nota fue cargada exitosamente");
         }
+
+        [HttpPost("EditFreeNoteEvent")]
+        public async Task<IActionResult> EditFreeNoteEvent([FromBody] EditFreeNoteRequest request)
+        {
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var freeNoteEvent = request.ToDomain();
+            await _eventFreeNoteUseCase.EditFreeNoteEventAsync(email, freeNoteEvent);
+            return Ok("La nota fue modificada exitosamente");
+        }
     }
 }

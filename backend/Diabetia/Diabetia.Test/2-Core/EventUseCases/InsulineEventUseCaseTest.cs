@@ -1,25 +1,23 @@
-﻿using Diabetia.Application.UseCases.EventUseCases;
-using Diabetia.Domain.Exceptions;
+﻿using Xunit;
+using FakeItEasy;
+using System.Threading.Tasks;
+using Diabetia.Application.UseCases.EventUseCases;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
+using Diabetia.Domain.Entities;
 using Diabetia.Interfaces;
-using FakeItEasy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Diabetia.Domain.Exceptions;
 
-namespace Diabetia.Test._2_Core.EventUseCases
+namespace Diabetia.Test._2_Core.InsulinEventUseCases
 {
-    public class GlucoseEventUseCaseTest
+    public class InsulinUseCaseTests
     {
         [Fact]
-        public async Task AddGlucoseEventUseCase_WhenCalledWithValidData_ShouldAddEventSuccessfully()
+        public async Task AddInsulinEventUseCase_WhenCalledWithValidData_ShouldAddEventSuccessfully()
         {
             var email = "emailTest@example.com";
-            var glucoseEvent = new EventoGlucosa();
+            var insulinEvent = new EventoInsulina();
             var patient = new Paciente()
             {
                 Id = 11
@@ -30,21 +28,21 @@ namespace Diabetia.Test._2_Core.EventUseCases
             var fakePatientEventValidator = A.Fake<IPatientEventValidator>();
             var fakeUserRepository = A.Fake<IUserRepository>();
 
-            var fakeGlucoseEventUseCase = new GlucoseUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
+            var fakeInsulinEventUseCase = new InsulinUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
 
             A.CallTo(() => fakeUserRepository.GetPatient(email)).Returns(patient);
-            await fakeGlucoseEventUseCase.AddGlucoseEventAsync(email, glucoseEvent);
+            await fakeInsulinEventUseCase.AddInsulinEventAsync(email, insulinEvent);
 
             A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeUserRepository.GetPatient(email)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeEventRepository.AddGlucoseEventAsync(patient.Id, glucoseEvent)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeEventRepository.AddInsulinEventAsync(patient.Id, insulinEvent)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
-        public async Task AddGlucoseEventUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
+        public async Task AddInsulinEventUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
         {
             var email = "emailTest@example.com";
-            var glucoseEvent = new EventoGlucosa();
+            var insulinEvent = new EventoInsulina();
             var patient = new Paciente()
             {
                 Id = 11
@@ -55,26 +53,25 @@ namespace Diabetia.Test._2_Core.EventUseCases
             var fakePatientEventValidator = A.Fake<IPatientEventValidator>();
             var fakeUserRepository = A.Fake<IUserRepository>();
 
-            var fakeGlucoseEventUseCase = new GlucoseUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
+            var fakeInsulinEventUseCase = new InsulinUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
 
             A.CallTo(() => fakePatientValidator.ValidatePatient(email)).Throws<PatientNotFoundException>();
 
 
-            await Assert.ThrowsAsync<PatientNotFoundException>(() => fakeGlucoseEventUseCase.AddGlucoseEventAsync(email, glucoseEvent));
+            await Assert.ThrowsAsync<PatientNotFoundException>(() => fakeInsulinEventUseCase.AddInsulinEventAsync(email, insulinEvent));
 
             A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
         }
 
-
         [Fact]
-        public async Task EditGlucoseEventUseCase_WhenCalledWithValidData_ShouldUpdateEventSuccessfully()
+        public async Task EditInsulinEventUseCase_WhenCalledWithValidData_ShouldUpdateEventSuccessfully()
         {
             var email = "emailTest@example.com";
-            var glucoseEvent = new EventoGlucosa()
+            var insulinEvent = new EventoInsulina()
             {
                 IdCargaEventoNavigation = new CargaEvento
                 {
-                    IdTipoEvento = 11,
+                    IdTipoEvento = 1,
                 }
             };
 
@@ -92,22 +89,22 @@ namespace Diabetia.Test._2_Core.EventUseCases
             var fakePatientEventValidator = A.Fake<IPatientEventValidator>();
             var fakeUserRepository = A.Fake<IUserRepository>();
 
-            A.CallTo(() => fakeEventRepository.GetEventByIdAsync(glucoseEvent.IdCargaEventoNavigation.Id)).Returns(loadedEvent);
+            A.CallTo(() => fakeEventRepository.GetEventByIdAsync(insulinEvent.IdCargaEventoNavigation.Id)).Returns(loadedEvent);
 
-            var fakeGlucoseEventUseCase = new GlucoseUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
+            var fakeInsulinEventUseCase = new InsulinUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
 
-            await fakeGlucoseEventUseCase.EditGlucoseEventAsync(email, glucoseEvent);
+            await fakeInsulinEventUseCase.EditInsulinEventAsync(email, insulinEvent);
 
             A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakePatientEventValidator.ValidatePatientEvent(email, loadedEvent)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeEventRepository.EditGlucoseEventAsync(glucoseEvent)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeEventRepository.EditInsulinEventAsync(insulinEvent)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
-        public async Task EditGlucoseEventUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
+        public async Task EditInsulinEventUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
         {
             var email = "emailTest@example.com";
-            var glucoseEvent = new EventoGlucosa()
+            var insulinEvent = new EventoInsulina()
             {
                 IdCargaEventoNavigation = new CargaEvento
                 {
@@ -120,21 +117,20 @@ namespace Diabetia.Test._2_Core.EventUseCases
             var fakePatientEventValidator = A.Fake<IPatientEventValidator>();
             var fakeUserRepository = A.Fake<IUserRepository>();
 
-            var fakeEventGlucoseUseCase = new GlucoseUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
+            var fakeEventInsulinUseCase = new InsulinUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
 
             A.CallTo(() => fakePatientValidator.ValidatePatient(email)).Throws<PatientNotFoundException>();
 
-            await Assert.ThrowsAsync<PatientNotFoundException>(() => fakeEventGlucoseUseCase.EditGlucoseEventAsync(email, glucoseEvent));
+            await Assert.ThrowsAsync<PatientNotFoundException>(() => fakeEventInsulinUseCase.EditInsulinEventAsync(email, insulinEvent));
 
             A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
         }
 
-
         [Fact]
-        public async Task EditGlucoseUseCase_WhenCalledValidPatientInvalidEvent_ThrowsEventNotRelatedWithPatientException()
+        public async Task EditInsulinEventUseCase_WhenCalledValidPatientInvalidEvent_ThrowsEventNotRelatedWithPatientException()
         {
             var email = "emailTest@example.com";
-            var GlucoseEvent = new EventoGlucosa()
+            var insulinEvent = new EventoInsulina()
             {
                 IdCargaEventoNavigation = new CargaEvento
                 {
@@ -156,17 +152,17 @@ namespace Diabetia.Test._2_Core.EventUseCases
             var fakePatientEventValidator = A.Fake<IPatientEventValidator>();
             var fakeUserRepository = A.Fake<IUserRepository>();
 
-            var fakeEventGlucoseUseCase = new GlucoseUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
+            var fakeInsulinUseCase = new InsulinUseCase(fakeEventRepository, fakePatientValidator, fakePatientEventValidator, fakeUserRepository);
 
-            A.CallTo(() => fakeEventRepository.GetEventByIdAsync(GlucoseEvent.IdCargaEventoNavigation.Id)).Returns(loadedEvent);
+            A.CallTo(() => fakeEventRepository.GetEventByIdAsync(insulinEvent.IdCargaEventoNavigation.Id)).Returns(loadedEvent);
             A.CallTo(() => fakePatientEventValidator.ValidatePatientEvent(email, loadedEvent)).Throws<EventNotRelatedWithPatientException>();
 
-            // Act & Assert 
-            await Assert.ThrowsAsync<EventNotRelatedWithPatientException>(() => fakeEventGlucoseUseCase.EditGlucoseEventAsync(email, GlucoseEvent));
+            await Assert.ThrowsAsync<EventNotRelatedWithPatientException>(() => fakeInsulinUseCase.EditInsulinEventAsync(email, insulinEvent));
 
             A.CallTo(() => fakePatientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeEventRepository.GetEventByIdAsync(GlucoseEvent.IdCargaEventoNavigation.Id)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeEventRepository.GetEventByIdAsync(insulinEvent.IdCargaEventoNavigation.Id)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakePatientEventValidator.ValidatePatientEvent(email, loadedEvent)).MustHaveHappenedOnceExactly();
         }
+
     }
 }

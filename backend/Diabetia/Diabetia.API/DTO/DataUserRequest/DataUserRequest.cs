@@ -12,7 +12,7 @@ namespace Diabetia.API.DTO.DataUserRequest
     }*/
 
 
-    public class PatientRequest
+    /*public class PatientRequest
     {
         public string Email { get; set; }
         public int TypeDiabetes { get; set; }
@@ -22,9 +22,9 @@ namespace Diabetia.API.DTO.DataUserRequest
         public bool? NeedsReminder { get; set; }
         public string? HourReminder { get; set; }
         public int? InsulinePerCH { get; set; }
-    }
+    }*/
 
-    public class PhysicalRequest
+   /* public class PhysicalRequest
     {
         public string Email { get; set; }
         public int IdActividadFisica { get; set; }
@@ -32,9 +32,9 @@ namespace Diabetia.API.DTO.DataUserRequest
         public int Duracion { get; set; }
         public bool HaceActividadFisica { get; set; }
 
-    }
+    }*/
 
-    public class IllnessRequest
+   /* public class IllnessRequest
     {
         public string Email { get; set; }
         public int IdEnfermedad { get; set; }
@@ -48,5 +48,5 @@ namespace Diabetia.API.DTO.DataUserRequest
         public int? IdDispositivo { get; set; }
         public int? Frecuencia { get; set; }
 
-    }
+    }*/
 }
