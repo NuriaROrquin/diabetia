@@ -12,7 +12,7 @@ namespace Diabetia.API.DTO.DataUserRequest
     }*/
 
 
-    public class PatientRequest
+    /*public class PatientRequest
     {
         public string Email { get; set; }
         public int TypeDiabetes { get; set; }
@@ -22,7 +22,7 @@ namespace Diabetia.API.DTO.DataUserRequest
         public bool? NeedsReminder { get; set; }
         public string? HourReminder { get; set; }
         public int? InsulinePerCH { get; set; }
-    }
+    }*/
 
     public class PhysicalRequest
     {

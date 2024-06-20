@@ -6,8 +6,8 @@ namespace Diabetia.Domain.Services
     public interface IUserRepository
     {
         public Task<Usuario> GetUserInfo(string userName);
-        public Task CompleteUserInfo(Paciente usuario);
-        public Task UpdateUserInfo(int typeDiabetes, bool useInsuline, int? typeInsuline, string email, bool? needsReminder, int? frequency, string? hourReminder, int? insulinePerCH);
+        public Task CompleteUserInfo(Paciente patient);
+        public Task UpdateUserInfo(Paciente patient);
         public Task<bool> GetStatusInformationCompletedAsync(string username);
         public Task CompletePhysicalUserInfo(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica, int duracion);
         public Task CompleteDeviceslUserInfo(string email, bool tieneDispositivo, int? idDispositivo, int? frecuencia);

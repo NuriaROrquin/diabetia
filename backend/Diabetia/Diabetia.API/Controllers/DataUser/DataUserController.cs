@@ -36,19 +36,20 @@ namespace Diabetia.API.Controllers.DataUser
         {
 
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
-            var user = request.ToDomain();
-            var patient = await _dataUserUseCase.FirstStep(email, user);
+            var patient = request.ToDomain();
+            var patient_local = await _dataUserUseCase.FirstStep(email, patient);
             
             AuthLoginResponse res = new AuthLoginResponse();
-            res.Token = _jwtTokenService.GenerateToken(patient.IdUsuario.ToString(), patient.IdUsuarioNavigation.Username, request.Email, (int)StepCompletedEnum.STEP1, patient.Id);
+            res.Token = _jwtTokenService.GenerateToken(patient_local.IdUsuario.ToString(), patient_local.IdUsuarioNavigation.Username, request.Email, (int)StepCompletedEnum.STEP1, patient_local.Id);
             return Ok(res);
         }
 
         [HttpPut("secondStep")]
         public async Task<IActionResult> PatientInformationSecondStep([FromBody] PatientRequest request)
         {
-            await _dataUserUseCase.SecondStep(request.TypeDiabetes, request.UseInsuline, request.TypeInsuline, request.Email, request.NeedsReminder, request.Frequency, request.HourReminder, request.InsulinePerCH);
-
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var patient = request.ToDomain();
+            await _dataUserUseCase.SecondStep(email, patient);
             return Ok();
         }
 
