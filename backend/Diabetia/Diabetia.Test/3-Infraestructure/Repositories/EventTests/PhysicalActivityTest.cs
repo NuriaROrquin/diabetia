@@ -4,12 +4,13 @@ using Diabetia.Domain.Models;
 using Moq.EntityFrameworkCore;
 using Diabetia.Infrastructure.EF;
 using Diabetia.Domain.Exceptions;
+using Diabetia.Domain.Entities.Events;
 
 namespace Diabetia_Infrastructure
 {
     public class EventRepositoryTests
     {
-        // --------------------------------------- ⬇⬇ AddPhysicalActivityEvent Test ⬇⬇ ---------------------------------------
+        // --------------------------------------- ⬇⬇ Add PhysicalActivityEvent Test ⬇⬇ ---------------------------------------
         [Fact]
         public async Task AddPhysicalActivityEventAsync_GivenValidData_ShouldAddEventAndPhysicalEvent()
         {
@@ -56,7 +57,7 @@ namespace Diabetia_Infrastructure
         }
 
 
-        // --------------------------------------- ⬇⬇ EditPhysicalActivityEvent Test ⬇⬇ ---------------------------------------
+        // --------------------------------------- ⬇⬇ Edit PhysicalActivityEvent Test ⬇⬇ ---------------------------------------
         [Fact]
         public async Task EditPhysicalActivityEvent_ShouldUpdateEventAndPhysicalEvent()
         {
@@ -147,104 +148,33 @@ namespace Diabetia_Infrastructure
             return mockContext;
         }
 
+        // --------------------------------------- ⬇⬇ Delete PhysicalActivityEvent Test ⬇⬇ ---------------------------------------
+        [Fact]
+        public async Task DeletePhysicalActivityEvent_GivenValidData_ShouldDeleteEventSuccessfully()
+        {
+            var mockContext = CreateMockContextDeletePassCorrect();
+            var fakeRepository = new EventRepository(mockContext.Object);
+            var cargaEvento = new CargaEvento
+            {
+                Id = 1,
+            };
 
-        //        // --------------------------------------- DeletePhysicalActivityEvent Test ---------------------------------------
-        //        [Fact]
-        //        public async Task DeletePhysicalActivityEventAsync_GivenValidInformation_ShouldDeleteSuccessfully()
-        //        {
-        //            // Arrange
-        //            var mockContextBeforeDeletion = CreateMockContextBeforeDeletion();
-        //            var mockContextAfterDeletion = CreateMockContextAfterDeletion();
-        //            var repositoryEvent = new EventRepository(mockContextBeforeDeletion.Object);
-        //            var eventId = 1;
+            await fakeRepository.DeletePhysicalActivityEventAsync(cargaEvento.Id);
 
-        //            // Act
-        //            await repositoryEvent.DeletePhysicalActivityEventAsync(eventId);
+            mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            mockContext.Verify(m => m.CargaEventos.Remove(It.IsAny<CargaEvento>()), Times.Once);
+            mockContext.Verify(m => m.EventoActividadFisicas.Remove(It.IsAny<EventoActividadFisica>()), Times.Once);
+        }
+        private Mock<diabetiaContext> CreateMockContextDeletePassCorrect()
+        {
+            var @event = new CargaEvento { Id = 1, IdPaciente = 11, FechaEvento = DateTime.Now, NotaLibre = "Edit Test Note" };
+            var physicalActivityEvent = new EventoActividadFisica { Id = 1, IdCargaEvento = @event.Id, Duracion = 50 };
+            var mockContext = new Mock<diabetiaContext>();
 
-        //            // Assert
-        //            mockContextBeforeDeletion.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
-        //            mockContextBeforeDeletion.Verify(m => m.EventoActividadFisicas.Remove(It.IsAny<EventoActividadFisica>()), Times.Once);
-        //            mockContextBeforeDeletion.Verify(m => m.CargaEventos.Remove(It.IsAny<CargaEvento>()), Times.Once);
+            mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
+            mockContext.Setup(m => m.EventoActividadFisicas).ReturnsDbSet(new List<EventoActividadFisica> { physicalActivityEvent });
 
-
-        //            var deletedEvent = await mockContextAfterDeletion.Object.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == eventId);
-        //            Assert.Null(deletedEvent);
-
-        //            var deletedPhysicalEvent = await mockContextAfterDeletion.Object.EventoActividadFisicas.FirstOrDefaultAsync(eaf => eaf.IdCargaEvento == eventId);
-        //            Assert.Null(deletedPhysicalEvent);
-        //        }
-        //        private Mock<diabetiaContext> CreateMockContextBeforeDeletion()
-        //        {
-        //            var @event = new CargaEvento { Id = 1, IdPaciente = 1, FechaEvento = DateTime.Now, NotaLibre = "Old Note" };
-        //            var physicalEvent = new EventoActividadFisica { IdCargaEvento = @event.Id, IdActividadFisica = 1, Duracion = 60 };
-
-        //            var mockContext = new Mock<diabetiaContext>();
-
-        //            mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
-        //            mockContext.Setup(m => m.EventoActividadFisicas).ReturnsDbSet(new List<EventoActividadFisica> { physicalEvent });
-
-        //            return mockContext;
-        //        }
-        //        private Mock<diabetiaContext> CreateMockContextAfterDeletion()
-        //        {
-        //            var mockContextAfterDeletion = new Mock<diabetiaContext>();
-        //            mockContextAfterDeletion.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento>());
-        //            mockContextAfterDeletion.Setup(m => m.EventoActividadFisicas).ReturnsDbSet(new List<EventoActividadFisica>());
-
-        //            return mockContextAfterDeletion;
-        //        }
-
-        //        [Fact]
-        //        public async Task DeletePhysicalActivityEventAsync_GivenInvalidEventId_ThrowsEventNotFoundException()
-        //        {
-        //            // Arrange
-        //            var mockContext = MockContextDeleteThrowEventException();
-
-        //            var eventRepository = new EventRepository(mockContext.Object);
-
-        //            var eventId = 1;
-
-        //            // Act & Assert
-        //            await Assert.ThrowsAsync<EventNotFoundException>(async () =>
-        //            await eventRepository.DeletePhysicalActivityEventAsync(eventId));
-        //        }
-        //        private Mock<diabetiaContext> MockContextDeleteThrowEventException()
-        //        {
-        //            var @event = new CargaEvento { Id = 2, IdPaciente = 1, FechaEvento = DateTime.Now, NotaLibre = "nota Test" };
-        //            var mockContext = new Mock<diabetiaContext>();
-
-        //            mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
-
-        //            return mockContext;
-        //        }
-
-        //        [Fact]
-        //        public async Task DeletePhysicalActivityEventAsync_GivenValidEventNotMatchPhysicalActivity_ThrowsPhysicalEventNotMatchException()
-        //        {
-        //            // Arrange
-        //            var mockContext = MockContextDeleteThrowPhysicalMismatchException();
-
-        //            var eventRepository = new EventRepository(mockContext.Object);
-
-        //            var eventId = 1;
-
-        //            // Act & Assert
-        //            await Assert.ThrowsAsync<PhysicalEventNotMatchException>(async () =>
-        //            await eventRepository.DeletePhysicalActivityEventAsync(eventId));
-        //        }
-        //        private Mock<diabetiaContext> MockContextDeleteThrowPhysicalMismatchException()
-        //        {
-        //            var @event = new CargaEvento { Id = 1, IdPaciente = 1, FechaEvento = DateTime.Now, NotaLibre = "nota Test" };
-        //            var physicalActivityEvent = new EventoActividadFisica { Id = 1, IdCargaEvento = 2, IdActividadFisica = 4, Duracion = 60 };
-
-        //            var mockContext = new Mock<diabetiaContext>();
-
-        //            mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
-        //            mockContext.Setup(m => m.EventoActividadFisicas).ReturnsDbSet(new List<EventoActividadFisica> { physicalActivityEvent });
-
-        //            return mockContext;
-        //        }
-        //    }
-        //}
+            return mockContext;
+        }
     }
 }
