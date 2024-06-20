@@ -1,6 +1,8 @@
-﻿namespace Diabetia.API.DTO
+﻿using Diabetia.API.DTO.EventRequest.Food;
+
+namespace Diabetia.API.DTO
 {
-    public class TagRegistrationResponse : EventFoodResponse
+    public class TagRegistrationResponse : FoodEventResponse
     {
         public List<ResponsePerTag> Tags { get; set; }
         public TagRegistrationResponse()

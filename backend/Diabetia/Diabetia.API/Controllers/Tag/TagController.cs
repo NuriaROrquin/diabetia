@@ -3,6 +3,7 @@ using Diabetia.Application.UseCases;
 using Diabetia.API.DTO;
 using Diabetia.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Diabetia.Application.UseCases.EventUseCases;
 
 namespace Diabetia.API.Controllers.Tag
 {
@@ -13,9 +14,9 @@ namespace Diabetia.API.Controllers.Tag
         private readonly TagDetectionUseCase _tagDetectionUseCase;
         private readonly TagCalculateUseCase _tagCalculateUseCase;
         private readonly DataUserUseCase _dataUserUseCase;
-        private readonly EventFoodUseCase _eventFoodUseCase;
+        private readonly FoodManuallyUseCase _eventFoodUseCase;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public TagController(TagDetectionUseCase tagDetectionUseCase, TagCalculateUseCase tagCalculateUseCase, DataUserUseCase dataUserUseCase, EventFoodUseCase eventFoodUseCase, IHttpContextAccessor httpContextAccessor)
+        public TagController(TagDetectionUseCase tagDetectionUseCase, TagCalculateUseCase tagCalculateUseCase, DataUserUseCase dataUserUseCase, FoodManuallyUseCase eventFoodUseCase, IHttpContextAccessor httpContextAccessor)
         {
             _tagDetectionUseCase = tagDetectionUseCase;
             _tagCalculateUseCase = tagCalculateUseCase;

@@ -15,19 +15,19 @@ namespace Diabetia.API.Controllers
         //private readonly PhysicalActivityUseCase _eventPhysicalActivityUseCase;
         //private readonly EventGlucoseUseCase _eventGlucosetUseCase;
         private readonly EventInsulinUseCase _eventInsulintUseCase;
-        private readonly EventFoodUseCase _eventFoodManuallyUseCase;
+        private readonly FoodManuallyUseCase _foodManuallyUseCase;
         private readonly EventUseCase _getEventUseCase;
         private readonly DataUserUseCase _dataUserUseCase;
         private readonly EventMedicalExaminationUseCase _eventMedicalExaminationUseCase;
         // private readonly MedicalVisitUseCase _eventMedicalVisitUseCase;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EventController(EventInsulinUseCase eventInsulinUseCase, EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, IHttpContextAccessor httpContextAccessor)
+        public EventController(EventInsulinUseCase eventInsulinUseCase, FoodManuallyUseCase foodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, IHttpContextAccessor httpContextAccessor)
         {
             //_eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
             //_eventGlucosetUseCase = eventGlucoseUseCase;
             _eventInsulintUseCase = eventInsulinUseCase;
-            _eventFoodManuallyUseCase = eventFoodManuallyUseCase;
+            _foodManuallyUseCase = foodManuallyUseCase;
             _getEventUseCase = eventUseCase;
             _dataUserUseCase = dataUserUseCase;
             _eventMedicalExaminationUseCase = eventMedicalExaminationUseCase;
@@ -83,31 +83,7 @@ namespace Diabetia.API.Controllers
         //}
 
 
-        //// -------------------------------------------- ⬇️⬇ Food Manually ⬇️⬇ --------------------------------------------------
-        //[HttpPost("AddFoodManuallyEvent")]
-        //public async Task<EventFoodResponse> AddFoodManuallyEvent([FromBody] EventFoodRequest request)
-        //{
-        //    EventFoodResponse response = new EventFoodResponse();
-        //   var totalChConsumed = await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.IdKindEvent.Value, request.Ingredients, request.FreeNote);
 
-        //    var userPatientInfo = await _dataUserUseCase.GetPatientInfo(request.Email);
-        //    if (userPatientInfo.ChCorrection != null)
-        //    {
-        //        var insulinToCorrect = totalChConsumed / userPatientInfo.ChCorrection;
-        //        response.InsulinToCorrect = (float)insulinToCorrect;
-        //    }
-
-        //    response.ChConsumed = (int)totalChConsumed;
-
-        //    return response;
-        //}
-
-        //[HttpPost("EditFoodManuallyEvent")]
-        //public async Task<IActionResult> EditFoodManuallyEvent([FromBody] EventFoodRequest request)
-        //{
-        //    await _eventFoodManuallyUseCase.EditFoodManuallyEvent(request.IdEvent.Value, request.Email, request.EventDate, request.IdKindEvent.Value, request.Ingredients, request.FreeNote);
-        //    return Ok();
-        //}
 
 
         //// -------------------------------------------- ⬇️⬇ Medical Examination ⬇️⬇ --------------------------------------------------
@@ -158,7 +134,7 @@ namespace Diabetia.API.Controllers
         [HttpGet("GetIngredients")]
         public async Task<IngredientResponse> GetIngredients()
         {
-            var ingredients = await _eventFoodManuallyUseCase.GetIngredients();
+            var ingredients = await _foodManuallyUseCase.GetIngredients();
 
             var ingredientsMapped = new IngredientResponse
             {
