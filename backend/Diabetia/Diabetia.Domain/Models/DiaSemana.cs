@@ -7,12 +7,12 @@ namespace Diabetia.Domain.Models
     {
         public DiaSemana()
         {
-            RecordatorioDia = new HashSet<RecordatorioDium>();
+            RecordatorioEventos = new HashSet<RecordatorioEvento>();
         }
 
         public int Id { get; set; }
         public string Dia { get; set; } = null!;
 
-        public virtual ICollection<RecordatorioDium> RecordatorioDia { get; set; }
+        public virtual ICollection<RecordatorioEvento> RecordatorioEventos { get; set; }
     }
 }

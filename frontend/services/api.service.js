@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from './axios';
 
 export const login = (username, password) => {
     return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-            { username, password },
+            {  userInput: username, password },
             { withCredentials: true }
         );
 }
@@ -18,20 +18,20 @@ export const register = (username, email, password) => {
         );
 }
 
-export const passwordRecover = (username) => {
+export const passwordRecover = (email) => {
     return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/passwordRecover`,
-            { username },
+            { email },
             { withCredentials: true }
         );
 }
 
-export const passwordRecoverCode = (username, confirmationCode, password) => {
+export const passwordRecoverCode = (email, confirmationCode, password) => {
     return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/auth/passwordRecoverCode`,
-            { username, confirmationCode, password },
+            { email, confirmationCode, password },
             { withCredentials: true }
         );
 }
@@ -77,11 +77,20 @@ export const addGlucoseEvent = (data) => {
         );
 }
 
-export const getMetrics = (data) => {
+export const addInsulinEvent = (data) => {
     return axios
         .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/Home/metrics`,
-            data)
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/AddInsulinEvent`,
+            data
+        );
+}
+
+export const addFoodEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/AddFoodManuallyEvent`,
+            data
+        );
 }
 
 export const firstStep = (data) => {
@@ -100,6 +109,22 @@ export const secondStep = (data) => {
         );
 }
 
+export const thirdStep = (data) => {
+    return axios
+        .put(
+            `${process.env.NEXT_PUBLIC_API_URL}/Data/thirdStep`,
+            data
+        );
+}
+
+export const fourthStep = (data) => {
+    return axios
+        .put(
+            `${process.env.NEXT_PUBLIC_API_URL}/Data/fourthStep`,
+            data
+        );
+}
+
 export const getUserInfo = (data) => {
     return axios
         .get(
@@ -112,10 +137,37 @@ export const getPatientInfo = (data) => {
             `${process.env.NEXT_PUBLIC_API_URL}/Profile/getPatientInfo?email=${data.email}`)
 }
 
-export const getAllEvents = (data) => {
+export const deleteEventById = (eventId) => {
+    return axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/Event/DeleteEvent/${eventId}`
+    )
+}
+
+export const getEventType = (data) => {
+    return axios
+        .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/GetEventType/${data.id}`)
+}
+
+export const editGlucoseEvent = (data) => {
     return axios
         .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/Calendar/events`,
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/EditGlucoseEvent`,
             data
+        );
+}
+
+export const editInsulinEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/EditInsulinEvent`,
+            data
+        );
+}
+
+export const getIngredients = () => {
+    return axios
+        .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/Event/GetIngredients`
         );
 }

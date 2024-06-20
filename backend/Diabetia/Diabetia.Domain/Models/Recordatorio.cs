@@ -7,7 +7,7 @@ namespace Diabetia.Domain.Models
     {
         public Recordatorio()
         {
-            RecordatorioDia = new HashSet<RecordatorioDium>();
+            RecordatorioEventos = new HashSet<RecordatorioEvento>();
         }
 
         public int Id { get; set; }
@@ -19,7 +19,6 @@ namespace Diabetia.Domain.Models
         public bool? FueEliminado { get; set; }
         public DateTime? FechaEliminacion { get; set; }
 
-        public virtual TipoEvento IdTipoEventoNavigation { get; set; } = null!;
-        public virtual ICollection<RecordatorioDium> RecordatorioDia { get; set; }
+        public virtual ICollection<RecordatorioEvento> RecordatorioEventos { get; set; }
     }
 }

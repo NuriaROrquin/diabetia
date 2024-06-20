@@ -32,7 +32,7 @@ export const DASHBOARD_INDICATORS = [
         "unit": "G",
         "title": "En total",
         "description": "Cuando cargues una comida, este número se verá afectado.",
-        "tooltipContent":"Se visualiza la cantidad de carbohidratos presentes en sus comidas "
+        "tooltipContent":"Se visualiza la cantidad de carbohidratos presentes en sus comidas ",
     },
     {
         "textIndicator": "Insulina",
@@ -40,7 +40,7 @@ export const DASHBOARD_INDICATORS = [
         "key": "insulin",
         "unit": "U",
         "title": "En total",
-        "description": "5u insulina rápida y 2u insulina lenta",
+        "description": "Tu insulina rápida y tu insulina lenta",
         "tooltipContent":"Se visualiza la cantidad de dosis de insulina administrada "
     },
     {
@@ -56,67 +56,47 @@ export const DASHBOARD_INDICATORS = [
 
 export const DASHBOARD_TIMELINE_EVENTS = [
     {
-        "time": "19:00",
-        "title": "Desayuno - Registro de alimentos"
+        "dateTime": "2024-06-10T15:00:00",
+        "title": "Glucosa"
     },
     {
-        "time": "18:00",
-        "title": "Deporte running 25 min"
+        "dateTime": "2024-06-10T13:40:00",
+        "title": "Visita Medica"
     },
     {
-        "time": "17:21",
-        "title": "Hipogucemia"
+        "dateTime": "2024-06-10T15:30:00",
+        "title": "Insulina"
     },
-    {
-        "time": "15:30",
-        "title": "Carga merienda"
-    },
-    {
-        "time": "14:02",
-        "title": "Carga almuerzo"
-    },
-    {
-        "time": "13:30",
-        "title": "Medida de glucemia"
-    },
-    {
-        "time": "12:26",
-        "title": "Medida de glucemia"
-    },
-    {
-        "time": "09:39",
-        "title": "Carga desayuno"
-    }
 ]
 
 export const TYPE_EVENTS = [
     {
         "id": 1,
-        "title": "ACTIVIDAD FÍSICA",
-        "image": "/actividad-fisica.jpg",
-        "link": "/event/exercise"
-    },
-    {
-        "id": 2,
-        "title": "GLUCEMIA",
-        "image": "/glucemia.jpg",
-        "link": "/event/glycemia"
-    },
-    {
-        "id": 3,
-        "title": "COMIDA",
-        "image": "/comida.jpg",
-        "link": "/event/food"
-    },
-    {
-        "id": 4,
         "title": "INSULINA",
         "image": "/insulina.jpg",
         "link": "/event/insulin"
     },
     {
+        "id": 2,
+        "title": "COMIDA",
+        "image": "/comida.jpg",
+        "link": "/event/food"
+    },
+    {
+        "id": 3,
+        "title": "GLUCOSA",
+        "image": "/glucemia.jpg",
+        "link": "/event/glycemia"
+    },
+    {
+        "id": 4,
+        "title": "ACTIVIDAD FÍSICA",
+        "image": "/actividad-fisica.jpg",
+        "link": "/event/exercise"
+    },
+    {
         "id": 5,
-        "title": "EVENTO DE SALUD",
+        "title": "SALUD",
         "image": "/salud.jpg",
         "link": "/event/health-event"
     },
@@ -298,6 +278,221 @@ export const GENDER = [
         "key": 'X'
     }
 ]
+export const ACTIVITY_FREQUENCY = [
+    {
+        "id": 1,
+        "title": "1 vez por semana"
+    },
+    {
+        "id": 2,
+        "title": "2 veces por semana"
+    },
+    {
+        "id": 3,
+        "title": "3 veces por semana"
+    },
+    {
+        "id": 4,
+        "title": "4 veces por semana"
+    },
+    {
+        "id": 5,
+        "title": "5 veces por semana"
+    }
+
+
+]
+
+export const ACTIVITY_HOURS_WEEK = [
+    {
+        "id": 1,
+        "title": "1 hora"
+    },
+    {
+        "id": 2,
+        "title": "2 horas"
+    },
+    {
+        "id": 3,
+        "title": "3 horas"
+    },
+    {
+        "id": 4,
+        "title": "4 horas"
+    },
+    {
+        "id": 5,
+        "title": "5 horas"
+    },
+    {
+        "id": 6,
+        "title": "6 horas"
+    },
+    {
+        "id": 7,
+        "title": "7 horas"
+    },
+    {
+        "id": 8,
+        "title": "8 horas"
+    },
+    {
+        "id": 9,
+        "title": "9 horas"
+    },
+    {
+        "id": 10,
+        "title": "10 horas"
+    }
+]
+
+export const TYPE_ILLNESS = [
+    {
+        "id": 1,
+        "title": "Hipertensión"
+    },
+    {
+        "id": 2,
+        "title": "Enfermedad cardíaca"
+    },
+    {
+        "id": 3,
+        "title": "Enfermedad renal"
+    },
+    {
+        "id": 4,
+        "title": "Neuropatía periférica"
+    },
+    {
+        "id": 5,
+        "title": "Retinopatía diabética"
+    },
+    {
+        "id": 6,
+        "title": "Pie diabético"
+    },
+    {
+        "id": 7,
+        "title": "Asma"
+    },
+    {
+        "id": 8,
+        "title": "Artritis"
+    }
+]
+
+export const MANY_MEASUREMENTS = [
+    {
+        "id": 1,
+        "title": "1 vez"
+    },
+    {
+        "id": 2,
+        "title": "2 veces"
+    },
+    {
+        "id": 3,
+        "title": "3 veces"
+    },
+    {
+        "id": 4,
+        "title": "4 veces"
+    },
+    {
+        "id": 5,
+        "title": "5 veces"
+    },
+    {
+        "id": 6,
+        "title": "6 veces"
+    }
+]
+
+export const TYPE_INGREDIENTS = [
+    {
+        "id": 1,
+        "title": "Milanesa"
+    },
+    {
+        "id": 2,
+        "title": "Brocoli"
+    },
+    {
+        "id": 3,
+        "title": "Arroz"
+    },
+    {
+        "id": 4,
+        "title": "Papa"
+    },
+    {
+        "id": 5,
+        "title": "Lechuga"
+    },
+    {
+        "id": 6,
+        "title": "Tomate"
+    },
+    {
+        "id": 7,
+        "title": "Pechuga de pollo"
+    }
+]
+
+export const TYPE_UNITOFMEASUREMENT = [
+    {
+        "id": 1,
+        "title": "gr"
+    },
+    {
+        "id": 2,
+        "title": "ml"
+    },
+    {
+        "id": 3,
+        "title": "unidad"
+    },
+    {
+        "id": 4,
+        "title": "cucharada"
+    },
+    {
+        "id": 5,
+        "title": "taza"
+    },
+    {
+        "id": 6,
+        "title": "cc"
+    }
+]
+
+export const TYPE_REMINDERTIME = [
+    {
+        "id": 1,
+        "title": "1 semana"
+    },
+    {
+        "id": 2,
+        "title": "2 semanas"
+    },
+    {
+        "id": 3,
+        "title": "3 semanas"
+    },
+    {
+        "id": 4,
+        "title": "1 mes"
+    },
+    {
+        "id": 5,
+        "title": "2 meses"
+    },
+    {
+        "id": 6,
+        "title": "3 meses"
+    },
+    
+]
 
 export const INFO_PROFILE = [
     {
@@ -336,3 +531,73 @@ export const STEPS = [
         url: '/profile/step-4'
     }
 ];
+
+export const TYPE_ILLNESS_HEALTH_EVENT = [
+    {
+        "id": 1,
+        "title": "Gripe"
+    },
+    {
+        "id": 2,
+        "title": "Faringitis"
+    },
+    {
+        "id": 3,
+        "title": "Neumonia"
+    },
+    {
+        "id": 4,
+        "title": "Rinitis"
+    },
+    {
+        "id": 5,
+        "title": "Conjuntivitis"
+    },
+    {
+        "id": 6,
+        "title": "Gastroenterocolitis"
+    },
+    {
+        "id": 7,
+        "title": "Gastritis"
+    },
+    {
+        "id": 8,
+        "title": "Migraña"
+    }
+]
+
+export const TYPE_MEDIC = [
+    {
+        "id": 1,
+        "title": "Diabetologo"
+    },
+    {
+        "id": 2,
+        "title": "Nutricionista"
+    },
+    {
+        "id": 3,
+        "title": "Cardiologo"
+    },
+    {
+        "id": 4,
+        "title": "Gastroenterologo"
+    },
+    {
+        "id": 5,
+        "title": "Dermatologo"
+    },
+    {
+        "id": 6,
+        "title": "Oculista"
+    },
+    {
+        "id": 7,
+        "title": "Clinico"
+    },
+    {
+        "id": 8,
+        "title": "Pediatra"
+    }
+]

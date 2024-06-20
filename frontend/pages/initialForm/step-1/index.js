@@ -8,19 +8,19 @@ import {ButtonOrange} from "../../../components/button";
 import {CustomDatePicker} from "../../../components/pickers";
 import {useRouter} from "next/router";
 import {Step, StepLabel, Stepper} from "@mui/material";
-import {useCookies} from "react-cookie";
 import {Select} from "@/components/selector";
 import {firstStep} from "../../../services/api.service";
-
+import {getEmailFromJwt} from "../../../helpers";
+import {useCookies} from "react-cookie";
 
 const InitialFormStep1 = () => {
     const [error, setError] = useState(false);
     const [date, setDate] = useState()
     const router = useRouter()
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
-    const email = cookies.email
+    const email = getEmailFromJwt();
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
+    const [_cookies, setCookie, _removeCookie] = useCookies(['jwt']);
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
@@ -38,9 +38,9 @@ const InitialFormStep1 = () => {
 
         firstStep({name, birthdate, email, gender, phone, weight, lastname})
             .then((res) => {
-                if(res){
-                    router.push("/initialForm/step-2")
-                }
+                setCookie("jwt", res.data.token, {path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)});
+                sessionStorage.setItem("jwt", res.data.token);
+                router.push("/initialForm/step-2")
             })
             .catch((error) => {
                 error.response.data ? setError(error.response.data) : setError("Hubo un error")

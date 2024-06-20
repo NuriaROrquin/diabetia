@@ -7,7 +7,7 @@ import es_AR from 'rsuite/locales/es_AR';
 import {useCallback} from "react";
 
 
-export const CustomCalendar = ({events}) => {
+export const CustomCalendar = ({events, handleOnSelectDay}) => {
 
     function getTodoList(date) {
         const todoLists = events;
@@ -58,11 +58,12 @@ export const CustomCalendar = ({events}) => {
     }, [events]);
 
     return (
-        <div className="container">
+        <div className="w-11/12 m-auto">
             <CustomProvider locale={es_AR}>
                 <Calendar
                     renderCell={(e) => renderCell(e)}
                     className="rounded bg-white block w-full text-gray-primary"
+                    onSelect={handleOnSelectDay}
                 />
             </CustomProvider>
         </div>

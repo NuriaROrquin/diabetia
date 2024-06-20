@@ -7,5 +7,7 @@
         public DateTime DateEvent { get; set; }
         public string Title { get; set; }
         public decimal GlucoseLevel { get; set; }
+        public string? FreeNote { get; set; }
+        public int? IdDevice { get; set; }
     }
 }

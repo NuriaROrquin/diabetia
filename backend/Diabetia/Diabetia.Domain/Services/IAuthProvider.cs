@@ -1,11 +1,12 @@
 ﻿using Amazon.CognitoIdentityProvider.Model;
+using Diabetia.Domain.Models;
 
 namespace Diabetia.Domain.Services
 {
     public interface IAuthProvider
     {
 
-        public Task<string> RegisterUserAsync(string username, string password, string email);
+        public Task<string> RegisterUserAsync(Usuario user, string password);
 
         public Task<bool> ConfirmEmailVerificationAsync(string username, string hashCode, string confirmationCode);
 

@@ -71,7 +71,7 @@ const StepThree = () => {
         <Section>
             <div className="container">
                 <div className="bg-white rounded-xl w-full flex flex-col flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
-                    <h4 className="font-semibold text-2xl text-center">Seleccione la cantidad consumida de cada producto</h4>
+                    <h4 className="font-semibold text-3xl text-center">Seleccione la cantidad consumida de cada producto</h4>
 
                     {images.map((image) => (
                         <div key={image.id} className="flex w-full gap-12">
@@ -117,7 +117,7 @@ const StepThree = () => {
                         </div>
                     ))}
                     <div className="flex justify-between">
-                        <OrangeLink href="/food/step-1" label="Atrás" width="w-1/4"/>
+                        <OrangeLink href="/food/step-1" label="Atrás" width="w-1/4" background="bg-gray-400 hover:bg-gray-600"/>
 
                         <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/4" />
                     </div>

@@ -13,7 +13,6 @@ namespace Diabetia.Domain.Models
         public bool? MedicionPostComida { get; set; }
 
         public virtual CargaEvento IdCargaEventoNavigation { get; set; } = null!;
-        public virtual DispositivoPaciente? IdDispositivoPacienteNavigation { get; set; }
-        public virtual EventoComidum? IdEventoComidaNavigation { get; set; }
+        public virtual Dispositivo? IdDispositivoPacienteNavigation { get; set; }
     }
 }

@@ -12,13 +12,14 @@ export const PasswordRecover = () => {
     const [error, setError] = useState(false);
 
     const onHandleClick = () => {
-        const username = document.getElementById("username").value;
-        passwordRecover(username)
+        const email = document.getElementById("email").value;
+        passwordRecover(email)
             .then(() => {
-                router.push(`/auth/password-recover/code?username=${username}`);
+                router.push(`/auth/password-recover/code?email=${email}`);
             })
             .catch((error) => {
-                error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
+                console.log(error.response.data.errors)
+            });
     }
 
     return(
@@ -34,7 +35,7 @@ export const PasswordRecover = () => {
                 </div>
 
                 <div className="flex flex-col w-1/2 mb-6">
-                    <Input type="text" placeholder="Nombre de Usuario" id="username" width="w-full"
+                    <Input type="text" placeholder="Email" id="email" width="w-full"
                            icon={<PersonOutline/>}/>
                 </div>
 

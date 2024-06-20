@@ -11,12 +11,12 @@ export const PasswordRecoverCode = () => {
     const router = useRouter();
     const [error, setError] = useState(false);
 
-    const { username } = router.query;
+    const { email } = router.query;
 
     const onHandleClick = () => {
         const password = document.getElementById("password").value;
         const confirmationCode = document.getElementById("confirmationCode").value;
-        passwordRecoverCode(username, confirmationCode, password)
+        passwordRecoverCode(email, confirmationCode, password)
             .then(() => {
                 router.push(`/auth/login`);
             })

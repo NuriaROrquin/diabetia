@@ -6,29 +6,24 @@ import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomDatePicker} from "../../../components/pickers";
 import {useRouter} from "next/router";
-import {Step, StepLabel, Stepper, Link} from "@mui/material";
-import {useCookies} from "react-cookie";
+import {Step, StepLabel, Stepper} from "@mui/material";
 import {Select} from "@/components/selector";
 import {getUserInfo, firstStep} from "../../../services/api.service";
 import {useEffect, useState} from "react";
 import {NavLink} from "../../../components/link"
-
+import {getEmailFromJwt} from "../../../helpers";
 
 const ProfileFormStep1 = () => {
     const [error, setError] = useState(false);
     const [date, setDate] = useState()
     const router = useRouter()
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
-    const email = cookies.email
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const [userInfo, setUserInfo] = useState(null);
 
-    console.log(date)
+    const email = getEmailFromJwt();
 
     useEffect(() => {
-        const email = cookies.email;
-
         email && getUserInfo({email})
             .then((res) => {
                 const receivedDate = res.data.birthDate;

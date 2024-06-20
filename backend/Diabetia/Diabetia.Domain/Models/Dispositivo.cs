@@ -8,6 +8,7 @@ namespace Diabetia.Domain.Models
         public Dispositivo()
         {
             DispositivoPacientes = new HashSet<DispositivoPaciente>();
+            EventoGlucosas = new HashSet<EventoGlucosa>();
         }
 
         public int Id { get; set; }
@@ -15,5 +16,6 @@ namespace Diabetia.Domain.Models
         public string Marca { get; set; } = null!;
 
         public virtual ICollection<DispositivoPaciente> DispositivoPacientes { get; set; }
+        public virtual ICollection<EventoGlucosa> EventoGlucosas { get; set; }
     }
 }

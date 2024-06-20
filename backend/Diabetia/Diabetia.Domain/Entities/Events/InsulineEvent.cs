@@ -8,5 +8,6 @@
         public string Title { get; set; }
         public string InsulinType { get; set; }
         public int? Dosage { get; set; }
+        public string? FreeNote { get; set; }
     }
 }

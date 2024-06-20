@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Diabetia.Domain.Models;
+﻿using Diabetia.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Diabetia.Infrastructure.EF
 {
@@ -44,7 +41,7 @@ namespace Diabetia.Infrastructure.EF
         public virtual DbSet<PacienteEnfermedadPreexistente> PacienteEnfermedadPreexistentes { get; set; } = null!;
         public virtual DbSet<Profesional> Profesionals { get; set; } = null!;
         public virtual DbSet<Recordatorio> Recordatorios { get; set; } = null!;
-        public virtual DbSet<RecordatorioDium> RecordatorioDia { get; set; } = null!;
+        public virtual DbSet<RecordatorioEvento> RecordatorioEventos { get; set; } = null!;
         public virtual DbSet<Rol> Rols { get; set; } = null!;
         public virtual DbSet<SensibilidadInsulina> SensibilidadInsulinas { get; set; } = null!;
         public virtual DbSet<Sentimiento> Sentimientos { get; set; } = null!;
@@ -378,7 +375,6 @@ namespace Diabetia.Infrastructure.EF
                 entity.HasOne(d => d.IdProfesionalNavigation)
                     .WithMany(p => p.EventoEstudios)
                     .HasForeignKey(d => d.IdProfesional)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("evento_estudio_ibfk_1");
             });
 
@@ -417,12 +413,7 @@ namespace Diabetia.Infrastructure.EF
                 entity.HasOne(d => d.IdDispositivoPacienteNavigation)
                     .WithMany(p => p.EventoGlucosas)
                     .HasForeignKey(d => d.IdDispositivoPaciente)
-                    .HasConstraintName("evento_glucosa_ibfk_2");
-
-                entity.HasOne(d => d.IdEventoComidaNavigation)
-                    .WithMany(p => p.EventoGlucosas)
-                    .HasForeignKey(d => d.IdEventoComida)
-                    .HasConstraintName("evento_glucosa_ibfk_3");
+                    .HasConstraintName("evento_glucosa_dispositivo_FK");
             });
 
             modelBuilder.Entity<EventoInsulina>(entity =>
@@ -465,7 +456,6 @@ namespace Diabetia.Infrastructure.EF
                 entity.HasOne(d => d.IdInsulinaPacienteNavigation)
                     .WithMany(p => p.EventoInsulinas)
                     .HasForeignKey(d => d.IdInsulinaPaciente)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("evento_insulina_ibfk_2");
             });
 
@@ -805,17 +795,6 @@ namespace Diabetia.Infrastructure.EF
 
                 entity.Property(e => e.UsaInsulina).HasColumnName("usa_insulina");
 
-                entity.HasOne(d => d.IdSensibilidadInsulinaNavigation)
-                    .WithMany(p => p.Pacientes)
-                    .HasForeignKey(d => d.IdSensibilidadInsulina)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("paciente_ibfk_3");
-
-                entity.HasOne(d => d.IdTipoDiabetesNavigation)
-                    .WithMany(p => p.Pacientes)
-                    .HasForeignKey(d => d.IdTipoDiabetes)
-                    .HasConstraintName("paciente_ibfk_2");
-
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.Pacientes)
                     .HasForeignKey(d => d.IdUsuario)
@@ -842,12 +821,6 @@ namespace Diabetia.Infrastructure.EF
                 entity.Property(e => e.IdActividadFisica).HasColumnName("id_actividad_fisica");
 
                 entity.Property(e => e.IdPaciente).HasColumnName("id_paciente");
-
-                entity.HasOne(d => d.IdActividadFisicaNavigation)
-                    .WithMany(p => p.PacienteActividadFisicas)
-                    .HasForeignKey(d => d.IdActividadFisica)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("paciente_actividad_fisica_ibfk_2");
 
                 entity.HasOne(d => d.IdPacienteNavigation)
                     .WithMany(p => p.PacienteActividadFisicas)
@@ -950,19 +923,15 @@ namespace Diabetia.Infrastructure.EF
                     .HasColumnName("horario_actividad");
 
                 entity.Property(e => e.IdTipoEvento).HasColumnName("id_tipo_evento");
-
-                entity.HasOne(d => d.IdTipoEventoNavigation)
-                    .WithMany(p => p.Recordatorios)
-                    .HasForeignKey(d => d.IdTipoEvento)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("recordatorio_ibfk_1");
             });
 
-            modelBuilder.Entity<RecordatorioDium>(entity =>
+            modelBuilder.Entity<RecordatorioEvento>(entity =>
             {
-                entity.ToTable("recordatorio_dia");
+                entity.ToTable("recordatorio_evento");
 
                 entity.UseCollation("utf8mb4_general_ci");
+
+                entity.HasIndex(e => e.IdCargaEvento, "FK_RecordatorioEvento_CargaEvento");
 
                 entity.HasIndex(e => e.IdDiaSemana, "id_dia_semana");
 
@@ -974,21 +943,29 @@ namespace Diabetia.Infrastructure.EF
                     .HasColumnType("datetime")
                     .HasColumnName("fecha_hora_recordatorio");
 
+                entity.Property(e => e.IdCargaEvento).HasColumnName("id_carga_evento");
+
                 entity.Property(e => e.IdDiaSemana).HasColumnName("id_dia_semana");
 
                 entity.Property(e => e.IdRecordatorio).HasColumnName("id_recordatorio");
 
+                entity.HasOne(d => d.IdCargaEventoNavigation)
+                    .WithMany(p => p.RecordatorioEventos)
+                    .HasForeignKey(d => d.IdCargaEvento)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RecordatorioEvento_CargaEvento");
+
                 entity.HasOne(d => d.IdDiaSemanaNavigation)
-                    .WithMany(p => p.RecordatorioDia)
+                    .WithMany(p => p.RecordatorioEventos)
                     .HasForeignKey(d => d.IdDiaSemana)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("recordatorio_dia_ibfk_2");
+                    .HasConstraintName("recordatorio_evento_ibfk_2");
 
                 entity.HasOne(d => d.IdRecordatorioNavigation)
-                    .WithMany(p => p.RecordatorioDia)
+                    .WithMany(p => p.RecordatorioEventos)
                     .HasForeignKey(d => d.IdRecordatorio)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("recordatorio_dia_ibfk_1");
+                    .HasConstraintName("recordatorio_evento_ibfk_1");
             });
 
             modelBuilder.Entity<Rol>(entity =>

@@ -1,16 +1,15 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
-import {GENDER, INSULIN_FREQUENCY, STEPS, TYPE_DIABETES, TYPE_INSULIN} from "../../../constants";
-import {CustomSwitch} from "../../../components/input";
+import {INSULIN_FREQUENCY, STEPS, TYPE_DIABETES, TYPE_INSULIN} from "../../../constants";
+import {CustomSwitch, InputWithLabel} from "../../../components/input";
 import {ButtonOrange} from "../../../components/button";
 import {useRouter} from "next/router";
-import {Step, StepLabel, Stepper, Link} from "@mui/material";
-import {useCookies} from "react-cookie";
+import {Step, StepLabel, Stepper} from "@mui/material";
 import {Select} from "@/components/selector";
 import {getPatientInfo, secondStep} from "../../../services/api.service";
 import {useEffect, useState} from "react";
 import {NavLink} from "../../../components/link"
-
+import {getEmailFromJwt} from "../../../helpers";
 
 const ProfileFormStep2 = () => {
     const [error, setError] = useState(false);
@@ -24,14 +23,11 @@ const ProfileFormStep2 = () => {
     const [insuline, setInsuline] = useState(false);
     const [reminder, setReminder] = useState(false);
     const [hour, setHour] = useState();
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
-    const email = cookies.email
+    const email = getEmailFromJwt();
     const [patientInfo, setPatientInfo] = useState(null);
 
 
     useEffect(() => {
-        const email = cookies.email;
-
         email && getPatientInfo({email})
             .then((res) => {
                 setPatientInfo({...res.data});
@@ -43,8 +39,6 @@ const ProfileFormStep2 = () => {
                 setSelectedOptionTipoInsulina(insulineType)
                 setSelectedOptionTipoDiabetes(diabetesType)
                 setSelectedOptionFrecuenciaInsulina(InsulineFrequency)
-
-
             })
             .catch((error) => {
                 error.response ? setError(error.response) : setError("Hubo un error")
