@@ -94,11 +94,6 @@ jobs:
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
 
-      - name: Show Qodana logs
-        run: |
-          ls /home/runner/work/_temp/qodana/results/logs/
-          cat /home/runner/work/_temp/qodana/results/logs/*.log
-
       - name: Upload Qodana Results
         uses: actions/upload-artifact@v3
         with:
