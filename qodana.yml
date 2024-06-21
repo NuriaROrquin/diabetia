@@ -1,3 +1,3 @@
 version: 1.0
-dot-net:
-  solution: backend/Diabetia/Diabetia.sln
+dotnet:
+  solution: backend/Diabetia/diabetia.sln
