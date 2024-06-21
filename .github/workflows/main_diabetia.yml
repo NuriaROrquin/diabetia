@@ -38,6 +38,42 @@ jobs:
         with:
           name: .net-app
           path: backend/Diabetia/publish/
+
+  qodana:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Cache Qodana
+        uses: actions/cache@v3
+        with:
+          path: .qodana/cache
+          key: qodana-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            qodana-${{ runner.os }}-
+
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@v2024.1
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+
+      - name: Show Qodana logs
+        run: |
+          ls /home/runner/work/_temp/qodana/results/logs/
+          cat /home/runner/work/_temp/qodana/results/logs/*.log
+
+      - name: Upload Qodana Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: qodana-results
+          path: .qodana/results
           
   deploy:
     runs-on: windows-latest
