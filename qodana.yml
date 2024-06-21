@@ -2,3 +2,8 @@ version: "1.0"
 linter: jetbrains/qodana-dotnet:2024.1
 dotnet:
   solution: backend/Diabetia/diabetia.sln
+bootstrap: |
+  dotnet build
+  cd backend/Diabetia
+  dotnet add package coverlet.msbuild
+  dotnet test /p:CollectCoverage=true /p:CoverletOutput=.qodana/code-coverage /p:CoverletOutputFormat=lcov
