@@ -98,7 +98,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: qodana-results
-          path: .qodana/results
+          path: .qodana/code-coverage
 
   deploy:
     runs-on: windows-latest
