@@ -61,6 +61,8 @@ jobs:
 
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2024.1
+        with:
+          solution: backend/Diabetia/Diabetia.sln
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
 
@@ -74,7 +76,7 @@ jobs:
         with:
           name: qodana-results
           path: .qodana/results
-          
+
   deploy:
     runs-on: windows-latest
     needs: build
