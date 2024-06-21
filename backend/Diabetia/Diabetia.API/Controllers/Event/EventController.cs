@@ -12,13 +12,13 @@ namespace Diabetia.API.Controllers
     [Authorize]
     public class EventController : ControllerBase
     {
-        private readonly EventFoodUseCase _eventFoodManuallyUseCase;
+        private readonly FoodManuallyUseCase _eventFoodManuallyUseCase;
         private readonly EventUseCase _getEventUseCase;
         private readonly DataUserUseCase _dataUserUseCase;
         private readonly EventMedicalExaminationUseCase _eventMedicalExaminationUseCase;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EventController(EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, IHttpContextAccessor httpContextAccessor)
+        public EventController(FoodManuallyUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, IHttpContextAccessor httpContextAccessor)
         {
             _eventFoodManuallyUseCase = eventFoodManuallyUseCase;
             _getEventUseCase = eventUseCase;
@@ -78,7 +78,7 @@ namespace Diabetia.API.Controllers
         [HttpGet("GetIngredients")]
         public async Task<IngredientResponse> GetIngredients()
         {
-            var ingredients = await _foodManuallyUseCase.GetIngredients();
+            var ingredients = await _eventFoodManuallyUseCase.GetIngredients();
 
             var ingredientsMapped = new IngredientResponse
             {

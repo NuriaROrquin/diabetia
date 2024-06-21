@@ -192,81 +192,51 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
         // -------------------------------------------------------- ⬇⬇ Food Manually Event ⬇⬇ -------------------------------------------------------
-        public async Task<float> AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote)
+        public async Task<float> AddFoodManuallyEvent(string email, EventoComidum foodEvent)
         {
             // Obtener el usuario por email
-            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == Email);
-            if (User == null) { throw new UserEventNotFoundException(); }
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) { throw new UserEventNotFoundException(); }
 
             // Obtener el paciente por id de usuario
-            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
-            if (Patient == null) { throw new PatientNotFoundException(); }
+            var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
+            if (patient == null) { throw new PatientNotFoundException(); }
 
             // 1- Guardar el evento
-            bool IsDone = EventDate <= DateTime.Now ? true : false;
-            var newEvent = new CargaEvento
+            foodEvent.IdCargaEventoNavigation.IdPaciente = patient.Id;
+            foodEvent.Carbohidratos = 0;
+            foodEvent.Proteinas = 0;
+            foodEvent.GrasasTotales = 0;
+            foodEvent.Sodio = 0;
+            foodEvent.FibraAlimentaria = 0;
+
+            // Recorro los ingredientes de la tabla ingredienteComida
+            // Para actualizar CH en tabla evento comida y actualizar macros en  ingrediente comida
+            foreach (var ingredient in foodEvent.IngredienteComida)
             {
-                IdPaciente = Patient.Id,
-                IdTipoEvento = IdKindEvent,
-                FechaActual = DateTime.Now,
-                FechaEvento = EventDate,
-                NotaLibre = FreeNote,
-                FueRealizado = IsDone,
-                EsNotaLibre = false,
-            };
+                var searchIngredient = await _context.Ingredientes.FirstOrDefaultAsync(i => i.Id == ingredient.IdIngrediente);
 
-            _context.CargaEventos.Add(newEvent);
-            await _context.SaveChangesAsync();
-
-            var lastInsertedIdEvent = await _context.CargaEventos
-                                            .Where(x => x.IdPaciente == Patient.Id)
-                                            .OrderByDescending(e => e.Id)
-                                            .FirstOrDefaultAsync();
-
-            decimal totalChFood = 0;
-            var ingredientComidumList = new List<IngredienteComidum>();
-
-            foreach (var ingredient in ingredients)
-            {
-                var searchIngredient = await _context.Ingredientes.FirstOrDefaultAsync(i => i.Id == ingredient.IdIngredient);
                 if (searchIngredient != null)
                 {
-                    totalChFood += ingredient.Quantity * searchIngredient.Carbohidratos;
-                    var ingredientComidum = new IngredienteComidum
-                    {
-                        IdIngrediente = ingredient.IdIngredient,
-                        IdEventoComida = lastInsertedIdEvent.Id,
-                        CantidadIngerida = (int)ingredient.Quantity,
-                        Proteinas = ingredient.Quantity * searchIngredient.Proteinas,
-                        GrasasTotales = ingredient.Quantity * searchIngredient.GrasasTotales,
-                        Carbohidratos = ingredient.Quantity * searchIngredient.Carbohidratos,
-                        Sodio = ingredient.Quantity * searchIngredient.Sodio,
-                        FibraAlimentaria = ingredient.Quantity * searchIngredient.FibraAlimentaria
-                    };
-                    ingredientComidumList.Add(ingredientComidum);
+                    ingredient.Carbohidratos = ingredient.CantidadIngerida * searchIngredient.Carbohidratos;
+                    ingredient.GrasasTotales = ingredient.CantidadIngerida * searchIngredient.GrasasTotales;
+                    ingredient.Proteinas = ingredient.CantidadIngerida * searchIngredient.Proteinas;
+                    ingredient.Sodio = ingredient.CantidadIngerida * searchIngredient.Sodio;
+                    ingredient.FibraAlimentaria = ingredient.CantidadIngerida * searchIngredient.FibraAlimentaria;
+
+
+                    foodEvent.Carbohidratos += (decimal)ingredient.Carbohidratos;
+                    foodEvent.GrasasTotales += (decimal)ingredient.GrasasTotales;
+                    foodEvent.Proteinas += (decimal)ingredient.Proteinas;
+                    foodEvent.Sodio += ingredient.Sodio ?? 0;
+                    foodEvent.FibraAlimentaria += ingredient.FibraAlimentaria ?? 0;
                 }
             }
 
-            // Insertar el evento de comida en la tabla `evento_comida`
-            var newFoodEvent = new EventoComidum
-            {
-                IdCargaEvento = lastInsertedIdEvent.Id,
-                IdTipoCargaComida = (int)FoodChargeTypeEnum.MANUAL,
-                Carbohidratos = totalChFood,
-            };
-
-            _context.EventoComida.Add(newFoodEvent);
+            _context.EventoComida.Update(foodEvent);
             await _context.SaveChangesAsync();
 
-            foreach (var ingredientComidum in ingredientComidumList)
-            {
-                ingredientComidum.IdEventoComida = newFoodEvent.Id;
-                _context.IngredienteComida.Add(ingredientComidum);
-            }
-
-            await _context.SaveChangesAsync();
-
-            return (float)newFoodEvent.Carbohidratos;
+            return (float)foodEvent.Carbohidratos;
         }
 
         public async Task EditFoodManuallyEvent(int idEvent, string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote)

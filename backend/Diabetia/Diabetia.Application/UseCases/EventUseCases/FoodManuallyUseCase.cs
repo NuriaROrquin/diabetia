@@ -5,7 +5,6 @@ using Diabetia.Interfaces;
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Repositories;
 
-
 namespace Diabetia.Application.UseCases.EventUseCases
 {
     public class FoodManuallyUseCase
@@ -22,11 +21,17 @@ namespace Diabetia.Application.UseCases.EventUseCases
             _patientEventValidator = patientEventValidator;
             _userRepository = userRepository;
         }
-        public async Task<float> AddFoodManuallyEventAsync(string email, foodManually)
+
+        public Task AddFoodByTagEvent(string email, DateTime eventDate, int chConsumed)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<float> AddFoodManuallyEventAsync(string email, EventoComidum foodEvent)
         {
             await _patientValidator.ValidatePatient(email);
-            var patient = await _userRepository.GetPatient(email);
-            await _eventRepository.AddFoodManuallyEvent(patient.Id, foodManually);
+            var carbohidrates = await _eventRepository.AddFoodManuallyEvent(email, foodEvent);
+            return carbohidrates;
         }
         /*
         public async Task EditFoodManuallyEventAsync(string email, EventoComidum foodManually)
