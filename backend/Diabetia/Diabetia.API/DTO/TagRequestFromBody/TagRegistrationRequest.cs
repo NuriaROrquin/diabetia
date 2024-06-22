@@ -1,6 +1,6 @@
 ﻿using Diabetia.API.DTO.EventRequest;
 
-namespace Diabetia.API.DTO
+namespace Diabetia.API.DTO.TagRequestFromBody
 {
     public class TagRegistrationRequest : BasicEventRequest
     {

@@ -4,6 +4,7 @@ using Diabetia.API.DTO;
 using Diabetia.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Diabetia.Application.UseCases.EventUseCases;
+using System.Security.Claims;
 
 namespace Diabetia.API.Controllers.Tag
 {
@@ -55,7 +56,7 @@ namespace Diabetia.API.Controllers.Tag
         [Authorize]
         public async Task<TagRegistrationResponse> ConfirmTagRegistration([FromBody] TagRegistrationRequest tagsRequest)
         {
-            var email = _httpContextAccessor.HttpContext?.User.FindFirst("email")?.Value;
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
             TagRegistrationResponse responses = new TagRegistrationResponse();
             float totalChConsumed = 0;
 

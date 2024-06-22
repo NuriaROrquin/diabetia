@@ -28,10 +28,9 @@ namespace Diabetia.API.Controllers.Event
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            var response = new FoodResponse();
-
             var foodEventResponse = await _foodManuallyUseCase.AddFoodManuallyEventAsync(email, request.ToDomain());
 
+            var response = new FoodResponse();
             response.ChConsumed = foodEventResponse.ChConsumed;
             response.InsulinRecomended = foodEventResponse.InsulinRecomended;
 
