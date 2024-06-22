@@ -14,7 +14,8 @@ using System.Security.Claims;
 
 
 namespace Diabetia.Test._1_Presentation.Controllers.Event
-{/*
+{
+    /*
     public class FoodManuallyControllerTest
     {
         [Fact]

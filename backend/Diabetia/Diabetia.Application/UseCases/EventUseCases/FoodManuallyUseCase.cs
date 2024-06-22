@@ -12,13 +12,15 @@ namespace Diabetia.Application.UseCases.EventUseCases
     {
         private readonly IEventRepository _eventRepository;
         private readonly IPatientValidator _patientValidator;
+        private readonly IPatientEventValidator _patientEventValidator;
         private readonly IUserRepository _userRepository;
 
-        public FoodManuallyUseCase(IEventRepository eventRepository, IPatientValidator patientValidator, IUserRepository userRepository)
+        public FoodManuallyUseCase(IEventRepository eventRepository, IPatientValidator patientValidator, IUserRepository userRepository, IPatientEventValidator patientEventValidator)
         {
             _patientValidator = patientValidator;
             _eventRepository = eventRepository;
             _userRepository = userRepository;
+            _patientEventValidator = patientEventValidator;
         }
 
         public async Task<FoodResultsEvent> AddFoodManuallyEventAsync(string email, EventoComidum foodEvent)
@@ -56,41 +58,14 @@ namespace Diabetia.Application.UseCases.EventUseCases
 
             return response;
         }
-        /*
+        
         public async Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates)
         {
             await _eventRepository.AddFoodByTagEvent(email, eventDate, carbohydrates);
-        }*/
-        
+        }
         public async Task<IEnumerable<AdditionalDataIngredient>> GetIngredients()
         {
             return await _eventRepository.GetIngredients();
         }
     }
-
-    //// -------------------------------------------- ⬇️⬇ Food Manually ⬇️⬇ --------------------------------------------------
-    //[HttpPost("AddFoodManuallyEvent")]
-    //public async Task<EventFoodResponse> AddFoodManuallyEvent([FromBody] EventFoodRequest request)
-    //{
-    //    EventFoodResponse response = new EventFoodResponse();
-    //   var totalChConsumed = await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.IdKindEvent.Value, request.Ingredients, request.FreeNote);
-
-    //    var userPatientInfo = await _dataUserUseCase.GetPatientInfo(request.Email);
-    //    if (userPatientInfo.ChCorrection != null)
-    //    {
-    //        var insulinToCorrect = totalChConsumed / userPatientInfo.ChCorrection;
-    //        response.InsulinToCorrect = (float)insulinToCorrect;
-    //    }
-
-    //    response.ChConsumed = (int)totalChConsumed;
-
-    //    return response;
-    //}
-
-    //[HttpPost("EditFoodManuallyEvent")]
-    //public async Task<IActionResult> EditFoodManuallyEvent([FromBody] EventFoodRequest request)
-    //{
-    //    await _eventFoodManuallyUseCase.EditFoodManuallyEvent(request.IdEvent.Value, request.Email, request.EventDate, request.IdKindEvent.Value, request.Ingredients, request.FreeNote);
-    //    return Ok();
-    //}
 }

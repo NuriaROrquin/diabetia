@@ -102,7 +102,7 @@ namespace Diabetia_Infrastructure.Repositories.Events
         [Fact]
         public async Task EditInsulinEvent_GivenInvalidEvent_ThrowsInsulinEventNotMatchException()
         {
-            var mockContext = CreateMockContextThrowGlucoseEventException();
+            var mockContext = CreateMockContextThrowInsulinEventException();
 
             var fakeRepository = new EventRepository(mockContext.Object);
 
@@ -121,10 +121,10 @@ namespace Diabetia_Infrastructure.Repositories.Events
                 }
             };
 
-            await Assert.ThrowsAsync<GlucoseEventNotMatchException>(async () =>
+            await Assert.ThrowsAsync<InsulinEventNotMatchException>(async () =>
             await fakeRepository.EditInsulinEventAsync(insulin));
         }
-        private Mock<diabetiaContext> CreateMockContextThrowGlucoseEventException()
+        private Mock<diabetiaContext> CreateMockContextThrowInsulinEventException()
         {
             var loadedEvent = new CargaEvento { Id = 1, IdPaciente = 11, FechaEvento = DateTime.Now, NotaLibre = "Edit Test Note" };
             var insulinEvent = new EventoInsulina { Id = 1, IdCargaEvento = 3, InsulinaInyectada = 20 };

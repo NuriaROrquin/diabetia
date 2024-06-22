@@ -4,6 +4,7 @@ using Diabetia.Infrastructure.EF;
 using Diabetia.Infrastructure.Repositories;
 using Moq;
 using Moq.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 
 namespace Diabetia_Infrastructure.Repositories.Events

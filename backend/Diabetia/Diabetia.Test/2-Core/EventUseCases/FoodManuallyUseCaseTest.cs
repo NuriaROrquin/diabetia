@@ -7,13 +7,15 @@ using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 using Xunit;
 using FakeItEasy;
+using Diabetia.Domain.Exceptions;
 
-namespace Diabetia_Core.Events;
+namespace Diabetia_Core.EventUseCases;
 public class FoodServiceTests
 {
     private readonly IUserRepository _userRepository;
     private readonly IEventRepository _eventRepository;
     private readonly IPatientValidator _patientValidator;
+    private readonly IPatientEventValidator _patientEventValidator;
     private readonly FoodManuallyUseCase _foodService;
 
     public FoodServiceTests()
@@ -21,7 +23,8 @@ public class FoodServiceTests
         _userRepository = A.Fake<IUserRepository>();
         _eventRepository = A.Fake<IEventRepository>();
         _patientValidator = A.Fake<IPatientValidator>();
-        _foodService = new FoodManuallyUseCase(_eventRepository, _patientValidator, _userRepository);
+        _patientEventValidator = A.Fake<IPatientEventValidator>();
+        _foodService = new FoodManuallyUseCase(_eventRepository, _patientValidator, _userRepository, _patientEventValidator);
     }
 
     [Fact]
@@ -80,7 +83,60 @@ public class FoodServiceTests
         // Assert
         A.CallTo(() => _patientValidator.ValidatePatient(email)).MustHaveHappened();
     }
-    
+
+    [Fact]
+    public async Task EditFoodManuallyEventAsync_ShouldReturnCorrectChConsumedAndInsulinRecommended()
+    {
+        var email = "test@example.com";
+        var foodEvent = new EventoComidum
+        {
+            IdCargaEventoNavigation = new CargaEvento { Id = 1 }
+        };
+        var patient = new Patient() { Id = 1, ChCorrection = 10 };
+        var chConsumed = 30;
+
+        A.CallTo(() => _userRepository.GetPatientInfo(email)).Returns(Task.FromResult(patient));
+        A.CallTo(() => _eventRepository.GetEventByIdAsync(foodEvent.IdCargaEventoNavigation.Id)).Returns(Task.FromResult(new CargaEvento()));
+        A.CallTo(() => _eventRepository.EditFoodEventAsync(foodEvent)).Returns(Task.FromResult((float)chConsumed));
+
+        var result = await _foodService.EditFoodManuallyEventAsync(email, foodEvent);
+
+        Assert.Equal(chConsumed, result.ChConsumed);
+        Assert.Equal((float)chConsumed / patient.ChCorrection, result.InsulinRecomended);
+    }
+
+    [Fact]
+    public async Task EditFoodManuallyEventAsync_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
+    {
+        var email = "invalid@example.com";
+        var foodEvent = new EventoComidum
+        {
+            IdCargaEventoNavigation = new CargaEvento { Id = 1 }
+        };
+
+        A.CallTo(() => _userRepository.GetPatientInfo(email)).Throws(new PatientNotFoundException());
+
+        await Assert.ThrowsAsync<PatientNotFoundException>(() => _foodService.EditFoodManuallyEventAsync(email, foodEvent));
+    }
+
+    [Fact]
+    public async Task EditFoodManuallyEventAsync_WhenCalledValidPatientInvalidEvent_ThrowsEventNotRelatedWithPatientException()
+    {
+        var email = "valid@example.com";
+        var foodEvent = new EventoComidum
+        {
+            IdCargaEventoNavigation = new CargaEvento { Id = 1 }
+        };
+        var patient = new Patient() { Id = 1, ChCorrection = 10 };
+        var loadedEvent = new CargaEvento { Id = 1 };
+
+        A.CallTo(() => _userRepository.GetPatientInfo(email)).Returns(Task.FromResult(patient));
+        A.CallTo(() => _eventRepository.GetEventByIdAsync(foodEvent.IdCargaEventoNavigation.Id)).Returns(Task.FromResult(loadedEvent));
+        A.CallTo(() => _patientEventValidator.ValidatePatientEvent(email, loadedEvent)).Throws(new EventNotRelatedWithPatientException());
+
+        await Assert.ThrowsAsync<EventNotRelatedWithPatientException>(() => _foodService.EditFoodManuallyEventAsync(email, foodEvent));
+    }
+
     [Fact]
     public async Task GetIngredients_ShouldReturnListOfIngredients()
     {
@@ -109,7 +165,7 @@ public class FoodServiceTests
         // Assert
         A.CallTo(() => _eventRepository.GetIngredients()).MustHaveHappenedOnceExactly();
     }
-    /*
+    
     [Fact]
     public async Task AddFoodByTagEvent_ShouldCallAddFoodByTagEvent()
     {
@@ -123,5 +179,5 @@ public class FoodServiceTests
 
         // Assert
         A.CallTo(() => _eventRepository.AddFoodByTagEvent(email, eventDate, carbohydrates)).MustHaveHappenedOnceExactly();
-    }*/
+    }
 }
