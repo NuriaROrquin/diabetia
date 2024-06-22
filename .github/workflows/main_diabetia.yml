@@ -98,7 +98,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: qodana-results
-          path: backend/Diabetia/.qodana/results
+          path: backend/Diabetia/TestResults
 
   deploy:
     runs-on: windows-latest
