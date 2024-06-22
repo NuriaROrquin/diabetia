@@ -109,15 +109,6 @@ namespace Diabetia.Application.UseCases
             var healthEvents = await _eventRepository.GetHealth(patient.Id, date);
             var medicalVisitEvents = await _eventRepository.GetMedicalVisit(patient.Id, date);
 
-            var groupedFoodEvents = foodEvents
-                .GroupBy(fe => new { fe.DateEvent })
-                .Select(g => new
-                {
-                    g.Key.DateEvent,
-                    Title = "Comida",
-                    Ingredients = string.Join(", ", g.Select(fe => fe.IngredientName))
-                });
-
             var events = new List<EventItem>();
 
             foreach (var physicalActivityEvent in physicalActivityEvents)
