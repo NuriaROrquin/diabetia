@@ -34,6 +34,8 @@ namespace Diabetia.Domain.Repositories
 
         public Task<float> EditFoodEventAsync(EventoComidum foodEvent);
 
+        public Task DeleteFoodEventAsync(int patientId);
+
         // -------------------------------------------- ⬇⬇ Tag Food ⬇⬇ ---------------------------------------------------------
         public Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates);
 

@@ -125,7 +125,7 @@ namespace Diabetia.Infrastructure.Repositories
         public async Task DeleteGlucoseEventAsync(int IdEvent)
         {
             var loadedEvent = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
-            var glucoseEvent = await _context.EventoGlucosas.FirstOrDefaultAsync(eaf => eaf.IdCargaEvento == loadedEvent.Id);
+            var glucoseEvent = await _context.EventoGlucosas.FirstOrDefaultAsync(eg => eg.IdCargaEvento == loadedEvent.Id);
 
             _context.EventoGlucosas.Remove(glucoseEvent);
             _context.CargaEventos.Remove(loadedEvent);
@@ -176,16 +176,13 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteInsulinEventAsync(int IdEvent)
+        public async Task DeleteInsulinEventAsync(int idEvent)
         {
-            var EventLoad = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == IdEvent);
-            if (EventLoad == null) { throw new EventNotFoundException(); }
-            var InsulinEvent = await _context.EventoInsulinas.FirstOrDefaultAsync(ei => ei.IdCargaEvento == EventLoad.Id);
-            if (InsulinEvent == null) { throw new InsulinEventNotMatchException("No se encontró la carga de insulina relacionada."); }
+            var loadedEvent = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == idEvent);
+            var insulinEvent = await _context.EventoInsulinas.FirstOrDefaultAsync(ei => ei.IdCargaEvento == loadedEvent.Id);
 
-            // Eliminar el evento de carga
-            _context.EventoInsulinas.Remove(InsulinEvent);
-            _context.CargaEventos.Remove(EventLoad);
+            _context.EventoInsulinas.Remove(insulinEvent);
+            _context.CargaEventos.Remove(loadedEvent);
 
             // Guardar los cambios en el contexto
             await _context.SaveChangesAsync();
@@ -319,6 +316,20 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
 
             return (float)foodEvent.Carbohidratos;
+        }
+
+        public async Task DeleteFoodEventAsync(int idEvent)
+        {
+            var loadedEvent = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == idEvent);
+            var foodEvent = await _context.EventoComida.FirstOrDefaultAsync(ec => ec.IdCargaEvento == loadedEvent.Id);
+            var currentIngredients = foodEvent.IngredienteComida.ToList();
+
+            _context.IngredienteComida.RemoveRange(currentIngredients);
+            _context.EventoComida.Remove(foodEvent);
+            _context.CargaEventos.Remove(loadedEvent);
+
+            // Guardar los cambios en el contexto
+            await _context.SaveChangesAsync();
         }
 
         // -------------------------------------------------------- ⬇⬇ Tag Food Event ⬇⬇ -------------------------------------------------------------

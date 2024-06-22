@@ -111,7 +111,7 @@ namespace Diabetia.Application.UseCases.EventUseCases
                     await _eventRepository.DeleteFreeNoteEventAsync(id);
                     break;
                 case TypeEventEnum.COMIDA:
-                    await _eventRepository.DeleteFoodEven(id);
+                    await _eventRepository.DeleteFoodEventAsync(id);
                     break;
                 case TypeEventEnum.VISITAMEDICA:
                     await _eventRepository.DeleteMedicalVisitEventAsync(id);
