@@ -12,20 +12,13 @@ namespace Diabetia.Application.UseCases.EventUseCases
     {
         private readonly IEventRepository _eventRepository;
         private readonly IPatientValidator _patientValidator;
-        private readonly IPatientEventValidator _patientEventValidator;
         private readonly IUserRepository _userRepository;
 
-        public FoodManuallyUseCase(IEventRepository eventRepository, IPatientValidator patientValidator, IPatientEventValidator patientEventValidator, IUserRepository userRepository)
+        public FoodManuallyUseCase(IEventRepository eventRepository, IPatientValidator patientValidator, IUserRepository userRepository)
         {
             _patientValidator = patientValidator;
             _eventRepository = eventRepository;
-            _patientEventValidator = patientEventValidator;
             _userRepository = userRepository;
-        }
-
-        public Task AddFoodByTagEvent(string email, DateTime eventDate, int chConsumed)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<FoodResultsEvent> AddFoodManuallyEventAsync(string email, EventoComidum foodEvent)

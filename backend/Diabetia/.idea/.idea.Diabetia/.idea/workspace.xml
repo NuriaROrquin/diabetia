@@ -9,9 +9,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Diabetia.Test/2-Core/EventUseCases/FoodManuallyUseCaseTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.API/Controllers/Event/EventController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.API/Controllers/Event/EventController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Test/2-Core/HomeUseCaseTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Test/2-Core/HomeUseCaseTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Application/UseCases/EventUseCases/FoodManuallyUseCase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Application/UseCases/EventUseCases/FoodManuallyUseCase.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +57,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1719073499784</updated>
-      <workItem from="1719073503703" duration="431000" />
+      <workItem from="1719073503703" duration="1564000" />
     </task>
     <servers />
   </component>
