@@ -37,8 +37,8 @@ namespace Diabetia.Application.UseCases.EventUseCases
 
             if (patient.ChCorrection != null)
             {
-                var insulinToCorrect = response.ChConsumed / patient.ChCorrection;
-                response.InsulinRecomended = (float)insulinToCorrect;
+                float insulinToCorrect = (float)response.ChConsumed / (float)patient.ChCorrection;
+                response.InsulinRecomended = insulinToCorrect;
             }
 
             return response;
