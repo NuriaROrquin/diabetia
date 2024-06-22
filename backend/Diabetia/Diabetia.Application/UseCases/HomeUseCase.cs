@@ -37,8 +37,6 @@ namespace Diabetia.Application.UseCases
 
         public async Task<Timeline> GetTimeline(string email)
         {
-            var timeline = new Timeline();
-
             var lastEvents = await _homeRepository.GetLastEvents(email);
 
             Timeline items = new Timeline();

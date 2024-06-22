@@ -4,12 +4,13 @@ using Diabetia.Domain.Utilities;
 using FakeItEasy;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Diabetia.Application.UseCases;
 using Diabetia.Domain.Entities.Events;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Services;
 using Xunit;
 
-namespace Diabetia.Application.UseCases.Tests
+namespace Diabetia_Core.Home
 {
     public class HomeUseCaseTests
     {

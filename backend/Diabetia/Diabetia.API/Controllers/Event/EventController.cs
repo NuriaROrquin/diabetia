@@ -17,7 +17,7 @@ namespace Diabetia.API.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly EventMedicalExaminationUseCase _eventMedicalExaminationUseCase;
 
-        public EventController(EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, IHttpContextAccessor httpContextAccessor)
+        public EventController(FoodManuallyUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, IHttpContextAccessor httpContextAccessor)
         {
             _eventFoodManuallyUseCase = eventFoodManuallyUseCase;
             _getEventUseCase = eventUseCase;
