@@ -53,13 +53,13 @@ public class CalendarUseCaseTests
 
         var glucoseEvents = new List<GlucoseEvent>
         {
-            new GlucoseEvent { DateEvent = new DateTime(2024, 6, 1, 7, 0, 0), Title = "Morning Glucose", GlucoseLevel = 90 }
+            new GlucoseEvent { DateEvent = new DateTime(2024, 6, 1, 7, 0, 0), Title = "Morning Glucose", GlucoseLevel = 90, FreeNote = "Nota libre", IdDevice = 1}
         };
         A.CallTo(() => _eventRepository.GetGlycemia(patientId, null)).Returns(Task.FromResult((IEnumerable<GlucoseEvent>)glucoseEvents));
 
         var insulinEvents = new List<InsulinEvent>
         {
-            new InsulinEvent { DateEvent = new DateTime(2024, 6, 1, 7, 30, 0), Title = "Morning Insulin", Dosage = 10, InsulinType = "Rapid" }
+            new InsulinEvent { DateEvent = new DateTime(2024, 6, 1, 7, 30, 0), Title = "Morning Insulin", Dosage = 10, InsulinType = "Rapid", FreeNote = "Nota libre"}
         };
         A.CallTo(() => _eventRepository.GetInsulin(patientId, null)).Returns(Task.FromResult((IEnumerable<InsulinEvent>)insulinEvents));
 
