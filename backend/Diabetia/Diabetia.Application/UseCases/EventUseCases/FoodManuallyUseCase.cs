@@ -12,20 +12,13 @@ namespace Diabetia.Application.UseCases.EventUseCases
     {
         private readonly IEventRepository _eventRepository;
         private readonly IPatientValidator _patientValidator;
-        private readonly IPatientEventValidator _patientEventValidator;
         private readonly IUserRepository _userRepository;
 
-        public FoodManuallyUseCase(IEventRepository eventRepository, IPatientValidator patientValidator, IPatientEventValidator patientEventValidator, IUserRepository userRepository)
+        public FoodManuallyUseCase(IEventRepository eventRepository, IPatientValidator patientValidator, IUserRepository userRepository)
         {
             _patientValidator = patientValidator;
             _eventRepository = eventRepository;
-            _patientEventValidator = patientEventValidator;
             _userRepository = userRepository;
-        }
-
-        public Task AddFoodByTagEvent(string email, DateTime eventDate, int chConsumed)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<FoodResultsEvent> AddFoodManuallyEventAsync(string email, EventoComidum foodEvent)
@@ -47,13 +40,13 @@ namespace Diabetia.Application.UseCases.EventUseCases
         public async Task EditFoodManuallyEventAsync(string email, EventoComidum foodManually)
         {
             await _eventRepository.EditFoodManuallyEvent(idEvent, Email, EventDate, IdKindEvent, ingredients, FreeNote);
-        }
+        }        */
 
         public async Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates)
         {
             await _eventRepository.AddFoodByTagEvent(email, eventDate, carbohydrates);
         }
-        */
+
         public async Task<IEnumerable<AdditionalDataIngredient>> GetIngredients()
         {
             return await _eventRepository.GetIngredients();
