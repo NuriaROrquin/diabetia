@@ -33,12 +33,12 @@ jobs:
       - name: Test with coverage
         run: |
           cd backend/Diabetia
-          dotnet test --configuration Release --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=.qodana/code-coverage /p:CoverletOutputFormat=lcov
+          dotnet test --configuration Release --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=backend/Diabetia/.qodana/code-coverage/ /p:CoverletOutputFormat=cobertura
 
       - name: Generate Coverage Report
         run: |
           dotnet tool install --global dotnet-reportgenerator-globaltool
-          reportgenerator -reports:backend/Diabetia/.qodana/code-coverage -targetdir:backend/Diabetia/.qodana/code-coverage -reporttypes:Html
+          reportgenerator -reports:backend/Diabetia/.qodana/code-coverage/coverage.cobertura.xml -targetdir:backend/Diabetia/.qodana/code-coverage/CoverageReport -reporttypes:Html
 
       - name: Upload test results
         uses: actions/upload-artifact@v3
@@ -100,6 +100,13 @@ jobs:
         with:
           name: qodana-results
           path: backend/Diabetia/.qodana/code-coverage
+
+      - name: Upload code coverage
+        run: |
+          dotnet build
+          cd backend/Diabetia
+          dotnet add package coverlet.msbuild
+          dotnet test /p:CollectCoverage=true /p:CoverletOutput=.qodana/code-coverage /p:CoverletOutputFormat=lcov
 
   deploy:
     runs-on: windows-latest
