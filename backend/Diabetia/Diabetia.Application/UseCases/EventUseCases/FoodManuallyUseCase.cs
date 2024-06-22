@@ -33,7 +33,27 @@ namespace Diabetia.Application.UseCases.EventUseCases
             var response = new FoodResultsEvent(); 
             await _patientValidator.ValidatePatient(email);
             var patient = await _userRepository.GetPatientInfo(email);
-            response.ChConsumed = (int)await _eventRepository.AddFoodManuallyEvent(patient.Id, foodEvent);
+            response.ChConsumed = (int)await _eventRepository.AddFoodEventAsync(patient.Id, foodEvent);
+
+            if (patient.ChCorrection != null)
+            {
+                float insulinToCorrect = (float)response.ChConsumed / (float)patient.ChCorrection;
+                response.InsulinRecomended = insulinToCorrect;
+            }
+
+            return response;
+        }
+        
+        public async Task<FoodResultsEvent> EditFoodManuallyEventAsync(string email, EventoComidum foodManually)
+        {
+            var response = new FoodResultsEvent();
+
+            await _patientValidator.ValidatePatient(email);
+            var patient = await _userRepository.GetPatientInfo(email);
+            var eventId = foodManually.IdCargaEventoNavigation.Id;
+            var loadedEvent = await _eventRepository.GetEventByIdAsync(eventId);
+            await _patientEventValidator.ValidatePatientEvent(email, loadedEvent);
+            response.ChConsumed = (int)await _eventRepository.EditFoodEventAsync(foodManually);
 
             if (patient.ChCorrection != null)
             {
@@ -44,16 +64,11 @@ namespace Diabetia.Application.UseCases.EventUseCases
             return response;
         }
         /*
-        public async Task EditFoodManuallyEventAsync(string email, EventoComidum foodManually)
-        {
-            await _eventRepository.EditFoodManuallyEvent(idEvent, Email, EventDate, IdKindEvent, ingredients, FreeNote);
-        }
-
         public async Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates)
         {
             await _eventRepository.AddFoodByTagEvent(email, eventDate, carbohydrates);
-        }
-        */
+        }*/
+        
         public async Task<IEnumerable<AdditionalDataIngredient>> GetIngredients()
         {
             return await _eventRepository.GetIngredients();
