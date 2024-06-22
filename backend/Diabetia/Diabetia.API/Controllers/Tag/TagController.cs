@@ -87,7 +87,7 @@ namespace Diabetia.API.Controllers.Tag
             float insulinToCorrect = (float)(totalChConsumed / userPatientInfo.ChCorrection);
 
             responses.ChConsumed = (int)totalChConsumed;
-            responses.InsulinToCorrect = (float)Math.Round(insulinToCorrect, 2);
+            responses.InsulinRecomended = (float)Math.Round(insulinToCorrect, 2);
 
             await _eventFoodUseCase.AddFoodByTagEvent(email, tagsRequest.EventDate, responses.ChConsumed);
 

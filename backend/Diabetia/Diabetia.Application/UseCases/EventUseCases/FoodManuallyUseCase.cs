@@ -4,6 +4,7 @@ using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Repositories;
+using Diabetia.Domain.Entities.Events;
 
 namespace Diabetia.Application.UseCases.EventUseCases
 {
@@ -27,11 +28,20 @@ namespace Diabetia.Application.UseCases.EventUseCases
             throw new NotImplementedException();
         }
 
-        public async Task<float> AddFoodManuallyEventAsync(string email, EventoComidum foodEvent)
+        public async Task<FoodResultsEvent> AddFoodManuallyEventAsync(string email, EventoComidum foodEvent)
         {
+            var response = new FoodResultsEvent(); 
             await _patientValidator.ValidatePatient(email);
-            var carbohidrates = await _eventRepository.AddFoodManuallyEvent(email, foodEvent);
-            return carbohidrates;
+            var patient = await _userRepository.GetPatientInfo(email);
+            response.ChConsumed = (int)await _eventRepository.AddFoodManuallyEvent(patient.Id, foodEvent);
+
+            if (patient.ChCorrection != null)
+            {
+                var insulinToCorrect = response.ChConsumed / patient.ChCorrection;
+                response.InsulinRecomended = (float)insulinToCorrect;
+            }
+
+            return response;
         }
         /*
         public async Task EditFoodManuallyEventAsync(string email, EventoComidum foodManually)

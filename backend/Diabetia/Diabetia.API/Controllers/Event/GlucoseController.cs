@@ -28,7 +28,7 @@ namespace Diabetia.API.Controllers.Event
             await _eventGlucoseUseCase.AddGlucoseEventAsync(email, glucose);
             return Ok("Registro de glucosa agregado correctamente");
         }
-        /*
+        
         [HttpPost("EditGlucoseEvent")]
         public async Task<IActionResult> EditGlucoseEventAsync([FromBody] EditGlucoseRequest request)
         {
@@ -36,7 +36,7 @@ namespace Diabetia.API.Controllers.Event
             var glucose = request.ToDomain();
             await _eventGlucoseUseCase.EditGlucoseEventAsync(email, glucose);
             return Ok("Registro de glucosa modificado correctamente");
-        }*/
+        }
         
     }
 }

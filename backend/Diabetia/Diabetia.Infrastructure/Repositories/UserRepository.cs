@@ -280,6 +280,7 @@ namespace Diabetia.Infrastructure.Repositories
 
             var patient = new Patient
             {
+                Id = pacienteInfo.Id,
                 TypeDiabetes = pacienteInfo.TypeDiabetes,
                 UseInsuline = pacienteInfo.UseInsuline,
                 TypeInsuline = insulinaPaciente.TypeInsuline,

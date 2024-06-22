@@ -192,26 +192,24 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
         // -------------------------------------------------------- ⬇⬇ Food Manually Event ⬇⬇ -------------------------------------------------------
-        public async Task<float> AddFoodManuallyEvent(string email, EventoComidum foodEvent)
+        public async Task<float> AddFoodManuallyEvent(int patientId, EventoComidum foodEvent)
         {
-            // Obtener el usuario por email
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
-            if (user == null) { throw new UserEventNotFoundException(); }
 
-            // Obtener el paciente por id de usuario
-            var patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
-            if (patient == null) { throw new PatientNotFoundException(); }
+            bool IsDone = foodEvent.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
+            var newEvent = new CargaEvento
+            {
+                IdPaciente = patientId,
+                IdTipoEvento = foodEvent.IdCargaEventoNavigation.IdTipoEvento,
+                FechaActual = DateTime.Now,
+                FechaEvento = foodEvent.IdCargaEventoNavigation.FechaEvento,
+                NotaLibre = foodEvent.IdCargaEventoNavigation.NotaLibre,
+                FueRealizado = IsDone,
+                EsNotaLibre = false,
+            };
 
-            // 1- Guardar el evento
-            foodEvent.IdCargaEventoNavigation.IdPaciente = patient.Id;
-            foodEvent.Carbohidratos = 0;
-            foodEvent.Proteinas = 0;
-            foodEvent.GrasasTotales = 0;
-            foodEvent.Sodio = 0;
-            foodEvent.FibraAlimentaria = 0;
+            _context.CargaEventos.Add(newEvent);
+            await _context.SaveChangesAsync();
 
-            // Recorro los ingredientes de la tabla ingredienteComida
-            // Para actualizar CH en tabla evento comida y actualizar macros en  ingrediente comida
             foreach (var ingredient in foodEvent.IngredienteComida)
             {
                 var searchIngredient = await _context.Ingredientes.FirstOrDefaultAsync(i => i.Id == ingredient.IdIngrediente);
@@ -233,7 +231,8 @@ namespace Diabetia.Infrastructure.Repositories
                 }
             }
 
-            _context.EventoComida.Update(foodEvent);
+            foodEvent.IdCargaEventoNavigation = newEvent;
+            _context.EventoComida.Add(foodEvent);
             await _context.SaveChangesAsync();
 
             return (float)foodEvent.Carbohidratos;

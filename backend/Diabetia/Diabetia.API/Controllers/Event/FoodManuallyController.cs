@@ -1,5 +1,6 @@
 ﻿using Diabetia.API.DTO.EventRequest.Food;
 using Diabetia.API.DTO.EventRequest.Glucose;
+using Diabetia.Application.UseCases;
 using Diabetia.Application.UseCases.EventUseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,9 +27,14 @@ namespace Diabetia.API.Controllers.Event
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            var carbohidrates = await _foodManuallyUseCase.AddFoodManuallyEventAsync(email, request.ToDomain());
+            var response = new AddFoodResponse();
 
-            return Ok(carbohidrates);
+            var foodEventResponse = await _foodManuallyUseCase.AddFoodManuallyEventAsync(email, request.ToDomain());
+
+            response.ChConsumed = foodEventResponse.ChConsumed;
+            response.InsulinRecomended = foodEventResponse.InsulinRecomended;
+
+            return Ok(response);
         }
 
         /*

@@ -1,9 +1,9 @@
 ﻿namespace Diabetia.API.DTO.EventRequest.Food
 {
-    public class FoodEventResponse
+    public class AddFoodResponse
     {
         public int ChConsumed { get; set; }
 
-        public float InsulinToCorrect { get; set; }
+        public float InsulinRecomended { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Diabetia.API.DTO
 {
-    public class TagRegistrationResponse : FoodEventResponse
+    public class TagRegistrationResponse : AddFoodResponse
     {
         public List<ResponsePerTag> Tags { get; set; }
         public TagRegistrationResponse()
