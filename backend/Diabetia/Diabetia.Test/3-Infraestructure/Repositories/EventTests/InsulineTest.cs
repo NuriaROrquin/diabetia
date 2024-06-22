@@ -6,7 +6,7 @@ using Moq;
 using Moq.EntityFrameworkCore;
 
 
-namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
+namespace Diabetia_Infrastructure.Repositories.Events
 {
     public class InsulineTest
     {

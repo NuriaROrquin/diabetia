@@ -14,34 +14,16 @@ namespace Diabetia.API.Controllers
     {
         private readonly EventFoodUseCase _eventFoodManuallyUseCase;
         private readonly EventUseCase _getEventUseCase;
-        private readonly DataUserUseCase _dataUserUseCase;
-        private readonly EventMedicalExaminationUseCase _eventMedicalExaminationUseCase;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly EventMedicalExaminationUseCase _eventMedicalExaminationUseCase;
 
-        public EventController(EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, DataUserUseCase dataUserUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, IHttpContextAccessor httpContextAccessor)
+        public EventController(EventFoodUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, IHttpContextAccessor httpContextAccessor)
         {
             _eventFoodManuallyUseCase = eventFoodManuallyUseCase;
             _getEventUseCase = eventUseCase;
-            _dataUserUseCase = dataUserUseCase;
-            _eventMedicalExaminationUseCase = eventMedicalExaminationUseCase;
             _httpContextAccessor = httpContextAccessor;
+            _eventMedicalExaminationUseCase = eventMedicalExaminationUseCase;
         }
-
-        //// -------------------------------------------- ⬇️⬇ Insuline ⬇️⬇ --------------------------------------------------
-        //[HttpPost("AddInsulinEvent")]
-        //public async Task<IActionResult> AddInsulinEvent([FromBody] EventInsulinRequest request)
-        //{
-        //    await _eventInsulintUseCase.AddInsulinEvent(request.Email, request.IdKindEvent.Value, request.EventDate, request.FreeNote, request.Insulin.Value);
-        //    return Ok();
-        //}
-
-        //[HttpPost("EditInsulinEvent")]
-        //public async Task<IActionResult> EditInsulinEvent([FromBody] EventInsulinRequest request)
-        //{
-        //    await _eventInsulintUseCase.EditInsulinEvent(request.IdEvent.Value, request.Email, request.EventDate, request.FreeNote, request.Insulin.Value);
-        //    return Ok("Evento modificado correctamente");
-        //}
-
 
         //// -------------------------------------------- ⬇️⬇ Food Manually ⬇️⬇ --------------------------------------------------
         //[HttpPost("AddFoodManuallyEvent")]

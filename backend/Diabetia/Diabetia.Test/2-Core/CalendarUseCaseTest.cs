@@ -7,7 +7,7 @@ using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 using FakeItEasy;
 
-namespace Diabetia_Core.Events;
+namespace Diabetia_Core.Calendar;
 public class CalendarUseCaseTests
 {
     private readonly IUserRepository _userRepository;
