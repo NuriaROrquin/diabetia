@@ -4,7 +4,7 @@ using FakeItEasy;
 using Infrastructure.Provider;
 using Microsoft.Extensions.Configuration;
 
-namespace Diabetia.Test._3_Infraestructure.Providers.Authentication
+namespace Diabetia_Infrastructure.Providers.Authentication
 {
     public class ChangePasswordTest
     {

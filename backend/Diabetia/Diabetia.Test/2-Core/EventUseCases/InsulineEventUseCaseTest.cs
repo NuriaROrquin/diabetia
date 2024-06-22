@@ -9,7 +9,7 @@ using Diabetia.Domain.Entities;
 using Diabetia.Interfaces;
 using Diabetia.Domain.Exceptions;
 
-namespace Diabetia.Test._2_Core.InsulinEventUseCases
+namespace Diabetia_Core.Events
 {
     public class InsulinUseCaseTests
     {

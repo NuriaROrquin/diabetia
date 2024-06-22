@@ -5,7 +5,7 @@ using Moq.EntityFrameworkCore;
 using Diabetia.Domain.Exceptions;
 using Diabetia.Infrastructure.EF;
 
-namespace Diabetia.Test._3_Infraestructure.Repositories.EventRepositoryTests
+namespace Diabetia_Infrastructure.Repositories.Events
 {
     public class MedicalVisitTest
     {

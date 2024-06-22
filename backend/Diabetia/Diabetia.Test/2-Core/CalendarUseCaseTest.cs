@@ -7,7 +7,7 @@ using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 using FakeItEasy;
 
-namespace Diabetia_Core.Events;
+namespace Diabetia_Core.Calendar;
 public class CalendarUseCaseTests
 {
     private readonly IUserRepository _userRepository;
@@ -53,13 +53,13 @@ public class CalendarUseCaseTests
 
         var glucoseEvents = new List<GlucoseEvent>
         {
-            new GlucoseEvent { DateEvent = new DateTime(2024, 6, 1, 7, 0, 0), Title = "Morning Glucose", GlucoseLevel = 90 }
+            new GlucoseEvent { DateEvent = new DateTime(2024, 6, 1, 7, 0, 0), Title = "Morning Glucose", GlucoseLevel = 90, FreeNote = "Nota libre", IdDevice = 1}
         };
         A.CallTo(() => _eventRepository.GetGlycemia(patientId, null)).Returns(Task.FromResult((IEnumerable<GlucoseEvent>)glucoseEvents));
 
         var insulinEvents = new List<InsulinEvent>
         {
-            new InsulinEvent { DateEvent = new DateTime(2024, 6, 1, 7, 30, 0), Title = "Morning Insulin", Dosage = 10, InsulinType = "Rapid" }
+            new InsulinEvent { DateEvent = new DateTime(2024, 6, 1, 7, 30, 0), Title = "Morning Insulin", Dosage = 10, InsulinType = "Rapid", FreeNote = "Nota libre"}
         };
         A.CallTo(() => _eventRepository.GetInsulin(patientId, null)).Returns(Task.FromResult((IEnumerable<InsulinEvent>)insulinEvents));
 
@@ -88,40 +88,67 @@ public class CalendarUseCaseTests
     public async Task GetAllEventsByDate_WhenDateExists_ReturnsCorrectEvents()
     {
         // Arrange
-        var userRepository = A.Fake<IUserRepository>();
-        var eventRepository = A.Fake<IEventRepository>();
-        var fakePatientValidator = A.Fake<IPatientValidator>();
-
-        var calendarUseCase = new CalendarUseCase(eventRepository, userRepository, fakePatientValidator);
-
-        var date = new DateTime(2024, 6, 7);
         var email = "test@example.com";
-        var userId = 123;
+        var date = new DateTime(2024, 6, 7);
+        int patientId = 123;
 
-        A.CallTo(() => userRepository.GetPatient(email)).Returns(new Paciente { Id = userId });
+        var patient = new Paciente { Id = patientId };
+        A.CallTo(() => _userRepository.GetPatient(email)).Returns(Task.FromResult(patient));
 
         var physicalActivityEvents = new List<PhysicalActivityEvent>
         {
-            new PhysicalActivityEvent { DateEvent = date.AddDays(1), Title = "Physical Activity 1" },
-            new PhysicalActivityEvent { DateEvent = date, Title = "Physical Activity 2" }
+            new PhysicalActivityEvent { IdEvent = 1, DateEvent = date, Title = "Morning Run", Duration = 30 }
         };
-        A.CallTo(() => eventRepository.GetPhysicalActivity(userId, date)).Returns(physicalActivityEvents);
+        A.CallTo(() => _eventRepository.GetPhysicalActivity(patientId, date)).Returns(Task.FromResult((IEnumerable<PhysicalActivityEvent>)physicalActivityEvents));
 
         var foodEvents = new List<FoodEvent>
         {
-            new FoodEvent { DateEvent = date, IngredientName = "Ingredient 1" },
-            new FoodEvent { DateEvent = date.AddDays(1), IngredientName = "Ingredient 2" }
+            new FoodEvent { IdEvent = 2, DateEvent = date, IngredientName = "Apple" }
         };
-        A.CallTo(() => eventRepository.GetFoods(userId, date)).Returns(foodEvents);
+        A.CallTo(() => _eventRepository.GetFoods(patientId, date)).Returns(Task.FromResult((IEnumerable<FoodEvent>)foodEvents));
 
+        var examEvents = new List<ExamEvent>
+        {
+            new ExamEvent { IdEvent = 3, DateEvent = date, Title = "Blood Test" }
+        };
+        A.CallTo(() => _eventRepository.GetExams(patientId, date)).Returns(Task.FromResult((IEnumerable<ExamEvent>)examEvents));
+
+        var glucoseEvents = new List<GlucoseEvent>
+        {
+            new GlucoseEvent { IdEvent = 4, DateEvent = date, Title = "Morning Glucose", GlucoseLevel = 90 }
+        };
+        A.CallTo(() => _eventRepository.GetGlycemia(patientId, date)).Returns(Task.FromResult((IEnumerable<GlucoseEvent>)glucoseEvents));
+
+        var insulinEvents = new List<InsulinEvent>
+        {
+            new InsulinEvent { IdEvent = 5, DateEvent = date, Title = "Morning Insulin" }
+        };
+        A.CallTo(() => _eventRepository.GetInsulin(patientId, date)).Returns(Task.FromResult((IEnumerable<InsulinEvent>)insulinEvents));
+
+        var healthEvents = new List<HealthEvent>
+        {
+            new HealthEvent { IdEvent = 6, DateEvent = date, Title = "Check-up" }
+        };
+        A.CallTo(() => _eventRepository.GetHealth(patientId, date)).Returns(Task.FromResult((IEnumerable<HealthEvent>)healthEvents));
+
+        var medicalVisitEvents = new List<MedicalVisitEvent>
+        {
+            new MedicalVisitEvent { IdEvent = 7, DateEvent = date, Title = "Doctor Appointment", Description = "Routine check" }
+        };
+        A.CallTo(() => _eventRepository.GetMedicalVisit(patientId, date)).Returns(Task.FromResult((IEnumerable<MedicalVisitEvent>)medicalVisitEvents));
 
         // Act
-        var events = await calendarUseCase.GetAllEventsByDate(date, email);
+        var events = await _calendarUseCase.GetAllEventsByDate(date, email);
 
         // Assert
-
         Assert.NotNull(events);
-        Assert.Contains(events, e => e.Title == "Comida" && e.AdditionalInfo == "Ingredientes: Ingredient 1");
-        Assert.Contains(events, e => e.Title == "Physical Activity 2");
+
+        Assert.Contains(events, e => e.Title == "Morning Run" && e.AdditionalInfo == "Duración: 30min");
+        Assert.Contains(events, e => e.Title == "Comida" && e.AdditionalInfo == "Ingredientes: Apple");
+        Assert.Contains(events, e => e.Title == "Blood Test");
+        Assert.Contains(events, e => e.Title == "Morning Glucose" && e.AdditionalInfo == "Nivel: 90mg/dL");
+        Assert.Contains(events, e => e.Title == "Morning Insulin");
+        Assert.Contains(events, e => e.Title == "Check-up");
+        Assert.Contains(events, e => e.Title == "Doctor Appointment" && e.AdditionalInfo == "Routine check");
     }
 }

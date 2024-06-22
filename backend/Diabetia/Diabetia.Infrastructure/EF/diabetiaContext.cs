@@ -19,6 +19,7 @@ namespace Diabetia.Infrastructure.EF
         public virtual DbSet<DiaSemana> DiaSemanas { get; set; } = null!;
         public virtual DbSet<Dispositivo> Dispositivos { get; set; } = null!;
         public virtual DbSet<DispositivoPaciente> DispositivoPacientes { get; set; } = null!;
+        public virtual DbSet<EarlyAdopter> EarlyAdopters { get; set; } = null!;
         public virtual DbSet<EncargadoLegal> EncargadoLegals { get; set; } = null!;
         public virtual DbSet<Enfermedad> Enfermedads { get; set; } = null!;
         public virtual DbSet<Especialidad> Especialidads { get; set; } = null!;
@@ -191,6 +192,25 @@ namespace Diabetia.Infrastructure.EF
                     .HasForeignKey(d => d.IdPaciente)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("dispositivo_paciente_ibfk_1");
+            });
+
+            modelBuilder.Entity<EarlyAdopter>(entity =>
+            {
+                entity.ToTable("early_adopters");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(100)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(100)
+                    .HasColumnName("nombre");
+
+                entity.Property(e => e.Visto)
+                    .HasColumnName("visto")
+                    .HasDefaultValueSql("'0'");
             });
 
             modelBuilder.Entity<EncargadoLegal>(entity =>

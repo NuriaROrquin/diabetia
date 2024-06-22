@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using FakeItEasy;
 
-namespace Diabetia.Test.Presentation.Controllers.Event
+namespace Diabetia_Presentation.Events
 {
     public class GlucoseControllerTests
     {

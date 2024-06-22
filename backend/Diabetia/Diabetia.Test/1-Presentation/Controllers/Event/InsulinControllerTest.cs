@@ -12,7 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Diabetia.Test.Presentation.Controllers.Event
+namespace Diabetia_Presentation.Events
 {
     public class InsulinControllerTest
     {

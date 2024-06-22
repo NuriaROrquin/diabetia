@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Diabetia.Test._2_Core.EventUseCases
+namespace Diabetia_Core.Events
 {
     public class MedicalVisitUseCaseTest
     {
