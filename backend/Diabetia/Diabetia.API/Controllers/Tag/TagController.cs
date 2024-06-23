@@ -5,6 +5,9 @@ using Diabetia.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Diabetia.Application.UseCases.EventUseCases;
 using System.Security.Claims;
+using Diabetia.API.DTO.TagResponse;
+using Diabetia.API.DTO.TagRequestFromBody;
+using Diabetia.API.DTO.EventResponse.Food;
 
 namespace Diabetia.API.Controllers.Tag
 {
@@ -13,11 +16,11 @@ namespace Diabetia.API.Controllers.Tag
     public class TagController : ControllerBase
     {
         private readonly TagDetectionUseCase _tagDetectionUseCase;
-        private readonly TagCalculateUseCase _tagCalculateUseCase;
+        private readonly TagConfirmationUseCase _tagCalculateUseCase;
         private readonly DataUserUseCase _dataUserUseCase;
         private readonly FoodManuallyUseCase _eventFoodUseCase;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public TagController(TagDetectionUseCase tagDetectionUseCase, TagCalculateUseCase tagCalculateUseCase, DataUserUseCase dataUserUseCase, FoodManuallyUseCase eventFoodUseCase, IHttpContextAccessor httpContextAccessor)
+        public TagController(TagDetectionUseCase tagDetectionUseCase, TagConfirmationUseCase tagCalculateUseCase, DataUserUseCase dataUserUseCase, FoodManuallyUseCase eventFoodUseCase, IHttpContextAccessor httpContextAccessor)
         {
             _tagDetectionUseCase = tagDetectionUseCase;
             _tagCalculateUseCase = tagCalculateUseCase;
@@ -30,67 +33,38 @@ namespace Diabetia.API.Controllers.Tag
         [Authorize]
         public async Task<IEnumerable<TagDetectionResponse>> GetOcrResponseAsync([FromBody] IEnumerable<TagDetectionRequest> tags)
         {
-            List<TagDetectionResponse> responses = new List<TagDetectionResponse>();
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            foreach (var tag in tags)
+            var tagImages = tags.Select(tag => tag.ImageBase64).ToList();
+            var tagResponses = await _tagDetectionUseCase.GetOcrResponseFromDocument(email, tagImages);
+
+            var responses = tagResponses.Select((tagResponse, index) => new TagDetectionResponse
             {
-                var tagResponses = await _tagDetectionUseCase.GetOcrResponseFromDocument(new List<string> { tag.ImageBase64 });
-
-                foreach (var tagResponse in tagResponses)
-                {
-                    responses.Add(new TagDetectionResponse
-                    {
-                        Id = tag.Id,
-                        GrPerPortion = tagResponse.GrPerPortion,
-                        Portion = tag.Portion,
-                        ChInPortion = tagResponse.ChInPortion,
-                        UniqueIdTag = tagResponse.UniqueId
-                    });
-                }
-            }
+                Id = tags.ElementAt(index).Id,
+                GrPerPortion = tagResponse.GrPerPortion,
+                Portion = tags.ElementAt(index).Portion,
+                ChInPortion = tagResponse.ChInPortion,
+                UniqueIdTag = tagResponse.UniqueId
+            }).ToList();
 
             return responses;
         }
 
         [HttpPost("tagRegistration")]
         [Authorize]
-        public async Task<TagRegistrationResponse> ConfirmTagRegistration([FromBody] TagRegistrationRequest tagsRequest)
+        public async Task<FoodResponse> ConfirmTagRegistration([FromBody] TagRegistrationRequest tagsRequest)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
-            TagRegistrationResponse responses = new TagRegistrationResponse();
-            float totalChConsumed = 0;
+            List<NutritionTag> nutritionTags = tagsRequest.ToDomain();
 
-            foreach (var tag in tagsRequest.Tags)
-            {
-                NutritionTag tagConfirmationRequest = new NutritionTag()
-                {
-                    ChInPortion = tag.ChInPortion,
-                    GrPerPortion = tag.GrPerPortion,
-                    Portion = tag.Portion,
-                };
+            var foodCalculated = await _tagCalculateUseCase.CalculateFoodResponseAsync(email, nutritionTags);
 
+            await _eventFoodUseCase.AddFoodByTagEvent(email, tagsRequest.EventDate, foodCalculated.ChConsumed);
 
-                float consumed = await _tagCalculateUseCase.GetChPerPortionConsumed(tagConfirmationRequest);
-                totalChConsumed += consumed;
+            FoodResponse responses = new FoodResponse();
 
-                responses.Tags.Add(new ResponsePerTag
-                {
-                    Id = tag.Id,
-                    Portion = tag.Portion,
-                    GrPerPortion = tag.GrPerPortion,
-                    ChInPortion = tag.ChInPortion,
-                    ChCalculated = consumed,
-                });
-            }
-
-            var userPatientInfo = await _dataUserUseCase.GetPatientInfo(email);
-
-            float insulinToCorrect = (float)(totalChConsumed / userPatientInfo.ChCorrection);
-
-            responses.ChConsumed = (int)totalChConsumed;
-            responses.InsulinRecomended = (float)Math.Round(insulinToCorrect, 2);
-
-            await _eventFoodUseCase.AddFoodByTagEvent(email, tagsRequest.EventDate, responses.ChConsumed);
+            responses.ChConsumed = foodCalculated.ChConsumed;
+            responses.InsulinRecomended = foodCalculated.InsulinRecomended;
 
             return responses;
         }

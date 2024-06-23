@@ -1,7 +1,5 @@
 ﻿using Diabetia.API.DTO.EventRequest.Food;
-using Diabetia.API.DTO.EventRequest.Glucose;
 using Diabetia.API.DTO.EventResponse.Food;
-using Diabetia.Application.UseCases;
 using Diabetia.Application.UseCases.EventUseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

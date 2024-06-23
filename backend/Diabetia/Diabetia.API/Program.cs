@@ -52,7 +52,7 @@ builder.Services.AddScoped<AuthForgotPasswordUseCase>();
 builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<DataUserUseCase>();
 builder.Services.AddScoped<TagDetectionUseCase>();
-builder.Services.AddScoped<TagCalculateUseCase>();
+builder.Services.AddScoped<TagConfirmationUseCase>();
 builder.Services.AddScoped<PhysicalActivityUseCase>();
 builder.Services.AddScoped<GlucoseUseCase>();
 builder.Services.AddScoped<InsulinUseCase>();
