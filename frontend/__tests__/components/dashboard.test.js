@@ -29,7 +29,6 @@ jest.mock('../../services/home.service', () => ({
     ),
 }));
 
-// Mock cookies para el componente
 jest.mock('react-cookie', () => ({
     useCookies: () => [{ email: 'test@example.com' }, jest.fn(), jest.fn()],
 }));
