@@ -25,10 +25,6 @@ export const MetricCard = ({number, textIndicator, title, description, unit, too
         return isWarning === null || number == 0 ? 'text-blue-primary' : isWarning === false ? 'text-green-primary' : 'text-red-primary'
     }
 
-    const getBackgroundColor = () => {
-        return isWarning === null || number == 0 ? 'bg-white' : isWarning === false ? 'bg-white' : 'bg-red-primary';
-    }
-
     const getAdditionalTextColor = () => {
         return isWarning === null || number == 0 ? 'text-gray-primary' : isWarning === false ? 'text-gray-primary' : 'text-gray-primary'
     }
@@ -85,7 +81,7 @@ export const EventCard = ({events}) => {
                 return (
                     <div key={event.title} className="relative w-1/5 h-52 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:-translate-y-2">
                         <Link href={event.link || ""}>
-                            <Image src={event.image} alt={event.title} width={500} height={500}
+                            <Image src={`/${event.image}`} alt={event.title} width={500} height={500}
                                  className="w-full h-full object-cover"/>
                             <div
                                 className="absolute top-0 h-full w-full p-6 bg-blue-primary bg-opacity-65 text-white text-center text-4xl font-bold flex justify-center items-center">
@@ -105,7 +101,7 @@ export const ProfileCard = ({ editInfo }) => {
             {editInfo && editInfo.map((item) => {
                 const IconComponent = getIconComponent(item.title);
                 return (
-                    <div key={item.title} className="bg-white rounded-lg overflow-hidden shadow-lg p-2 mb-4">
+                    <div data-testid={`icon-${item.title}`} key={item.title} className="bg-white rounded-lg overflow-hidden shadow-lg p-2 mb-4">
                         <Link href={item.link || ""} className="flex items-center p-6">
                             {IconComponent && <IconComponent className="text-orange-primary text-4xl mr-8" />}
                             <div>

@@ -43,6 +43,7 @@ export const Select = ({ width, selectedOption, options, isOpen, setIsOpen, hand
 
             <div className="relative inline-block w-full h-fit">
                 <button
+                    data-testid="select"
                     onClick={() => setIsOpen(!isOpen, index)}
                     className={`flex appearance-none w-full px-4 py-3 mt-2 pr-8 border border-gray-400 rounded-lg leading-tight focus:outline-none ${isOpen ? 'rounded-b-0 rounded-t-xl' : 'rounded-xl'} items-center py-4`}
                 >
@@ -94,6 +95,7 @@ export const SelectSearch = ({ width, selectedOption, options, isOpen, setIsOpen
 
             <div className="relative inline-block w-full h-fit">
                 <button
+                    data-testid="search-input"
                     onClick={() => setIsOpen(!isOpen, index)}
                     className={`flex appearance-none w-full px-4 py-3 mt-2 pr-8 border border-gray-400 rounded-lg leading-tight focus:outline-none ${isOpen ? 'rounded-b-0 rounded-t-xl' : 'rounded-xl'} items-center py-4`}
                 >

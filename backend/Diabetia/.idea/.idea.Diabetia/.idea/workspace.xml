@@ -8,7 +8,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="" />
+    <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../frontend/__tests__/components/card.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/__tests__/components/selector.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/__tests__/components/dashboard.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/__tests__/components/dashboard.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/components/card/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/components/card/index.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,7 +70,7 @@
     <option name="coveragePercentColumnWidth" value="150" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="459" />
+    <option name="symbolColumnWidth" value="504" />
     <coverage-tree-state>
       <expand />
       <select />
