@@ -106,8 +106,6 @@ namespace Diabetia.Application.UseCases
                         break;
                     case TypeEventEnum.NOTALIBRE:
                         break;
-                    default:
-                        break;
                 }
             }
 

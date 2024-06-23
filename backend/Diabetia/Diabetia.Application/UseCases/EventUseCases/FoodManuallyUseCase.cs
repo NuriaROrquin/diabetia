@@ -23,7 +23,7 @@ namespace Diabetia.Application.UseCases.EventUseCases
             _patientEventValidator = patientEventValidator;
         }
 
-        public async Task<FoodResultsEvent> AddFoodManuallyEventAsync(string email, EventoComidum foodEvent)
+        public virtual async Task<FoodResultsEvent> AddFoodManuallyEventAsync(string email, EventoComidum foodEvent)
         {
             var response = new FoodResultsEvent(); 
             await _patientValidator.ValidatePatient(email);
@@ -39,7 +39,7 @@ namespace Diabetia.Application.UseCases.EventUseCases
             return response;
         }
         
-        public async Task<FoodResultsEvent> EditFoodManuallyEventAsync(string email, EventoComidum foodManually)
+        public virtual async Task<FoodResultsEvent> EditFoodManuallyEventAsync(string email, EventoComidum foodManually)
         {
             var response = new FoodResultsEvent();
 

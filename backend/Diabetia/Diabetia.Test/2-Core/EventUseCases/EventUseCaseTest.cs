@@ -161,7 +161,7 @@ namespace Diabetia_Core.Events
             A.CallTo(() => _fakeEventRepository.GetEventByIdAsync(eventId)).MustHaveHappenedOnceExactly();
             A.CallTo(() => _fakePatientEventValidator.ValidatePatientEvent(email, @event)).MustHaveHappenedOnceExactly();
             
-            A.CallTo(() => _fakeEventRepository.DeleteFoodEven(eventId)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _fakeEventRepository.DeleteFoodEventAsync(eventId)).MustHaveHappenedOnceExactly();
         }
         
         [Fact]
