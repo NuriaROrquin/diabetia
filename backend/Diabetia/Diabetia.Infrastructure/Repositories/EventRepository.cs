@@ -333,21 +333,13 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
         // -------------------------------------------------------- ⬇⬇ Tag Food Event ⬇⬇ -------------------------------------------------------------
-        public async Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates)
+        public async Task AddFoodByTagEvent(int patientId, DateTime eventDate, int carbohydrates)
         {
-            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
-            if (User == null) { throw new UserEventNotFoundException(); }
-
-            // Obtener el paciente por id de usuario
-            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
-            if (Patient == null) { throw new PatientNotFoundException(); }
-
-            // 1- Guardar el evento
             bool IsDone = eventDate <= DateTime.Now ? true : false;
 
             var newEvent = new CargaEvento
             {
-                IdPaciente = Patient.Id,
+                IdPaciente = patientId,
                 IdTipoEvento = (int)TypeEventEnum.COMIDA,
                 FechaActual = DateTime.Now,
                 FechaEvento = eventDate,
@@ -359,7 +351,7 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
 
             var lastInsertedIdEvent = await _context.CargaEventos
-                                            .Where(x => x.IdPaciente == Patient.Id)
+                                            .Where(x => x.IdPaciente == patientId)
                                             .OrderByDescending(e => e.Id)
                                             .FirstOrDefaultAsync();
 
@@ -372,8 +364,6 @@ namespace Diabetia.Infrastructure.Repositories
             };
 
             _context.EventoComida.Add(newFoodEvent);
-            await _context.SaveChangesAsync();
-
             await _context.SaveChangesAsync();
         }
 

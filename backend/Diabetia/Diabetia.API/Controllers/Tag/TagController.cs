@@ -17,14 +17,12 @@ namespace Diabetia.API.Controllers.Tag
     {
         private readonly TagDetectionUseCase _tagDetectionUseCase;
         private readonly TagConfirmationUseCase _tagCalculateUseCase;
-        private readonly DataUserUseCase _dataUserUseCase;
         private readonly FoodManuallyUseCase _eventFoodUseCase;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public TagController(TagDetectionUseCase tagDetectionUseCase, TagConfirmationUseCase tagCalculateUseCase, DataUserUseCase dataUserUseCase, FoodManuallyUseCase eventFoodUseCase, IHttpContextAccessor httpContextAccessor)
+        public TagController(TagDetectionUseCase tagDetectionUseCase, TagConfirmationUseCase tagCalculateUseCase, FoodManuallyUseCase eventFoodUseCase, IHttpContextAccessor httpContextAccessor)
         {
             _tagDetectionUseCase = tagDetectionUseCase;
             _tagCalculateUseCase = tagCalculateUseCase;
-            _dataUserUseCase = dataUserUseCase;
             _eventFoodUseCase = eventFoodUseCase;
             _httpContextAccessor = httpContextAccessor;
         }

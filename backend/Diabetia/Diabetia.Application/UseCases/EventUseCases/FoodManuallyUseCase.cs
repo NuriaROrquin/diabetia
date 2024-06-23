@@ -61,7 +61,9 @@ namespace Diabetia.Application.UseCases.EventUseCases
         
         public async Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates)
         {
-            await _eventRepository.AddFoodByTagEvent(email, eventDate, carbohydrates);
+            var patient = await _userRepository.GetPatientInfo(email);
+
+            await _eventRepository.AddFoodByTagEvent(patient.Id, eventDate, carbohydrates);
         }
         public async Task<IEnumerable<AdditionalDataIngredient>> GetIngredients()
         {
