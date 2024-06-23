@@ -5,6 +5,8 @@ using Diabetia.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Diabetia.Application.UseCases.EventUseCases;
 using System.Security.Claims;
+using Diabetia.API.DTO.TagRequestFromBody;
+using Diabetia.API.DTO.TagResponse;
 
 namespace Diabetia.API.Controllers.Tag
 {
