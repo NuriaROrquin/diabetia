@@ -171,13 +171,17 @@ public class FoodServiceTests
     {
         // Arrange
         var email = "test@example.com";
+        var patientId = 1;
         var eventDate = DateTime.Now;
         var carbohydrates = 50;
+        var patient = new Patient() { Id = 1, ChCorrection = 10 };
+
+        A.CallTo(() => _userRepository.GetPatientInfo(email)).Returns(Task.FromResult(patient));
 
         // Act
         await _foodService.AddFoodByTagEvent(email, eventDate, carbohydrates);
 
         // Assert
-        A.CallTo(() => _eventRepository.AddFoodByTagEvent(email, eventDate, carbohydrates)).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _eventRepository.AddFoodByTagEvent(patientId, eventDate, carbohydrates)).MustHaveHappenedOnceExactly();
     }
 }

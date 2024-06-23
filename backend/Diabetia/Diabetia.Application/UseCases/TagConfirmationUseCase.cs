@@ -45,6 +45,10 @@ namespace Diabetia.Application.UseCases
 
         private float CalculateInsulinToCorrect(float totalChConsumed, float chCorrection)
         {
+            if (chCorrection == 0)
+            {
+                throw new DivideByZeroException();
+            }
             return (float)totalChConsumed / (float)chCorrection;
         }
     }
