@@ -9,13 +9,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Diabetia.Test/2-Core/TagConfirmationUseCaseTest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/__tests__/helpers/index.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Application/UseCases/EventUseCases/FoodManuallyUseCase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Application/UseCases/EventUseCases/FoodManuallyUseCase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Application/UseCases/TagConfirmationUseCase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Application/UseCases/TagConfirmationUseCase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Test/2-Core/EventUseCases/FoodManuallyUseCaseTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Test/2-Core/EventUseCases/FoodManuallyUseCaseTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/step-4/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/step-4/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diabetia.Test/2-Core/TagDetectionUseCaseTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +56,7 @@
       <option name="presentableId" value="Default" />
       <updated>1719073499784</updated>
       <workItem from="1719073503703" duration="1564000" />
-      <workItem from="1719112013079" duration="2175000" />
+      <workItem from="1719112013079" duration="2492000" />
     </task>
     <servers />
   </component>
