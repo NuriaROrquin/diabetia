@@ -15,6 +15,7 @@ namespace Diabetia.API.DTO.EventRequest.MedicalExamination
 
             medicalExamination.Archivo = File;
             medicalExamination.IdProfesional = IdProfessional;
+            medicalExamination.TipoEstudio = ExaminationType;
             medicalExamination.IdCargaEventoNavigation = new CargaEvento()
             {
                 IdTipoEvento = KindEventId,

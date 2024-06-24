@@ -1,5 +1,4 @@
 ﻿using Diabetia.API.DTO;
-using Diabetia.Application.UseCases;
 using Diabetia.Application.UseCases.EventUseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +14,12 @@ namespace Diabetia.API.Controllers
         private readonly FoodManuallyUseCase _eventFoodManuallyUseCase;
         private readonly EventUseCase _getEventUseCase;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly EventMedicalExaminationUseCase _eventMedicalExaminationUseCase;
 
-        public EventController(FoodManuallyUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, EventMedicalExaminationUseCase eventMedicalExaminationUseCase, IHttpContextAccessor httpContextAccessor)
+        public EventController(FoodManuallyUseCase eventFoodManuallyUseCase, EventUseCase eventUseCase, IHttpContextAccessor httpContextAccessor)
         {
             _eventFoodManuallyUseCase = eventFoodManuallyUseCase;
             _getEventUseCase = eventUseCase;
             _httpContextAccessor = httpContextAccessor;
-            _eventMedicalExaminationUseCase = eventMedicalExaminationUseCase;
         }
 
         //// -------------------------------------------- ⬇️⬇ Food Manually ⬇️⬇ --------------------------------------------------
