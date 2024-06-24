@@ -39,7 +39,7 @@ namespace Diabetia.Infrastructure.Providers
 
             string idOnBucket = $"Textract/{uniqueId}.jpg";
 
-            await CreateObjectS3Async(awsAccessKey, awsSecretKey, region, ocrRequest, idOnBucket);
+            await CreateObjectS3Async(ocrRequest, idOnBucket);
 
             DetectDocumentTextResponse result = await ProcessingTextract(awsAccessKey, awsSecretKey, region, idOnBucket);
 
@@ -55,22 +55,56 @@ namespace Diabetia.Infrastructure.Providers
 
         }
 
+        /// <summary>
+        /// Guarda el archivo en base64 en el bucket S3 de amazon.
+        /// </summary>
+        /// <param name="file">El archivo en formato base64 que se desea guardar en el bucket S3.</param>
+        /// <returns>Un identificador único (uniqueId) del archivo guardado en el bucket.</returns>
+        /// <exception cref="CantCreatObjectS3Async"></exception>
         public async Task<string> SaveMedicalExaminationOnBucket(string file)
+        {
+            var uniqueId = getUniqueId();
+            string idOnBucket = $"Textract/{uniqueId}.pdf";
+            await CreateObjectS3Async(file, idOnBucket);
+            return uniqueId;
+        }
+
+        /// <summary>
+        /// Guarda el archivo en el Bucket S3 de Amazon.
+        /// </summary>
+        /// <param name="file">El archivo en formato base64 que se desea guardar en el bucket S3.</param>
+        /// <param name="idOnBucket">Un identificador único del archivo para guardar en el bucket S3.</param>
+        /// <returns>Un boolean acorde a si se pudo guardar o no el archivo</returns>
+        private async Task CreateObjectS3Async(string file, string idOnBucket)
         {
             string awsAccessKey = _configuration["AwsAccessKeyId"];
             string awsSecretKey = _configuration["AwsSecretAccessKey"];
-            var region = RegionEndpoint.USEast2;
-            var uniqueId = getUniqueId();
+            string bucketName = _configuration["BucketName"];
+            string regionSecret = _configuration["Region"];
 
-            string idOnBucket = $"Textract/{uniqueId}.pdf";
+            var region = RegionEndpoint.GetBySystemName(regionSecret);
+            var client = new AmazonS3Client(awsAccessKey, awsSecretKey, region);
 
-            var result = await CreateObjectS3Async(awsAccessKey, awsSecretKey, region, file, idOnBucket);
+            byte[] imageData = Convert.FromBase64String(file);
+            Stream imageStream = new MemoryStream(imageData);
 
-            if (!result)
+            PutObjectRequest request = new PutObjectRequest
             {
-                throw new CantCreatObjectS3Async(); 
-            }
+                BucketName = bucketName,
+                Key = idOnBucket,
+                InputStream = imageStream
+            };
+            await client.PutObjectAsync(request);
+        }
 
+        /// <summary>
+        /// Genera un ID unico.
+        /// </summary>
+        /// <returns></returns>
+        public String getUniqueId()
+        {
+            long timestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            string uniqueId = $"{timestamp}_{Guid.NewGuid()}";
             return uniqueId;
         }
 
@@ -94,49 +128,6 @@ namespace Diabetia.Infrastructure.Providers
             var response = await client.DetectDocumentTextAsync(request);
 
             return response;
-        }
-
-        private async Task<bool> CreateObjectS3Async(string awsAccesKey, string awsSecretKey, RegionEndpoint region, string ocrRequest, string idOnBucket)
-        {
-            var bucketName = "textract-console-us-east-2-7a438fab-112f-422b-98ba-cbc0d7f642e8";
-            var objectKey = idOnBucket;
-
-            var client = new AmazonS3Client(awsAccesKey, awsSecretKey, region);
-
-            var trasnferUtility = new TransferUtility(client);
-
-            byte[] imageData = Convert.FromBase64String(ocrRequest);
-            Stream imageStream = new MemoryStream(imageData);
-
-            PutObjectRequest request = new PutObjectRequest
-            {
-                BucketName = bucketName,
-                Key = objectKey,
-                InputStream = imageStream
-            };
-
-            try
-            {
-                await client.PutObjectAsync(request);
-                return true;
-            }
-            catch (AmazonS3Exception ex)
-            {
-                Console.WriteLine("Error al subir el objeto al bucket de Amazon S3: " + ex.Message);
-                return false;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error general: " + ex.Message);
-                return false;
-            }
-        }
-
-        public String getUniqueId()
-        {
-            long timestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-            string uniqueId = $"{timestamp}_{Guid.NewGuid()}";
-            return uniqueId;
         }
 
         public async Task DeleteFileFromBucket(string idOnBucket)

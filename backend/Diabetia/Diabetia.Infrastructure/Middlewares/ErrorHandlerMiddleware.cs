@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Text.Json;
 using Diabetia.Domain.Exceptions;
+using Amazon.S3;
 
 namespace Diabetia.Infrastructure.Middlewares
 {
@@ -81,7 +82,8 @@ namespace Diabetia.Infrastructure.Middlewares
             { typeof(IngredientFoodRelationNotFoundException), (HttpStatusCode.BadRequest, "Este ingrediente no se encuentra relacionado con ningún evento de comida") },
             { typeof(CantCreatObjectS3Async), (HttpStatusCode.BadRequest, "No se pudo guardar su archivo PDF correctamente") },
             { typeof(ExaminationEventNotFoundException), (HttpStatusCode.BadRequest, "Este evento no se encuentra relacionado con ningún estudio médico") },
-            { typeof(CantDeleteObjectS3Async), (HttpStatusCode.BadRequest, "No se pudo eliminar su archivo PDF correctamente") }
+            { typeof(CantDeleteObjectS3Async), (HttpStatusCode.BadRequest, "No se pudo eliminar su archivo PDF correctamente") },
+            { typeof(AmazonS3Exception), (HttpStatusCode.BadRequest, "Error al intentar subir el archivo al servidor") }
         };
 
             if (exceptionMap.TryGetValue(ex.GetType(), out var details)) // details va a guardar el código de estado + el mensaje (si es que existe)

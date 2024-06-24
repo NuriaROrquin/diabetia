@@ -436,25 +436,16 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
         // --------------------------------------------------- ⬇⬇ Medical Examination Event ⬇⬇ --------------------------------------------------------
-        public async Task AddMedicalExaminationEvent(string email, DateTime eventDate, string file, string examinationType, int? idProfessional, string? freeNote)
+        public async Task AddMedicalExaminationEventAsync(int patientId, EventoEstudio medicalExamination, string fileSavedId)
         {
-            var User = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
-            if (User == null) { throw new UserEventNotFoundException(); }
-
-            // Obtener el paciente por id de usuario
-            var Patient = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == User.Id);
-            if (Patient == null) { throw new PatientNotFoundException(); }
-
-            // 1- Guardar el evento
-            bool IsDone = eventDate <= DateTime.Now ? true : false;
-
+            bool IsDone = medicalExamination.IdCargaEventoNavigation.FechaEvento <= DateTime.Now ? true : false;
             var newEvent = new CargaEvento
             {
-                IdPaciente = Patient.Id,
-                IdTipoEvento = (int)TypeEventEnum.ESTUDIOS,
+                IdPaciente = patientId,
+                IdTipoEvento = medicalExamination.IdCargaEventoNavigation.IdTipoEvento,
                 FechaActual = DateTime.Now,
-                FechaEvento = eventDate,
-                NotaLibre = freeNote,
+                FechaEvento = medicalExamination.IdCargaEventoNavigation.FechaEvento,
+                NotaLibre = medicalExamination.IdCargaEventoNavigation.NotaLibre,
                 FueRealizado = IsDone,
                 EsNotaLibre = false,
             };
@@ -462,20 +453,10 @@ namespace Diabetia.Infrastructure.Repositories
             _context.CargaEventos.Add(newEvent);
             await _context.SaveChangesAsync();
 
-            var lastInsertedIdEvent = await _context.CargaEventos
-                                            .Where(x => x.IdPaciente == Patient.Id)
-                                            .OrderByDescending(e => e.Id)
-                                            .FirstOrDefaultAsync();
+            medicalExamination.IdCargaEventoNavigation = newEvent;
+            medicalExamination.Archivo = fileSavedId;
 
-            var newMedicalExamination = new EventoEstudio
-            {
-                IdCargaEvento = lastInsertedIdEvent.Id,
-                Archivo = file,
-                TipoEstudio = examinationType,
-                IdProfesional = idProfessional,
-            };
-
-            _context.EventoEstudios.Add(newMedicalExamination);
+            _context.EventoEstudios.Add(medicalExamination);
             await _context.SaveChangesAsync();
         }
 

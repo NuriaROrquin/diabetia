@@ -60,7 +60,7 @@ builder.Services.AddScoped<AuthChangePasswordUseCase>();
 builder.Services.AddScoped<HomeUseCase>();
 builder.Services.AddScoped<CalendarUseCase>();
 builder.Services.AddScoped<EventFoodUseCase>();
-builder.Services.AddScoped<EventMedicalExaminationUseCase>();
+builder.Services.AddScoped<MedicalExaminationUseCase>();
 builder.Services.AddScoped<EventUseCase>();
 builder.Services.AddScoped<MedicalVisitUseCase>();
 builder.Services.AddScoped<FreeNoteUseCase>();
