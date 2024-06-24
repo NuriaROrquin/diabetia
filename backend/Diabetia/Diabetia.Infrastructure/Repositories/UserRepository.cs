@@ -62,17 +62,14 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateUserInfo(Paciente patient)
+        public async Task UpdateUserInfo(Paciente patient, InsulinaPaciente patientInsuline)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
             var pac = await _context.Pacientes.FirstOrDefaultAsync(u => u.IdUsuario == user.Id);
-            var insulina_pac = await _context.InsulinaPacientes.FirstOrDefaultAsync(u => u.IdPaciente == pac.Id);
+            patient.Id = pac.Id;
+            var insulina_pac = await _context.InsulinaPacientes.FirstOrDefaultAsync(u => u.IdPaciente == patient.Id);
 
-            pac.IdTipoDiabetes = patient.IdTipoDiabetes;
-            pac.UsaInsulina = patient.UsaInsulina;
-            pac.IdSensibilidadInsulina = 1;
-            pac.CorreccionCh = patient.CorreccionCh;
 
             if (user.StepCompleted == 1) {
 
@@ -81,7 +78,7 @@ namespace Diabetia.Infrastructure.Repositories
                 _context.Usuarios.Update(user);
             }
 
-            _context.Pacientes.Update(pac);
+            _context.Pacientes.Update(patient);
 
             if (insulina_pac == null)
             {
@@ -89,10 +86,10 @@ namespace Diabetia.Infrastructure.Repositories
                 {
                     var insulina_pac_new = new InsulinaPaciente
                     {
+                        IdPaciente = patient.Id,
+                        IdTipoInsulina = patientInsuline.IdTipoInsulina,
+                        Frecuencia = (int)patientInsuline.Frecuencia,
 
-                        IdPaciente = pac.Id,
-                        IdTipoInsulina = (int)patient.IdSensibilidadInsulina,
-                        //Frecuencia = (int)frequency
                     };
                     _context.InsulinaPacientes.Add(insulina_pac_new);
                 }
@@ -169,13 +166,8 @@ namespace Diabetia.Infrastructure.Repositories
             {
                 if (tieneDispositivo == true)
                 {
-                    var pac_new = new DispositivoPaciente
-                    {
-                        IdPaciente = pac.Id,
-                        IdDispositivo = patient_dispo.IdDispositivo,
-                        Frecuencia = patient_dispo.Frecuencia
-                    };
-                    _context.DispositivoPacientes.Add(pac_new);
+                    patient_dispo.IdPaciente = pac.Id;
+                    _context.DispositivoPacientes.Add(patient_dispo);
                 }
             }
             else
@@ -288,6 +280,7 @@ namespace Diabetia.Infrastructure.Repositories
 
             var patient = new Patient
             {
+                Id = pacienteInfo.Id,
                 TypeDiabetes = pacienteInfo.TypeDiabetes,
                 UseInsuline = pacienteInfo.UseInsuline,
                 TypeInsuline = insulinaPaciente.TypeInsuline,

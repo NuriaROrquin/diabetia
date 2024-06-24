@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Diabetia.Test._2_Core.EventUseCases
+namespace Diabetia_Core.Events
 {
     public class GlucoseEventUseCaseTest
     {
@@ -41,7 +41,7 @@ namespace Diabetia.Test._2_Core.EventUseCases
         }
 
         [Fact]
-        public async Task AddEventPhysicalActivityUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
+        public async Task AddGlucoseEventUseCase_WhenCalledInvalidPatient_ThrowsPatientNotFoundException()
         {
             var email = "emailTest@example.com";
             var glucoseEvent = new EventoGlucosa();
@@ -131,7 +131,7 @@ namespace Diabetia.Test._2_Core.EventUseCases
 
 
         [Fact]
-        public async Task EditPhysicalActivityUseCase_WhenCalledValidPatientInvalidEvent_ThrowsEventNotRelatedWithPatientException()
+        public async Task EditGlucoseUseCase_WhenCalledValidPatientInvalidEvent_ThrowsEventNotRelatedWithPatientException()
         {
             var email = "emailTest@example.com";
             var GlucoseEvent = new EventoGlucosa()

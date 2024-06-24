@@ -25,17 +25,19 @@ namespace Diabetia.Domain.Repositories
         // -------------------------------------------- ⬇⬇ Insuline ⬇⬇ ---------------------------------------------------------
         public Task AddInsulinEventAsync(int patientId, EventoInsulina insulin);
 
-        //public Task EditInsulinEventAsync(int patientId, EventoInsulina insulin);
+        public Task EditInsulinEventAsync(EventoInsulina insulin);
 
-        public Task DeleteInsulinEvent(int IdEvent);
+        public Task DeleteInsulinEventAsync(int IdEvent);
 
-        // -------------------------------------------- ⬇⬇ Food Manually ⬇⬇ ----------------------------------------------------
-        public Task<float> AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote);
+        // -------------------------------------------- ⇊ Food Manually ⇊ ----------------------------------------------------
+        public Task<float> AddFoodEventAsync(int patientId, EventoComidum foodEvent);
 
-        public Task EditFoodManuallyEvent(int idEvent, string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote);
+        public Task<float> EditFoodEventAsync(EventoComidum foodEvent);
+
+        public Task DeleteFoodEventAsync(int patientId);
 
         // -------------------------------------------- ⬇⬇ Tag Food ⬇⬇ ---------------------------------------------------------
-        public Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates);
+        public Task AddFoodByTagEvent(int patientId, DateTime eventDate, int carbohydrates);
 
         public Task DeleteFoodEven(int id);
 

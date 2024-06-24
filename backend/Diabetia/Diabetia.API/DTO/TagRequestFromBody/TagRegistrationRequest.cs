@@ -1,6 +1,7 @@
 ﻿using Diabetia.API.DTO.EventRequest;
+using Diabetia.Domain.Entities;
 
-namespace Diabetia.API.DTO
+namespace Diabetia.API.DTO.TagRequestFromBody
 {
     public class TagRegistrationRequest : BasicEventRequest
     {
@@ -9,6 +10,19 @@ namespace Diabetia.API.DTO
         public TagRegistrationRequest()
         {
             Tags = new List<RequestPerTag>();
+        }
+
+        public List<NutritionTag> ToDomain()
+        {
+            return Tags.Select(tag => new NutritionTag
+            {
+                UniqueId = string.Empty,
+                Portion = tag.Portion,
+                GrPerPortion = tag.GrPerPortion,
+                ChInPortion = tag.ChInPortion,
+                ChCalculated = 0, 
+                CarbohydratesText = string.Empty
+            }).ToList();
         }
     }
     public class RequestPerTag
@@ -20,6 +34,5 @@ namespace Diabetia.API.DTO
         public float GrPerPortion { get; set; }
 
         public float ChInPortion { get; set; }
-
     }
 }

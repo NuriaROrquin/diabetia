@@ -6,7 +6,7 @@ using Infrastructure.Provider;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 
-namespace Diabetia_Infrastructure
+namespace Diabetia_Infrastructure.Providers.Authentication
 {
     public class AuthProviderTest
     {
@@ -85,13 +85,13 @@ namespace Diabetia_Infrastructure
             var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
             var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-            A.CallTo(() => fakeCognitoClient.SignUpAsync(A<SignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new UsernameExistsException("El usuario ya est· registrado"));
+            A.CallTo(() => fakeCognitoClient.SignUpAsync(A<SignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new UsernameExistsException("El usuario ya est√° registrado"));
 
             // Act y Assert
             var exception = await Assert.ThrowsAsync<UsernameExistsException>(() =>
             authProvider.RegisterUserAsync(user, password));
 
-            Assert.Equal("El usuario ya est· registrado", exception.Message);
+            Assert.Equal("El usuario ya est√° registrado", exception.Message);
             A.CallTo(() => fakeCognitoClient.SignUpAsync(
                 A<SignUpRequest>.That.Matches(req =>
                     req.ClientId == fakeConfiguration["ClientId"] &&
@@ -125,13 +125,13 @@ namespace Diabetia_Infrastructure
             var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
             var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-            A.CallTo(() => fakeCognitoClient.SignUpAsync(A<SignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new InvalidPasswordException("ContraseÒa inv·lida"));
+            A.CallTo(() => fakeCognitoClient.SignUpAsync(A<SignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new InvalidPasswordException("Contrase√±a inv√°lida"));
 
             // Act y Assert
             var exception = await Assert.ThrowsAsync<InvalidPasswordException>(() =>
             authProvider.RegisterUserAsync(user, password));
 
-            Assert.Equal("ContraseÒa inv·lida", exception.Message);
+            Assert.Equal("Contrase√±a inv√°lida", exception.Message);
             A.CallTo(() => fakeCognitoClient.SignUpAsync(
                 A<SignUpRequest>.That.Matches(req =>
                     req.ClientId == fakeConfiguration["ClientId"] &&
@@ -165,13 +165,13 @@ namespace Diabetia_Infrastructure
             var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
             var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-            A.CallTo(() => fakeCognitoClient.SignUpAsync(A<SignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new InvalidParameterException("Par·metros de solicitud inv·lidos"));
+            A.CallTo(() => fakeCognitoClient.SignUpAsync(A<SignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new InvalidParameterException("Par√°metros de solicitud inv√°lidos"));
 
             // Act y Assert
             var exception = await Assert.ThrowsAsync<InvalidParameterException>(() =>
             authProvider.RegisterUserAsync(user, password));
 
-            Assert.Equal("Par·metros de solicitud inv·lidos", exception.Message);
+            Assert.Equal("Par√°metros de solicitud inv√°lidos", exception.Message);
             A.CallTo(() => fakeCognitoClient.SignUpAsync(
                 A<SignUpRequest>.That.Matches(req =>
                     req.ClientId == fakeConfiguration["ClientId"] &&
@@ -248,13 +248,13 @@ namespace Diabetia_Infrastructure
             var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
             var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(A<ConfirmSignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new ExpiredCodeException("CÛdigo vencido"));
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(A<ConfirmSignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new ExpiredCodeException("C√≥digo vencido"));
 
             // Act y Assert
             var exception = await Assert.ThrowsAsync<ExpiredCodeException>(() =>
             authProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode));
 
-            Assert.Equal("CÛdigo vencido", exception.Message);
+            Assert.Equal("C√≥digo vencido", exception.Message);
             A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
                 A<ConfirmSignUpRequest>.That.Matches(req =>
                     req.ClientId == fakeConfiguration["ClientId"] &&
@@ -340,13 +340,13 @@ namespace Diabetia_Infrastructure
             var fakeCognitoClient = A.Fake<IAmazonCognitoIdentityProvider>();
             var authProvider = new AuthProvider(fakeConfiguration, fakeCognitoClient);
 
-            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(A<ConfirmSignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new CodeMismatchException("CÛdigo incorrecto"));
+            A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(A<ConfirmSignUpRequest>.Ignored, CancellationToken.None)).ThrowsAsync(new CodeMismatchException("C√≥digo incorrecto"));
 
             // Act y Assert
             var exception = await Assert.ThrowsAsync<CodeMismatchException>(() =>
             authProvider.ConfirmEmailVerificationAsync(username, hashCode, confirmationCode));
 
-            Assert.Equal("CÛdigo incorrecto", exception.Message);
+            Assert.Equal("C√≥digo incorrecto", exception.Message);
             A.CallTo(() => fakeCognitoClient.ConfirmSignUpAsync(
                 A<ConfirmSignUpRequest>.That.Matches(req =>
                     req.ClientId == fakeConfiguration["ClientId"] &&

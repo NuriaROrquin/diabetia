@@ -27,7 +27,7 @@ namespace Diabetia.Application.UseCases.EventUseCases
             var patient = await _userRepository.GetPatient(email);
             await _eventRepository.AddGlucoseEventAsync(patient.Id, glucose);
         }
-
+        
         public async Task EditGlucoseEventAsync(string email, EventoGlucosa glucose)
         {
             await _patientValidator.ValidatePatient(email);

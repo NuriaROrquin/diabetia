@@ -4,13 +4,10 @@ using Diabetia.Infrastructure.EF;
 using Diabetia.Infrastructure.Repositories;
 using Moq;
 using Moq.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
-namespace Diabetia.Test._3_Infraestructure.Repositories.EventTests
+
+namespace Diabetia_Infrastructure.Repositories.Events
 {
     public class GlucoseTest
     {

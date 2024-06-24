@@ -8,7 +8,10 @@
     "moduleResolution": "node",
     "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
-    "allowJs": true
+    "allowJs": true,
+    "paths": {
+      "@/components/*": ["components/*"]
+    }
   },
   "exclude": [
     "dist"
