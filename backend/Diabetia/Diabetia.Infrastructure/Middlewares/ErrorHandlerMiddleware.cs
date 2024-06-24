@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Text.Json;
 using Diabetia.Domain.Exceptions;
-using Amazon.Runtime.Internal.Transform;
 using Amazon.S3;
 
 namespace Diabetia.Infrastructure.Middlewares
