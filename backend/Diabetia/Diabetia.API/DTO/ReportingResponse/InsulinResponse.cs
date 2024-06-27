@@ -9,8 +9,8 @@ namespace Diabetia.API.DTO.ReportingResponse
 
         public static InsulinResponse FromInsulinEvent(EventoInsulina evento)
         {
-            DateTime Date = evento.IdCargaEventoNavigation.FechaEvento;
-            string stringDate = Date.ToString("dd/MM/yyyy");
+            DateTime date = evento.IdCargaEventoNavigation.FechaEvento;
+            string stringDate = date.ToString("dd/MM/yyyy");
             return new InsulinResponse
             {
                 Value = evento.InsulinaInyectada.Value, 

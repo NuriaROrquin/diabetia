@@ -54,23 +54,37 @@ export const calculateDateRange = (selectedOption) => {
 
     switch (selectedOption) {
         case 'Últimas 24hs':
+        case '1D':
             dateFrom = new Date(currentDate.setDate(currentDate.getDate() - 1));
             break;
         case 'Últimas 48hs':
             dateFrom = new Date(currentDate.setDate(currentDate.getDate() - 2));
             break;
         case 'Última semana':
+        case '1S':
             dateFrom = new Date(currentDate.setDate(currentDate.getDate() - 7));
             break;
         case 'Último mes':
+        case '1M':
             dateFrom = new Date(currentDate.setMonth(currentDate.getMonth() - 1));
+            break;
+        case '1A':
+            dateFrom = new Date(currentDate.setFullYear(currentDate.getFullYear() - 1));
             break;
         default:
             dateFrom = currentDate;
     }
 
+    const adjustToGMTMinus3 = (date) => {
+        const gmtMinus3Offset = -3 * 60 * 60 * 1000;
+        return new Date(date.getTime() + gmtMinus3Offset);
+    }
+
+    dateFrom = adjustToGMTMinus3(dateFrom);
+    const dateTo = adjustToGMTMinus3(new Date());
+
     return {
         dateFrom: dateFrom.toISOString(),
-        dateTo: new Date().toISOString()
+        dateTo: dateTo.toISOString()
     };
 };

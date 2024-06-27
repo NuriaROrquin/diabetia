@@ -85,7 +85,7 @@ export const Navigation = () => {
                             <NavLink href="/calendar" text="Calendario"  className="rounded-lg !py-2 hover:bg-orange-focus transition-all"/>
                         </li>
                         <li className="mr-3">
-                            <NavLink href="/reports" text="Reportes" className="rounded-lg !py-2 hover:bg-orange-focus transition-all"/>
+                            <NavLink href="/reporting" text="Reportes" className="rounded-lg !py-2 hover:bg-orange-focus transition-all"/>
                         </li>
                     </ul>
                     <div className="flex justify-center items-center relative">
@@ -99,9 +99,6 @@ export const Navigation = () => {
                                     <ul className={`flex flex-col`}>
                                         <li className="mb-6 text-sm text-blue-secondary">
                                             <Link href="/profile">Mi perfil</Link>
-                                        </li>
-                                        <li className="mb-6 text-sm text-blue-secondary">
-                                            <Link href="/reminders">Recordatorios</Link>
                                         </li>
                                         <li className="text-sm text-blue-secondary">
                                             <button onClick={() => handleOnLogout()} className="text-blue-secondary">

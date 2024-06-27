@@ -246,6 +246,7 @@ export const TYPE_INSULIN = [
         "title": "Acción prolongada"
     }
 ]
+
 export const INSULIN_FREQUENCY = [
     {
         "id": 1,
@@ -278,6 +279,7 @@ export const GENDER = [
         "key": 'X'
     }
 ]
+
 export const ACTIVITY_FREQUENCY = [
     {
         "id": 1,
@@ -601,3 +603,102 @@ export const TYPE_MEDIC = [
         "title": "Pediatra"
     }
 ]
+
+export const FILTERS = [
+    {
+        id: 1,
+        title: "1D"
+    },
+    {
+        id: 2,
+        title: "1S"
+    },
+    {
+        id: 3,
+        title: "1M"
+    },
+    {
+        id: 4,
+        title: "1A"
+    }
+]
+
+/*******************************************CHARTS*****************************************/
+
+export const initialMultipleChartOptions = {
+    legend: {
+        data: ['Insuline', 'Glucose', 'Physical Activity', 'Food']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: []
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name: 'Insuline',
+            type: 'line',
+            stack: 'Total',
+            data: []
+        },
+        {
+            name: 'Glucose',
+            type: 'line',
+            stack: 'Total',
+            data: []
+        },
+        {
+            name: 'Physical Activity',
+            type: 'line',
+            stack: 'Total',
+            data: []
+        },
+        {
+            name: 'Food',
+            type: 'line',
+            stack: 'Total',
+            data: []
+        }
+    ]
+};
+
+export const initialSingleChartOptions = {
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        data: []
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            data: [],
+            type: 'line'
+        }
+    ]
+};
