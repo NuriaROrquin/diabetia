@@ -61,21 +61,6 @@ export const tagRegistration = (data) => {
         );
 }
 
-export const addPhysicalEvent = (data) => {
-    return axios
-        .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/Event/AddPhysicalEvent`,
-            data
-        );
-}
-
-export const addGlucoseEvent = (data) => {
-    return axios
-        .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/Event/AddGlucoseEvent`,
-            data
-        );
-}
 
 export const addFoodEvent = (data) => {
     return axios
@@ -141,21 +126,6 @@ export const getEventType = (data) => {
             `${process.env.NEXT_PUBLIC_API_URL}/Event/GetEventType/${data.id}`)
 }
 
-export const editGlucoseEvent = (data) => {
-    return axios
-        .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/Event/EditGlucoseEvent`,
-            data
-        );
-}
-
-export const editInsulinEvent = (data) => {
-    return axios
-        .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/Event/EditInsulinEvent`,
-            data
-        );
-}
 
 export const getIngredients = () => {
     return axios

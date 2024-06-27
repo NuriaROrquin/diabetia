@@ -8,3 +8,36 @@ export const addInsulinEvent = (data) => {
         );
 }
 
+export const editInsulinEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Insulin/EditInsulinEvent`,
+            data
+        );
+}
+
+export const addPhysicalEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/PhysicalActivity/AddPhysicalEvent`,
+            data
+        );
+}
+
+
+export const addGlucoseEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Glucose/AddGlucoseEvent`,
+            data
+        );
+}
+
+
+export const editGlucoseEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/Glucose/EditGlucoseEvent`,
+            data
+        );
+}

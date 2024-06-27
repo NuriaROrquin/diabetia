@@ -10,9 +10,7 @@ import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomDatePicker} from "../../../components/pickers";
-import {addPhysicalEvent} from "../../../services/api.service";
 import {useRouter} from "next/router";
-import {useCookies} from "react-cookie";
 
 const ReminderEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 7)[0].title;
@@ -63,9 +61,10 @@ const ReminderEvent = () => {
             "finishTime": end
         }
 
-        addPhysicalEvent(data).then(() =>
+        //TODO: add y edit de studies
+        /*addPhysicalEvent(data).then(() =>
             router.push("/calendar")
-        )
+        )*/
     }
 
     return(

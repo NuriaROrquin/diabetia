@@ -4,8 +4,8 @@ import { TextArea, InputWithLabel } from "@/components/input";
 import { ButtonOrange } from "@/components/button";
 import { CustomDatePicker, CustomTimePicker } from "@/components/pickers";
 import dayjs from "dayjs";
-import { addGlucoseEvent, editGlucoseEvent } from "../../services/api.service";
 import { getEmailFromJwt } from "../../helpers";
+import {addGlucoseEvent, editGlucoseEvent} from "../../services/event.service";
 
 const GlucoseEventForm = ({ existingData }) => {
     const [hour, setHour] = useState(dayjs());
@@ -35,19 +35,17 @@ const GlucoseEventForm = ({ existingData }) => {
         }
 
         const data = {
-            email,
-            idKindEvent: 3,
             eventDate: dateFormatted,
             freeNote: notes,
             glucose: glucoseLevel,
         };
 
         if (router.query.id) {
-            editGlucoseEvent({ ...data, idEvent: router.query.id }).then(() =>
+            editGlucoseEvent({ ...data, eventId: router.query.id }).then(() =>
                 router.push("/calendar")
             );
         } else {
-            addGlucoseEvent(data).then(() =>
+            addGlucoseEvent({...data, kindEventId: 3}).then(() =>
                 router.push("/calendar")
             );
         }
