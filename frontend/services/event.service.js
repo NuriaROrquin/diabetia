@@ -41,3 +41,11 @@ export const editGlucoseEvent = (data) => {
             data
         );
 }
+
+export const addFoodManuallyEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/FoodManually/AddFoodManuallyEvent`,
+            data
+        );
+}

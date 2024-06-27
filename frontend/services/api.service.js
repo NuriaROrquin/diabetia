@@ -61,15 +61,6 @@ export const tagRegistration = (data) => {
         );
 }
 
-
-export const addFoodEvent = (data) => {
-    return axios
-        .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/Event/AddFoodManuallyEvent`,
-            data
-        );
-}
-
 export const firstStep = (data) => {
     return axios
         .put(
@@ -125,7 +116,6 @@ export const getEventType = (data) => {
         .get(
             `${process.env.NEXT_PUBLIC_API_URL}/Event/GetEventType/${data.id}`)
 }
-
 
 export const getIngredients = () => {
     return axios
