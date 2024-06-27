@@ -2,7 +2,6 @@
 using Diabetia.Application.UseCases.ReportingUseCases;
 using Diabetia.Domain.Utilities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -21,7 +20,7 @@ namespace Diabetia.API.Controllers.Reporting
             _insulinReportUseCase = insulineUseCase;
         }
 
-        [HttpPost("GetInsulinReport")]
+        [HttpGet("GetInsulinReport")]
         public async Task <IActionResult> ShowInsulinReporting([FromQuery] DateFilter request)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
