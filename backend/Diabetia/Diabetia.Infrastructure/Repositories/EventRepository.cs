@@ -921,23 +921,27 @@ namespace Diabetia.Infrastructure.Repositories
                       joined => joined.CargaEvento.Id,
                       ei => ei.IdCargaEvento,
                       (joined, ei) => new { joined.CargaEvento, joined.TipoEvento, EventoInsulina = ei })
-                .Join(_context.InsulinaPacientes,
+                .GroupJoin(_context.InsulinaPacientes,
                       joined => joined.EventoInsulina.IdInsulinaPaciente,
                       ip => ip.Id,
-                      (joined, ip) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, InsulinaPaciente = ip })
-                .Join(_context.TipoInsulinas,
+                      (joined, ipgroup) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, InsulinaPacientes = ipgroup })
+                .SelectMany(joined => joined.InsulinaPacientes.DefaultIfEmpty(),
+                            (joined, ip) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, InsulinaPaciente = ip })
+                .GroupJoin(_context.TipoInsulinas,
                       joined => joined.InsulinaPaciente.IdTipoInsulina,
                       ti => ti.Id,
-                      (joined, ti) => new InsulinEvent
-                      {
-                          IdEvent = joined.CargaEvento.Id,
-                          IdEventType = joined.TipoEvento.Id,
-                          DateEvent = joined.CargaEvento.FechaEvento,
-                          Title = joined.TipoEvento.Tipo,
-                          InsulinType = ti.Nombre,
-                          Dosage = joined.EventoInsulina.InsulinaInyectada,
-                          FreeNote = joined.CargaEvento.NotaLibre
-                      })
+                      (joined, tigroup) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, joined.InsulinaPaciente, TipoInsulinas = tigroup })
+                .SelectMany(joined => joined.TipoInsulinas.DefaultIfEmpty(),
+                            (joined, ti) => new InsulinEvent
+                            {
+                                IdEvent = joined.CargaEvento.Id,
+                                IdEventType = joined.TipoEvento.Id,
+                                DateEvent = joined.CargaEvento.FechaEvento,
+                                Title = joined.TipoEvento.Tipo,
+                                InsulinType = ti != null ? ti.Nombre : null,
+                                Dosage = joined.EventoInsulina.InsulinaInyectada,
+                                FreeNote = joined.CargaEvento.NotaLibre
+                            })
                 .FirstOrDefaultAsync();
 
             return insulinEvent;

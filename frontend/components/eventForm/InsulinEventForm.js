@@ -3,9 +3,10 @@ import { TextArea, InputWithLabel } from "@/components/input";
 import { ButtonOrange } from "@/components/button";
 import { CustomDatePicker, CustomTimePicker } from "@/components/pickers";
 import dayjs from "dayjs";
-import { addInsulinEvent, editInsulinEvent } from "../../services/api.service";
+import { editInsulinEvent } from "../../services/api.service";
 import { getEmailFromJwt } from "../../helpers";
 import { useRouter } from "next/router";
+import {addInsulinEvent} from "../../services/event.service";
 
 const InsulinEventForm = ({ existingData }) => {
     const [hour, setHour] = useState(dayjs());
@@ -29,19 +30,26 @@ const InsulinEventForm = ({ existingData }) => {
         const email = getEmailFromJwt();
         const dateFormatted = date.format("YYYY-MM-DD") + 'T' + hour.format('HH:mm:ss');
 
-        const data = {
-            email,
-            idKindEvent: 1,
-            eventDate: dateFormatted,
-            freeNote: notes,
-            insulin: insulinQuantity,
-        };
-
         if (router.query.id) {
+            const data = {
+                email,
+                idKindEvent: 1,
+                eventDate: dateFormatted,
+                freeNote: notes,
+                insulin: insulinQuantity,
+            };
+
             editInsulinEvent({ ...data, idEvent: router.query.id }).then(() =>
                 router.push("/calendar")
             );
         } else {
+            const data = {
+                kindEventId: 1,
+                eventDate: dateFormatted,
+                freeNote: notes,
+                insulinInjected: insulinQuantity,
+            }
+
             addInsulinEvent(data).then(() =>
                 router.push("/calendar")
             );

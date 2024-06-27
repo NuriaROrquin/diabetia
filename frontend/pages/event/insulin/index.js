@@ -1,12 +1,12 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
 import {TYPE_EVENTS} from "../../../constants";
-import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
+import {capitalizeFirstLetter} from "../../../helpers";
 import {useState} from "react";
 import {BlueLink, OrangeLink} from "../../../components/link";
-import {addInsulinEvent} from "../../../services/api.service";
 import {useRouter} from "next/router";
 import {InsulinEventForm} from "@/components/eventForm";
+import {addInsulinEvent} from "../../../services/event.service";
 
 const InsulineEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 1)[0].title;
@@ -14,18 +14,16 @@ const InsulineEvent = () => {
     const [date, setDate] = useState()
     const router = useRouter();
 
-    const handleSubmit = () => {
+    const onSubmit = () => {
         const dateFormatted = date && hour ? date.format("YYYY-MM-DD") + 'T' + hour.format('HH:mm:ss') : null;
         const insulineQuantity = document.getElementById("insulineQuantity").value
         const notes = document.getElementById("notes").value;
-        const email = getEmailFromJwt();
 
         const data = {
-            "email": email,
-            "idKindEvent": 1,
+            "kindEventId": 1,
             "eventDate": dateFormatted,
             "freeNote": notes,
-            "insulin": insulineQuantity,
+            "insulinInjected": insulineQuantity,
         }
 
         addInsulinEvent(data).then(() =>

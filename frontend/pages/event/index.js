@@ -5,9 +5,7 @@ import {TYPE_EVENTS} from "../../constants";
 export const EventsGrid = () => {
     return (
         <>
-
             <Section className="items-center justify-center">
-
                 <div className="w-full col-start-2 flex justify-self-center justify-center pt-32 pb-16 text-white">
                     <span className="text-3xl font-bold">Elegí un evento para registrar en tu calendario</span>
                 </div>
