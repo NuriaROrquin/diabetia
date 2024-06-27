@@ -115,8 +115,8 @@ export const Home = () => {
         </Section>
         <Section className="bg-white flex flex-col min-h-fit">
             <ContainerTitles>
-                <TitleSection>Registros del día</TitleSection>
-                <SubtitleSection>Acá encontrarás todos los registros cargados en el día actual</SubtitleSection>
+                <TitleSection>Últimos registros</TitleSection>
+                <SubtitleSection>Acá encontrarás ultimos 10 registros cargados</SubtitleSection>
             </ContainerTitles>
                 {loadingTimeline &&
                     <div className="w-full flex justify-center items-center mb-5">

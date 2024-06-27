@@ -46,7 +46,7 @@ describe('Home Component', () => {
 
         await waitFor(() => {
             expect(getByText('Tu panel de salud para la gestión de tu diabetes')).toBeInTheDocument();
-            expect(getByText('Registros del día')).toBeInTheDocument();
+            expect(getByText('Últimos registros')).toBeInTheDocument();
         });
     });
 
