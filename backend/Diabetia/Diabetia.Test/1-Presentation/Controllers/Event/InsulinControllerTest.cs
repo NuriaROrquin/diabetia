@@ -29,7 +29,6 @@ namespace Diabetia_Presentation.Events
                 KindEventId = 1,
                 FreeNote = "Testing insulin event",
                 InsulinInjected = 10,
-                IdInsulinPatient = 1,
                 EventDate = DateTime.Now
             };
 

@@ -60,7 +60,7 @@ namespace Diabetia.Application.UseCases
                         var insulin = await _eventRepository.GetInsulinEventById(lastEvent.Id);
                         items.Items.Add(new TimelineItem
                         {
-                            Title = insulin.Title,
+                            Title = insulin.Dosage is not null ? insulin.Title + " " + insulin.Dosage + "U" : insulin.Title,
                             DateTime = insulin.DateEvent 
                         });
                         break;

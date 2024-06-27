@@ -6,9 +6,9 @@ import { InputWithLabel } from "@/components/input";
 import {OrangeLink} from "../../../components/link";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import {ButtonOrange} from "@/components/button";
-import {tagDetection} from "../../../services/api.service";
 import {useAIData} from "../../../context";
 import {useRouter} from "next/router";
+import {tagDetection} from "../../../services/tag.service";
 
 const StepThree = () => {
     const { updateAIDataDetected, imagesUploaded } = useAIData();

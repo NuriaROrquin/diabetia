@@ -12,7 +12,7 @@ import {CustomSwitch} from "../../../components/input";
 import {Select} from "../../../components/selector";
 import {ButtonOrange} from "../../../components/button";
 import {Step, StepLabel, Stepper} from "@mui/material";
-import {thirdStep} from "../../../services/api.service";
+import {thirdStep} from "../../../services/user.service";
 import {useRouter} from "next/router";
 import {getEmailFromJwt} from "../../../helpers";
 

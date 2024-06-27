@@ -758,7 +758,7 @@ namespace Diabetia.Infrastructure.Repositories
                 query = query.Where(ce => ce.FechaEvento.Date == date.Value.Date);
             }
 
-            var insulinEvents = await query
+            var cargaEventosQuery = await query
                 .Join(_context.TipoEventos,
                       ce => ce.IdTipoEvento,
                       te => te.Id,
@@ -767,26 +767,34 @@ namespace Diabetia.Infrastructure.Repositories
                       joined => joined.CargaEvento.Id,
                       ei => ei.IdCargaEvento,
                       (joined, ei) => new { joined.CargaEvento, joined.TipoEvento, EventoInsulina = ei })
-                .Join(_context.InsulinaPacientes,
+                .ToListAsync();
+
+            var insulinEvents = cargaEventosQuery
+                .GroupJoin(_context.InsulinaPacientes,
                       joined => joined.EventoInsulina.IdInsulinaPaciente,
                       ip => ip.Id,
-                      (joined, ip) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, InsulinaPaciente = ip })
-                .Join(_context.TipoInsulinas,
-                      joined => joined.InsulinaPaciente.IdTipoInsulina,
+                      (joined, ipgroup) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, InsulinaPacientes = ipgroup.DefaultIfEmpty() })
+                .SelectMany(joined => joined.InsulinaPacientes.DefaultIfEmpty(),
+                            (joined, ip) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, InsulinaPaciente = ip })
+                .GroupJoin(_context.TipoInsulinas,
+                      joined => joined.InsulinaPaciente != null ? joined.InsulinaPaciente.IdTipoInsulina : (int?)null,
                       ti => ti.Id,
-                      (joined, ti) => new InsulinEvent
-                      {
-                          IdEvent = joined.CargaEvento.Id,
-                          IdEventType = joined.TipoEvento.Id,
-                          DateEvent = joined.CargaEvento.FechaEvento,
-                          Title = joined.TipoEvento.Tipo,
-                          InsulinType = ti.Nombre,
-                          Dosage = joined.EventoInsulina.InsulinaInyectada
-                      })
-                .ToListAsync();
+                      (joined, tigroup) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, joined.InsulinaPaciente, TipoInsulinas = tigroup.DefaultIfEmpty() })
+                .SelectMany(joined => joined.TipoInsulinas.DefaultIfEmpty(),
+                            (joined, ti) => new InsulinEvent
+                            {
+                                IdEvent = joined.CargaEvento.Id,
+                                IdEventType = joined.TipoEvento.Id,
+                                DateEvent = joined.CargaEvento.FechaEvento,
+                                Title = joined.TipoEvento.Tipo,
+                                InsulinType = ti != null ? ti.Nombre : null,
+                                Dosage = joined.EventoInsulina.InsulinaInyectada,
+                            })
+                .ToList();
 
             return insulinEvents;
         }
+
 
         public async Task<IEnumerable<HealthEvent>> GetHealth(int patientId, DateTime? date = null)
         {
@@ -921,23 +929,27 @@ namespace Diabetia.Infrastructure.Repositories
                       joined => joined.CargaEvento.Id,
                       ei => ei.IdCargaEvento,
                       (joined, ei) => new { joined.CargaEvento, joined.TipoEvento, EventoInsulina = ei })
-                .Join(_context.InsulinaPacientes,
+                .GroupJoin(_context.InsulinaPacientes,
                       joined => joined.EventoInsulina.IdInsulinaPaciente,
                       ip => ip.Id,
-                      (joined, ip) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, InsulinaPaciente = ip })
-                .Join(_context.TipoInsulinas,
+                      (joined, ipgroup) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, InsulinaPacientes = ipgroup })
+                .SelectMany(joined => joined.InsulinaPacientes.DefaultIfEmpty(),
+                            (joined, ip) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, InsulinaPaciente = ip })
+                .GroupJoin(_context.TipoInsulinas,
                       joined => joined.InsulinaPaciente.IdTipoInsulina,
                       ti => ti.Id,
-                      (joined, ti) => new InsulinEvent
-                      {
-                          IdEvent = joined.CargaEvento.Id,
-                          IdEventType = joined.TipoEvento.Id,
-                          DateEvent = joined.CargaEvento.FechaEvento,
-                          Title = joined.TipoEvento.Tipo,
-                          InsulinType = ti.Nombre,
-                          Dosage = joined.EventoInsulina.InsulinaInyectada,
-                          FreeNote = joined.CargaEvento.NotaLibre
-                      })
+                      (joined, tigroup) => new { joined.CargaEvento, joined.TipoEvento, joined.EventoInsulina, joined.InsulinaPaciente, TipoInsulinas = tigroup })
+                .SelectMany(joined => joined.TipoInsulinas.DefaultIfEmpty(),
+                            (joined, ti) => new InsulinEvent
+                            {
+                                IdEvent = joined.CargaEvento.Id,
+                                IdEventType = joined.TipoEvento.Id,
+                                DateEvent = joined.CargaEvento.FechaEvento,
+                                Title = joined.TipoEvento.Tipo,
+                                InsulinType = ti != null ? ti.Nombre : null,
+                                Dosage = joined.EventoInsulina.InsulinaInyectada,
+                                FreeNote = joined.CargaEvento.NotaLibre
+                            })
                 .FirstOrDefaultAsync();
 
             return insulinEvent;

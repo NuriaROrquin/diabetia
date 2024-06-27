@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-export const CustomLink = ({text, href}) => {
+export const CustomLink = ({text, href, className}) => {
     return (
-        <Link href={href} className="text-gray-secondary underline text-sm" >{text}</Link>
+        <Link href={href} className={`md:text-gray-secondary underline text-sm ${className}`} >{text}</Link>
     )
 }
 

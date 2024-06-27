@@ -8,7 +8,6 @@ namespace Diabetia.API.DTO.EventRequest.Insuline
         public int KindEventId { get; set; }
         public string? FreeNote { get; set; }
         public int InsulinInjected { get; set; }
-        public int? IdInsulinPatient {  get; set; }
 
         public EventoInsulina ToDomain()
         {

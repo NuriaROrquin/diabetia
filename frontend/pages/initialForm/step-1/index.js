@@ -9,7 +9,7 @@ import {CustomDatePicker} from "../../../components/pickers";
 import {useRouter} from "next/router";
 import {Step, StepLabel, Stepper} from "@mui/material";
 import {Select} from "@/components/selector";
-import {firstStep} from "../../../services/api.service";
+import {firstStep} from "../../../services/user.service";
 import {getEmailFromJwt} from "../../../helpers";
 import {useCookies} from "react-cookie";
 
