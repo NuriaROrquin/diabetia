@@ -6,7 +6,7 @@ export const Input = ({type, placeholder, id, width, icon, withForgotPassword=fa
       <>
           <div className={`${type !== "password" && "mb-4"} ${width} flex items-center relative`}>
               {icon && (
-                  <div className="absolute mr-2 w-10 text-gray-secondary pl-4">
+                  <div className="absolute mr-2 w-10 md:text-gray-secondary pl-4">
                       {icon}
                   </div>
               )}
@@ -19,7 +19,7 @@ export const Input = ({type, placeholder, id, width, icon, withForgotPassword=fa
           </div>
 
           {withForgotPassword && (
-              <Link href="/auth/password-recover" className="mt-1 text-gray-secondary text-sm underline self-end" >Olvidé mi contraseña</Link>
+              <Link href="/auth/password-recover" className="mt-1 md:text-gray-secondary text-sm underline self-end" >Olvidé mi contraseña</Link>
           )}
       </>
   )
