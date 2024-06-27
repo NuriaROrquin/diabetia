@@ -1,6 +1,5 @@
 using Amazon.CognitoIdentity.Model;
 using Amazon.CognitoIdentityProvider;
-using Diabetia.API.Controllers;
 using Diabetia.Application.UseCases;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
@@ -18,6 +17,7 @@ using Diabetia.Application.UseCases.AuthUseCases;
 using Diabetia.Domain.Utilities.Validations;
 using Diabetia.Domain.Utilities.Interfaces;
 using Amazon.S3;
+using Diabetia.Application.UseCases.ReportingUseCases;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +65,7 @@ builder.Services.AddScoped<MedicalExaminationUseCase>();
 builder.Services.AddScoped<EventUseCase>();
 builder.Services.AddScoped<MedicalVisitUseCase>();
 builder.Services.AddScoped<FreeNoteUseCase>();
+builder.Services.AddScoped<InsulinReportUseCase>();
 
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
@@ -81,6 +82,7 @@ builder.Services.AddScoped<IEmailDBValidator, EmailDBValidator>();
 builder.Services.AddScoped<IUsernameDBValidator, UsernameDBValidator>();
 builder.Services.AddScoped<IUserStatusValidator, UserStatusValidator>();
 builder.Services.AddScoped<IHashValidator, HashValidator>();
+builder.Services.AddScoped<IReportingRepository, ReportingRepository>();
 builder.Services.AddScoped<IAmazonS3>(provider =>
 {
     var configuration = provider.GetRequiredService<IConfiguration>();
