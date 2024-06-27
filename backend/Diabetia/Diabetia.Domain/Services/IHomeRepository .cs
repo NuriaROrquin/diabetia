@@ -1,5 +1,5 @@
 ﻿
-using Diabetia.Common.Utilities;
+using Diabetia.Domain.Utilities;
 using Diabetia.Domain.Models;
 
 namespace Diabetia.Domain.Services

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import CustomTooltip from "@/components/tooltip";
+import CustomTooltip from "../tooltip";
 import {ContactMailOutlined, FolderSharedOutlined, DirectionsRunOutlined, ErrorOutline, HelpOutline} from "@mui/icons-material";
 
 const getIconComponent = (title) => {
@@ -23,10 +23,6 @@ const getIconComponent = (title) => {
 export const MetricCard = ({number, textIndicator, title, description, unit, tooltipContent, selectedOption, loading, isWarning}) => {
     const getTextColor = () => {
         return isWarning === null || number == 0 ? 'text-blue-primary' : isWarning === false ? 'text-green-primary' : 'text-red-primary'
-    }
-
-    const getBackgroundColor = () => {
-        return isWarning === null || number == 0 ? 'bg-white' : isWarning === false ? 'bg-white' : 'bg-red-primary';
     }
 
     const getAdditionalTextColor = () => {
@@ -55,7 +51,7 @@ export const MetricCard = ({number, textIndicator, title, description, unit, too
                 </div>
             }
             {loading &&
-                <div className="w-full flex justify-center items-center mb-5">
+                <div className="w-full flex justify-center items-center mb-5" data-testid="loader">
                     <svg aria-hidden="true"
                          className="inline w-10 h-10 text-blue-secondary animate-spin dark:text-blue-secondary fill-white"
                          viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -105,7 +101,7 @@ export const ProfileCard = ({ editInfo }) => {
             {editInfo && editInfo.map((item) => {
                 const IconComponent = getIconComponent(item.title);
                 return (
-                    <div key={item.title} className="bg-white rounded-lg overflow-hidden shadow-lg p-2 mb-4">
+                    <div data-testid={`icon-${item.title}`} key={item.title} className="bg-white rounded-lg overflow-hidden shadow-lg p-2 mb-4">
                         <Link href={item.link || ""} className="flex items-center p-6">
                             {IconComponent && <IconComponent className="text-orange-primary text-4xl mr-8" />}
                             <div>

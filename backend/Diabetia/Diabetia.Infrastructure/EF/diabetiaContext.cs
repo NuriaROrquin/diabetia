@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Diabetia.Domain.Models;
+﻿using Diabetia.Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Diabetia.Infrastructure.EF
 {
@@ -22,6 +19,7 @@ namespace Diabetia.Infrastructure.EF
         public virtual DbSet<DiaSemana> DiaSemanas { get; set; } = null!;
         public virtual DbSet<Dispositivo> Dispositivos { get; set; } = null!;
         public virtual DbSet<DispositivoPaciente> DispositivoPacientes { get; set; } = null!;
+        public virtual DbSet<EarlyAdopter> EarlyAdopters { get; set; } = null!;
         public virtual DbSet<EncargadoLegal> EncargadoLegals { get; set; } = null!;
         public virtual DbSet<Enfermedad> Enfermedads { get; set; } = null!;
         public virtual DbSet<Especialidad> Especialidads { get; set; } = null!;
@@ -64,7 +62,7 @@ namespace Diabetia.Infrastructure.EF
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql("server=diabetia-mysql.mysql.database.azure.com;database=diabetia;user=borbotones;password=Diabetia123_", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.36-mysql"));
+                optionsBuilder.UseMySql("server=diabetia1.mysql.database.azure.com;database=diabetia;user=borbotones;password=Diabetia123_", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.36-mysql"));
             }
         }
 
@@ -194,6 +192,25 @@ namespace Diabetia.Infrastructure.EF
                     .HasForeignKey(d => d.IdPaciente)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("dispositivo_paciente_ibfk_1");
+            });
+
+            modelBuilder.Entity<EarlyAdopter>(entity =>
+            {
+                entity.ToTable("early_adopters");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(100)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(100)
+                    .HasColumnName("nombre");
+
+                entity.Property(e => e.Visto)
+                    .HasColumnName("visto")
+                    .HasDefaultValueSql("'0'");
             });
 
             modelBuilder.Entity<EncargadoLegal>(entity =>
@@ -459,7 +476,6 @@ namespace Diabetia.Infrastructure.EF
                 entity.HasOne(d => d.IdInsulinaPacienteNavigation)
                     .WithMany(p => p.EventoInsulinas)
                     .HasForeignKey(d => d.IdInsulinaPaciente)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("evento_insulina_ibfk_2");
             });
 
@@ -927,12 +943,6 @@ namespace Diabetia.Infrastructure.EF
                     .HasColumnName("horario_actividad");
 
                 entity.Property(e => e.IdTipoEvento).HasColumnName("id_tipo_evento");
-
-                entity.HasOne(d => d.IdTipoEventoNavigation)
-                    .WithMany(p => p.Recordatorios)
-                    .HasForeignKey(d => d.IdTipoEvento)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("recordatorio_ibfk_1");
             });
 
             modelBuilder.Entity<RecordatorioEvento>(entity =>

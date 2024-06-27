@@ -1,5 +1,4 @@
-﻿using System;
-using Diabetia.Domain.Entities;
+﻿using Diabetia.Domain.Entities;
 
 namespace Diabetia.Domain.Services
 {

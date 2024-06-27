@@ -40,12 +40,12 @@ const Final = () => {
                         <span>Ocurrió un error calculando los carbohidratos. Intentá recargar la página</span>
                     }
 
-                    {router.query && router.query.insulineToCorrect ?
+                    {router.query && router.query.insulinRecomended ?
                         <MetricCard
-                            key="insulineToCorrect"
+                            key="insulinRecomended"
                             textIndicator=""
                             unit="u"
-                            number={router.query.insulineToCorrect}
+                            number={router.query.insulinRecomended}
                             title="Insulina Recomendada"
                             description="Esta es la insulina recomendada en base a tu formulario inicial"
                             isWarning={null}

@@ -5,7 +5,7 @@ import {NavLink} from "../link";
 import {PersonOutline} from "@mui/icons-material";
 import {useRouter} from "next/router";
 import {useCookies} from "react-cookie";
-import {logout} from "../../services/api.service";
+import {logout} from "../../services/user.service";
 import CustomTooltip from "@/components/tooltip";
 
 export const Navigation = () => {

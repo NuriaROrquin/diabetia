@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Section } from "@/components/section";
-import { getEventType } from "../../../../services/api.service";
 import { GlucoseEventForm, InsulinEventForm } from "@/components/eventForm/index.js";
 import {TYPE_EVENTS} from "../../../../constants";
 import {TitleSection} from "@/components/titles";
+import {getEventType} from "../../../../services/event.service";
+
 const EditEvent = () => {
     const router = useRouter();
     const [eventData, setEventData] = useState(null);
@@ -35,6 +36,7 @@ const EditEvent = () => {
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
+
 
     return (
         <Section className="pt-12 pb-6">

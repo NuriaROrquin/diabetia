@@ -1,11 +1,11 @@
 import {useRouter} from "next/router";
-import {register} from "../../../services/api.service";
 import {Input} from "../../../components/input";
 import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
 import {ButtonBlue} from "../../../components/button";
 import {CustomLink} from "../../../components/link";
 import {EmailOutlined, PersonOutline} from "@mui/icons-material";
 import {useState} from "react";
+import {register} from "../../../services/auth.service";
 
 export const Register = () => {
   const router = useRouter();

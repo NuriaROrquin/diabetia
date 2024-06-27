@@ -1,39 +1,53 @@
-﻿using Diabetia.Domain.Entities;
+﻿using Diabetia.Domain.Exceptions;
+using Diabetia.Domain.Entities;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Services;
+using Amazon.Runtime.Internal;
+using Diabetia.Domain.Repositories;
+using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases
 {
     public class DataUserUseCase
     {
         private readonly IUserRepository _userRepository;
-        public DataUserUseCase(IUserRepository userRepository)
+        private readonly IPatientValidator _patientValidator;
+
+        public DataUserUseCase(IUserRepository userRepository, IPatientValidator patienValidator)
         {
             _userRepository = userRepository;
+            _patientValidator = patienValidator;
         }
         public async Task<Usuario> GetUserInfo(string userName)
         {
             return await _userRepository.GetUserInfo(userName);
         }
-        public async Task FirstStep(string name, string email, string gender, string lastname, int weight, string phone, DateOnly birthdate)
+        public async Task<Paciente> FirstStep(string email, Paciente patient)
         {
-            await _userRepository.CompleteUserInfo(name, email, gender, lastname, weight, phone, birthdate);
+            await _patientValidator.ValidatePatient(email);
+            await _userRepository.CompleteUserInfo(patient);
+
+            var patient_local = await _userRepository.GetPatient(email);
+
+            return patient_local;
         }
 
-        public async Task SecondStep(int typeDiabetes, bool useInsuline, int? typeInsuline, string email, bool? needsReminder, int? frequency, string? hourReminder, int? insulinePerCH)
+        public async Task SecondStep(string email, Paciente patient, InsulinaPaciente patientInsuline)
         {
-            await _userRepository.UpdateUserInfo(typeDiabetes, useInsuline, typeInsuline, email, needsReminder, frequency, hourReminder, insulinePerCH);
+            await _patientValidator.ValidatePatient(email);
+            await _userRepository.UpdateUserInfo(patient, patientInsuline);
         }
 
-        public async Task ThirdStep(string email, bool haceActividadFisica, int frecuencia, int idActividadFisica, int duracion)
+        public async Task ThirdStep(string email, PacienteActividadFisica patient_actfisica)
         {
-
-            await _userRepository.CompletePhysicalUserInfo(email, haceActividadFisica, frecuencia, idActividadFisica, duracion);
+            await _patientValidator.ValidatePatient(email);
+            await _userRepository.CompletePhysicalUserInfo(patient_actfisica);
         }
 
-        public async Task FourthStep(string email, bool tieneDispositivo, int? idDispositivo, int? frecuencia)
+        public async Task FourthStep(string email, DispositivoPaciente patient_dispo, bool TieneDispositivo)
         {
-            await _userRepository.CompleteDeviceslUserInfo(email, tieneDispositivo, idDispositivo, frecuencia);
+            await _patientValidator.ValidatePatient(email);
+            await _userRepository.CompleteDeviceslUserInfo(patient_dispo, TieneDispositivo);
         }
 
         public async Task<User> GetEditUserInfo(string email)

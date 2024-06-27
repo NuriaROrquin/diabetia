@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomTimePicker} from "../../../components/pickers";
 import {Step, StepLabel, Stepper} from "@mui/material";
-import {secondStep} from "../../../services/api.service";
+import {secondStep} from "../../../services/user.service";
 import {useRouter} from "next/router";
 import {getEmailFromJwt} from "../../../helpers";
 

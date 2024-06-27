@@ -9,8 +9,8 @@ import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomDatePicker, CustomTimePicker} from "../../../components/pickers";
-import {addPhysicalEvent} from "../../../services/api.service";
 import {useRouter} from "next/router";
+import {addPhysicalEvent} from "../../../services/event.service";
 
 const ExerciseEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 4)[0].title;
@@ -35,11 +35,10 @@ const ExerciseEvent = () => {
         const eventDateTime = date && startHour ? date.format('YYYY-MM-DD') + 'T' + startHour.format('HH:mm:ss') : null;
 
         const data = {
-            "email": email,
-            "idKindEvent": 4,
+            "kindEventId": 4,
             "eventDate": eventDateTime,
             "freeNote": notes,
-            "physicalActivity": selectedOption.id,
+            "physicalActivityId": selectedOption.id,
             "iniciateTime": start,
             "finishTime": end
         }

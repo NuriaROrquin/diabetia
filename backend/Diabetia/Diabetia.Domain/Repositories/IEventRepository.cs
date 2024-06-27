@@ -1,47 +1,65 @@
 ﻿using Diabetia.Domain.Entities;
-﻿using Diabetia.Common.Utilities;
+﻿using Diabetia.Domain.Utilities;
 using Diabetia.Domain.Entities.Events;
+using Diabetia.Domain.Models;
+
 
 namespace Diabetia.Domain.Repositories
 {
     public interface IEventRepository 
     {
-        // --------------------------------------- Physical Activity ------------------------------------------
-        public Task AddPhysicalActivityEventAsync(string Email, int KindEvent, DateTime EventDate, String FreeNote, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime);
+        // --------------------------------------- ⬇⬇ Physical Activity ⬇⬇ ---------------------------------------------------
+        public Task AddPhysicalActivityEventAsync(int patientId, EventoActividadFisica physicalActivity);
 
-        public Task EditPhysicalActivityEventAsync(string Email, int EventId, DateTime EventDate, int PhysicalActivity, TimeSpan IniciateTime, TimeSpan FinishTime, string FreeNote);
+        public Task EditPhysicalActivityEventAsync(EventoActividadFisica physicalActivity);
 
         public Task DeletePhysicalActivityEventAsync(int IdEvent);
 
-        public Task AddGlucoseEvent(string Email, int KindEvent, DateTime EventDate, String FreeNote, decimal Glucose, int? IdFoodEvent, bool? PostFoodMedition);
+        // -------------------------------------------- ⬇⬇ Glucose ⬇⬇ ---------------------------------------------------------
+        public Task AddGlucoseEventAsync(int patientId, EventoGlucosa glucose);
 
-        public Task EditGlucoseEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, decimal Glucose, int? IdFoodEvent, bool? PostFoodMedition);
+        public Task EditGlucoseEventAsync(EventoGlucosa glucose);
 
-        public Task DeleteGlucoseEvent(int IdEvent);
+        public Task DeleteGlucoseEventAsync(int IdEvent);
 
-        public Task AddInsulinEvent(string Email, int IdKindEvent, DateTime EventDate, String FreeNote, int Insulin);
+        // -------------------------------------------- ⬇⬇ Insuline ⬇⬇ ---------------------------------------------------------
+        public Task AddInsulinEventAsync(int patientId, EventoInsulina insulin);
 
-        public Task EditInsulinEvent(int IdEvent, string Email, DateTime EventDate, String FreeNote, int Insulin);
+        public Task EditInsulinEventAsync(EventoInsulina insulin);
 
-        public Task DeleteInsulinEvent(int IdEvent);
-        
-        public Task<float> AddFoodManuallyEvent(string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote);
+        public Task DeleteInsulinEventAsync(int IdEvent);
 
-        public Task EditFoodManuallyEvent(int idEvent, string Email, DateTime EventDate, int IdKindEvent, IEnumerable<Ingredient> ingredients, string FreeNote);
+        // -------------------------------------------- ⇊ Food Manually ⇊ ----------------------------------------------------
+        public Task<float> AddFoodEventAsync(int patientId, EventoComidum foodEvent);
 
-        public Task AddFoodByTagEvent(string email, DateTime eventDate, int carbohydrates);
+        public Task<float> EditFoodEventAsync(EventoComidum foodEvent);
+
+        public Task DeleteFoodEventAsync(int patientId);
+
+        // -------------------------------------------- ⬇⬇ Tag Food ⬇⬇ ---------------------------------------------------------
+        public Task AddFoodByTagEvent(int patientId, DateTime eventDate, int carbohydrates);
 
         public Task DeleteFoodEven(int id);
 
-        public Task AddMedicalExaminationEvent(string email, DateTime eventDate, string fileSaved, string examinationType, int? idProfessional, string? freeNote);
+        // -------------------------------------------- ⬇⬇ Medical Examination ⬇⬇ -----------------------------------------------
+        public Task AddMedicalExaminationEventAsync(int patientId, EventoEstudio medicalExamination, string fileSavedId);
 
         public Task<string> DeleteMedicalExaminationEvent(int id);
 
-        // ------------------------------------------- Medical Visit -------------------------------------------
-        public Task AddMedicalVisitEventAsync(string Email, int KindEventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string Description);
-        public Task EditMedicalVisitEventAsync(string Email, int EventId, DateTime VisitDate, int ProfessionalId, bool Recordatory, DateTime? RecordatoryDate, string Description);
-        public Task DeleteMedicalVisitEventAsync(int EventId);
+        // ------------------------------------------- ⬇⬇ Medical Visit ⬇⬇ ---------------------------------------------------------
+        public Task AddMedicalVisitEventAsync(int patientId, EventoVisitaMedica medicalVisit);
+        public Task EditMedicalVisitEventAsync(EventoVisitaMedica medicalVisit);
+        public Task DeleteMedicalVisitEventAsync(int eventId);
 
+        // ------------------------------------------- ⬇⬇ Free Note ⬇⬇ ---------------------------------------------------------
+
+        public Task AddFreeNoteEventAsync(int patientId, CargaEvento freeNote);
+        public Task EditFreeNoteEventAsync(CargaEvento freeNoteEvent);
+        public Task DeleteFreeNoteEventAsync(int eventId);
+
+        // ------------------------------------------- ⬇⬇ General Gets ⬇⬇ ----------------------------------------------------------
+
+        public Task<CargaEvento> GetEventByIdAsync(int eventId);
         public Task<IEnumerable<AdditionalDataIngredient>> GetIngredients();
 
         public Task<IEnumerable<PhysicalActivityEvent>> GetPhysicalActivity(int patientId, DateTime? date);
@@ -75,5 +93,8 @@ namespace Diabetia.Domain.Repositories
         Task<ExamEvent> GetExamEventById(int id);
 
         Task<ExamEvent> GetFreeNoteEventById(int id);
+
+        public Task <bool> CheckPatientEvent(string email, CargaEvento eventToValidate);
+        
     }
 }

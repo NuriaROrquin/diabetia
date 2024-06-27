@@ -3,11 +3,11 @@ import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
 import {PersonOutline} from "@mui/icons-material";
 import {ButtonBlue} from "../../../components/button";
 import {CustomLink} from "../../../components/link";
-import {login} from "../../../services/api.service";
 import {useRouter} from "next/router";
 import {useState} from "react";
 import {useCookies} from "react-cookie";
 import {jwtDecode} from "jwt-decode";
+import {login} from "../../../services/auth.service";
 
 export const Login = () => {
     const [error, setError] = useState(false);

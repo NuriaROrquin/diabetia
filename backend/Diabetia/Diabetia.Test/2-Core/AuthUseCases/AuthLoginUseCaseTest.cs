@@ -1,12 +1,12 @@
 ﻿using Amazon.CognitoIdentityProvider.Model;
-using Diabetia.Application.Exceptions;
-using Diabetia.Application.UseCases;
+using Diabetia.Domain.Exceptions;
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
-using Diabetia.Infrastructure.Repositories;
 using Diabetia.Interfaces;
 using FakeItEasy;
+using Diabetia.Application.UseCases.AuthUseCases;
+using Diabetia.Domain.Utilities.Interfaces;
 
 namespace Diabetia_Core.Auth
 {
@@ -24,6 +24,7 @@ namespace Diabetia_Core.Auth
             var fakeUserRepository = A.Fake<IUserRepository>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
             var fakeInputValidator = A.Fake<IInputValidator>();
+            var fakeUsernameDBValidator = A.Fake<IUsernameDBValidator>();
 
             var expectedTokenResponse = new InitiateAuthResponse
             {
@@ -37,13 +38,13 @@ namespace Diabetia_Core.Auth
                 Email = "testEmail@gmail.com"
             };
             A.CallTo(() => fakeInputValidator.IsEmail(userInput)).Returns(true);
-            A.CallTo(() => fakeAuthRepository.GetUsernameByEmailAsync(userInput)).Returns(username);
+            A.CallTo(() => fakeUsernameDBValidator.GetUsernameByEmail(userInput)).Returns(username);
             A.CallTo(() => fakeAuthProvider.LoginUserAsync(username, password)).Returns(Task.FromResult(expectedTokenResponse));
-            A.CallTo(() => fakeUserRepository.GetUserInformationFromUsernameAsync(username)).Returns(Task.FromResult(expectedUser));
+            A.CallTo(() => fakeUserRepository.GetUserInformationFromUsernameAsync(username)).Returns(expectedUser);
             A.CallTo(() => fakeUserRepository.GetStatusInformationCompletedAsync(username)).Returns(true);
 
 
-            var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository, fakeInputValidator);
+            var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository, fakeInputValidator, fakeUsernameDBValidator);
 
             // Act
             var user = await userLoginUseCase.UserLoginAsync(userInput, password);
@@ -51,7 +52,11 @@ namespace Diabetia_Core.Auth
             // Assert
             Assert.NotNull(user);
             Assert.Equal(expectedTokenResponse.AuthenticationResult.AccessToken, user.Token);
+            A.CallTo(() => fakeInputValidator.IsEmail(userInput)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUsernameDBValidator.GetUsernameByEmail(userInput)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeAuthProvider.LoginUserAsync(username, password)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUserRepository.GetUserInformationFromUsernameAsync(username)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUserRepository.GetStatusInformationCompletedAsync(username)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -65,6 +70,7 @@ namespace Diabetia_Core.Auth
             var fakeUserRepository = A.Fake<IUserRepository>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
             var fakeInputValidator = A.Fake<IInputValidator>();
+            var fakeUsernameDBValidator = A.Fake<IUsernameDBValidator>();
 
             var expectedTokenResponse = new InitiateAuthResponse
             {
@@ -78,13 +84,11 @@ namespace Diabetia_Core.Auth
                 Email = "testEmail@gmail.com"
             };
             A.CallTo(() => fakeInputValidator.IsEmail(userInput)).Returns(false);
-            A.CallTo(() => fakeAuthRepository.CheckUsernameOnDatabaseAsync(userInput)).Returns(true);
-            A.CallTo(() => fakeAuthProvider.LoginUserAsync(userInput, password)).Returns(Task.FromResult(expectedTokenResponse));
-            A.CallTo(() => fakeUserRepository.GetUserInformationFromUsernameAsync(userInput)).Returns(Task.FromResult(expectedUser));
+            A.CallTo(() => fakeAuthProvider.LoginUserAsync(userInput, password)).Returns(expectedTokenResponse);
+            A.CallTo(() => fakeUserRepository.GetUserInformationFromUsernameAsync(userInput)).Returns(expectedUser);
             A.CallTo(() => fakeUserRepository.GetStatusInformationCompletedAsync(userInput)).Returns(true);
 
-
-            var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository, fakeInputValidator);
+            var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository, fakeInputValidator, fakeUsernameDBValidator);
 
             // Act
             var user = await userLoginUseCase.UserLoginAsync(userInput, password);
@@ -92,7 +96,13 @@ namespace Diabetia_Core.Auth
             // Assert
             Assert.NotNull(user);
             Assert.Equal(expectedTokenResponse.AuthenticationResult.AccessToken, user.Token);
+            
+            A.CallTo(() => fakeInputValidator.IsEmail(userInput)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDataBase(userInput)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeAuthProvider.LoginUserAsync(userInput, password)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUserRepository.GetUserInformationFromUsernameAsync(userInput)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUserRepository.GetStatusInformationCompletedAsync(userInput)).MustHaveHappenedOnceExactly();
+
         }
 
         [Fact]
@@ -102,18 +112,22 @@ namespace Diabetia_Core.Auth
             var userInput = "invalidUsername";
             var password = "testPassword";
 
+
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeUserRepository = A.Fake<IUserRepository>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
             var fakeInputValidator = A.Fake<IInputValidator>();
+            var fakeUsernameDBValidator = A.Fake<IUsernameDBValidator>();
 
             A.CallTo(() => fakeInputValidator.IsEmail(userInput)).Returns(false);
-            A.CallTo(() => fakeAuthRepository.CheckUsernameOnDatabaseAsync(userInput)).Returns(false);
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDataBase(userInput)).Throws<UsernameNotFoundException>();
 
-            var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository, fakeInputValidator);
+            var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository, fakeInputValidator, fakeUsernameDBValidator);
 
             // Assert & Act
             await Assert.ThrowsAsync<UsernameNotFoundException>(() => userLoginUseCase.UserLoginAsync(userInput, password));
+            A.CallTo(() => fakeInputValidator.IsEmail(userInput)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDataBase(userInput)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -122,19 +136,27 @@ namespace Diabetia_Core.Auth
             // Arrange
             var userInput = "invalidUsername";
             var password = "InvalidPassword";
+            var expectedTokenResponse = new InitiateAuthResponse
+            {
+                AuthenticationResult = null
+            };
 
             var fakeAuthProvider = A.Fake<IAuthProvider>();
             var fakeUserRepository = A.Fake<IUserRepository>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
             var fakeInputValidator = A.Fake<IInputValidator>();
+            var fakeUsernameDBValidator = A.Fake<IUsernameDBValidator>();
 
             A.CallTo(() => fakeInputValidator.IsEmail(userInput)).Returns(false);
-            A.CallTo(() => fakeAuthRepository.CheckUsernameOnDatabaseAsync(userInput)).Returns(true);
+            A.CallTo(() => fakeAuthProvider.LoginUserAsync(userInput, password)).Returns(expectedTokenResponse);
 
-            var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository, fakeInputValidator);
+            var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository, fakeInputValidator, fakeUsernameDBValidator);
 
             // Assert & Act
             await Assert.ThrowsAsync<UserNotAuthorizedException>(() => userLoginUseCase.UserLoginAsync(userInput, password));
+            A.CallTo(() => fakeInputValidator.IsEmail(userInput)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDataBase(userInput)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeAuthProvider.LoginUserAsync(userInput, password)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -162,16 +184,19 @@ namespace Diabetia_Core.Auth
             var fakeUserRepository = A.Fake<IUserRepository>();
             var fakeAuthRepository = A.Fake<IAuthRepository>();
             var fakeInputValidator = A.Fake<IInputValidator>();
+            var fakeUsernameDBValidator = A.Fake<IUsernameDBValidator>();
 
             A.CallTo(() => fakeInputValidator.IsEmail(userInput)).Returns(false);
-            A.CallTo(() => fakeAuthRepository.CheckUsernameOnDatabaseAsync(userInput)).Returns(true);
             A.CallTo(() => fakeAuthProvider.LoginUserAsync(userInput, password)).Returns(Task.FromResult(expectedTokenResponse));
             A.CallTo(() => fakeUserRepository.GetUserInformationFromUsernameAsync(userInput)).Returns<User>(null);
 
-            var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository, fakeInputValidator);
+            var userLoginUseCase = new AuthLoginUseCase(fakeAuthProvider, fakeUserRepository, fakeAuthRepository, fakeInputValidator, fakeUsernameDBValidator);
 
             // Assert & Act
             await Assert.ThrowsAsync<NoInformationUserException>(() => userLoginUseCase.UserLoginAsync(userInput, password));
+            A.CallTo(() => fakeInputValidator.IsEmail(userInput)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeUsernameDBValidator.CheckUsernameOnDataBase(userInput)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeAuthProvider.LoginUserAsync(userInput, password)).MustHaveHappenedOnceExactly();
         }
     }
 }

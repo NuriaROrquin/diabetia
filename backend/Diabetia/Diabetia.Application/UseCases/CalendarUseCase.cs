@@ -2,6 +2,7 @@
 using Diabetia.Domain.Entities;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Entities.Events;
+using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases
 {
@@ -9,15 +10,19 @@ namespace Diabetia.Application.UseCases
     {
         private readonly IEventRepository _eventRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IPatientValidator _patientValidator;
 
-        public CalendarUseCase(IEventRepository eventRepository, IUserRepository userRepository)
+        public CalendarUseCase(IEventRepository eventRepository, IUserRepository userRepository, IPatientValidator patientValidator)
         {
             _eventRepository = eventRepository;
             _userRepository = userRepository;
+            _patientValidator = patientValidator;
         }
 
         public async Task<Dictionary<string, List<EventItem>>> GetAllEvents(string email)
         {
+            await _patientValidator.ValidatePatient(email);
+
             var eventsByDate = new Dictionary<string, List<EventItem>>();
 
             var patient = await _userRepository.GetPatient(email);
@@ -92,6 +97,7 @@ namespace Diabetia.Application.UseCases
 
         public async Task<IEnumerable<EventItem>> GetAllEventsByDate(DateTime date, string email)
         {
+            await _patientValidator.ValidatePatient(email);
 
             var patient = await _userRepository.GetPatient(email);
 
@@ -102,15 +108,6 @@ namespace Diabetia.Application.UseCases
             var insulinEvents = await _eventRepository.GetInsulin(patient.Id, date);
             var healthEvents = await _eventRepository.GetHealth(patient.Id, date);
             var medicalVisitEvents = await _eventRepository.GetMedicalVisit(patient.Id, date);
-
-            var groupedFoodEvents = foodEvents
-                .GroupBy(fe => new { fe.DateEvent })
-                .Select(g => new
-                {
-                    g.Key.DateEvent,
-                    Title = "Comida",
-                    Ingredients = string.Join(", ", g.Select(fe => fe.IngredientName))
-                });
 
             var events = new List<EventItem>();
 

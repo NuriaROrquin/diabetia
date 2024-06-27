@@ -8,9 +8,7 @@ import {TextArea} from "../../../components/input";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomDatePicker, CustomTimePicker} from "../../../components/pickers";
-import {addPhysicalEvent} from "../../../services/api.service";
 import {useRouter} from "next/router";
-import {useCookies} from "react-cookie";
 
 const ExerciseEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 8)[0].title;
@@ -29,12 +27,12 @@ const ExerciseEvent = () => {
             "idKindEvent": 8,
             "eventDate": dateFormatted,
             "freeNote": notes,
-            "hora": start ?? null //TODO: chequear que este campo se llame hora, ver si no hay que pasarlo en el datetime
+            "hora": start ?? null
         }
 
-        addPhysicalEvent(data).then(() =>
+        /*addPhysicalEvent(data).then(() =>
             router.push("/calendar")
-        )
+        )*/
     }
 
     return(

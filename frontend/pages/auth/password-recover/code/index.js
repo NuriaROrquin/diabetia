@@ -4,8 +4,8 @@ import {CustomLink} from "../../../../components/link";
 import {useRouter} from "next/router";
 import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
 import {LockOutlined} from "@mui/icons-material";
-import {passwordRecoverCode} from "../../../../services/api.service";
 import {useState} from "react";
+import {passwordRecoverCode} from "../../../../services/auth.service";
 
 export const PasswordRecoverCode = () => {
     const router = useRouter();

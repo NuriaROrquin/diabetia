@@ -16,15 +16,16 @@ namespace Diabetia.Infrastructure.Providers
             _jwtSettings = jwtSettings.Value;
         }
 
-        public string GenerateToken(string userId, string userName, string email, int? stepCompleted)
+        public string GenerateToken(string userId, string userName, string email, int? stepCompleted, int? idPatient)
         {
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userId),
                 new Claim(JwtRegisteredClaimNames.UniqueName, userName),
                 new Claim("username", userName),
-                new Claim("email", email),
+                new Claim(ClaimTypes.Email, email),
                 new Claim("stepCompleted", stepCompleted.ToString()),
+                //new Claim("idPatient", idPatient?.ToString() ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

@@ -17,13 +17,6 @@ export const formatDateTime = (date) => {
     return formattedDate;
 }
 
-function setCookie(name, value, days) {
-    const expires = new Date();
-    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
-    const cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
-    document.cookie = cookie;
-}
-
 export function getEmailFromJwt() {
     const jwt = getJwt();
     let decodedData = null;

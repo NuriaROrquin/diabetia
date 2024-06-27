@@ -1,6 +1,8 @@
 ﻿using Diabetia.Domain.Services;
 using Diabetia.Domain.Entities;
 using System.Text.RegularExpressions;
+using Diabetia.Domain.Exceptions;
+using Diabetia.Interfaces;
 
 
 namespace Diabetia.Application.UseCases
@@ -8,16 +10,19 @@ namespace Diabetia.Application.UseCases
     public class TagDetectionUseCase
     {
         private readonly ITagRecognitionProvider _apiAmazonService;
+        private readonly IPatientValidator _patientValidator;
 
-        public TagDetectionUseCase(ITagRecognitionProvider apiAmazonService)
+        public TagDetectionUseCase(ITagRecognitionProvider apiAmazonService, IPatientValidator patientValidator)
         {
             _apiAmazonService = apiAmazonService;
+            _patientValidator = patientValidator;
         }
 
-        public async Task<IEnumerable<NutritionTag>> GetOcrResponseFromDocument(IEnumerable<string> tagRequests)
+        public async Task<IEnumerable<NutritionTag>> GetOcrResponseFromDocument(string email, IEnumerable<string> tagRequests)
         {
+            await _patientValidator.ValidatePatient(email);
+
             List<NutritionTag> nutritionTags = new List<NutritionTag>();
-            
 
             foreach (var tagRequest in tagRequests)
             {
@@ -27,17 +32,13 @@ namespace Diabetia.Application.UseCases
                 float grPerPortion = 0;
                 string textractResponse = nutritionTag.CarbohydratesText;
                 string chPattern = @"[Cc]arbohidratos.*?\s*(\d+)\s*g";
-                string tagResponse = "";
 
-                string portionPatter = @"[Pp]orci[oó]n\s*[:\s]*(\d+)\s*g";
+                string portionPatter = @"[Pp]orci[oó]n\s*[:=\s]*\s*(\d+)\s*g";
 
-                // Llama a la función para extraer la cantidad de carbohidratos por porción
                 MatchCollection chMatches = Regex.Matches(textractResponse, chPattern);
 
-                // Llama a la función para extraer la cantidad de gramos por porción
                 MatchCollection portionMatches = Regex.Matches(textractResponse, portionPatter);
 
-                // Imprime todas las coincidencias encontradas de gr de porciones
                 if (portionMatches.Count > 0)
                 {
                     foreach (Match match in portionMatches)
@@ -48,10 +49,9 @@ namespace Diabetia.Application.UseCases
                 }
                 else
                 {
-                    tagResponse += ("No se encontró la cantidad de gramos por porción en el texto proporcionado. ");
+                    throw new GrPerPortionNotFoundException();
                 }
 
-                // Imprime todas las coincidencias encontradas de ch
                 if (chMatches.Count > 0)
                 {
                     foreach (Match match in chMatches)
@@ -62,17 +62,18 @@ namespace Diabetia.Application.UseCases
                 }
                 else
                 {
-                    tagResponse += ("No se encontró la cantidad de carbohidratos por porción en el texto proporcionado.");
+                    throw new ChPerPortionNotFoundException();
                 }
 
                 NutritionTag carbohydratesText = new NutritionTag();
-                carbohydratesText.CarbohydratesText = tagResponse;
                 carbohydratesText.GrPerPortion = grPerPortion;
                 carbohydratesText.ChInPortion = chInPortion;
                 carbohydratesText.UniqueId = nutritionTag.UniqueId;
 
                 nutritionTags.Add(carbohydratesText);
             }
+
+
 
             return nutritionTags;
         }

@@ -10,8 +10,9 @@ import { InputWithLabel, TextArea } from "../../../components/input";
 import { SelectSearch } from "../../../components/selector";
 import { ButtonOrange } from "../../../components/button";
 import { CustomDatePicker, CustomTimePicker } from "../../../components/pickers";
-import { addFoodEvent, getIngredients } from "../../../services/api.service";
 import { AddCircle, Delete } from "@mui/icons-material";
+import {addFoodManuallyEvent} from "../../../services/event.service";
+import {getIngredients} from "../../../services/ingredients.service";
 
 const FoodEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 2)[0].title;
@@ -74,19 +75,16 @@ const FoodEvent = () => {
         const dateFormatted = date && hour ? date.format("YYYY-MM-DD") + 'T' + hour.format('HH:mm:ss') : null;
 
         const data = {
-            email: email,
             eventDate: dateFormatted,
-            idKindEvent: 2,
+            kindEventId: 2,
             ingredients: ingredients,
             freeNote: notes
         };
 
-        addFoodEvent(data).then((res) => {
-
-            console.log(res.data.insulinToCorrect)
+        addFoodManuallyEvent(data).then((res) => {
             const queryParams = new URLSearchParams();
             queryParams.set('chConsumed', res.data.chConsumed);
-            queryParams.set('insulineToCorrect', res.data.insulinToCorrect);
+            queryParams.set('insulinRecomended', res.data.insulinRecomended);
             router.push({
                 pathname: "/event/food/final",
                 query: Object.fromEntries(queryParams.entries())
@@ -102,8 +100,6 @@ const FoodEvent = () => {
             setIngredientsOptions(ing);
         });
     }, []);
-
-    console.log(ingredientsOptions)
 
     return (
         <Section className="pt-12">

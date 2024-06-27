@@ -3,21 +3,20 @@ import CustomCalendar from "../../components/calendar";
 import {OrangeLink} from "../../components/link";
 import CustomTooltip from "@/components/tooltip";
 import {useEffect, useState} from "react";
-import {deleteEventById, getAllEvents, getEventsByDate} from "../../services/api.service";
 import {Delete, Edit} from "@mui/icons-material";
 import Link from "next/link";
-import {getEmailFromJwt} from "../../helpers";
 import useModal from "../../hooks";
 import Modal from "@/components/modal";
 import {useRouter} from "next/router";
 import {SubtitleSection, TitleSection} from "@/components/titles";
+import {getAllEvents, getEventsByDate} from "../../services/calendar.service";
+import {deleteEventById} from "../../services/event.service";
 
 const registrarEventoTooltipText = "Registrá un nuevo evento: mediciones de glucosa, actividad física, eventos de salud, visitas médicas, insulina, comida manual.";
 
 export const CalendarPage = () => {
     const [eventList, setEventList] = useState();
     const [error, setError] = useState(null);
-    const email = getEmailFromJwt();
     const [eventsByDate, setEventsByDate] = useState(null);
     const [eventIdToDelete, setEventIdToDelete] = useState(null)
     const [loadingCalendar, setLoadingCalendar] = useState(true)
@@ -27,7 +26,7 @@ export const CalendarPage = () => {
 
     useEffect(() => {
         setLoadingCalendar(true)
-        getAllEvents({email})
+        getAllEvents()
             .then((res) => {
                 setEventList(res.data);
                 setLoadingCalendar(false)
@@ -35,12 +34,12 @@ export const CalendarPage = () => {
             .catch((error) => {
                 setError(error.response?.data ? error.response.data : "Hubo un error");
             });
-    }, [email]);
+    }, []);
 
     const handleOnSelectDay = (e) => {
         setEventsByDate(null);
         setLoadingEvent(true)
-        getEventsByDate(e.toISOString(), email)
+        getEventsByDate(e.toISOString())
             .then((res) => {
                 setEventsByDate(res.data);
                 setLoadingEvent(false)

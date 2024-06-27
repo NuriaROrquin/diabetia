@@ -1,12 +1,13 @@
 import {ChevronLeft} from "@mui/icons-material";
 import {useEffect, useState} from 'react';
 
-export const Selector = ({width, selectedOption, options, isOpen, setIsOpen, handleOptionClick}) => {
+export const Selector = ({width, selectedOption, options, isOpen, setIsOpen, handleOptionClick, dataTestId}) => {
 
     return (
         <section className={`${width} flex  min-w-max`}>
             <div className="relative w-full">
                 <button
+                    data-testid={dataTestId}
                     onClick={() => setIsOpen(!isOpen)}
                     className={`flex appearance-none text-xl text-white w-full bg-blue-secondary px-4 py-3 pr-8 shadow leading-tight focus:outline-none focus:shadow-outline ${isOpen ? 'rounded-b-0 rounded-t-xl' : 'rounded-lg'}`}
                 >
@@ -22,6 +23,7 @@ export const Selector = ({width, selectedOption, options, isOpen, setIsOpen, han
                             <li
                                 key={option}
                                 onClick={() => handleOptionClick(option)}
+                                data-testid={`option-${option}`}
                                 className="px-4 py-2 hover:bg-orange-focus cursor-pointer rounded-xl text-xl text-white z-50"
                             >
                                 {option}
@@ -41,6 +43,7 @@ export const Select = ({ width, selectedOption, options, isOpen, setIsOpen, hand
 
             <div className="relative inline-block w-full h-fit">
                 <button
+                    data-testid="select"
                     onClick={() => setIsOpen(!isOpen, index)}
                     className={`flex appearance-none w-full px-4 py-3 mt-2 pr-8 border border-gray-400 rounded-lg leading-tight focus:outline-none ${isOpen ? 'rounded-b-0 rounded-t-xl' : 'rounded-xl'} items-center py-4`}
                 >
@@ -92,6 +95,7 @@ export const SelectSearch = ({ width, selectedOption, options, isOpen, setIsOpen
 
             <div className="relative inline-block w-full h-fit">
                 <button
+                    data-testid="search-input"
                     onClick={() => setIsOpen(!isOpen, index)}
                     className={`flex appearance-none w-full px-4 py-3 mt-2 pr-8 border border-gray-400 rounded-lg leading-tight focus:outline-none ${isOpen ? 'rounded-b-0 rounded-t-xl' : 'rounded-xl'} items-center py-4`}
                 >

@@ -1,4 +1,4 @@
-﻿using Diabetia.Common.Utilities;
+﻿using Diabetia.Domain.Utilities;
 
 namespace Diabetia.API.DTO.HomeRequest
 {
