@@ -8,7 +8,7 @@ import {TextArea, CustomSwitch} from "../../../components/input";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {Select} from "../../../components/selector";
-import {addInsulinEvent} from "../../../services/api.service";
+import {addInsulinEvent} from "../../../services/user.service";
 import {useRouter} from "next/router";
 import {CustomDatePicker, CustomTimePicker} from "@/components/pickers";
 

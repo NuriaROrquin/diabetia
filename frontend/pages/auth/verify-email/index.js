@@ -2,8 +2,8 @@ import {Input} from "../../../components/input";
 import {LockOutlined} from "@mui/icons-material";
 import {ButtonBlue} from "../../../components/button";
 import {useRouter} from "next/router";
-import {confirmEmailVerification} from "../../../services/api.service";
 import {useState} from "react";
+import {confirmEmailVerification} from "../../../services/auth.service";
 
 export const VerifyEmail = () => {
     const router = useRouter();

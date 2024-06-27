@@ -61,7 +61,6 @@ const ReminderEvent = () => {
             "finishTime": end
         }
 
-        //TODO: add y edit de studies
         /*addPhysicalEvent(data).then(() =>
             router.push("/calendar")
         )*/

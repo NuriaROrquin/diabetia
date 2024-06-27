@@ -8,7 +8,7 @@ import {CustomDatePicker} from "../../../components/pickers";
 import {useRouter} from "next/router";
 import {Step, StepLabel, Stepper} from "@mui/material";
 import {Select} from "@/components/selector";
-import {getUserInfo, firstStep} from "../../../services/api.service";
+import {getUserInfo, firstStep} from "../../../services/user.service";
 import {useEffect, useState} from "react";
 import {NavLink} from "../../../components/link"
 import {getEmailFromJwt} from "../../../helpers";

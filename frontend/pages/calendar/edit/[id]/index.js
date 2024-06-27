@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Section } from "@/components/section";
-import {editInsulinEvent, getEventType} from "../../../../services/api.service";
 import { GlucoseEventForm, InsulinEventForm } from "@/components/eventForm/index.js";
 import {TYPE_EVENTS} from "../../../../constants";
 import {TitleSection} from "@/components/titles";
-import {getEmailFromJwt} from "../../../../helpers";
-import {addInsulinEvent} from "../../../../services/event.service";
+import {getEventType} from "../../../../services/event.service";
+
 const EditEvent = () => {
     const router = useRouter();
     const [eventData, setEventData] = useState(null);

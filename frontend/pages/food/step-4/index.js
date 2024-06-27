@@ -4,12 +4,12 @@ import {Input} from "@/components/input";
 import {ButtonOrange} from "@/components/button";
 import {useRouter} from "next/router";
 import {useAIData} from "../../../context";
-import {tagRegistration} from "../../../services/api.service";
 import {OrangeLink} from "../../../components/link";
 import {getEmailFromJwt} from "../../../helpers";
 import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import {tagRegistration} from "../../../services/tag.service";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -47,8 +47,6 @@ const StepFour = () => {
         const email = getEmailFromJwt();
 
         const eventDate = dayjs().tz('Etc/GMT+3')
-
-        console.log(eventDate.format('YYYY-MM-DDTHH:mm:ss.SSSZ'))
 
         const requestData = {
             email: email,

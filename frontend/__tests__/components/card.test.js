@@ -28,8 +28,8 @@ describe('MetricCard Component', () => {
 
 describe('EventCard Component', () => {
     const events = [
-        { title: 'Event 1', link: '/event1', image: 'event1.jpg' },
-        { title: 'Event 2', link: '/event2', image: 'event2.jpg' }
+        { title: 'Event 1', link: '/event1', image: '/event1.jpg' },
+        { title: 'Event 2', link: '/event2', image: '/event2.jpg' }
     ];
 
     it('renders correctly', () => {

@@ -6,7 +6,7 @@ import {ButtonOrange} from "../../../components/button";
 import {useRouter} from "next/router";
 import {Step, StepLabel, Stepper} from "@mui/material";
 import {Select} from "@/components/selector";
-import {getPatientInfo, secondStep} from "../../../services/api.service";
+import {getPatientInfo, secondStep} from "../../../services/user.service";
 import {useEffect, useState} from "react";
 import {NavLink} from "../../../components/link"
 import {getEmailFromJwt} from "../../../helpers";

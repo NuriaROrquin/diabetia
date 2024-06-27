@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomTimePicker} from "../../../components/pickers";
 import {Step, StepLabel, Stepper} from "@mui/material";
-import {fourthStep} from "../../../services/api.service";
+import {fourthStep} from "../../../services/user.service";
 import {useRouter} from "next/router";
 import {getEmailFromJwt} from "../../../helpers";
 

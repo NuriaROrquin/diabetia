@@ -27,10 +27,9 @@ const ExerciseEvent = () => {
             "idKindEvent": 8,
             "eventDate": dateFormatted,
             "freeNote": notes,
-            "hora": start ?? null //TODO: chequear que este campo se llame hora, ver si no hay que pasarlo en el datetime
+            "hora": start ?? null
         }
 
-        //TODO: add y edit nota libre
         /*addPhysicalEvent(data).then(() =>
             router.push("/calendar")
         )*/

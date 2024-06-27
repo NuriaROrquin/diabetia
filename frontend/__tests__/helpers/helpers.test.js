@@ -9,7 +9,6 @@ import {
 } from "../../helpers";
 import {jwtDecode} from "jwt-decode";
 
-// Mock de sessionStorage
 const sessionStorageMock = (() => {
     let store = {};
 
@@ -37,8 +36,8 @@ jest.mock("jwt-decode");
 const mockJwtDecode = jest.fn();
 
 beforeEach(() => {
-    jest.clearAllMocks(); // Limpiar todos los mocks antes de cada prueba
-    jwtDecode.mockImplementation(mockJwtDecode); // Implementar jwt-decode con el mock manual
+    jest.clearAllMocks();
+    jwtDecode.mockImplementation(mockJwtDecode);
 });
 
 describe('Helpers Tests', () => {

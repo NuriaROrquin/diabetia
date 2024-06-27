@@ -1,4 +1,3 @@
-//TODO: hacer edit physical event
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
 import {TYPE_EVENTS, TYPE_EXERCISES} from "../../../constants";

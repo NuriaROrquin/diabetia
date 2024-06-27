@@ -10,9 +10,9 @@ import { InputWithLabel, TextArea } from "../../../components/input";
 import { SelectSearch } from "../../../components/selector";
 import { ButtonOrange } from "../../../components/button";
 import { CustomDatePicker, CustomTimePicker } from "../../../components/pickers";
-import { getIngredients } from "../../../services/api.service";
 import { AddCircle, Delete } from "@mui/icons-material";
 import {addFoodManuallyEvent} from "../../../services/event.service";
+import {getIngredients} from "../../../services/ingredients.service";
 
 const FoodEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 2)[0].title;

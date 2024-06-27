@@ -45,7 +45,7 @@ describe('Selector Component', () => {
 
     it('toggles isOpen on button click', () => {
         const options = ['Option 1', 'Option 2', 'Option 3'];
-        const setIsOpen = jest.fn(); // Mock de la función setIsOpen
+        const setIsOpen = jest.fn();
 
         const {getByTestId} =render(
             <Selector

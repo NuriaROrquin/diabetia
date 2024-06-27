@@ -3,15 +3,14 @@ import CustomCalendar from "../../components/calendar";
 import {OrangeLink} from "../../components/link";
 import CustomTooltip from "@/components/tooltip";
 import {useEffect, useState} from "react";
-import {deleteEventById} from "../../services/api.service";
 import {Delete, Edit} from "@mui/icons-material";
 import Link from "next/link";
-import {getEmailFromJwt} from "../../helpers";
 import useModal from "../../hooks";
 import Modal from "@/components/modal";
 import {useRouter} from "next/router";
 import {SubtitleSection, TitleSection} from "@/components/titles";
 import {getAllEvents, getEventsByDate} from "../../services/calendar.service";
+import {deleteEventById} from "../../services/event.service";
 
 const registrarEventoTooltipText = "Registrá un nuevo evento: mediciones de glucosa, actividad física, eventos de salud, visitas médicas, insulina, comida manual.";
 
