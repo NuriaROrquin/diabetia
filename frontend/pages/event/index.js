@@ -9,7 +9,7 @@ export const EventsGrid = () => {
                 <div className="w-full col-start-2 flex justify-self-center justify-center pt-32 pb-16 text-white">
                     <span className="text-3xl font-bold">Elegí un evento para registrar en tu calendario</span>
                 </div>
-                <div className="container gap-y-12 gap-x-1 flex flex-wrap justify-between items-center pb-16">
+                <div className="container gap-y-12 gap-x-4 flex flex-wrap justify-center md:justify-between items-center pb-16">
                     <EventCard events={TYPE_EVENTS}/>
                 </div>
             </Section>
