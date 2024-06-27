@@ -17,6 +17,7 @@ using Diabetia.Application.UseCases.EventUseCases;
 using Diabetia.Application.UseCases.AuthUseCases;
 using Diabetia.Domain.Utilities.Validations;
 using Diabetia.Domain.Utilities.Interfaces;
+using Amazon.S3;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,6 +81,18 @@ builder.Services.AddScoped<IEmailDBValidator, EmailDBValidator>();
 builder.Services.AddScoped<IUsernameDBValidator, UsernameDBValidator>();
 builder.Services.AddScoped<IUserStatusValidator, UserStatusValidator>();
 builder.Services.AddScoped<IHashValidator, HashValidator>();
+builder.Services.AddScoped<IAmazonS3>(provider =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    string awsAccessKey = configuration["AwsAccessKeyId"];
+    string awsSecretKey = configuration["AwsSecretAccessKey"];
+    string region = configuration["Region"];
+    var regionEndpoint = Amazon.RegionEndpoint.GetBySystemName(region);
+    return new AmazonS3Client(awsAccessKey, awsSecretKey, regionEndpoint);
+});
+
+
+
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 

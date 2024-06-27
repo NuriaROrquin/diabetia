@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
-using System.Net;
-using Diabetia.Domain.Services;
+﻿using Diabetia.Domain.Services;
 using Diabetia.Domain.Entities;
 using Amazon;
 using Amazon.S3;
-using Amazon.S3.Transfer;
 using Amazon.S3.Model;
 using Amazon.Textract.Model;
 using Amazon.Textract;
@@ -23,10 +15,12 @@ namespace Diabetia.Infrastructure.Providers
     public class TagRecognitionProvider : ITagRecognitionProvider
     {
         private readonly IConfiguration _configuration;
+        private readonly IAmazonS3 _amazonS3;
 
-        public TagRecognitionProvider(IConfiguration configuration)
+        public TagRecognitionProvider(IConfiguration configuration, IAmazonS3 amazonS3)
         {
             _configuration = configuration;
+            _amazonS3 = amazonS3;
         }
 
         public async Task<NutritionTag> GetChFromDocument(string ocrRequest)
@@ -77,13 +71,7 @@ namespace Diabetia.Infrastructure.Providers
         /// <returns>Un boolean acorde a si se pudo guardar o no el archivo</returns>
         private async Task CreateObjectS3Async(string file, string idOnBucket)
         {
-            string awsAccessKey = _configuration["AwsAccessKeyId"];
-            string awsSecretKey = _configuration["AwsSecretAccessKey"];
             string bucketName = _configuration["BucketName"];
-            string regionSecret = _configuration["Region"];
-
-            var region = RegionEndpoint.GetBySystemName(regionSecret);
-            var client = new AmazonS3Client(awsAccessKey, awsSecretKey, region);
 
             byte[] imageData = Convert.FromBase64String(file);
             Stream imageStream = new MemoryStream(imageData);
@@ -94,7 +82,7 @@ namespace Diabetia.Infrastructure.Providers
                 Key = idOnBucket,
                 InputStream = imageStream
             };
-            await client.PutObjectAsync(request);
+            await _amazonS3.PutObjectAsync(request);
         }
 
         /// <summary>

@@ -1,16 +1,10 @@
 ﻿using Diabetia.Application.UseCases.EventUseCases;
-using Diabetia.Domain.Entities.Events;
 using Diabetia.Domain.Exceptions;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 using FakeItEasy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Diabetia_Core.Events
 {
