@@ -81,10 +81,13 @@ export const calculateDateRange = (selectedOption) => {
     }
 
     dateFrom = adjustToGMTMinus3(dateFrom);
+    dateFrom.setHours(0, 0, 0, 0);
+
     const dateTo = adjustToGMTMinus3(new Date());
+    dateTo.setHours(0, 0, 0, 0);
 
     return {
-        dateFrom: dateFrom.toISOString(),
-        dateTo: dateTo.toISOString()
+        dateFrom: dateFrom.toISOString().split('T')[0],
+        dateTo: dateTo.toISOString().split('T')[0]
     };
 };

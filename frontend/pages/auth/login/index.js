@@ -37,8 +37,8 @@ export const Login = () => {
                 }
             })
             .catch((error) => {
-                console.log(error)
-                error.response.data ? setError(error.response.data) : setError("Hubo un error")
+                console.log(error.response.data.Message)
+                error.response.data ? setError(error.response.data.Message) : setError("Hubo un error")
             });
     }
 
@@ -58,7 +58,7 @@ export const Login = () => {
                     <span className="md:text-gray-primary text-white text-lg">Ingresá tus credenciales</span>
                 </div>
 
-                <div className="flex flex-col w-full md:w-1/2 mb-6 px-12">
+                <div className="flex flex-col w-full md:w-1/2 mb-6">
 
                     <Input type="text" placeholder="Nombre de Usuario" id="username" width="w-full" icon={<PersonOutline/>}/>
 

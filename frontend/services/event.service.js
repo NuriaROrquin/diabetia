@@ -44,6 +44,30 @@ export const addFoodManuallyEvent = (data) => {
         );
 }
 
+export const addMedicalVisitEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/MedicalVisit/AddMedicalVisitEvent`,
+            data
+        );
+}
+
+export const addMedicalExaminationEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/MedicalExamination/AddMedicalExaminationEvent`,
+            data
+        );
+}
+
+export const addFreeNoteEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/FreeNote/AddFreeNoteEvent`,
+            data
+        );
+}
+
 export const editInsulinEvent = (data) => {
     return axios
         .post(
@@ -60,19 +84,29 @@ export const editGlucoseEvent = (data) => {
         );
 }
 
+export const editMedicalVisitEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/MedicalVisit/EditMedicalVisitEvent`,
+            data
+        );
+}
+
+export const editFreeNoteEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/FreeNote/EditFreeNoteEvent`,
+            data
+        );
+}
+
 //TODO: add nota libre
 
-//TODO: add de studies
-
-//TODO: add medical visit
+//TODO: edit de studies
 
 //TODO: add health event
 
-//TODO: edit medical visit
-
 //TODO: edit health event
-
-//TODO: edit de studies
 
 //TODO: edit physical event
 

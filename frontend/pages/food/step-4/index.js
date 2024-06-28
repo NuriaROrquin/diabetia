@@ -81,19 +81,19 @@ const StepFour = () => {
                                 <div className="flex flex-wrap flex-row items-center gap-2">
                                     <p>Los gramos equivalentes a una porción son </p>
                                     <Input id={`grPerPortion_${tag.id}`} type="number" placeholder="Gramos de una porción"
-                                           defaultValue={tag.grPerPortion} width="w-20"/>
+                                           defaultValue={tag.grPerPortion} width="w-20" min="0"/>
                                     <p>gramos</p>
                                 </div>
                                 <div className="flex flex-wrap flex-row items-center gap-2">
                                     <p>Los carbohidratos por porción detectados son </p>
                                     <Input id={`chPerPortion_${tag.id}`} type="number" placeholder="Carbohidratos de una porción"
-                                           defaultValue={tag.chInPortion} width="w-20"/>
+                                           defaultValue={tag.chInPortion} width="w-20" min="0"/>
                                     <p>gramos</p>
                                 </div>
                                 <div className="flex flex-wrap flex-row items-center gap-2">
                                     <p>La porción ingerida es de </p>
                                     <Input id={`portion_${tag.id}`} type="number" placeholder="Porcion ingerida"
-                                           defaultValue={tag.portion} width="w-20"/>
+                                           defaultValue={tag.portion} width="w-20" min="0"/>
                                     <p>gramos</p>
                                 </div>
                             </div>
