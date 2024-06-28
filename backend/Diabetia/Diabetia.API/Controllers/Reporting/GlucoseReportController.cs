@@ -3,9 +3,13 @@ using Diabetia.Application.UseCases.ReportingUseCases;
 using Diabetia.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Diabetia.API.Controllers.Reporting
 {
+    [ApiController]
+    [Route("[controller]")]
+    [Authorize]
     public class GlucoseReportController : ControllerBase
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

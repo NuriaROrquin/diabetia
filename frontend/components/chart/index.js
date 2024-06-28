@@ -5,6 +5,7 @@ import {HelpOutline} from "@mui/icons-material";
 import {FILTERS, initialMultipleChartOptions, initialSingleChartOptions} from "../../constants";
 import {calculateDateRange} from "../../helpers";
 import ReactECharts from 'echarts-for-react';
+import moment from "moment";
 
 export const ChartAreaComponent = props => {
     const {
@@ -57,8 +58,6 @@ export const ChartAreaComponent = props => {
                         }
                     ]
                 };
-
-                console.log(updateOption);
 
                 setOption(updateOption);
                 setLoading(false);
@@ -142,30 +141,83 @@ export const ChartMultipleLineComponent = props => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { insuline, glucose, physicalActivity, food } = await getComparative();
+                const titlesArray = FILTERS.map(filter => filter.title);
+                const { dateFrom, dateTo } = calculateDateRange(titlesArray.find(title => filterSelected && title === filterSelected.title));
 
-                const xAxisData = insuline.map(item => item.time);
-                const seriesData = {
-                    Insuline: insuline.map(item => item.value),
-                    Glucose: glucose.map(item => item.value),
-                    'Physical Activity': physicalActivity.map(item => item.value),
-                    Food: food.map(item => item.value)
+                const { insuline, glucose, physicalActivity, food } = await getComparative(dateFrom, dateTo);
+
+                // Collect all dates from the data
+                const allDates = [
+                    ...insuline.map(item => {
+                        const [day, month, year] = item.time.split('/');
+                        return new Date(`${year}-${month}-${day}`);
+                    }),
+                    ...glucose.map(item => {
+                        const [day, month, year] = item.time.split('/');
+                        return new Date(`${year}-${month}-${day}`);
+                    }),
+                    ...physicalActivity.map(item => {
+                        const [day, month, year] = item.time.split('/');
+                        return new Date(`${year}-${month}-${day}`);
+                    }),
+                    ...food.map(item => {
+                        const [day, month, year] = item.time.split('/');
+                        return new Date(`${year}-${month}-${day}`);
+                    }),
+                ];
+
+                const dateRange = collectDateRange(allDates);
+                const xAxisData = dateRange.map(date => date.toISOString().split('T')[0]);
+
+                const fillData = (data, xAxisData) => {
+                    const dataMap = data.reduce((map, item) => {
+                        const [day, month, year] = item.time.split('/');
+                        const dateStr = `${year}-${month}-${day}`;
+                        map[dateStr] = item.value;
+                        return map;
+                    }, {});
+
+                    return xAxisData.map(date => dataMap[date] || 0);
                 };
+
+                const seriesData = [
+                    {
+                        name: 'Insuline',
+                        type: 'line',
+                        stack: 'Total',
+                        data: fillData(insuline, xAxisData),
+                    },
+                    {
+                        name: 'Glucose',
+                        type: 'line',
+                        stack: 'Total',
+                        data: fillData(glucose, xAxisData),
+                    },
+                    {
+                        name: 'Physical Activity',
+                        type: 'line',
+                        stack: 'Total',
+                        data: fillData(physicalActivity, xAxisData),
+                    },
+                    {
+                        name: 'Food',
+                        type: 'line',
+                        stack: 'Total',
+                        data: fillData(food, xAxisData),
+                    },
+                ];
 
                 const updatedOption = {
                     ...initialMultipleChartOptions,
                     legend: {
                         ...initialMultipleChartOptions.legend,
-                        data: Object.keys(seriesData)
+                        data: seriesData.map((series) => series.name),
                     },
                     xAxis: {
                         ...initialMultipleChartOptions.xAxis,
-                        data: xAxisData
+                        data: xAxisData,
                     },
-                    series: initialMultipleChartOptions.series.map(series => ({
-                        ...series,
-                        data: seriesData[series.name]
-                    }))
+                    series: seriesData,
                 };
 
                 setOption(updatedOption);
@@ -177,7 +229,22 @@ export const ChartMultipleLineComponent = props => {
         };
 
         fetchData();
-    }, []);
+    }, [filterSelected]);
+
+    const collectDateRange = (validDates) => {
+        const minDate = new Date(Math.min(...validDates));
+        const maxDate = new Date(Math.max(...validDates));
+
+        const dateRange = [];
+        let currentDate = new Date(minDate);
+
+        while (currentDate <= maxDate) {
+            dateRange.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return dateRange;
+    };
 
     if (loading) {
         return <div>Loading...</div>;

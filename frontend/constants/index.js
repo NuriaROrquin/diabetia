@@ -635,6 +635,9 @@ export const initialMultipleChartOptions = {
         bottom: '3%',
         containLabel: true
     },
+    tooltip: {
+        trigger: 'axis'
+    },
     toolbox: {
         feature: {
             saveAsImage: {}
@@ -646,7 +649,8 @@ export const initialMultipleChartOptions = {
         data: []
     },
     yAxis: {
-        type: 'value'
+        type: 'category',
+        inverse: true,
     },
     series: [
         {

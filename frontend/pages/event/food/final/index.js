@@ -6,8 +6,6 @@ import {OrangeLink} from "@/components/link";
 const Final = () => {
     const router = useRouter()
 
-    console.log("aaaa", router.query)
-
     return(
         <Section>
             <div className="container">
