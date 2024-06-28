@@ -23,6 +23,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -64,6 +66,7 @@ builder.Services.AddScoped<MedicalExaminationUseCase>();
 builder.Services.AddScoped<EventUseCase>();
 builder.Services.AddScoped<MedicalVisitUseCase>();
 builder.Services.AddScoped<FreeNoteUseCase>();
+builder.Services.AddScoped<FoodDishDetectionUseCase>();
 
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
@@ -80,6 +83,7 @@ builder.Services.AddScoped<IEmailDBValidator, EmailDBValidator>();
 builder.Services.AddScoped<IUsernameDBValidator, UsernameDBValidator>();
 builder.Services.AddScoped<IUserStatusValidator, UserStatusValidator>();
 builder.Services.AddScoped<IHashValidator, HashValidator>();
+builder.Services.AddScoped<IFoodDishProvider, FoodDishProvider>();
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
