@@ -1,13 +1,5 @@
 ﻿using Diabetia.Domain.Entities;
 using Diabetia.Domain.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Diabetia.Application.UseCases
 {

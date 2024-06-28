@@ -1,10 +1,10 @@
-﻿using Diabetia.API.DTO;
-using Diabetia.Application.UseCases;
+﻿using Diabetia.Application.UseCases;
 using Diabetia.Application.UseCases.EventUseCases;
 using Microsoft.AspNetCore.Mvc;
 using Diabetia.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Diabetia.API.DTO.FoodDish;
 
 
 
@@ -40,10 +40,10 @@ namespace Diabetia.API.Controllers.FoodDetection
             var detectedFoodDish = await _foodDetectionUseCase.DetectFoodDish(foodDish);
 
             var segmentationResults = detectedFoodDish.SegmentationResults
-               .Select(sr => new DTO.SegmentationResult
+               .Select(sr => new DTO.FoodDish.SegmentationResult
                {
                    FoodItemPosition = sr.FoodItemPosition,
-                   RecognitionResults = sr.RecognitionResults.Select(rr => new DTO.RecognitionResult
+                   RecognitionResults = sr.RecognitionResults.Select(rr => new DTO.FoodDish.RecognitionResult
                    {
                        Id = rr.Id,
                        Name = rr.Name,
@@ -56,8 +56,6 @@ namespace Diabetia.API.Controllers.FoodDetection
                 ImageId = detectedFoodDish.ImageId,
                 SegmentationResults = segmentationResults,
             };
-
-
             return response;
         }
     }

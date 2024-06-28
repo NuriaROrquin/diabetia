@@ -2,12 +2,7 @@
 using Diabetia.Domain.Services;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Diabetia.Infrastructure.Providers
 {
@@ -26,7 +21,6 @@ namespace Diabetia.Infrastructure.Providers
 
         public async Task<FoodDish> DetectFoodDish(Stream imageStream)
         {
-            FoodDish result;
             string apiToken = _configuration["LogMealToken"];
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, "https://api.logmeal.com/v2/image/segmentation/complete?language=esp");
@@ -45,11 +39,6 @@ namespace Diabetia.Infrastructure.Providers
             var foodDish  = JsonConvert.DeserializeObject<FoodDish>(responseBody);
 
             return foodDish;
-
-            /* el Deserialize mapea CASI todo bien, pero no lo que más necesitamos
-             Justo el Segmentation, que es la info que da las opciones de cada plato,
-            no las puede mapear bien y por eso, queda un array vacío.
-             */
         }
 
     }
