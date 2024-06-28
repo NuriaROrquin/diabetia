@@ -14,5 +14,7 @@ namespace Diabetia.Domain.Repositories
         public Task<List<EventSummary>> GetInsulinEventSummaryByPatientId(int patientId, DateTime dateFrom, DateTime dateTo);
 
         public Task<List<EventSummary>> GetFoodEventSummaryByPatientId(int patientId, DateTime dateFrom, DateTime dateTo);
+
+        public Task<List<ActivityDurationSummary>> GetPhysicalActivityEventDurationsByPatientId(int patientId, DateTime dateFrom, DateTime dateTo);
     }
 }

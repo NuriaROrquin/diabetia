@@ -85,6 +85,34 @@ namespace Diabetia.Infrastructure.Repositories
             return results;
         }
 
+        public async Task<List<ActivityDurationSummary>> GetPhysicalActivityEventDurationsByPatientId(int patientId, DateTime dateFrom, DateTime dateTo)
+        {
+            var results = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId && ce.FechaEvento >= dateFrom && ce.FechaEvento <= dateTo)
+                .Join(
+                    _context.EventoActividadFisicas,
+                    ce => ce.Id,
+                    eaf => eaf.IdCargaEvento,
+                    (ce, eaf) => new { ce, eaf }
+                )
+                .Join(
+                    _context.ActividadFisicas,
+                    combined => combined.eaf.IdActividadFisica,
+                    af => af.Id,
+                    (combined, af) => new { combined.ce, combined.eaf, af }
+                )
+                .GroupBy(x => x.af.Nombre)
+                .Select(g => new ActivityDurationSummary
+                {
+                    ActivityName = g.Key,
+                    TotalDuration = g.Sum(x => x.eaf.Duracion)
+                })
+                .OrderBy(result => result.ActivityName)
+                .ToListAsync();
+
+            return results;
+        }
+
         // -------------------------------------------------------- ⬇⬇ Glucose Report ⬇⬇ -------------------------------------------------------
         public async Task<List<EventSummary>> GetGlucoseEventSummaryByPatientId(int patientId, DateTime dateFrom, DateTime dateTo)
         {
@@ -153,6 +181,7 @@ namespace Diabetia.Infrastructure.Repositories
 
             return results;
         }
+
 
     }
 

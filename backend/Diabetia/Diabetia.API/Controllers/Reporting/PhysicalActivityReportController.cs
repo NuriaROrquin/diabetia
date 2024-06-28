@@ -33,5 +33,15 @@ namespace Diabetia.API.Controllers.Reporting
 
             return Ok(physicalActivitiesResponse);
         }
+
+        [HttpGet("GetPhysicalActivityDurationReport")]
+        public async Task<IActionResult> ShowPhysicalActivityDurationToReporting([FromQuery] DateFilter request)
+        {
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var @events = await _physicalActivityAmountReportUseCase.GetPhysicalActivityDurationToReporting(email, request.DateFrom.Value, request.DateTo.Value);
+            var physicalActivitiesResponse = events.Select(e => PhysicalActivityDurationResponse.FromObject(e)).ToList();
+
+            return Ok(physicalActivitiesResponse);
+        }
     }
 }
