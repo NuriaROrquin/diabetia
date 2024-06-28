@@ -744,3 +744,46 @@ export const initialPieChartOptions = {
         }
     ]
 };
+
+export const initialAreaChartOptions = {
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {},
+        }
+    },
+    xAxis: {
+        type: 'category',
+        data: []
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            data: [],
+            type: 'line',
+            markArea: {
+                itemStyle: {
+                    color: 'rgba(129, 199, 88, 0.2)'
+                },
+                data: [
+                    [
+                        {
+                            name: 'Niveles normales de glucosa en sangre',
+                            yAxis: '15'
+                        },
+                        {
+                            yAxis: '25'
+                        }
+                    ],
+                ]
+            }
+        }
+    ]
+};

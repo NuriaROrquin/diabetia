@@ -1,5 +1,10 @@
 import {Section} from "@/components/section";
-import {ChartAreaComponent, ChartMultipleLineComponent, ChartPieComponent} from "@/components/chart";
+import {
+    ChartAreaComponent,
+    ChartLineComponent,
+    ChartMultipleLineComponent,
+    ChartPieComponent
+} from "@/components/chart";
 import {TitleSection} from "@/components/titles";
 import {
     getComparativeQuantityEvents,
@@ -14,10 +19,16 @@ const ReportingPage = () => {
                 <TitleSection className="text-white my-20">Reportes</TitleSection>
             </div>
             <div className="flex flex-col gap-y-10 pb-20 w-full">
+                <div className="p-4 bg-white container rounded-xl overflow-hidden">
+                    <ChartAreaComponent title="Niveles de Glucemia"
+                                                helper="Niveles de glucosa en sangre cargados"
+                                                getChartData={getInsulineChartData}></ChartAreaComponent>
+                </div>
+
                 <div className="container flex justify-between gap-x-4 gap-y-10 lg:gap-y-0 flex-col lg:flex-row">
                     <div className="w-full lg:w-3/5 p-4 bg-white rounded-xl overflow-hidden">
-                        <ChartAreaComponent title="Insulina" helper="Cantidad de insulina inyectada"
-                                            getChartData={getInsulineChartData}></ChartAreaComponent>
+                        <ChartLineComponent title="Insulina" helper="Cantidad de insulina inyectada"
+                                            getChartData={getInsulineChartData}></ChartLineComponent>
                     </div>
                     <div className="w-full lg:w-2/5 p-4 bg-white rounded-xl overflow-hidden">
                         <ChartPieComponent title="Actividades" helper="Duración de ejercicio por actividad"
