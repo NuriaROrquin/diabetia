@@ -131,6 +131,29 @@ namespace Diabetia.Infrastructure.Repositories
             return results;
         }
 
+        // -------------------------------------------------------- ⬇⬇ Food Report ⬇⬇ -------------------------------------------------------
+        public async Task<List<EventSummary>> GetFoodEventSummaryByPatientId(int patientId, DateTime dateFrom, DateTime dateTo)
+        {
+            var results = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId && ce.FechaEvento >= dateFrom && ce.FechaEvento <= dateTo)
+                .Join(
+                    _context.EventoComida,
+                    ce => ce.Id,
+                    ec => ec.IdCargaEvento,
+                    (ce, ec) => new { CargaEvento = ce, EventoComida = ec }
+                )
+                .GroupBy(joined => joined.CargaEvento.FechaEvento.Date)
+                .Select(g => new EventSummary
+                {
+                    EventDay = g.Key,
+                    AmountEvents = g.Count()
+                })
+                .OrderBy(result => result.EventDay)
+                .ToListAsync();
+
+            return results;
+        }
+
     }
 
 }
