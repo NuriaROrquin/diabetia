@@ -36,6 +36,14 @@ export const addGlucoseEvent = (data) => {
         );
 }
 
+export const addMedicalVisitEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/MedicalVisit/AddMedicalVisitEvent`,
+            data
+        );
+}
+
 export const addFoodManuallyEvent = (data) => {
     return axios
         .post(
@@ -56,6 +64,14 @@ export const editGlucoseEvent = (data) => {
     return axios
         .post(
             `${process.env.NEXT_PUBLIC_API_URL}/Glucose/EditGlucoseEvent`,
+            data
+        );
+}
+
+export const editMedicalVisitEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/MedicalVisit/EditMedicalVisitEvent`,
             data
         );
 }
