@@ -11,6 +11,7 @@ import {useRouter} from "next/router";
 import {SubtitleSection, TitleSection} from "@/components/titles";
 import {getAllEvents, getEventsByDate} from "../../services/calendar.service";
 import {deleteEventById} from "../../services/event.service";
+import { format } from 'date-fns';
 
 const registrarEventoTooltipText = "Registrá un nuevo evento: mediciones de glucosa, actividad física, eventos de salud, visitas médicas, insulina, comida manual.";
 
@@ -39,7 +40,9 @@ export const CalendarPage = () => {
     const handleOnSelectDay = (e) => {
         setEventsByDate(null);
         setLoadingEvent(true)
-        getEventsByDate(e.toISOString())
+        const formattedDate = format(e, 'yyyy-MM-dd');
+
+        getEventsByDate(formattedDate)
             .then((res) => {
                 setEventsByDate(res.data);
                 setLoadingEvent(false)
