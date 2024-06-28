@@ -16,7 +16,7 @@ export const ChartAreaComponent = props => {
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [filterSelected, setFilterSelected] = useState(FILTERS[0]);
+    const [filterSelected, setFilterSelected] = useState(FILTERS[3]);
     const [option, setOption] = useState(initialSingleChartOptions);
 
     useEffect(() => {
@@ -130,7 +130,7 @@ export const ChartAreaComponent = props => {
 export const ChartMultipleLineComponent = props => {
     const [option, setOption] = useState(initialMultipleChartOptions);
     const [loading, setLoading] = useState(true);
-    const [filterSelected, setFilterSelected] = useState(FILTERS[0]);
+    const [filterSelected, setFilterSelected] = useState(FILTERS[3]);
 
     const {
         getComparative,
@@ -221,14 +221,15 @@ export const ChartMultipleLineComponent = props => {
                 };
 
                 setOption(updatedOption);
-                setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setLoading(false);
             }
         };
 
-        fetchData();
+        fetchData().then(() => {
+            setLoading(false);
+        });
     }, [filterSelected]);
 
     const collectDateRange = (validDates) => {
@@ -245,10 +246,6 @@ export const ChartMultipleLineComponent = props => {
 
         return dateRange;
     };
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <div>
@@ -301,6 +298,7 @@ export const ChartMultipleLineComponent = props => {
 
             <ReactECharts
                 option={option}
+                style={{ height: '300px', width: '100%' }}
             />
         </div>
     );

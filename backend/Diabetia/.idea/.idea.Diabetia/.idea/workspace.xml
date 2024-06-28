@@ -9,14 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.API/Controllers/Reporting/GlucoseReportController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.API/Controllers/Reporting/GlucoseReportController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/components/chart/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/components/chart/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/constants/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/constants/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/helpers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/helpers/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/services/reporting.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/services/reporting.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/pages/reporting/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/reporting/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +50,7 @@
     ]
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected=".NET Launch Settings Profile.Diabetia.API">
     <configuration name="Diabetia.API" type="LaunchSettings" factoryName=".NET Launch Settings Profile" temporary="true">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Diabetia.API/Diabetia.API.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net6.0" />
@@ -88,7 +82,7 @@
       <updated>1719073499784</updated>
       <workItem from="1719073503703" duration="1564000" />
       <workItem from="1719112013079" duration="3327000" />
-      <workItem from="1719496655725" duration="10981000" />
+      <workItem from="1719496655725" duration="11824000" />
     </task>
     <servers />
   </component>
