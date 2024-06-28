@@ -24,7 +24,7 @@ namespace Diabetia.API.Controllers.Reporting
         }
 
 
-        [HttpGet("GetPhysicalActivityReport")]
+        [HttpGet("GetPhysicalActivitySummaryEventReport")]
         public async Task<IActionResult> ShowPhysicalActivityReporting([FromQuery] DateFilter request)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;

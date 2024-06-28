@@ -20,13 +20,23 @@ namespace Diabetia.API.Controllers.Reporting
             _insulinReportUseCase = insulineUseCase;
         }
 
-        [HttpGet("GetInsulinReport")]
+        [HttpGet("GetInsulinSummaryDoseReport")]
         public async Task <IActionResult> ShowInsulinReporting([FromQuery] DateFilter request)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
             var @events = await _insulinReportUseCase.GetInsulinToReporting(email, request.DateFrom.Value, request.DateTo.Value);
             var insulinResponses = @events.Select(e => InsulinResponse.FromInsulinEvent(e)).ToList();
             return Ok(insulinResponses);
+        }
+
+        [HttpGet("GetInsulinSummaryEventReport")]
+        public async Task<IActionResult> ShowPhysicalActivityReporting([FromQuery] DateFilter request)
+        {
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var @events = await _insulinReportUseCase.GetInsulinSummaryEventToReporting(email, request.DateFrom.Value, request.DateTo.Value);
+            var physicalActivitiesResponse = events.Select(e => PhysicalActivityAmountResponse.FromObject(e)).ToList();
+
+            return Ok(physicalActivitiesResponse);
         }
     }
 }

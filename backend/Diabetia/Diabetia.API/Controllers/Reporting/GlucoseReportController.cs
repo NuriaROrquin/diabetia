@@ -17,7 +17,7 @@ namespace Diabetia.API.Controllers.Reporting
             _glucoseReportUseCase = glucoseReportUseCase;
         }
 
-        [HttpGet("GetGlucoseReport")]
+        [HttpGet("GetGlucoseSummaryEventReport")]
         public async Task<IActionResult> ShowGlucoseReporting([FromQuery] DateFilter request)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;

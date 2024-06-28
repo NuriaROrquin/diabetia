@@ -57,7 +57,7 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
         // -------------------------------------------------------- ⬇⬇ Physical Activity Report ⬇⬇ -------------------------------------------------------
-        public async Task<List<EventSummary>> GetAmountPhysicalEventsToReportByPatientId(int patientId, DateTime dateFrom, DateTime dateTo)
+        public async Task<List<EventSummary>> GetPhysicalActivityEventSummaryByPatientId(int patientId, DateTime dateFrom, DateTime dateTo)
         {
             var results = await _context.CargaEventos
                 .Where(ce => ce.IdPaciente == patientId && ce.FechaEvento >= dateFrom && ce.FechaEvento <= dateTo)
@@ -86,7 +86,7 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
         // -------------------------------------------------------- ⬇⬇ Glucose Report ⬇⬇ -------------------------------------------------------
-        public async Task<List<EventSummary>> GetAmountGlucoseEventsToReportByPatientId(int patientId, DateTime dateFrom, DateTime dateTo)
+        public async Task<List<EventSummary>> GetGlucoseEventSummaryByPatientId(int patientId, DateTime dateFrom, DateTime dateTo)
         {
             var results = await _context.CargaEventos
                    .Where(ce => ce.IdPaciente == patientId && ce.FechaEvento >= dateFrom && ce.FechaEvento <= dateTo)
@@ -107,6 +107,30 @@ namespace Diabetia.Infrastructure.Repositories
 
             return results;
         }
+
+        // -------------------------------------------------------- ⬇⬇ Glucose Report ⬇⬇ -------------------------------------------------------
+        public async Task<List<EventSummary>> GetInsulinEventSummaryByPatientId(int patientId, DateTime dateFrom, DateTime dateTo)
+        {
+            var results = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId && ce.FechaEvento >= dateFrom && ce.FechaEvento <= dateTo)
+                .Join(
+                    _context.EventoInsulinas,
+                    ce => ce.Id,
+                    ei => ei.IdCargaEvento,
+                    (ce, ei) => new { CargaEvento = ce, EventoInsulina = ei }
+                )
+                .GroupBy(joined => joined.CargaEvento.FechaEvento.Date)
+                .Select(g => new EventSummary
+                {
+                    EventDay = g.Key,
+                    AmountEvents = g.Count()
+                })
+                .OrderBy(result => result.EventDay)
+                .ToListAsync();
+
+            return results;
+        }
+
     }
 
 }

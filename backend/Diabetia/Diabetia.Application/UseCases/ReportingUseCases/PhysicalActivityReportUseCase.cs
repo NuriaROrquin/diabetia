@@ -22,7 +22,7 @@ namespace Diabetia.Application.UseCases.ReportingUseCases
         {
             await _patientValidator.ValidatePatient(email);
             var patient = await _userRepository.GetPatient(email);
-            var listOfPhysicalActivities = await _reportingRepository.GetAmountPhysicalEventsToReportByPatientId(patient.Id, dateFrom, dateTo);
+            var listOfPhysicalActivities = await _reportingRepository.GetPhysicalActivityEventSummaryByPatientId(patient.Id, dateFrom, dateTo);
             if (listOfPhysicalActivities == null || listOfPhysicalActivities.Count == 0)
             {
                 return new List<EventSummary>();

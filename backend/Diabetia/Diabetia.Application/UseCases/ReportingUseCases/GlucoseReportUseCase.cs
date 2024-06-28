@@ -22,7 +22,7 @@ namespace Diabetia.Application.UseCases.ReportingUseCases
         {
             await _patientValidator.ValidatePatient(email);
             var patient = await _userRepository.GetPatient(email);
-            var listOfGlucoseMeasures = await _reportingRepository.GetAmountGlucoseEventsToReportByPatientId(patient.Id, dateFrom, dateTo);
+            var listOfGlucoseMeasures = await _reportingRepository.GetGlucoseEventSummaryByPatientId(patient.Id, dateFrom, dateTo);
             if (listOfGlucoseMeasures == null || listOfGlucoseMeasures.Count == 0)
             {
                 return new List<EventSummary>();
