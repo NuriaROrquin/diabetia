@@ -180,29 +180,27 @@ export const ChartMultipleLineComponent = props => {
                     return xAxisData.map(date => dataMap[date] || 0);
                 };
 
+                console.log(option)
+
                 const seriesData = [
                     {
                         name: 'Insuline',
                         type: 'line',
-                        stack: 'Total',
                         data: fillData(insuline, xAxisData),
                     },
                     {
                         name: 'Glucose',
                         type: 'line',
-                        stack: 'Total',
                         data: fillData(glucose, xAxisData),
                     },
                     {
                         name: 'Physical Activity',
                         type: 'line',
-                        stack: 'Total',
                         data: fillData(physicalActivity, xAxisData),
                     },
                     {
                         name: 'Food',
                         type: 'line',
-                        stack: 'Total',
                         data: fillData(food, xAxisData),
                     },
                 ];

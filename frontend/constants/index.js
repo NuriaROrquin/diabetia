@@ -649,32 +649,27 @@ export const initialMultipleChartOptions = {
         data: []
     },
     yAxis: {
-        type: 'category',
-        inverse: true,
+        type: 'value',
     },
     series: [
         {
             name: 'Insuline',
             type: 'line',
-            stack: 'Total',
             data: []
         },
         {
             name: 'Glucose',
             type: 'line',
-            stack: 'Total',
             data: []
         },
         {
             name: 'Physical Activity',
             type: 'line',
-            stack: 'Total',
             data: []
         },
         {
             name: 'Food',
             type: 'line',
-            stack: 'Total',
             data: []
         }
     ]

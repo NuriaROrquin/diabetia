@@ -12,9 +12,8 @@ export const getComparativeQuantityEvents = (dateFrom, dateTo) => {
     const physicalActivity = axios.get(`${process.env.NEXT_PUBLIC_API_URL}/PhysicalActivityReport/GetPhysicalActivitySummaryEventReport?dateFrom=${dateFrom}&dateTo=${dateTo}`);
     const food = axios.get(`${process.env.NEXT_PUBLIC_API_URL}/FoodReport/GetFoodSummaryEventReport?dateFrom=${dateFrom}&dateTo=${dateTo}`);
 
-    return axios.all([insuline, glucose, physicalActivity, food]) //TODO: agregar food
+    return axios.all([insuline, glucose, physicalActivity, food])
         .then(axios.spread((responseInsuline, responseGlucose, responsePhysicalActivity, responseFood) => {
-            console.log(responseGlucose)
             return {
                 food: responseFood.data,
                 insuline: responseInsuline.data,
@@ -23,7 +22,7 @@ export const getComparativeQuantityEvents = (dateFrom, dateTo) => {
             };
         }))
         .catch(error => {
-            console.error('Error fetching data:', error);
+            console.error(error.response.data.Message);
             throw error;
         });
 }
