@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Section } from "@/components/section";
-import { GlucoseEventForm, InsulinEventForm } from "@/components/eventForm/index.js";
+import { GlucoseEventForm, InsulinEventForm, FreeNoteEventForm, ExerciseEventForm, MedicalVisitEventForm } from "@/components/eventForm/index.js";
 import {TYPE_EVENTS} from "../../../../constants";
 import {TitleSection} from "@/components/titles";
 import {getEventType} from "../../../../services/event.service";
@@ -46,11 +46,21 @@ const EditEvent = () => {
             {eventData && (
                 <div className="container items-center flex w-full justify-center flex-col">
                     <TitleSection className="text-white mt-12">Detalles del evento {evento ? `${evento.title}` : "Evento no encontrado"}</TitleSection>
-                    {eventData.typeEvent === 3 && (
+                    {eventData.typeEvent === TYPE_EVENTS.find((event) => event.title === "GLUCOSA")?.id && (
                         <GlucoseEventForm existingData={eventData.glucoseEvent} />
                     )}
-                    {eventData.typeEvent === 1 && (
+                    {eventData.typeEvent === TYPE_EVENTS.find((event) => event.title === "INSULINA")?.id && (
                         <InsulinEventForm existingData={eventData.insulinEvent} />
+                    )}
+                    {eventData.typeEvent === TYPE_EVENTS.find((event) => event.title === "NOTA LIBRE")?.id && (
+                        <FreeNoteEventForm existingData={eventData.insulinEvent} />
+                    )}
+                        {eventData.typeEvent === TYPE_EVENTS.find((event) => event.title === "ACTIVIDAD FÍSICA")?.id && (
+                        <ExerciseEventForm existingData={eventData.physicalActivityEvent } />
+                    )}
+
+                    {eventData.typeEvent === TYPE_EVENTS.find((event) => event.title === "VISITA MÉDICA")?.id && (
+                        <MedicalVisitEventForm existingData={eventData.medicalVisitEvent } />
                     )}
                 </div>
             )}

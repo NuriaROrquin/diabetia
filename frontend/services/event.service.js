@@ -100,7 +100,13 @@ export const editFreeNoteEvent = (data) => {
         );
 }
 
-//TODO: add nota libre
+export const editPhysicalEvent = (data) => {
+    return axios
+        .post(
+            `${process.env.NEXT_PUBLIC_API_URL}/PhysicalActivity/EditPhysicalActivityEvent`,
+            data
+        );
+}
 
 //TODO: edit de studies
 
@@ -108,8 +114,4 @@ export const editFreeNoteEvent = (data) => {
 
 //TODO: edit health event
 
-//TODO: edit physical event
-
 //TODO: edit de food
-
-//TODO: edit nota libre

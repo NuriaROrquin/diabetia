@@ -2,7 +2,6 @@ import { Section } from "../../../components/section";
 import { TitleSection } from "../../../components/titles";
 import { TYPE_EVENTS } from "../../../constants";
 import { capitalizeFirstLetter } from "../../../helpers";
-import { useState } from "react";
 import { BlueLink, OrangeLink } from "../../../components/link";
 import { GlucoseEventForm } from "@/components/eventForm/index.js";
 

@@ -27,7 +27,6 @@ const FreeNoteEvent = () => {
                 </div>
 
                 {/* FORMULARIO */}
-
                 <FreeNoteEventForm existingData={null} />
             </div>
         </Section>

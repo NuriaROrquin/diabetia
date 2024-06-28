@@ -4,7 +4,6 @@ import { TextArea, InputWithLabel } from "@/components/input";
 import { ButtonOrange } from "@/components/button";
 import { CustomDatePicker, CustomTimePicker } from "@/components/pickers";
 import dayjs from "dayjs";
-import { getEmailFromJwt } from "../../helpers";
 import {addGlucoseEvent, editGlucoseEvent} from "../../services/event.service";
 
 const GlucoseEventForm = ({ existingData }) => {
@@ -26,7 +25,6 @@ const GlucoseEventForm = ({ existingData }) => {
     }, [existingData]);
 
     const handleSubmit = () => {
-        const email = getEmailFromJwt();
         var dateFormatted;
         if(!router.query.id){
             dateFormatted = date.format("YYYY-MM-DD") + 'T' + hour.format('HH:mm:ss');
