@@ -49,7 +49,7 @@ namespace Diabetia.Application.UseCases
             {
                 Time = e.DateEvent.ToString("hh:mm tt"),
                 Title = e.Title,
-                AdditionalInfo = $"Duración: {e.Duration}min"
+                AdditionalInfo = $"Actividad: {e.TypeActivity} - Duración: {e.Duration}min"
             });
 
             AddEventsToDictionary(eventsByDate, groupedFoodEvents, e => e.DateEvent, e => new EventItem
@@ -118,7 +118,7 @@ namespace Diabetia.Application.UseCases
                     IdEvent = physicalActivityEvent.IdEvent,
                     Time = physicalActivityEvent.DateEvent.ToString("hh:mm tt"),
                     Title = physicalActivityEvent.Title,
-                    AdditionalInfo = $"Duración: {physicalActivityEvent.Duration}min"
+                    AdditionalInfo = $"Actividad: {physicalActivityEvent.TypeActivity} - Duración: {physicalActivityEvent.Duration}min"
                 };
 
                 events.Add(eventItem);
