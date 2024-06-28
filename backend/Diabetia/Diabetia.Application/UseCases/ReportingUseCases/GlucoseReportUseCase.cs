@@ -1,7 +1,7 @@
-﻿
-using Diabetia.Domain.Entities.Reporting;
+﻿using Diabetia.Domain.Entities.Reporting;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
+using Diabetia.Domain.Utilities;
 using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases.ReportingUseCases
@@ -29,5 +29,42 @@ namespace Diabetia.Application.UseCases.ReportingUseCases
             }
             return listOfGlucoseMeasures;
         }
+
+        public async Task<List<GlucoseMeasurement>> GetHyperglycemiaGlucoseToReporting(string email)
+        {
+            await _patientValidator.ValidatePatient(email);
+            var patient = await _userRepository.GetPatient(email);
+            var listOfGlucoseMeasures = await _reportingRepository.GetHyperglycemiaGlucoseHistoryByPatientId(patient.Id, GlucoseEnum.HIPERGLUCEMIA);
+            if (listOfGlucoseMeasures == null || listOfGlucoseMeasures.Count == 0)
+            {
+                return new List<GlucoseMeasurement>();
+            }
+            return listOfGlucoseMeasures;
+        }
+
+        public async Task<List<GlucoseMeasurement>> GetHypoglycemiaGlucoseToReporting(string email)
+        {
+            await _patientValidator.ValidatePatient(email);
+            var patient = await _userRepository.GetPatient(email);
+            var listOfGlucoseMeasures = await _reportingRepository.GetHypoglycemiaGlucoseHistoryByPatientId(patient.Id, GlucoseEnum.HIPOGLUCEMIA);
+            if (listOfGlucoseMeasures == null || listOfGlucoseMeasures.Count == 0)
+            {
+                return new List<GlucoseMeasurement>();
+            }
+            return listOfGlucoseMeasures;
+        }
+
+        public async Task<List<GlucoseMeasurement>> GetGlucoseMeasurementsEventsToReporting(string email, DateTime dateFrom, DateTime dateTo)
+        {
+            await _patientValidator.ValidatePatient(email);
+            var patient = await _userRepository.GetPatient(email);
+            var listOfGlucoseMeasuresEvents = await _reportingRepository.GetGlucoseEventsToReportByPatientId(patient.Id, dateFrom, dateTo);
+            if (listOfGlucoseMeasuresEvents == null || listOfGlucoseMeasuresEvents.Count == 0)
+            {
+                return new List<GlucoseMeasurement>();
+            }
+            return listOfGlucoseMeasuresEvents;
+        }
+
     }
 }

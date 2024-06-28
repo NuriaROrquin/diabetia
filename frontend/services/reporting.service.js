@@ -26,3 +26,10 @@ export const getComparativeQuantityEvents = (dateFrom, dateTo) => {
             throw error;
         });
 }
+
+export const getPhysicalActivityChartData = (dateFrom, dateTo) => {
+    console.log(dateFrom, dateTo)
+    return axios
+        .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/PhysicalActivityReport/GetPhysicalActivityDurationReport?dateFrom=${dateFrom}&dateTo=${dateTo}`)
+}

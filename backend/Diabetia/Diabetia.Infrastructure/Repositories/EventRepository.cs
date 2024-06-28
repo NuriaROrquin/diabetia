@@ -633,6 +633,8 @@ namespace Diabetia.Infrastructure.Repositories
                         DateEvent = joined.CargaEvento.FechaEvento,
                         Title = joined.TipoEvento.Tipo,
                         Duration = joined.EventoActividadFisica.Duracion,
+                        TypeActivity = joined.EventoActividadFisica.IdActividadFisicaNavigation.Nombre
+                        Duration = joined.EventoActividadFisica.Duracion,
                         FreeNote = joined.CargaEvento.NotaLibre
                     })
                 .ToListAsync();

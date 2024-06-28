@@ -1,4 +1,4 @@
-﻿using Diabetia.API.DTO.ReportingResponse;
+﻿using Diabetia.API.DTO.ReportingResponse.PhysicalActivity;
 using Diabetia.Application.UseCases.ReportingUseCases;
 using Diabetia.Domain.Utilities;
 using Microsoft.AspNetCore.Authorization;

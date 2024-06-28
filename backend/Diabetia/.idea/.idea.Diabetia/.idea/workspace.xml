@@ -9,8 +9,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Application/UseCases/CalendarUseCase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Application/UseCases/CalendarUseCase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Domain/Entities/Events/PhysicalActivityEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Domain/Entities/Events/PhysicalActivityEvent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/EventRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/EventRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/components/chart/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/components/chart/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/constants/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/constants/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/pages/reporting/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/reporting/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/services/reporting.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/services/reporting.service.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,6 +89,7 @@
       <workItem from="1719073503703" duration="1564000" />
       <workItem from="1719112013079" duration="3327000" />
       <workItem from="1719496655725" duration="11824000" />
+      <workItem from="1719588640988" duration="2320000" />
     </task>
     <servers />
   </component>
@@ -90,10 +97,10 @@
     <option name="version" value="3" />
   </component>
   <component name="UnitTestsCoverage.Settings">
-    <option name="coveragePercentColumnWidth" value="150" />
+    <option name="coveragePercentColumnWidth" value="119" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="524" />
+    <option name="symbolColumnWidth" value="405" />
     <coverage-tree-state>
       <expand />
       <select />
@@ -117,6 +124,32 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/ReportingRepository.cs</url>
+          <line>90</line>
+          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Repositories\ReportingRepository.cs" initialLine="90" containingFunctionPresentation="Lambda expression inside Method 'GetPhysicalActivityEventDurationsByPatientId'">
+            <startOffsets>
+              <option value="3972" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4056" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/ReportingRepository.cs</url>
+          <line>112</line>
+          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Repositories\ReportingRepository.cs" initialLine="112" containingFunctionPresentation="Method 'GetPhysicalActivityEventDurationsByPatientId'">
+            <startOffsets>
+              <option value="4884" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4899" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

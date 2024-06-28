@@ -1,6 +1,6 @@
 ﻿using Diabetia.Domain.Models;
 
-namespace Diabetia.API.DTO.ReportingResponse
+namespace Diabetia.API.DTO.ReportingResponse.Insulin
 {
     public class InsulinResponse
     {
@@ -13,7 +13,7 @@ namespace Diabetia.API.DTO.ReportingResponse
             string stringDate = date.ToString("dd/MM/yyyy");
             return new InsulinResponse
             {
-                Value = evento.InsulinaInyectada.Value, 
+                Value = evento.InsulinaInyectada.Value,
                 Time = stringDate
             };
         }

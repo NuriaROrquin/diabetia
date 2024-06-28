@@ -653,22 +653,22 @@ export const initialMultipleChartOptions = {
     },
     series: [
         {
-            name: 'Insuline',
+            name: 'Insulina',
             type: 'line',
             data: []
         },
         {
-            name: 'Glucose',
+            name: 'Glucosa',
             type: 'line',
             data: []
         },
         {
-            name: 'Physical Activity',
+            name: 'Actividad física',
             type: 'line',
             data: []
         },
         {
-            name: 'Food',
+            name: 'Comida',
             type: 'line',
             data: []
         }
@@ -684,7 +684,7 @@ export const initialSingleChartOptions = {
     },
     toolbox: {
         feature: {
-            saveAsImage: {}
+            saveAsImage: {},
         }
     },
     xAxis: {
@@ -698,6 +698,92 @@ export const initialSingleChartOptions = {
         {
             data: [],
             type: 'line'
+        }
+    ]
+};
+
+export const initialPieChartOptions = {
+    tooltip: {
+        trigger: 'item'
+    },
+    legend: {
+        top: '5%',
+        left: 'center'
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {},
+        }
+    },
+    series: [
+        {
+            name: 'Actividad',
+            type: 'pie',
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
+            itemStyle: {
+                borderRadius: 10,
+                borderColor: '#fff',
+                borderWidth: 2
+            },
+            label: {
+                show: false,
+                position: 'center'
+            },
+            emphasis: {
+                label: {
+                    show: true,
+                    fontSize: 20,
+                    fontWeight: 'bold'
+                }
+            },
+            labelLine: {
+                show: false
+            },
+            data: []
+        }
+    ]
+};
+
+export const initialAreaChartOptions = {
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {},
+        }
+    },
+    xAxis: {
+        type: 'category',
+        data: []
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            data: [],
+            type: 'line',
+            markArea: {
+                itemStyle: {
+                    color: 'rgba(129, 199, 88, 0.2)'
+                },
+                data: [
+                    [
+                        {
+                            name: 'Niveles normales de glucosa en sangre',
+                            yAxis: '15'
+                        },
+                        {
+                            yAxis: '25'
+                        }
+                    ],
+                ]
+            }
         }
     ]
 };

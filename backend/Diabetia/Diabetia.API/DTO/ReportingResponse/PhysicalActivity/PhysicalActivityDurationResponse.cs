@@ -1,6 +1,6 @@
 ﻿using Diabetia.Domain.Entities.Reporting;
 
-namespace Diabetia.API.DTO.ReportingResponse
+namespace Diabetia.API.DTO.ReportingResponse.PhysicalActivity
 {
     public class PhysicalActivityDurationResponse
     {
