@@ -10,11 +10,11 @@ namespace Diabetia.API.Controllers.Reporting
     [ApiController]
     [Route("[controller]")]
     [Authorize]
-    public class ReportingController : ControllerBase
+    public class InsulineReportController : ControllerBase
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly InsulinReportUseCase _insulinReportUseCase;
-        public ReportingController(IHttpContextAccessor httpContextAccessor, InsulinReportUseCase insulineUseCase) 
+        public InsulineReportController(IHttpContextAccessor httpContextAccessor, InsulinReportUseCase insulineUseCase) 
         {
             _httpContextAccessor = httpContextAccessor;
             _insulinReportUseCase = insulineUseCase;

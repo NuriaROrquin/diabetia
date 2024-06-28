@@ -1,5 +1,4 @@
-﻿
-
+﻿using Diabetia.Domain.Entities.Reporting;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
 using Diabetia.Infrastructure.EF;
@@ -54,6 +53,35 @@ namespace Diabetia.Infrastructure.Repositories
                 .ToList();
 
             return groupedEvents;
+        }
+
+        // -------------------------------------------------------- ⬇⬇ Physical Activity Report ⬇⬇ -------------------------------------------------------
+        public async Task<List<PhysicalActivitySummary>> GetAmountPhysicalEventsToReportByPatientId(int patientId, DateTime dateFrom, DateTime dateTo)
+        {
+            var results = await _context.CargaEventos
+                .Where(ce => ce.IdPaciente == patientId && ce.FechaEvento >= dateFrom && ce.FechaEvento <= dateTo)
+                .Join(
+                    _context.EventoActividadFisicas,
+                    ce => ce.Id,
+                    eaf => eaf.IdCargaEvento,
+                    (ce, eaf) => new { CargaEvento = ce, EventoActividadFisica = eaf }
+                )
+                .Join(
+                    _context.ActividadFisicas,
+                    joined => joined.EventoActividadFisica.IdActividadFisica,
+                    af => af.Id,
+                    (joined, af) => new { EventDate = joined.CargaEvento.FechaEvento.Date, EventCount = 1 }
+                )
+                .GroupBy(joined => joined.EventDate)
+                .Select(g => new PhysicalActivitySummary
+                {
+                    EventDay = g.Key,
+                    AmountEvents = g.Sum(x => x.EventCount)
+                })
+                .OrderBy(result => result.EventDay)
+                .ToListAsync();
+
+            return results;
         }
     }
 }
