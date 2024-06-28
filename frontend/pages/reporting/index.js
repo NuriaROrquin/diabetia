@@ -10,9 +10,11 @@ const ReportingPage = () => {
                 <TitleSection className="text-white my-20">Reportes</TitleSection>
             </div>
             <div className="flex flex-col gap-y-10 pb-20 w-full">
-            <div className="p-4 bg-white container rounded-xl overflow-hidden">
-                <ChartAreaComponent title="Insulina" helper="Esta es la cantidad de insulina inyectada"
-                                    getChartData={getInsulineChartData}></ChartAreaComponent>
+            <div>
+                <div className="p-4 bg-white container rounded-xl overflow-hidden">
+                    <ChartAreaComponent title="Insulina" helper="Esta es la cantidad de insulina inyectada"
+                                        getChartData={getInsulineChartData}></ChartAreaComponent>
+                </div>
             </div>
             <div className="p-4 bg-white container rounded-xl overflow-hidden">
                 <ChartMultipleLineComponent title="Carga de eventos" helper="Cantidad de eventos cargados de los distintos tipos"

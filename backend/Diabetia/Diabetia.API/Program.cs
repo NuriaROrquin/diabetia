@@ -67,6 +67,9 @@ builder.Services.AddScoped<MedicalVisitUseCase>();
 builder.Services.AddScoped<FreeNoteUseCase>();
 builder.Services.AddScoped<InsulinReportUseCase>();
 builder.Services.AddScoped<PhysicalActivityReportUseCase>();
+builder.Services.AddScoped<GlucoseReportUseCase>();
+builder.Services.AddScoped<FoodReportUseCase>();
+
 
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();

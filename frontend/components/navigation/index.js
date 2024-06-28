@@ -49,7 +49,6 @@ export const Navigation = () => {
         } catch (error) {
             console.error("Error al redirigir:", error);
         }
-        console.log('hice todo')
     }
 
     return (

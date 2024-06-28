@@ -635,6 +635,9 @@ export const initialMultipleChartOptions = {
         bottom: '3%',
         containLabel: true
     },
+    tooltip: {
+        trigger: 'axis'
+    },
     toolbox: {
         feature: {
             saveAsImage: {}
@@ -646,31 +649,27 @@ export const initialMultipleChartOptions = {
         data: []
     },
     yAxis: {
-        type: 'value'
+        type: 'value',
     },
     series: [
         {
             name: 'Insuline',
             type: 'line',
-            stack: 'Total',
             data: []
         },
         {
             name: 'Glucose',
             type: 'line',
-            stack: 'Total',
             data: []
         },
         {
             name: 'Physical Activity',
             type: 'line',
-            stack: 'Total',
             data: []
         },
         {
             name: 'Food',
             type: 'line',
-            stack: 'Total',
             data: []
         }
     ]

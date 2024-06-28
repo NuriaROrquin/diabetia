@@ -1,4 +1,5 @@
-﻿using Diabetia.Domain.Models;
+﻿using Diabetia.Domain.Entities.Reporting;
+using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
@@ -29,5 +30,20 @@ namespace Diabetia.Application.UseCases.ReportingUseCases
 
             return listOfInsulinEvents;
         }
+
+        public async Task<List<EventSummary>> GetInsulinSummaryEventToReporting(string email, DateTime dateFrom, DateTime dateTo)
+        {
+            await _patientValidator.ValidatePatient(email);
+            var patient = await _userRepository.GetPatient(email);
+            var listOfInsulinInyected = await _reportingRepository.GetInsulinEventSummaryByPatientId(patient.Id, dateFrom, dateTo);
+            if (listOfInsulinInyected == null || listOfInsulinInyected.Count == 0)
+            {
+                return new List<EventSummary>();
+            }
+            return listOfInsulinInyected;
+        }
+
+
     }
+
 }

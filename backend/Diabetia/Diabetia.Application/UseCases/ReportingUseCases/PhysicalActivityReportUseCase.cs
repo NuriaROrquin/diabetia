@@ -1,5 +1,4 @@
-﻿
-using Diabetia.Domain.Entities.Reporting;
+﻿using Diabetia.Domain.Entities.Reporting;
 using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
@@ -18,16 +17,29 @@ namespace Diabetia.Application.UseCases.ReportingUseCases
             _reportingRepository = reportingRepository;
         }
 
-        public async Task<List<PhysicalActivitySummary>> GetPhysicalActivityToReporting(string email, DateTime dateFrom, DateTime dateTo)
+        public async Task<List<EventSummary>> GetPhysicalActivityToReporting(string email, DateTime dateFrom, DateTime dateTo)
         {
             await _patientValidator.ValidatePatient(email);
             var patient = await _userRepository.GetPatient(email);
-            var listOfPhysicalActivities = await _reportingRepository.GetAmountPhysicalEventsToReportByPatientId(patient.Id, dateFrom, dateTo);
+            var listOfPhysicalActivities = await _reportingRepository.GetPhysicalActivityEventSummaryByPatientId(patient.Id, dateFrom, dateTo);
             if (listOfPhysicalActivities == null || listOfPhysicalActivities.Count == 0)
             {
-                return new List<PhysicalActivitySummary>();
+                return new List<EventSummary>();
             }
             return listOfPhysicalActivities;
         }
+        
+        public async Task<List<ActivityDurationSummary>> GetPhysicalActivityDurationToReporting(string email, DateTime dateFrom, DateTime dateTo)
+        {
+            await _patientValidator.ValidatePatient(email);
+            var patient = await _userRepository.GetPatient(email);
+            var listOfPhysicalActivitiesDurations = await _reportingRepository.GetPhysicalActivityEventDurationsByPatientId(patient.Id, dateFrom, dateTo);
+            if (listOfPhysicalActivitiesDurations == null || listOfPhysicalActivitiesDurations.Count == 0)
+            {
+                return new List<ActivityDurationSummary>();
+            }
+            return listOfPhysicalActivitiesDurations;
+        }
+
     }
 }

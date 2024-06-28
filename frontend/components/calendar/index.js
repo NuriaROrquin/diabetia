@@ -1,10 +1,10 @@
 import {CustomProvider, Badge, Popover, Whisper} from 'rsuite';
-
 import Calendar from 'rsuite/Calendar';
 import 'rsuite/Calendar/styles/index.css';
 import "rsuite/dist/rsuite.min.css";
 import es_AR from 'rsuite/locales/es_AR';
 import {useCallback} from "react";
+import { format, parseISO } from 'date-fns';
 
 
 export const CustomCalendar = ({events, handleOnSelectDay}) => {
@@ -12,8 +12,8 @@ export const CustomCalendar = ({events, handleOnSelectDay}) => {
     function getTodoList(date) {
         const todoLists = events;
 
-        const formattedDate = date.toISOString().split('T')[0];
-        return todoLists[formattedDate] || [];
+        const localDate = format(date, 'yyyy-MM-dd');
+        return todoLists[localDate] || [];
     }
 
     const renderCell = useCallback((date) => {
