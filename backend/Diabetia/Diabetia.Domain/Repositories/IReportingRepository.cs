@@ -7,6 +7,8 @@ namespace Diabetia.Domain.Repositories
     {
         public Task<List<EventoInsulina>> GetInsulinEventsToReportByPatientId(int patientId, DateTime dateFrom, DateTime dateTo);
 
-        public Task<List<PhysicalActivitySummary>> GetAmountPhysicalEventsToReportByPatientId(int patientId, DateTime dateFrom, DateTime dateTo);
+        public Task<List<EventSummary>> GetAmountPhysicalEventsToReportByPatientId(int patientId, DateTime dateFrom, DateTime dateTo);
+
+        public Task<List<EventSummary>> GetAmountGlucoseEventsToReportByPatientId(int patientId, DateTime dateFrom, DateTime dateTo);
     }
 }

@@ -14,6 +14,7 @@ namespace Diabetia.Infrastructure.Repositories
             _context = context;
         }
 
+
         // -------------------------------------------------------- ⬇⬇ Insuline Report ⬇⬇ -------------------------------------------------------
         public async Task<List<EventoInsulina>> GetInsulinEventsToReportByPatientId(int patientId, DateTime dateFrom, DateTime dateTo)
         {
@@ -56,7 +57,7 @@ namespace Diabetia.Infrastructure.Repositories
         }
 
         // -------------------------------------------------------- ⬇⬇ Physical Activity Report ⬇⬇ -------------------------------------------------------
-        public async Task<List<PhysicalActivitySummary>> GetAmountPhysicalEventsToReportByPatientId(int patientId, DateTime dateFrom, DateTime dateTo)
+        public async Task<List<EventSummary>> GetAmountPhysicalEventsToReportByPatientId(int patientId, DateTime dateFrom, DateTime dateTo)
         {
             var results = await _context.CargaEventos
                 .Where(ce => ce.IdPaciente == patientId && ce.FechaEvento >= dateFrom && ce.FechaEvento <= dateTo)
@@ -73,7 +74,7 @@ namespace Diabetia.Infrastructure.Repositories
                     (joined, af) => new { EventDate = joined.CargaEvento.FechaEvento.Date, EventCount = 1 }
                 )
                 .GroupBy(joined => joined.EventDate)
-                .Select(g => new PhysicalActivitySummary
+                .Select(g => new EventSummary
                 {
                     EventDay = g.Key,
                     AmountEvents = g.Sum(x => x.EventCount)
@@ -83,5 +84,29 @@ namespace Diabetia.Infrastructure.Repositories
 
             return results;
         }
+
+        // -------------------------------------------------------- ⬇⬇ Glucose Report ⬇⬇ -------------------------------------------------------
+        public async Task<List<EventSummary>> GetAmountGlucoseEventsToReportByPatientId(int patientId, DateTime dateFrom, DateTime dateTo)
+        {
+            var results = await _context.CargaEventos
+                   .Where(ce => ce.IdPaciente == patientId && ce.FechaEvento >= dateFrom && ce.FechaEvento <= dateTo)
+                   .Join(
+                       _context.EventoGlucosas,
+                       ce => ce.Id,
+                       eg => eg.IdCargaEvento,
+                       (ce, eg) => new { CargaEvento = ce, EventoGlucosa = eg }
+                   )
+                   .GroupBy(joined => joined.CargaEvento.FechaEvento.Date)
+                   .Select(g => new EventSummary
+                   {
+                       EventDay = g.Key,
+                       AmountEvents = g.Count()
+                   })
+                   .OrderBy(result => result.EventDay)
+                   .ToListAsync();
+
+            return results;
+        }
     }
+
 }

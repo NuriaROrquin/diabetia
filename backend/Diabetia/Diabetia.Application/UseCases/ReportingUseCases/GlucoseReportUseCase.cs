@@ -6,28 +6,28 @@ using Diabetia.Interfaces;
 
 namespace Diabetia.Application.UseCases.ReportingUseCases
 {
-    public class PhysicalActivityReportUseCase
+    public class GlucoseReportUseCase
     {
         private readonly IPatientValidator _patientValidator;
         private readonly IUserRepository _userRepository;
         private readonly IReportingRepository _reportingRepository;
-        public PhysicalActivityReportUseCase(IPatientValidator patientValidator, IUserRepository userRepository, IReportingRepository reportingRepository) 
-        { 
+        public GlucoseReportUseCase(IPatientValidator patientValidator, IUserRepository userRepository, IReportingRepository reportingRepository)
+        {
             _patientValidator = patientValidator;
             _userRepository = userRepository;
             _reportingRepository = reportingRepository;
         }
 
-        public async Task<List<EventSummary>> GetPhysicalActivityToReporting(string email, DateTime dateFrom, DateTime dateTo)
+        public async Task<List<EventSummary>> GetGlucoseToReporting(string email, DateTime dateFrom, DateTime dateTo)
         {
             await _patientValidator.ValidatePatient(email);
             var patient = await _userRepository.GetPatient(email);
-            var listOfPhysicalActivities = await _reportingRepository.GetAmountPhysicalEventsToReportByPatientId(patient.Id, dateFrom, dateTo);
-            if (listOfPhysicalActivities == null || listOfPhysicalActivities.Count == 0)
+            var listOfGlucoseMeasures = await _reportingRepository.GetAmountGlucoseEventsToReportByPatientId(patient.Id, dateFrom, dateTo);
+            if (listOfGlucoseMeasures == null || listOfGlucoseMeasures.Count == 0)
             {
                 return new List<EventSummary>();
             }
-            return listOfPhysicalActivities;
+            return listOfGlucoseMeasures;
         }
     }
 }

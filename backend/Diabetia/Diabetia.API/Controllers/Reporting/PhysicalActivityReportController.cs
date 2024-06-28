@@ -1,21 +1,29 @@
 ﻿using Diabetia.API.DTO.ReportingResponse;
 using Diabetia.Application.UseCases.ReportingUseCases;
 using Diabetia.Domain.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace Diabetia.API.Controllers.Reporting
 {
+    [ApiController]
+    [Route("[controller]")]
+    [Authorize]
     public class PhysicalActivityReportController : ControllerBase
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly PhysicalActivityReportUseCase _physicalActivityAmountReportUseCase;
+
+
         public PhysicalActivityReportController(IHttpContextAccessor httpContextAccessor, PhysicalActivityReportUseCase physicalActivityAmountReportUseCase) 
         {
             _httpContextAccessor = httpContextAccessor;
             _physicalActivityAmountReportUseCase = physicalActivityAmountReportUseCase;
 
         }
+
+
         [HttpGet("GetPhysicalActivityReport")]
         public async Task<IActionResult> ShowPhysicalActivityReporting([FromQuery] DateFilter request)
         {
