@@ -185,7 +185,7 @@ export const ChartMultipleLineComponent = props => {
 
     return (
         <div>
-            <div data-testId="headerChart" className="flex justify-between px-8 py-4">
+            <div data-testId="headerChart" className="flex flex-col md:flex-row justify-center items-center md:justify-between px-8 py-4">
                 <div className="flex justify-center items-center gap-x-2">
                     <SubtitleSection>{title}</SubtitleSection>
                     {helper && (

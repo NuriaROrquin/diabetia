@@ -1,29 +1,9 @@
 import axios from "./axios";
 
 export const getInsulineChartData = (dateFrom, dateTo) => {
-    console.log(dateFrom, dateTo)
-    /*const initialData = [
-        { time: '2018-12-22', value: 2 },
-        { time: '2018-12-23', value: 5 },
-        { time: '2018-12-24', value: 7 },
-        { time: '2018-12-25', value: 5 },
-        { time: '2018-12-26', value: 4 },
-        { time: '2018-12-27', value: 4 },
-        { time: '2018-12-28', value: 4 },
-        { time: '2018-12-29', value: 5 },
-        { time: '2018-12-30', value: 1 },
-        { time: '2018-12-31', value: 2 },
-    ];
-
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(initialData);
-        }, 1000);
-    });*/
-
     return axios
         .get(
-            `${process.env.NEXT_PUBLIC_API_URL}/Reporting/getInsulinReport?dateFrom=${dateFrom}&dateTo=${dateTo}`)
+            `${process.env.NEXT_PUBLIC_API_URL}/InsulineReport/GetInsulinSummaryDoseReport?dateFrom=${dateFrom}&dateTo=${dateTo}`)
 }
 
 export const getComparativeQuantityEvents = (dateFrom, dateTo) => {
