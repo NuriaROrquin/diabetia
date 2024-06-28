@@ -1,4 +1,4 @@
-﻿using Diabetia.API.DTO.ReportingResponse;
+﻿using Diabetia.API.DTO.ReportingResponse.Glucose;
 using Diabetia.Application.UseCases.ReportingUseCases;
 using Diabetia.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -22,9 +22,29 @@ namespace Diabetia.API.Controllers.Reporting
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
             var @events = await _glucoseReportUseCase.GetGlucoseToReporting(email, request.DateFrom.Value, request.DateTo.Value);
-            var physicalActivitiesResponse = events.Select(e => GlucoseResponse.FromObject(e)).ToList();
+            var glucoseResponse = events.Select(e => GlucoseResponse.FromObject(e)).ToList();
 
-            return Ok(physicalActivitiesResponse);
+            return Ok(glucoseResponse);
+        }
+
+        [HttpGet("GetGlucoseHyperglycemiaReport")]
+        public async Task<IActionResult> ShowHyperglycemiaGlucoseMeasurementToReporting()
+        {
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var @events = await _glucoseReportUseCase.GetHyperglycemiaGlucoseToReporting(email);
+            var glucoseResponse = events.Select(e => GlucoseMeasurementResponse.FromObject(e)).ToList();
+
+            return Ok(glucoseResponse);
+        }
+
+        [HttpGet("GetGlucoseHypoglycemiaReport")]
+        public async Task<IActionResult> ShowHypoglycemiaGlucoseMeasurementToReporting()
+        {
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var @events = await _glucoseReportUseCase.GetHypoglycemiaGlucoseToReporting(email);
+            var glucoseResponse = events.Select(e => GlucoseMeasurementResponse.FromObject(e)).ToList();
+
+            return Ok(glucoseResponse);
         }
     }
 }

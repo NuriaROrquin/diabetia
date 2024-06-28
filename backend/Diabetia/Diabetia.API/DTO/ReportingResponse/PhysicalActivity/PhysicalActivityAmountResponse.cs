@@ -1,15 +1,15 @@
 ﻿using Diabetia.Domain.Entities.Reporting;
 
-namespace Diabetia.API.DTO.ReportingResponse
+namespace Diabetia.API.DTO.ReportingResponse.PhysicalActivity
 {
-    public class GlucoseResponse
+    public class PhysicalActivityAmountResponse
     {
         public int Value { get; set; }
         public string Time { get; set; }
 
-        public static GlucoseResponse FromObject(EventSummary summary)
+        public static PhysicalActivityAmountResponse FromObject(EventSummary summary)
         {
-            var response = new GlucoseResponse
+            var response = new PhysicalActivityAmountResponse
             {
                 Time = summary.EventDay.ToString("dd/MM/yyyy"),
                 Value = summary.AmountEvents
