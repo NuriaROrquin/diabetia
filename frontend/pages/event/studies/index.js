@@ -1,6 +1,6 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
-import {TYPE_EVENTS, TYPE_REMINDERTIME} from "../../../constants";
+import {TYPE_EVENTS, TYPE_MEDIC, TYPE_REMINDERTIME} from "../../../constants";
 import {UploadFileOutlined} from "@mui/icons-material";
 import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
 import {useState, useRef} from "react";
@@ -11,13 +11,14 @@ import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomDatePicker} from "../../../components/pickers";
 import {useRouter} from "next/router";
+import { v4 as uuidv4 } from 'uuid';
 
 const ReminderEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 7)[0].title;
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
-    const [reminder, setReminder] = useState(false);
     const [date, setDate] = useState();
+    const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef(null);
 
     const router = useRouter();
@@ -26,17 +27,31 @@ const ReminderEvent = () => {
         fileInputRef.current.click();
     };
 
+    const saveFiles = (file) => {
+        // Aquí implementa la lógica para guardar el archivo, por ejemplo enviarlo al servidor o almacenarlo localmente
+        console.log('Guardando archivo:', file);
+        setSelectedFile(file); // Actualizar el estado con el archivo seleccionado
+    };
+
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
-                const newImage = { id: uuidv4(), imageBase64: base64String };
-                saveFiles(newImage);
-                router.push("/event")
-            };
-            reader.readAsDataURL(file);
+            if (file.type === "application/pdf" || file.type === "image/jpeg" || file.type === "image/png") {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
+                    const newFile = {
+                        id: uuidv4(),
+                        fileBase64: base64String
+                    };
+                    saveFiles(newFile);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert("Solo se permiten archivos PDF, JPG y PNG.");
+                // Limpiar la selección del archivo
+                event.target.value = null;
+            }
         }
     };
 
@@ -46,20 +61,17 @@ const ReminderEvent = () => {
     };
 
     const handleSubmit = () => {
-        const exercise = selectedOption;
         const dateFormatted = date ? date.format('DD-MM-YYYY') : null;
-        const notes = document.getElementById("notes").value;
-        const email = getEmailFromJwt();
 
         const data = {
-            "email": email,
-            "idKindEvent": 7,
-            "eventDate": "2024-05-22T23:03:17.219Z",
-            "freeNote": notes,
-            "physicalActivity": selectedOption.id,
-            "iniciateTime": start,
-            "finishTime": end
+            "kindEventId": TYPE_EVENTS.find((event) => event.title === "ESTUDIOS")?.id,
+            "eventDate": date,
+            "file": selectedFile.fileBase64,
+            "examinationType": document.getElementById("examinationType").value,
+            "idProfessional":  selectedOption?.id
         }
+
+        console.log(data)
 
         /*addPhysicalEvent(data).then(() =>
             router.push("/calendar")
@@ -88,29 +100,31 @@ const ReminderEvent = () => {
                 <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
                     <CustomDatePicker
                         label="Ingresá la fecha del estudio"
-                        value={date}
+                        date={date}
                         onChange={(e) => setDate(e)}
-                        defaultValue={dayjs()}
-                        width="w-1/2"
+                        width="w-1/3"
+                        defaultDate={date && date}
                     />
 
-                    <InputWithLabel label="Ingresa el estudio a guardar" placeholder="¿De qué son los estudios?"  id="" width="w-1/3"/>
+                    <InputWithLabel
+                        label="Ingresa el estudio a guardar"
+                        placeholder="¿De qué son los estudios?"
+                        id="examinationType"
+                        width="w-1/3"
+                    />
 
-                    <div className={`flex flex-wrap w-11/12 ${reminder ? "justify-between": "justify-items-start"}`}>
 
-                     <CustomSwitch label="¿Necesitás recordatorio para repetir estudio?" id="reminder" onChange={() => setReminder(!reminder)}
-                                  width="w-1/2"/>
-
-                        {reminder && (
-                            <>
-                                <Select label="¿En cuanto tiempo?" placeholder="Tiempo para el recordatorio"
-                                options={TYPE_REMINDERTIME}
-                                selectedOption={selectedOption}
-                                handleOptionClick={handleOptionClick}
-                                setIsOpen={setIsOpen} isOpen={isOpen}
-                                width="w-1/3"/>
-                            </>
-                        )}
+                    <div className={`flex flex-wrap w-11/12 px-7 "justify-between": "justify-items-start"}`}>
+                        <Select
+                            label="Especialista"
+                            placeholder="¿Con quién te hiciste el estudio?"
+                            options={TYPE_MEDIC}
+                            selectedOption={selectedOption}
+                            handleOptionClick={handleOptionClick}
+                            setIsOpen={setIsOpen}
+                            isOpen={isOpen}
+                            width="w-2/5"
+                        />
                         <div className="bg-white w-full flex flex-col rounded-xl p-6 justify-center items-center"
                              onClick={handleUploadClick}>
                             <UploadFileOutlined className="text-orange-primary h-20 w-20"/>

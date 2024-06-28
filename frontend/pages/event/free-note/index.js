@@ -1,39 +1,12 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
-import {TYPE_EVENTS, TYPE_EXERCISES} from "../../../constants";
-import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
-import {useState} from "react";
+import {TYPE_EVENTS} from "../../../constants";
+import {capitalizeFirstLetter, } from "../../../helpers";
 import {BlueLink, OrangeLink} from "../../../components/link";
-import {TextArea} from "../../../components/input";
-import dayjs from "dayjs";
-import {ButtonOrange} from "../../../components/button";
-import {CustomDatePicker, CustomTimePicker} from "../../../components/pickers";
-import {useRouter} from "next/router";
+import {FreeNoteEventForm} from "@/components/eventForm";
 
-const ExerciseEvent = () => {
+const FreeNoteEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 8)[0].title;
-    const [Hour, setHour] = useState()
-    const [date, setDate] = useState()
-    const router = useRouter();
-
-    const handleSubmit = () => {
-        const dateFormatted = date ? date.format('YYYY-MM-DD') : null;
-        const start = startHour ? startHour.format('HH:mm:ss') : null;
-        const notes = document.getElementById("notes").value;
-        const email = getEmailFromJwt();
-
-        const data = {
-            "email": email,
-            "idKindEvent": 8,
-            "eventDate": dateFormatted,
-            "freeNote": notes,
-            "hora": start ?? null
-        }
-
-        /*addPhysicalEvent(data).then(() =>
-            router.push("/calendar")
-        )*/
-    }
 
     return(
         <Section className="pt-12">
@@ -54,31 +27,11 @@ const ExerciseEvent = () => {
                 </div>
 
                 {/* FORMULARIO */}
-                <div className="bg-white rounded-xl w-full flex flex-wrap text-gray-primary py-20 px-44 my-12 justify-around gap-x-2 gap-y-12">
-                    <CustomDatePicker
-                        label="Ingresá una fecha"
-                        value={date}
-                        onChange={(e) => setDate(e)}
-                        defaultValue={dayjs()}
-                        width="w-1/3"
-                    />
 
-                    <CustomTimePicker
-                        label="Hora"
-                        value={Hour}
-                        onChange={setHour}
-                        defaultValue={dayjs()}
-                        width="w-1/3"
-                    />
-
-                    <TextArea placeholder="Describí tus sensaciones, estado de ánimo y cualquier otro síntoma que pueda ser de ayuda para los profesionales" label="Nota Libre" id="notes" width="w-10/12"/>
-
-                    <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3"/>
-
-                </div>
+                <FreeNoteEventForm existingData={null} />
             </div>
         </Section>
     )
 }
 
-export default ExerciseEvent;
+export default FreeNoteEvent;
