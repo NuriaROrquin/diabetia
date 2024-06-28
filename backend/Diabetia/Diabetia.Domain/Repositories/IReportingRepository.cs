@@ -23,6 +23,8 @@ namespace Diabetia.Domain.Repositories
 
         public Task<List<GlucoseMeasurement>> GetHypoglycemiaGlucoseHistoryByPatientId(int patientId, GlucoseEnum hypoglycemiaValue);
 
+        public Task<List<GlucoseMeasurement>> GetGlucoseEventsToReportByPatientId(int patientId, DateTime dateFrom, DateTime dateTo);
+
         // ----------------------------------------------------------------- ⬇⬇ Food Report ⬇⬇ -------------------------------------------------------------------
         public Task<List<EventSummary>> GetFoodEventSummaryByPatientId(int patientId, DateTime dateFrom, DateTime dateTo);
 

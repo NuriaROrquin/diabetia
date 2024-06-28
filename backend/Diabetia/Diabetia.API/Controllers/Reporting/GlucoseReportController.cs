@@ -50,5 +50,15 @@ namespace Diabetia.API.Controllers.Reporting
 
             return Ok(glucoseResponse);
         }
+
+        [HttpGet("GetGlucoseSummaryMeasurementReport")]
+        public async Task<IActionResult> ShowGlucoseReporting([FromQuery] DateFilter request)
+        {
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var @events = await _glucoseReportUseCase.GetGlucoseMeasurementsEventsToReporting(email, request.DateFrom.Value, request.DateTo.Value);
+            var glucoseResponse = events.Select(e => GlucoseMeasurementResponse.FromObject(e)).ToList();
+
+            return Ok(glucoseResponse);
+        }
     }
 }

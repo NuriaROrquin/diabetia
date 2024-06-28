@@ -4,14 +4,14 @@ namespace Diabetia.API.DTO.ReportingResponse.Glucose
 {
     public class GlucoseMeasurementResponse
     {
-        public int Value { get; set; }
-        public DateTime Time { get; set; }
+        public decimal Value { get; set; }
+        public string Time { get; set; }
 
         public static GlucoseMeasurementResponse FromObject(GlucoseMeasurement glucoseMeasurement)
         {
             var response = new GlucoseMeasurementResponse()
             {
-                Time = glucoseMeasurement.MeasurementDate,
+                Time = glucoseMeasurement.MeasurementDate.ToString("dd/MM/yyyy"),
                 Value = glucoseMeasurement.GlucoseLevel
             };
 

@@ -53,5 +53,18 @@ namespace Diabetia.Application.UseCases.ReportingUseCases
             }
             return listOfGlucoseMeasures;
         }
+
+        public async Task<List<GlucoseMeasurement>> GetGlucoseMeasurementsEventsToReporting(string email, DateTime dateFrom, DateTime dateTo)
+        {
+            await _patientValidator.ValidatePatient(email);
+            var patient = await _userRepository.GetPatient(email);
+            var listOfGlucoseMeasuresEvents = await _reportingRepository.GetGlucoseEventsToReportByPatientId(patient.Id, dateFrom, dateTo);
+            if (listOfGlucoseMeasuresEvents == null || listOfGlucoseMeasuresEvents.Count == 0)
+            {
+                return new List<GlucoseMeasurement>();
+            }
+            return listOfGlucoseMeasuresEvents;
+        }
+
     }
 }
