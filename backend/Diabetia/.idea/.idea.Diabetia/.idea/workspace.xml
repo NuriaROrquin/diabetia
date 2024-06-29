@@ -10,7 +10,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/HomeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/HomeRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,28 +27,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Nuri/Desktop&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "dev",
+    "last_opened_file_path": "C:/Users/Nuri/Desktop",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\Nuri\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\Nuri\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\Nuri\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\Leafnoise\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\Leafnoise\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\Leafnoise\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Diabetia.API" type="LaunchSettings" factoryName=".NET Launch Settings Profile" temporary="true">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Diabetia.API/Diabetia.API.csproj" />
@@ -92,15 +92,66 @@
     <option name="version" value="3" />
   </component>
   <component name="UnitTestsCoverage.Settings">
-    <option name="coveragePercentColumnWidth" value="119" />
+    <option name="coveragePercentColumnWidth" value="86" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="405" />
+    <option name="symbolColumnWidth" value="283" />
     <coverage-tree-state>
-      <expand />
+      <expand>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="src 27% 3715/5081" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="src 27% 3715/5081" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="3-infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="src 27% 3715/5081" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="3-infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="src 27% 3715/5081" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="3-infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="src 27% 3715/5081" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="3-infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Providers 43% 94/166" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+        <path>
+          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
+          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="src 27% 3715/5081" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="3-infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Providers 43% 94/166" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="TagRecognitionProvider 31% 51/74" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+        </path>
+      </expand>
       <select />
     </coverage-tree-state>
   </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
@@ -108,83 +159,21 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Middlewares/ErrorHandlerMiddleware.cs</url>
-          <line>28</line>
-          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Middlewares\ErrorHandlerMiddleware.cs" initialLine="28" containingFunctionPresentation="Method 'Invoke'">
-            <startOffsets>
-              <option value="784" />
-            </startOffsets>
-            <endOffsets>
-              <option value="785" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/ReportingRepository.cs</url>
           <line>90</line>
-          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Repositories\ReportingRepository.cs" initialLine="90" containingFunctionPresentation="Lambda expression inside Method 'GetPhysicalActivityEventDurationsByPatientId'">
-            <startOffsets>
-              <option value="3972" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4056" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Repositories\ReportingRepository.cs" containingFunctionPresentation="Lambda expression inside Method 'GetPhysicalActivityEventDurationsByPatientId'" />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/ReportingRepository.cs</url>
           <line>112</line>
-          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Repositories\ReportingRepository.cs" initialLine="112" containingFunctionPresentation="Method 'GetPhysicalActivityEventDurationsByPatientId'">
-            <startOffsets>
-              <option value="4884" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4899" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Repositories\ReportingRepository.cs" containingFunctionPresentation="Method 'GetPhysicalActivityEventDurationsByPatientId'" />
           <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Providers/TagRecognitionProvider.cs</url>
-          <line>28</line>
-          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Providers\TagRecognitionProvider.cs" initialLine="28" containingFunctionPresentation="Method 'GetChFromDocument'">
-            <startOffsets>
-              <option value="779" />
-            </startOffsets>
-            <endOffsets>
-              <option value="834" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Providers/TagRecognitionProvider.cs</url>
-          <line>73</line>
-          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Providers\TagRecognitionProvider.cs" initialLine="73" containingFunctionPresentation="Method 'CreateObjectS3Async'">
-            <startOffsets>
-              <option value="2862" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2911" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/HomeRepository.cs</url>
           <line>50</line>
-          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Repositories\HomeRepository.cs" initialLine="50" containingFunctionPresentation="Method 'GetChMetrics'">
-            <startOffsets>
-              <option value="1811" />
-              <option value="1871" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1889" />
-              <option value="1887" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Repositories\HomeRepository.cs" containingFunctionPresentation="Method 'GetChMetrics'" />
           <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
