@@ -32,12 +32,12 @@ namespace Diabetia.Infrastructure.Repositories
             {
                 if (dateFilter.DateFrom.HasValue)
                 {
-                    query = query.Where(joined => joined.ce.FechaEvento >= dateFilter.DateFrom);
+                    query = query.Where(joined => joined.ce.FechaEvento.Date >= dateFilter.DateFrom);
                 }
 
                 if (dateFilter.DateTo.HasValue)
                 {
-                    query = query.Where(joined => joined.ce.FechaEvento <= dateFilter.DateTo);
+                    query = query.Where(joined => joined.ce.FechaEvento.Date <= dateFilter.DateTo);
                 }
             }
 
@@ -65,12 +65,12 @@ namespace Diabetia.Infrastructure.Repositories
             {
                 if (dateFilter.DateFrom.HasValue)
                 {
-                    query = query.Where(joined => joined.ce.FechaEvento >= dateFilter.DateFrom);
+                    query = query.Where(joined => joined.ce.FechaEvento.Date >= dateFilter.DateFrom);
                 }
 
                 if (dateFilter.DateTo.HasValue)
                 {
-                    query = query.Where(joined => joined.ce.FechaEvento <= dateFilter.DateTo);
+                    query = query.Where(joined => joined.ce.FechaEvento.Date <= dateFilter.DateTo);
                 }
             }
 
@@ -98,12 +98,12 @@ namespace Diabetia.Infrastructure.Repositories
             {
                 if (dateFilter.DateFrom.HasValue)
                 {
-                    query = query.Where(joined => joined.ce.FechaEvento >= dateFilter.DateFrom);
+                    query = query.Where(joined => joined.ce.FechaEvento.Date >= dateFilter.DateFrom);
                 }
 
                 if (dateFilter.DateTo.HasValue)
                 {
-                    query = query.Where(joined => joined.ce.FechaEvento <= dateFilter.DateTo);
+                    query = query.Where(joined => joined.ce.FechaEvento.Date <= dateFilter.DateTo);
                 }
             }
 
@@ -139,12 +139,12 @@ namespace Diabetia.Infrastructure.Repositories
             {
                 if (dateFilter.DateFrom.HasValue)
                 {
-                    query = query.Where(joined => joined.ce.FechaEvento >= dateFilter.DateFrom);
+                    query = query.Where(joined => joined.ce.FechaEvento.Date >= dateFilter.DateFrom);
                 }
 
                 if (dateFilter.DateTo.HasValue)
                 {
-                    query = query.Where(joined => joined.ce.FechaEvento <= dateFilter.DateTo);
+                    query = query.Where(joined => joined.ce.FechaEvento.Date <= dateFilter.DateTo);
                 }
             }
 
@@ -174,12 +174,12 @@ namespace Diabetia.Infrastructure.Repositories
             {
                 if (dateFilter.DateFrom.HasValue)
                 {
-                    query = query.Where(joined => joined.ce.FechaEvento >= dateFilter.DateFrom);
+                    query = query.Where(joined => joined.ce.FechaEvento.Date >= dateFilter.DateFrom);
                 }
 
                 if (dateFilter.DateTo.HasValue)
                 {
-                    query = query.Where(joined => joined.ce.FechaEvento <= dateFilter.DateTo);
+                    query = query.Where(joined => joined.ce.FechaEvento.Date <= dateFilter.DateTo);
                 }
             }
 
@@ -207,12 +207,12 @@ namespace Diabetia.Infrastructure.Repositories
             {
                 if (dateFilter.DateFrom.HasValue)
                 {
-                    query = query.Where(joined => joined.ce.FechaEvento >= dateFilter.DateFrom);
+                    query = query.Where(joined => joined.ce.FechaEvento.Date >= dateFilter.DateFrom);
                 }
 
                 if (dateFilter.DateTo.HasValue)
                 {
-                    query = query.Where(joined => joined.ce.FechaEvento <= dateFilter.DateTo);
+                    query = query.Where(joined => joined.ce.FechaEvento.Date <= dateFilter.DateTo);
                 }
             }
 

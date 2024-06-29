@@ -10,12 +10,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/context/useAIDataTag.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/context/useAIDataTag.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-3/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-3/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/step-1/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/step-1/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/step-3/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/step-3/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/step-4/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/step-4/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/HomeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/HomeRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +84,7 @@
       <workItem from="1719112013079" duration="3327000" />
       <workItem from="1719496655725" duration="11824000" />
       <workItem from="1719588640988" duration="2320000" />
+      <workItem from="1719669085285" duration="2398000" />
     </task>
     <servers />
   </component>
@@ -175,6 +171,21 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/HomeRepository.cs</url>
+          <line>50</line>
+          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Repositories\HomeRepository.cs" initialLine="50" containingFunctionPresentation="Method 'GetChMetrics'">
+            <startOffsets>
+              <option value="1811" />
+              <option value="1871" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1889" />
+              <option value="1887" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
