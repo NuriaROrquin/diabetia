@@ -34,8 +34,9 @@ namespace Diabetia.Infrastructure.Providers
             var logMealToken = _configuration["LogMealToken"];
 
             //var confirmedDish = null;
+            var imageId = foodDish.ImageId;
 
-            var nutrientsDetected = await _apiService.GetNutrientsPerIngredients($"Bearer {logMealToken}", foodDish.ImageId);  
+            var nutrientsDetected = await _apiService.GetNutrientsPerIngredients($"Bearer {logMealToken}", imageId);  
             return nutrientsDetected;
         }
     }
