@@ -3,7 +3,6 @@ import Image from "next/image";
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import CustomTooltip from "../tooltip";
-import {TYPE_EMOJIS} from "../../constants/index";
 import {ContactMailOutlined, FolderSharedOutlined, DirectionsRunOutlined, ErrorOutline, HelpOutline} from "@mui/icons-material";
 
 const getIconComponent = (title) => {
@@ -82,13 +81,10 @@ export const EventCard = ({events}) => {
                 return (
                     <div key={event.title} className="relative w-1/5 h-52 min-w-64 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:-translate-y-2">
                         <Link href={event.link || ""}>
-                            {TYPE_EMOJIS.map((emoji) => (
-                            <Image key={emoji.index} src={emoji.emoji} alt={emoji.title} width={500} height={500}
-                                 className="w-full h-full object-cover"/>
-                            ))}
+                            <Image src={event.image} alt={event.title} width={500} height={500} className="w-full h-full object-cover"/>
                             <div
                                 className="absolute top-0 h-full w-full p-6 bg-blue-primary bg-opacity-65 text-white text-center text-4xl font-bold flex justify-center items-center">
-                                <span>EMOJI</span>
+                                <span>{event.title}</span>
                             </div>
                         </Link>
                     </div>
