@@ -16,6 +16,7 @@ const FoodPage = () => {
     const canvasRef = useRef(null);
     const [showCameraPreview, setShowCameraPreview] = useState(false);
     const [stream, setStream] = useState(null);
+    const [error, setError] = useState(null);
 
     const verCamara = () => {
         navigator.mediaDevices
@@ -27,9 +28,8 @@ const FoodPage = () => {
                 let video = videoRef.current;
                 video.srcObject = stream;
                 video.play();
-            }).catch(err => {
-            console.log(err);
-        });
+            }).catch((error) => {
+            error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
     };
 
     const apagarCamara = () => {
@@ -133,6 +133,8 @@ const FoodPage = () => {
                         <canvas ref={canvasRef} className="hidden"></canvas>
                     </Box>
                 </Modal>
+
+                {error && <span className="text-red-500 mb-3">{error}</span>}
             </div>
         </Section>
     );

@@ -12,7 +12,6 @@ import {login} from "../../../services/auth.service";
 export const Login = () => {
     const [error, setError] = useState(false);
     const [_cookies, setCookie, _removeCookie] = useCookies(['cookie-name']);
-    const [stepCompleted, setStepCompleted] = useState(null);
 
     const router = useRouter();
 

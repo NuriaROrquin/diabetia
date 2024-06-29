@@ -46,8 +46,7 @@ const ProfileFormStep1 = () => {
 
             })
             .catch((error) => {
-                error.response ? setError(error.response) : setError("Hubo un error")
-            });
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
     }, []);
 
     const handleOptionClick = (option) => {

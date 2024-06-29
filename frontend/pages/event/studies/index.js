@@ -1,17 +1,18 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
-import {TYPE_EVENTS, TYPE_MEDIC, TYPE_REMINDERTIME} from "../../../constants";
+import {TYPE_EVENTS, TYPE_MEDIC} from "../../../constants";
 import {UploadFileOutlined} from "@mui/icons-material";
-import {capitalizeFirstLetter, getEmailFromJwt} from "../../../helpers";
+import {capitalizeFirstLetter} from "../../../helpers";
 import {useState, useRef} from "react";
 import {BlueLink, OrangeLink} from "../../../components/link";
-import {InputWithLabel, CustomSwitch} from "../../../components/input";
+import {InputWithLabel} from "../../../components/input";
 import {Select} from "../../../components/selector";
 import dayjs from "dayjs";
 import {ButtonOrange} from "../../../components/button";
 import {CustomDatePicker} from "../../../components/pickers";
 import {useRouter} from "next/router";
 import { v4 as uuidv4 } from 'uuid';
+import {addMedicalExaminationEvent} from "../../../services/event.service";
 
 const ReminderEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 7)[0].title;
@@ -20,6 +21,7 @@ const ReminderEvent = () => {
     const [date, setDate] = useState();
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef(null);
+    const [error, setError] = useState(null);
 
     const router = useRouter();
 
@@ -28,9 +30,8 @@ const ReminderEvent = () => {
     };
 
     const saveFiles = (file) => {
-        // Aquí implementa la lógica para guardar el archivo, por ejemplo enviarlo al servidor o almacenarlo localmente
-        console.log('Guardando archivo:', file);
-        setSelectedFile(file); // Actualizar el estado con el archivo seleccionado
+       console.log('Guardando archivo:', file);
+        setSelectedFile(file);
     };
 
     const handleFileChange = (event) => {
@@ -73,9 +74,10 @@ const ReminderEvent = () => {
 
         console.log(data)
 
-        /*addPhysicalEvent(data).then(() =>
+        addMedicalExaminationEvent(data).then(() =>
             router.push("/calendar")
-        )*/
+        ).catch((error) => {
+            error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
     }
 
     return(
@@ -142,6 +144,7 @@ const ReminderEvent = () => {
 
                     </div>
 
+                    {error && <span className="text-red-500 mb-3">{error}</span>}
 
                     <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3"/>
 

@@ -55,9 +55,7 @@ const InitialFormStep4 = () => {
                 router.push("/dashboard")
             })
             .catch((error) => {
-                console.error('Error in fourthStep:', error);
-                error.response ? setError(error.response) : setError("Hubo un error")
-            });
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
     }
 
     return(
@@ -122,6 +120,7 @@ const InitialFormStep4 = () => {
                     <OrangeLink href="/initialForm/step-3" label="Atrás" width="w-1/3" background="bg-gray-400 hover:bg-gray-600"/>
                     <ButtonOrange onClick={handleSubmit} label="Finalizar" width="w-1/3"/>
                 </div>
+                {error && <span className="text-red-500 mb-3">{error}</span>}
             </div>
         </Section>
     )

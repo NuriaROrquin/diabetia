@@ -7,7 +7,6 @@ import {ContainerTitles, SubtitleSection, TitleSection} from "../../components/t
 import {Timeline} from "../../components/timeline";
 import {Section} from "../../components/section";
 import {OrangeLink} from "../../components/link";
-import {useCookies} from "react-cookie";
 import CustomTooltip from "../../components/tooltip";
 import {calculateDateRange} from "../../helpers";
 import {getMetrics, getTimeline} from "../../services/home.service";
@@ -16,7 +15,6 @@ export const Home = () => {
     const [error, setError] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(DASHBOARD_OPTIONS_FILTER_DAYS[0])
-    const [cookies, _setCookie, _removeCookie] = useCookies(['email']);
     const [metrics, setMetrics] = useState({chMetrics:0, glycemia: 99999, hyperglycemia:0, hypoglycemia:0, insulin:0, physicalActivity:0});
     const [loadingMetrics, setLoadingMetrics] = useState(true);
     const [loadingTimeline, setLoadingTimeline] = useState(true);
@@ -109,8 +107,7 @@ export const Home = () => {
                     }
                     )}
                 </div>
-
-
+                {error && <span className="text-red-500 mb-3">{error}</span>}
             </div>
         </Section>
         <Section className="bg-white flex flex-col min-h-fit">

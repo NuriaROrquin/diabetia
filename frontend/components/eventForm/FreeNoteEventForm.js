@@ -11,6 +11,7 @@ const FreeNoteEventForm = ({ existingData }) => {
     const [hour, setHour] = useState(dayjs());
     const [date, setDate] = useState(dayjs());
     const [notes, setNotes] = useState('');
+    const [error, setError] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -35,11 +36,13 @@ const FreeNoteEventForm = ({ existingData }) => {
         if (router.query.id) {
             editFreeNoteEvent({ ...data, eventId: router.query.id }).then(() =>
                 router.push("/calendar")
-            );
+            ).catch((error) => {
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
         } else {
             addFreeNoteEvent(data).then(() =>
                 router.push("/calendar")
-            );
+            ).catch((error) => {
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
         }
     };
 
@@ -68,6 +71,9 @@ const FreeNoteEventForm = ({ existingData }) => {
                 defaultValue={notes && notes}
                 onChange={(e) => setNotes(e.target.value)}
             />
+
+            {error && <span className="text-red-500 mb-3">{error}</span>}
+
             <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3" />
         </div>
     );

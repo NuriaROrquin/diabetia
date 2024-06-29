@@ -68,11 +68,13 @@ const MedicalVisitEventForm = ({ existingData }) => {
         if (router.query.id) {
             editMedicalVisitEvent({ ...data, eventId: router.query.id }).then(() =>
                 router.push("/calendar")
-            );
+            ).catch((error) => {
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
         } else {
             addMedicalVisitEvent({ ...data }).then(() =>
                 router.push("/calendar")
-            );
+            ).catch((error) => {
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
         }
     };
 
@@ -126,9 +128,7 @@ const MedicalVisitEventForm = ({ existingData }) => {
                         width="w-2/5"
                     />
                 )}
-                {error && (
-                    <p className="text-red-500">{error}</p>
-                )}
+
                 <TextArea
                     placeholder="Describí tus sensaciones, estado de ánimo y cualquier otro síntoma que pueda ser de ayuda para los profesionales"
                     label="¿Cómo te sentís?"
@@ -138,6 +138,8 @@ const MedicalVisitEventForm = ({ existingData }) => {
                     onChange={(e) => setNotes(e.target.value)}
                 />
             </div>
+
+            {error && <span className="text-red-500 mb-3">{error}</span>}
 
             <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3" />
         </div>

@@ -149,7 +149,7 @@ export const CalendarPage = () => {
                     </button>
                 </div>
             </Modal>
-
+            {error && <span className="text-red-500 mb-3">{error}</span>}
         </Section>
     )
 }

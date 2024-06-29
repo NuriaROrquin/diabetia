@@ -19,6 +19,7 @@ const ExerciseEvent = () => {
     const [startHour, setStartHour] = useState()
     const [endHour, setEndHour] = useState()
     const [date, setDate] = useState()
+    const [error, setError] = useState(null);
 
     const router = useRouter();
 
@@ -45,7 +46,8 @@ const ExerciseEvent = () => {
 
         addPhysicalEvent(data).then(() =>
             router.push("/calendar")
-        )
+        ).catch((error) => {
+            error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
     }
 
     return(
@@ -98,6 +100,7 @@ const ExerciseEvent = () => {
 
                     <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3"/>
                 </div>
+                {error && <span className="text-red-500 mb-3">{error}</span>}
             </div>
         </Section>
     )

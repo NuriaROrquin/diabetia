@@ -19,6 +19,7 @@ const HealthEvent = () => {
     const [hour, setHour] = useState()
     const [date, setDate] = useState()
     const router = useRouter();
+    const [error, setError] = useState(null);
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
@@ -42,7 +43,8 @@ const HealthEvent = () => {
 
         addInsulinEvent(data).then(() =>
             router.push("/calendar")
-        )
+        ).catch((error) => {
+            error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
     }
 
     return(
@@ -100,6 +102,8 @@ const HealthEvent = () => {
                     </div>
 
                     <TextArea placeholder="Describí tus sensaciones, estado de ánimo y cualquier otro síntoma que pueda ser de ayuda para los profesionales" label="¿Cómo te sentís?" id="notes" width="w-10/12"/>
+
+                    {error && <span className="text-red-500 mb-3">{error}</span>}
 
                     <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3"/>
 
