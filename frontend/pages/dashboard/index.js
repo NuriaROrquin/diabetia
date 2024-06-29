@@ -87,7 +87,7 @@ export const Home = () => {
                         <p className="mb-4 text-gray-primary">Hay eventos a los que falta aportar feedback. ¿Querés ir a la página de feedbacks?</p>
                         <div className="flex justify-center item-center">
                             <button onClick={handleClosePopup} className="mr-4 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cerrar</button>
-                            <button onClick={handleGoToFeedback} className="px-4 py-2 bg-blue-primary text-gray rounded hover:bg-blue-secondary">Ir a feedbacks</button>
+                            <button onClick={handleGoToFeedback} className="px-4 py-2 bg-orange-primary text-gray rounded hover:bg-orange-secondary">Ir a feedbacks</button>
                         </div>
                     </div>
                 </div>

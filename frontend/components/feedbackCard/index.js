@@ -8,6 +8,7 @@ const FeedbackCard = ({ feedback }) => {
     const [selectedEmoji, setSelectedEmoji] = useState(null);
     const [notes, setNotes] = useState("");
     const [error, setError] = useState(null);
+    const router = useRouter();
 
     const handleEmojiSelect = (emoji) => {
         setSelectedEmoji(emoji);
@@ -25,7 +26,7 @@ const FeedbackCard = ({ feedback }) => {
         };
         console.log(formData)
         addFeedback(formData).then(() =>
-            router.push("/feedback")
+            router.push('/feedback').then(() => window.location.reload())
         ).catch((error) => {
             error.response ? setError(error.response) : setError("Hubo un error")            });
     };
