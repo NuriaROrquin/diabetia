@@ -21,11 +21,11 @@ export const Register = () => {
         })
         .catch((error) => {
             if (error.response && error.response.data && error.response.data.errors) {
-                setErrors(error.response.data.errors); // Handle backend validation errors
+                setErrors(error.response.data.errors);
             } else if (error.response && error.response.data && error.response.data.Message) {
-                setErrors({ general: error.response.data.Message }); // Handle specific error messages
+                setErrors({ general: error.response.data.Message });
             } else {
-                setErrors({ general: "Hubo un error" }); // Fallback for other errors
+                setErrors({ general: "Hubo un error" });
             }
         });
   }
