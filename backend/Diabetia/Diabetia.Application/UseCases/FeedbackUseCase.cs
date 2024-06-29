@@ -32,6 +32,7 @@ namespace Diabetia.Application.UseCases
 
         public async Task AddFeedbackAsync(string email, Feedback feedback)
         {
+            await _patientValidator.ValidatePatient(email);
             await _feedbackRepository.AddFeedback(feedback);
         }
     }

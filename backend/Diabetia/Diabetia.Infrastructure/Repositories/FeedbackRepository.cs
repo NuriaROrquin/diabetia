@@ -56,7 +56,6 @@ namespace Diabetia.Infrastructure.Repositories
 
             return events;
         }
-
         // -------------------------------------------------------- ⬇⬇ Food Feedback ⬇⬇ -------------------------------------------------------
         public async Task<List<FoodSummary>> GetFoodWithoutFeedback(int patientId)
         {

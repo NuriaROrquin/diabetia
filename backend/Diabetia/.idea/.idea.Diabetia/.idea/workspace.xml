@@ -10,6 +10,13 @@
   <component name="ChangeListManager">
     <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Application/UseCases/FeedbackUseCase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Application/UseCases/FeedbackUseCase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Domain/Entities/Feedback/FoodSummary.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Domain/Entities/Feedback/PhysicalActivitySummary.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Domain/Models/EventoEstudio.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Domain/Models/EventoEstudio.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Domain/Models/Feedback.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Domain/Models/Feedback.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/FeedbackRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/FeedbackRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Test/3-Infraestructure/Repositories/FeedbackTests/FeedbackTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Test/3-Infraestructure/Repositories/FeedbackTests/FeedbackTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +39,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "feature/Diab-116",
     "last_opened_file_path": "C:/Users/Nuri/Desktop",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -92,60 +99,41 @@
     <option name="version" value="3" />
   </component>
   <component name="UnitTestsCoverage.Settings">
-    <option name="coveragePercentColumnWidth" value="86" />
+    <option name="coveragePercentColumnWidth" value="106" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="283" />
+    <option name="symbolColumnWidth" value="357" />
     <coverage-tree-state>
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 51% 3654/7413" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 27% 3715/5081" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 51% 3654/7413" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="src 28% 3654/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 27% 3715/5081" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="3-infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 51% 3654/7413" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="src 28% 3654/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="2-core 46% 1136/2108" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 27% 3715/5081" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="3-infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 51% 3654/7413" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="src 28% 3654/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="2-core 46% 1136/2108" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Diabetia.Application 80% 150/746" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 27% 3715/5081" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="3-infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 27% 3715/5081" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="3-infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Providers 43% 94/166" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 49% 3715/7318" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 27% 3715/5081" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="3-infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 15% 1556/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Providers 43% 94/166" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="TagRecognitionProvider 31% 51/74" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 51% 3654/7413" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="src 28% 3654/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="2-core 46% 1136/2108" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Diabetia.Application 80% 150/746" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Diabetia.Application.UseCases 80% 150/746" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
       </expand>
       <select />
