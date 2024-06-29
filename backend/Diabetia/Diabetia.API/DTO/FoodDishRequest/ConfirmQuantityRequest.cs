@@ -1,4 +1,4 @@
-﻿namespace Diabetia.API.DTO.FoodDish
+﻿namespace Diabetia.API.DTO.FoodDishRequest
 {
     public class ConfirmQuantityRequest
     {

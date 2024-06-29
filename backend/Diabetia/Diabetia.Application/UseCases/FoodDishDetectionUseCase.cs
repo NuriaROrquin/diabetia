@@ -14,7 +14,7 @@ namespace Diabetia.Application.UseCases
         {
             _foodDishProvider = foodDishProvider;
         }
-        
+
         public async Task<FoodDish> DetectFoodDish(FoodDish foodImageBase64)
         {
             
@@ -28,6 +28,14 @@ namespace Diabetia.Application.UseCases
 
             return foodDish;
            
+        }
+
+        public async Task<IngredientsDetected> ConfirmDish(FoodDish foodDish)
+        {
+            var nutrientsDetected = await _foodDishProvider.GetNutrientPerIngredient(foodDish);
+
+            return nutrientsDetected;
+
         }
     }
 }

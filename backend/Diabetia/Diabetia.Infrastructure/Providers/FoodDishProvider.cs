@@ -29,5 +29,14 @@ namespace Diabetia.Infrastructure.Providers
             return foodDish;
         }
 
+        public async Task<IngredientsDetected> GetNutrientPerIngredient(FoodDish foodDish)
+        {
+            var logMealToken = _configuration["LogMealToken"];
+
+            //var confirmedDish = null;
+
+            var nutrientsDetected = await _apiService.GetNutrientsPerIngredients($"Bearer {logMealToken}", foodDish);  
+            return nutrientsDetected;
+        }
     }
 }

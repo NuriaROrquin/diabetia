@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Diabetia.Domain.Entities;
 using System.Security.Claims;
 using Diabetia.API.DTO.EventResponse.Food;
-using Diabetia.API.DTO.FoodDish;
+using Diabetia.API.DTO.FoodDishResponse;
+using Diabetia.API.DTO.FoodDishRequest;
 
 namespace Diabetia.API.Controllers.FoodDetection
 {
@@ -36,10 +37,10 @@ namespace Diabetia.API.Controllers.FoodDetection
             var detectedFoodDish = await _foodDetectionUseCase.DetectFoodDish(foodDish);
 
             var segmentationResults = detectedFoodDish.SegmentationResults
-               .Select(sr => new DTO.FoodDish.SegmentationResult
+               .Select(sr => new DTO.FoodDishResponse.SegmentationResult
                {
                    FoodItemPosition = sr.FoodItemPosition,
-                   RecognitionResults = sr.RecognitionResults.Select(rr => new DTO.FoodDish.RecognitionResult
+                   RecognitionResults = sr.RecognitionResults.Select(rr => new DTO.FoodDishResponse.RecognitionResult
                    {
                        Id = rr.Id,
                        Name = rr.Name,
@@ -59,6 +60,9 @@ namespace Diabetia.API.Controllers.FoodDetection
         [HttpPost("confirmIngredients")]
         public async Task<ConfirmIngredientsResponse> ConfirmIngredients([FromBody] ConfirmIngredientsRequest confirmIngredientsRequest)
         {
+            var foodDish = confirmIngredientsRequest.ToDomain();
+
+            var nutrienstDetected = await _foodDetectionUseCase.ConfirmDish(foodDish);
             return null;
         }
         

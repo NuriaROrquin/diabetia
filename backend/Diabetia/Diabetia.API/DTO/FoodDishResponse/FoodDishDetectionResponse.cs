@@ -1,4 +1,4 @@
-﻿namespace Diabetia.API.DTO.FoodDish
+﻿namespace Diabetia.API.DTO.FoodDishResponse
 {
     public class FoodDishDetectionResponse
     {
