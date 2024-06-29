@@ -623,6 +623,34 @@ export const FILTERS = [
     }
 ]
 
+export const TYPE_EMOJIS = [
+    {
+        id: 1,
+        emoji: "/emoji-1.png",
+        title: "Mal"
+    },
+    {
+        id: 2,
+        emoji: "/emoji-2.png",
+        title: "Muy mal"
+    },
+    {
+        id: 3,
+        emoji: "/emoji-3.png",
+        title: "Bien"
+    },
+    {
+        id: 4,
+        emoji: "/emoji-4.png",
+        title: "Muy bien"
+    },
+    {
+        id: 5,
+        emoji: "/emoji-5.png",
+        title: "Excelente"
+    }
+]
+
 /*******************************************CHARTS*****************************************/
 
 export const initialMultipleChartOptions = {
