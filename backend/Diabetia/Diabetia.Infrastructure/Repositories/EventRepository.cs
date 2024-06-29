@@ -395,6 +395,41 @@ namespace Diabetia.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        // -------------------------------------------------------- ⬇⬇ Food Detection Event ⬇⬇ -------------------------------------------------------------
+
+        public async Task AddFoodByDetectionEvent(int patientId, DateTime eventDate, float carbohydrates)
+        {
+            bool IsDone = eventDate <= DateTime.Now ? true : false;
+
+            var newEvent = new CargaEvento
+            {
+                IdPaciente = patientId,
+                IdTipoEvento = (int)TypeEventEnum.COMIDA,
+                FechaActual = DateTime.Now,
+                FechaEvento = eventDate,
+                FueRealizado = IsDone,
+                EsNotaLibre = false,
+            };
+
+            _context.CargaEventos.Add(newEvent);
+            await _context.SaveChangesAsync();
+
+            var lastInsertedIdEvent = await _context.CargaEventos
+                                            .Where(x => x.IdPaciente == patientId)
+                                            .OrderByDescending(e => e.Id)
+                                            .FirstOrDefaultAsync();
+
+            var newFoodEvent = new EventoComidum
+            {
+                IdCargaEvento = lastInsertedIdEvent.Id,
+                IdTipoCargaComida = (int)FoodChargeTypeEnum.IMAGE,
+                Carbohidratos = (decimal)carbohydrates,
+            };
+
+            _context.EventoComida.Add(newFoodEvent);
+            await _context.SaveChangesAsync();
+        }
+
         // --------------------------------------------------- ⬇⬇ Medical Examination Event ⬇⬇ --------------------------------------------------------
         public async Task AddMedicalExaminationEventAsync(int patientId, EventoEstudio medicalExamination, string fileSavedId)
         {

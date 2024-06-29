@@ -14,6 +14,12 @@ namespace Diabetia.Domain.Entities
 
     }
 
+    public class FoodInfo
+    {
+        public double Carbohydrates { get; set; }
+        public int Quantity { get; set; }
+    }
+
     public class SegmentationResult
     {
         [JsonPropertyName("food_item_position")]

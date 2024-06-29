@@ -14,15 +14,13 @@ namespace Diabetia.API.Controllers.FoodDetection
     [Route("[controller]")]
     public class FoodDishDetectionController : ControllerBase
     {
-        private readonly FoodDishDetectionUseCase _foodDetectionUseCase;
-        private readonly FoodManuallyUseCase _foodManuallyUseCase;
+        private readonly FoodDishDetectionUseCase _foodDishDetectionUseCase;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
 
-        public FoodDishDetectionController(FoodDishDetectionUseCase foodDetectionUseCase, FoodManuallyUseCase foodManuallyUseCase, IHttpContextAccessor httpContextAccessor)
+        public FoodDishDetectionController(FoodDishDetectionUseCase foodDishDetectionUseCase, IHttpContextAccessor httpContextAccessor)
         {
-            _foodDetectionUseCase = foodDetectionUseCase;
-            _foodManuallyUseCase = foodManuallyUseCase;
+            _foodDishDetectionUseCase = foodDishDetectionUseCase;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -35,7 +33,7 @@ namespace Diabetia.API.Controllers.FoodDetection
 
             foodDish.ImageBase64 = foodDetectionRequest.ImageBase64;
 
-            var detectedFoodDish = await _foodDetectionUseCase.DetectFoodDish(foodDish);
+            var detectedFoodDish = await _foodDishDetectionUseCase.DetectFoodDish(foodDish);
 
             var segmentationResults = detectedFoodDish.SegmentationResults
                .Select(sr => new DTO.FoodDishResponse.SegmentationResult
@@ -63,7 +61,7 @@ namespace Diabetia.API.Controllers.FoodDetection
         {
             var foodDish = confirmIngredientsRequest.ToDomain();
 
-            var nutrienstDetected = await _foodDetectionUseCase.ConfirmDish(foodDish);
+            var nutrienstDetected = await _foodDishDetectionUseCase.ConfirmDish(foodDish);
 
             var mappedEvents = new ConfirmIngredientsResponse(nutrienstDetected); 
             return mappedEvents;
@@ -72,7 +70,19 @@ namespace Diabetia.API.Controllers.FoodDetection
         [HttpPost("confirmQuantity")]
         public async Task<FoodResponse> ConfirmQuantity([FromBody] ConfirmQuantityRequest confirmIngredientsRequest)
         {
-            return new FoodResponse();
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            List<FoodInfo> ingredientsConfirmed = confirmIngredientsRequest.ToDomain();
+
+            var foodCalculated = await _foodDishDetectionUseCase.SaveFoodEvent(email, ingredientsConfirmed);
+
+            var foodResponse = new FoodResponse
+            {
+                ChConsumed = foodCalculated.ChConsumed,
+                InsulinRecomended = foodCalculated.InsulinRecomended
+            };
+
+            return foodResponse;
         }
     }
 }
