@@ -8,26 +8,23 @@ namespace Diabetia.Application.UseCases
 {
     public class FoodDishDetectionUseCase
     {
-        private readonly IConfiguration _configuration;
-        private readonly IApiService _apiService;
+        private readonly IFoodDishProvider _foodDishProvider;
 
-        public FoodDishDetectionUseCase(IApiService apiService, IConfiguration configuration)
+        public FoodDishDetectionUseCase(IFoodDishProvider foodDishProvider)
         {
-            _apiService = apiService;
-            _configuration = configuration;
+            _foodDishProvider = foodDishProvider;
         }
         
         public async Task<FoodDish> DetectFoodDish(FoodDish foodImageBase64)
         {
-            var logMealToken = _configuration["LogMealToken"];
             
             byte[] imageBytes = Convert.FromBase64String(foodImageBase64.ImageBase64);
         
             using var imageStream = new MemoryStream(imageBytes);
 
             var streamPart = new StreamPart(imageStream, "image.jpg", "image/jpeg");
-                
-            var foodDish = await _apiService.DetectFoodDish($"Bearer {logMealToken}", streamPart);
+
+            var foodDish = await _foodDishProvider.DetectFoodDish(streamPart);
 
             return foodDish;
            

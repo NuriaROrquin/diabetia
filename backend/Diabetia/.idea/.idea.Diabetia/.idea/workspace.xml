@@ -9,16 +9,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Diabetia.Domain/Exceptions/ImageNotRecognizedException.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Diabetia.Domain/Services/IApiService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diabetia.API/DTO/FoodDish/ConfirmIngredientsRequest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diabetia.API/DTO/FoodDish/ConfirmIngredientsResponse.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diabetia.API/DTO/FoodDish/ConfirmQuantityRequest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Diabetia.API/Controllers/FoodDish/FoodDishDetectionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.API/Controllers/FoodDish/FoodDishDetectionController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.API/Diabetia.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.API/Diabetia.API.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.API/DTO/FoodDish/FoodDishDetectionResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.API/DTO/FoodDish/FoodDishDetectionResponse.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Diabetia.Application/UseCases/FoodDishDetectionUseCase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Application/UseCases/FoodDishDetectionUseCase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Domain/Entities/FoodDish.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Domain/Entities/FoodDish.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/Middlewares/ErrorHandlerMiddleware.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Middlewares/ErrorHandlerMiddleware.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/app.config" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/app.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Domain/Services/IApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Providers/IApiService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Domain/Services/IFoodDishProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Domain/Services/IFoodDishProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/Providers/FoodDishProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Providers/FoodDishProvider.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,6 +151,32 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Providers/FoodDishProvider.cs</url>
+          <line>26</line>
+          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Providers\FoodDishProvider.cs" initialLine="25" containingFunctionPresentation="Method 'DetectFoodDish'">
+            <startOffsets>
+              <option value="829" />
+            </startOffsets>
+            <endOffsets>
+              <option value="916" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Diabetia.Application/UseCases/FoodDishDetectionUseCase.cs</url>
+          <line>26</line>
+          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Application\UseCases\FoodDishDetectionUseCase.cs" initialLine="28" containingFunctionPresentation="Method 'DetectFoodDish'">
+            <startOffsets>
+              <option value="823" />
+            </startOffsets>
+            <endOffsets>
+              <option value="889" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

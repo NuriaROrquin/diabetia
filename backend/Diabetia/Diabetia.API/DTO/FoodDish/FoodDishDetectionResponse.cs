@@ -1,17 +1,9 @@
-﻿using Diabetia.Domain.Entities;
-
-namespace Diabetia.API.DTO.FoodDish
+﻿namespace Diabetia.API.DTO.FoodDish
 {
     public class FoodDishDetectionResponse
     {
         public int ImageId { get; set; }
         public List<SegmentationResult> SegmentationResults { get; set; }
-
-        public FoodDishDetectionResponse()
-        {
-            SegmentationResults = new List<SegmentationResult>();
-        }
-
     }
 
     public class SegmentationResult

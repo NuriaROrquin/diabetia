@@ -2,12 +2,9 @@
 using Diabetia.Application.UseCases.EventUseCases;
 using Microsoft.AspNetCore.Mvc;
 using Diabetia.Domain.Entities;
-using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Diabetia.API.DTO.EventResponse.Food;
 using Diabetia.API.DTO.FoodDish;
-
-
-
 
 namespace Diabetia.API.Controllers.FoodDetection
 {
@@ -56,6 +53,19 @@ namespace Diabetia.API.Controllers.FoodDetection
                 SegmentationResults = segmentationResults,
             };
             return response;
+        }
+        
+        
+        [HttpPost("confirmIngredients")]
+        public async Task<ConfirmIngredientsResponse> ConfirmIngredients([FromBody] ConfirmIngredientsRequest confirmIngredientsRequest)
+        {
+            return null;
+        }
+        
+        [HttpPost("confirmQuantity")]
+        public async Task<FoodResponse> ConfirmQuantity([FromBody] ConfirmQuantityRequest confirmIngredientsRequest)
+        {
+            return null;
         }
     }
 }
