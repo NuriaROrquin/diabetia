@@ -72,7 +72,7 @@ namespace Diabetia.API.Controllers.FoodDetection
         [HttpPost("confirmQuantity")]
         public async Task<FoodResponse> ConfirmQuantity([FromBody] ConfirmQuantityRequest confirmIngredientsRequest)
         {
-            return null;
+            return new FoodResponse();
         }
     }
 }
