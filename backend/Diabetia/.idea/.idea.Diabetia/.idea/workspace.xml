@@ -9,17 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-3/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-final/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.API/DTO/FoodDishResponse/ConfirmIngredientsResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.API/DTO/FoodDishResponse/ConfirmIngredientsResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Domain/Entities/IngredientsDetected.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Domain/Entities/IngredientsDetected.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/DTO/NutritionalInfoDTO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/DTO/NutritionalInfoDTO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/Providers/FoodDishProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Providers/FoodDishProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/context/useAIDataDishes.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/context/useAIDataDishes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-1/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-1/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-2/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-2/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/services/dishes.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/services/dishes.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/app.config" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/app.config" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
