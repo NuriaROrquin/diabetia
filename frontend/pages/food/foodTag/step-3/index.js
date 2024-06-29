@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { Section } from "@/components/section";
 import { Select } from "@/components/selector";
-import { TYPE_PORTIONS } from "../../../constants";
+import { TYPE_PORTIONS } from "../../../../constants";
 import { InputWithLabel } from "@/components/input";
-import {OrangeLink} from "../../../components/link";
+import {OrangeLink} from "@/components/link";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import {ButtonOrange} from "@/components/button";
-import {useAIData} from "../../../context";
+import {useAIDataTag} from "../../../../context/useAIDataTag";
 import {useRouter} from "next/router";
-import {tagDetection} from "../../../services/tag.service";
+import {tagDetection} from "../../../../services/tag.service";
 
 const StepThree = () => {
-    const { updateAIDataDetected, imagesUploaded } = useAIData();
+    const { updateAIDataDetected, imagesUploaded } = useAIDataTag();
     const router = useRouter();
 
     const [images, setImages] = useState([]);

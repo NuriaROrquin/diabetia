@@ -1,15 +1,15 @@
 import React, {createContext, useContext, useEffect, useState} from "react";
 import {useRouter} from "next/router";
 
-const AIDataContext = createContext();
+const AIDataTagContext = createContext();
 
-export const AIDataProvider = ({ children }) => {
+export const AIDataTagProvider = ({ children }) => {
     const [imagesUploaded, setImagesUploaded] = useState([]);
     const [finalCalcCarbos, setFinalCalcCarbos] = useState([]);
     const router = useRouter();
 
     useEffect(() => {
-        if (!router.pathname.startsWith("/food")) {
+        if (!router.pathname.startsWith("/foodTag")) {
             clearData();
         }
     }, [router.pathname]);
@@ -42,10 +42,10 @@ export const AIDataProvider = ({ children }) => {
     };
 
     return (
-        <AIDataContext.Provider value={{ updateAIDataDetected, imagesUploaded, saveFiles, updateCarbohydratesConsumed, finalCalcCarbos }}>
+        <AIDataTagContext.Provider value={{ updateAIDataDetected, imagesUploaded, saveFiles, updateCarbohydratesConsumed, finalCalcCarbos }}>
             {children}
-        </AIDataContext.Provider>
+        </AIDataTagContext.Provider>
     );
 };
 
-export const useAIData = () => useContext(AIDataContext);
+export const useAIDataTag = () => useContext(AIDataTagContext);

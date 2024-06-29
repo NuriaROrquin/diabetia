@@ -32,12 +32,37 @@ namespace Diabetia.Infrastructure.Providers
         public async Task<IngredientsDetected> GetNutrientPerIngredient(FoodDish foodDish)
         {
             var logMealToken = _configuration["LogMealToken"];
-
+        
             //var confirmedDish = null;
-            var imageId = foodDish.ImageId;
+            var imageIdRequest = new ImageRequest()
+            {
+                ImageId = foodDish.ImageId
+            };
+            
 
-            var nutrientsDetected = await _apiService.GetNutrientsPerIngredients($"Bearer {logMealToken}", imageId);  
-            return nutrientsDetected;
+            var nutrientsDetected = await _apiService.GetNutrientsPerIngredients($"Bearer {logMealToken}", imageIdRequest);  
+            
+            var ingredientsDetected = new IngredientsDetected()
+            {
+                Ingredients = new List<IngredientsRecognized>()
+            };
+            
+            if (nutrientsDetected.NutritionalInfoPerItem != null && nutrientsDetected.NutritionalInfoPerItem.Count > 0)
+            {
+                foreach (var item in nutrientsDetected.NutritionalInfoPerItem)
+                {
+                    var ingredient = new IngredientsRecognized()
+                    {
+                        CarbohydratesPerPortion = item.NutritionalInfo.TotalNutrients["CHOCDF"].Quantity,
+                        GrPerPortion = item.ServingSize,
+                        FoodItemPosition = item.FoodItemPosition
+                    };
+
+                    ingredientsDetected.Ingredients.Add(ingredient);
+                }
+            }
+            
+            return ingredientsDetected;
         }
     }
 }

@@ -42,7 +42,7 @@ export const ButtonGreen = ({label, width, onClick, background}) => {
         <div className={`flex justify-center ${width}`}>
             <button
                 onClick={onClick}
-                className={`${background} bg-green-600 hover:bg-green-primary transition-all text-white py-2 px-8 rounded-full w-full text-xl`}
+                className={`bg-green-600 hover:bg-green-primary transition-all text-white py-2 px-8 rounded-full w-full text-xl ${background}`}
             >
                 {label}
             </button>

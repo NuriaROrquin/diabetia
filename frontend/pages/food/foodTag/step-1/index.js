@@ -3,10 +3,10 @@ import {Section} from "@/components/section";
 import {ButtonGreen, ButtonOrange} from "@/components/button";
 import {v4 as uuidv4} from "uuid";
 import {useRouter} from "next/router";
-import {useAIData} from "../../../context";
+import {useAIDataTag} from "../../../../context/useAIDataTag";
 
 const StepOne = () => {
-    const { saveFiles, imagesUploaded } = useAIData();
+    const { saveFiles, imagesUploaded } = useAIDataTag();
 
     const [images, setImages] = useState([]);
     const fileInputRef = useRef(null);
@@ -49,7 +49,7 @@ const StepOne = () => {
                     {
                         images.map((image) => {
                             return (
-                                <div key={image.id} className="w-56 h-56 flex overflow-hidden rounded-xl">
+                                <div key={image.id} className="w-96 h-96 flex overflow-hidden rounded-xl">
                                     <img src={`data:image/png;base64, ${image.imageBase64}`}
                                          className="w-full object-cover"
                                          alt="Red dot"/>
