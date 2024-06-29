@@ -7,7 +7,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Infrastructure.Provider
+namespace Diabetia.Infrastructure.Providers
 {
     public class AuthProvider : IAuthProvider
     {

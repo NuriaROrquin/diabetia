@@ -7,7 +7,6 @@ using Diabetia.Infrastructure.Middlewares;
 using Diabetia.Infrastructure.Providers;
 using Diabetia.Infrastructure.Repositories;
 using Diabetia.Interfaces;
-using Infrastructure.Provider;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;

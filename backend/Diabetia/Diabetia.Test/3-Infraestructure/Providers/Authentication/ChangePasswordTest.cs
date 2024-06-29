@@ -1,7 +1,7 @@
 ﻿using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
+using Diabetia.Infrastructure.Providers;
 using FakeItEasy;
-using Infrastructure.Provider;
 using Microsoft.Extensions.Configuration;
 
 namespace Diabetia_Infrastructure.Providers.Authentication

@@ -2,7 +2,7 @@ using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using Diabetia.Domain.Models;
 using FakeItEasy;
-using Infrastructure.Provider;
+using Diabetia.Infrastructure.Providers;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 
