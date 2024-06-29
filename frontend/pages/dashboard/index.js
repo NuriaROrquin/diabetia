@@ -28,7 +28,7 @@ export const Home = () => {
                 setLoadingTimeline(false);
             })
             .catch((error) => {
-                error.response.data ? setError(error.response.data) : setError("Hubo un error")
+                error ? setError(error) : setError("Hubo un error")
             });
     }, []);
 
@@ -41,8 +41,7 @@ export const Home = () => {
                 setLoadingMetrics(false);
             })
             .catch((error) => {
-                console.log(error)
-                error.response.data ? setError(error.response.data) : setError("Hubo un error")
+                error ? setError(error) : setError("Hubo un error")
             });
     }, [selectedOption]);
 
@@ -107,7 +106,6 @@ export const Home = () => {
                     }
                     )}
                 </div>
-                {error && <span className="text-red-500 mb-3">{error}</span>}
             </div>
         </Section>
         <Section className="bg-white flex flex-col min-h-fit">
