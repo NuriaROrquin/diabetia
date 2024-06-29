@@ -36,8 +36,8 @@ export const Login = () => {
                 }
             })
             .catch((error) => {
-                console.log(error.response.data.Message)
-                error.response.data ? setError(error.response.data.Message) : setError("Hubo un error")
+                console.log(error.response)
+                error.response ? setError(error.response.data.Message) : setError("Hubo un error")
             });
     }
 
