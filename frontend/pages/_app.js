@@ -6,6 +6,7 @@ import {Footer} from "../components/footer";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {AIDataProvider} from "../context";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
 export default function App({ Component, pageProps }) {
