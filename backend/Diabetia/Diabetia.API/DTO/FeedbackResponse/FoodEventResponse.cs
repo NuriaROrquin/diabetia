@@ -6,16 +6,10 @@ namespace Diabetia.API.DTO.FeedbackResponse
     {
         public string EventDate { get; set; }
 
-        public decimal Carbohydrates { get; set; }
+        public int EventId { get; set; }
 
-        public static FoodEventResponse FromObject(FoodSummary foodSummary)
-        {
-            var response = new FoodEventResponse()
-            {
-                EventDate = foodSummary.EventDay.ToString("dd/MM/yyyy"),
-                Carbohydrates = foodSummary.Carbohydrates
-            };
-            return response;
-        }
+        public decimal Carbohydrates { get; set; }
+        
+        public int KindEventId { get; set; }
     }
 }

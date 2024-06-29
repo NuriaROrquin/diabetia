@@ -1,6 +1,4 @@
-﻿using Diabetia.Domain.Entities.Feedback;
-using Diabetia.Domain.Entities.Reporting;
-using Diabetia.Domain.Repositories;
+﻿using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 
@@ -19,28 +17,16 @@ namespace Diabetia.Application.UseCases
             _feedbackRepository = feedbackRepository;
         }
 
-        public async Task<List<FoodSummary>> GetFoodToFeedback(string email)
+        public async Task<List<Dictionary<string, object>>> GetEventsToFeedback(string email)
         {
             await _patientValidator.ValidatePatient(email);
             var patient = await _userRepository.GetPatient(email);
-            var listOfFoodConsumed = await _feedbackRepository.GetFoodWithoutFeedback(patient.Id);
-            if (listOfFoodConsumed == null || listOfFoodConsumed.Count == 0)
+            var listEventsWithoutFeedback = await _feedbackRepository.GetAllEventsWithoutFeedback(patient.Id);
+            if (listEventsWithoutFeedback == null || listEventsWithoutFeedback.Count == 0)
             {
-                return new List<FoodSummary>();
+                return new List<Dictionary<string, object>>();
             }
-            return listOfFoodConsumed;
-        }
-
-        public async Task<List<PhysicalActivitySummary>> GetPhysicalActivityToFeedback(string email)
-        {
-            await _patientValidator.ValidatePatient(email);
-            var patient = await _userRepository.GetPatient(email);
-            var listPhysicalActivities = await _feedbackRepository.GetPhysicalActivityWithoutFeedback(patient.Id);
-            if (listPhysicalActivities == null || listPhysicalActivities.Count == 0)
-            {
-                return new List<PhysicalActivitySummary>();
-            }
-            return listPhysicalActivities;
+            return listEventsWithoutFeedback;
         }
     }
 }

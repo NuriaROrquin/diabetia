@@ -6,17 +6,10 @@ namespace Diabetia.API.DTO.FeedbackResponse
     {
         public string EventDate { get; set; }
 
-        public string Name { get; set; }
+        public int EventId { get; set; }
 
-        public static PhysicalActivityResponse FromObject(PhysicalActivitySummary activitySummary) 
-        {
-            var response = new PhysicalActivityResponse()
-            {
-                EventDate = activitySummary.EventDay.ToString("dd/MM/yyyy"),
-                Name = activitySummary.ActivityName
-            };
-
-            return response;
-        }
+        public string ActivityName { get; set; }
+        
+        public int KindEventId { get; set; }
     }
 }

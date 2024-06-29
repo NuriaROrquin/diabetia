@@ -22,14 +22,6 @@ namespace Diabetia.API.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        //// -------------------------------------------- ⬇️⬇ Food Manually ⬇️⬇ --------------------------------------------------
-        //[HttpPost("AddFoodManuallyEvent")]
-        //public async Task<EventFoodResponse> AddFoodManuallyEvent([FromBody] EventFoodRequest request)
-        //{
-        //    EventFoodResponse response = new EventFoodResponse();
-        //   var totalChConsumed = await _eventFoodManuallyUseCase.AddFoodManuallyEvent(request.Email, request.EventDate, request.IdKindEvent.Value, request.Ingredients, request.FreeNote);
-
-        // ------------------------------------ General Actions ------------------------------------------
         [HttpGet("GetEventType/{id}")]
         public async Task<IActionResult> GetEventType([FromRoute] int id)
         {
