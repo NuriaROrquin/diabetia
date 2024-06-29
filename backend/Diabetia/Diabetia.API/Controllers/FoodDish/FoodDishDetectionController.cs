@@ -6,6 +6,7 @@ using System.Security.Claims;
 using Diabetia.API.DTO.EventResponse.Food;
 using Diabetia.API.DTO.FoodDishResponse;
 using Diabetia.API.DTO.FoodDishRequest;
+using Microsoft.Extensions.Logging;
 
 namespace Diabetia.API.Controllers.FoodDetection
 {
@@ -63,7 +64,9 @@ namespace Diabetia.API.Controllers.FoodDetection
             var foodDish = confirmIngredientsRequest.ToDomain();
 
             var nutrienstDetected = await _foodDetectionUseCase.ConfirmDish(foodDish);
-            return null;
+
+            var mappedEvents = new ConfirmIngredientsResponse(nutrienstDetected); 
+            return mappedEvents;
         }
         
         [HttpPost("confirmQuantity")]

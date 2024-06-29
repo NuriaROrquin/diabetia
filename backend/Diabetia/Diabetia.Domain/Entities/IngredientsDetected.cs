@@ -8,7 +8,7 @@ namespace Diabetia.Domain.Entities
 
     public class IngredientsRecognized
     {
-        public int CarbohydratesPerPortion { get; set; }
+        public double CarbohydratesPerPortion { get; set; }
         public double GrPerPortion { get; set; }
         public int FoodItemPosition { get; set; }
     }

@@ -4,6 +4,15 @@ namespace Diabetia.API.DTO.FoodDishResponse
 {
     public class ConfirmIngredientsResponse
     {
+        public ConfirmIngredientsResponse(IngredientsDetected ingredientsDetected)
+        {
+            Ingredients = ingredientsDetected.Ingredients.Select(i => new IngredientConfirmed
+            {
+                FoodItemPosition = i.FoodItemPosition,
+                CarbohydratesPerPortion = i.CarbohydratesPerPortion,
+                GrPerPortion = i.GrPerPortion
+            }).ToList();
+        }
         public List<IngredientConfirmed> Ingredients { get; set; }
     }
 
@@ -12,23 +21,5 @@ namespace Diabetia.API.DTO.FoodDishResponse
         public int FoodItemPosition { get; set; }
         public double CarbohydratesPerPortion { get; set; }
         public double GrPerPortion { get; set; }
-
-        public IngredientsDetected ToDomain()
-        {
-            var ingredientsDetected = new IngredientsDetected()
-            {
-                Ingredients = this.Ingredients.Select(i => new IngredientsRecognized
-                {
-                    CarbohydratesPerPortion = i.CarbohydratesPerPortion,
-                    GrPerPortion = i.GrPerPortion,
-                    FoodItemPosition = i.FoodItemPosition
-                }).ToList()
-            };
-
-            return ingredientsDetected;
-        }
     }
-
-
-
 }
