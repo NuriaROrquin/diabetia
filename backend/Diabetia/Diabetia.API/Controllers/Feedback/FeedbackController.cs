@@ -1,4 +1,5 @@
-﻿using Diabetia.API.Mappers;
+﻿using Diabetia.API.DTO.FeedbackRequest;
+using Diabetia.API.Mappers;
 using Diabetia.Application.UseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,15 @@ namespace Diabetia.API.Controllers.Feedback
             var mappedEvents = events.Select(e => FeedbackMapper.MapToDTO(e)).ToList();
 
             return Ok(mappedEvents);
+        }
+
+        [HttpPost("AddFeedback")]
+        public async Task<IActionResult> AddFeedback([FromBody] AddFeedbackRequest request)
+        {
+            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+            var feedback = request.toDomain();
+            await _feedbackUseCase.AddFeedbackAsync(email, feedback);
+            return Ok("Feedback cargado correctamente");
         }
     }
 }

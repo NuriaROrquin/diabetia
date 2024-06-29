@@ -1,4 +1,5 @@
-﻿using Diabetia.Domain.Repositories;
+﻿using Diabetia.Domain.Models;
+using Diabetia.Domain.Repositories;
 using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 
@@ -27,6 +28,11 @@ namespace Diabetia.Application.UseCases
                 return new List<Dictionary<string, object>>();
             }
             return listEventsWithoutFeedback;
+        }
+
+        public async Task AddFeedbackAsync(string email, Feedback feedback)
+        {
+            await _feedbackRepository.AddFeedback(feedback);
         }
     }
 }

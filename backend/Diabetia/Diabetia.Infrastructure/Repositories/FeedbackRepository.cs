@@ -1,13 +1,9 @@
-﻿using Diabetia.Domain.Entities;
-using Diabetia.Domain.Entities.Events;
-using Diabetia.Domain.Entities.Feedback;
+﻿using Diabetia.Domain.Entities.Feedback;
+using Diabetia.Domain.Models;
 using Diabetia.Domain.Repositories;
 using Diabetia.Infrastructure.EF;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Diabetia.Infrastructure.Repositories
 {
@@ -112,5 +108,26 @@ namespace Diabetia.Infrastructure.Repositories
 
             return results;
         }
+
+        public async Task AddFeedback(Feedback feedback)
+        {
+            var @event = await _context.CargaEventos.FirstOrDefaultAsync(ce => ce.Id == feedback.IdCargaEventoNavigation.Id);
+            @event.FueRealizado = true;
+
+            _context.CargaEventos.Update(@event);
+
+            var newFeedback = new Feedback()
+            {
+                IdCargaEvento = @event.Id,
+                IdSentimiento = feedback.IdSentimiento,
+                FueRealizado = true,
+                NotaLibre = feedback.NotaLibre,
+            };
+
+            _context.Feedbacks.Add(newFeedback);
+            await _context.SaveChangesAsync();
+        }
+
+
     }
 }

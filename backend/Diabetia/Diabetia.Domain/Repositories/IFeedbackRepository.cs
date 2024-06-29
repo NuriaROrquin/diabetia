@@ -1,4 +1,5 @@
 ﻿using Diabetia.Domain.Entities.Feedback;
+using Diabetia.Domain.Models;
 
 namespace Diabetia.Domain.Repositories
 {
@@ -9,5 +10,7 @@ namespace Diabetia.Domain.Repositories
         public Task<List<FoodSummary>> GetFoodWithoutFeedback(int patientId);
 
         public Task<List<PhysicalActivitySummary>> GetPhysicalActivityWithoutFeedback(int patientId);
+
+        public Task AddFeedback(Feedback feedback);
     }
 }
