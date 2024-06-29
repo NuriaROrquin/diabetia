@@ -28,7 +28,6 @@ namespace Diabetia.API.Controllers.FoodDetection
         }
 
         [HttpPost("foodDetection")]
-        [Authorize]
         public async Task<FoodDishDetectionResponse> GetFoodDetection([FromBody] FoodDishDetectionRequest foodDetectionRequest)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;

@@ -86,7 +86,8 @@ namespace Diabetia.Infrastructure.Middlewares
             { typeof(AmazonS3Exception), (HttpStatusCode.BadRequest, "Error al intentar subir el archivo al servidor") },
             { typeof(CantDeleteObjectS3Async), (HttpStatusCode.BadRequest, "No se pudo eliminar su archivo PDF correctamente") },
             {typeof (GrPerPortionNotFoundException), (HttpStatusCode.BadRequest, "No se encontró la cantidad de gramos por porción en el texto proporcionado.") },
-            { typeof(ChPerPortionNotFoundException),(HttpStatusCode.BadRequest, "No se encontró la cantidad de carbohidratos por porción en el texto proporcionado.")  }
+            { typeof(ChPerPortionNotFoundException),(HttpStatusCode.BadRequest, "No se encontró la cantidad de carbohidratos por porción en el texto proporcionado.")  },
+            { typeof(ImageNotRecognizedException),(HttpStatusCode.InternalServerError, "No se pudieron reconocer las imagenes.")  }
 
         };
 

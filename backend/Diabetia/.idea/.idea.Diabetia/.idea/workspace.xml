@@ -9,7 +9,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Diabetia.Domain/Exceptions/ImageNotRecognizedException.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diabetia.Domain/Services/IApiService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.API/Controllers/FoodDish/FoodDishDetectionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.API/Controllers/FoodDish/FoodDishDetectionController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.API/Diabetia.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.API/Diabetia.API.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Application/UseCases/FoodDishDetectionUseCase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Application/UseCases/FoodDishDetectionUseCase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Domain/Entities/FoodDish.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Domain/Entities/FoodDish.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/Middlewares/ErrorHandlerMiddleware.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Middlewares/ErrorHandlerMiddleware.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/app.config" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/app.config" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +28,35 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="DIAB-35" />
+                    <option name="lastUsedInstant" value="1719610781" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="dev" />
+                    <option name="lastUsedInstant" value="1719610780" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$/../.." />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/194ddabda802452090ef854e2f1cd606a24f10/_ec32c/IEnumerable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/308584f6cad3144a32d4212f8fa3b9cc81d089da95abcf3e5e5e8a7d7c873/JsonPropertyNameAttribute.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -27,26 +65,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;hotfix/diabetia-refactor&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Nuri/Desktop&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "DIAB-35",
+    "last_opened_file_path": "C:/Users/Nuri/Desktop",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\Nuri\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\Nuri\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\Nuri\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\Nuri\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache",
+      "C:\\Users\\Nuri\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache",
+      "C:\\Users\\Nuri\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Diabetia.API" type="LaunchSettings" factoryName=".NET Launch Settings Profile" temporary="true">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Diabetia.API/Diabetia.API.csproj" />
@@ -86,10 +124,10 @@
     <option name="version" value="3" />
   </component>
   <component name="UnitTestsCoverage.Settings">
-    <option name="coveragePercentColumnWidth" value="150" />
+    <option name="coveragePercentColumnWidth" value="119" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="524" />
+    <option name="symbolColumnWidth" value="405" />
     <coverage-tree-state>
       <expand />
       <select />
@@ -97,5 +135,24 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Middlewares/ErrorHandlerMiddleware.cs</url>
+          <line>28</line>
+          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Middlewares\ErrorHandlerMiddleware.cs" initialLine="28" containingFunctionPresentation="Method 'Invoke'">
+            <startOffsets>
+              <option value="784" />
+            </startOffsets>
+            <endOffsets>
+              <option value="785" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
