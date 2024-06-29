@@ -69,7 +69,7 @@ builder.Services.AddScoped<InsulinReportUseCase>();
 builder.Services.AddScoped<PhysicalActivityReportUseCase>();
 builder.Services.AddScoped<GlucoseReportUseCase>();
 builder.Services.AddScoped<FoodReportUseCase>();
-
+builder.Services.AddScoped<FeedbackUseCase>();
 
 builder.Services.AddScoped<IAuthProvider, AuthProvider>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
@@ -87,6 +87,7 @@ builder.Services.AddScoped<IUsernameDBValidator, UsernameDBValidator>();
 builder.Services.AddScoped<IUserStatusValidator, UserStatusValidator>();
 builder.Services.AddScoped<IHashValidator, HashValidator>();
 builder.Services.AddScoped<IReportingRepository, ReportingRepository>();
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IAmazonS3>(provider =>
 {
     var configuration = provider.GetRequiredService<IConfiguration>();
