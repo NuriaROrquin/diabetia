@@ -87,7 +87,7 @@ const FoodEvent = () => {
             queryParams.set('chConsumed', res.data.chConsumed);
             queryParams.set('insulinRecomended', res.data.insulinRecomended);
             router.push({
-                pathname: "/event/foodTag/final",
+                pathname: "/event/final",
                 query: Object.fromEntries(queryParams.entries())
             });
         }).catch((error) => {
