@@ -143,7 +143,7 @@ public class CalendarUseCaseTests
         // Assert
         Assert.NotNull(events);
 
-        Assert.Contains(events, e => e.Title == "Morning Run" && e.AdditionalInfo == "Duración: 30min");
+        Assert.Contains(events, e => e.Title == "Morning Run" && e.AdditionalInfo == "Actividad:  - Duración: 30min");
         Assert.Contains(events, e => e.Title == "Comida" && e.AdditionalInfo == "Ingredientes: Apple");
         Assert.Contains(events, e => e.Title == "Blood Test");
         Assert.Contains(events, e => e.Title == "Morning Glucose" && e.AdditionalInfo == "Nivel: 90mg/dL");
