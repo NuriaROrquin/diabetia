@@ -1,5 +1,4 @@
-﻿using Diabetia.Domain.Entities.Events;
-using Diabetia.Domain.Models;
+﻿using Diabetia.Domain.Models;
 
 namespace Diabetia.API.DTO.EventRequest.Insuline
 {
