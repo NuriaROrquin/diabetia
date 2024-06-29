@@ -65,7 +65,7 @@ export const Login = () => {
                            icon={<KeyOutlinedIcon/>} withForgotPassword/>
                 </div>
 
-                {error && <span className="text-red-500 mb-3">{error}</span>}
+                {error && <span className="text-red-500 bg-white mb-3 rounded p-2">{error}</span>}
 
                 <ButtonBlue label="Ingresar" width="w-1/2" onClick={onHandleClick} className="mb-3" />
 
