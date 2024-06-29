@@ -17,7 +17,7 @@ const FoodPage = () => {
                     <div key="Etiqueta"
                          className="relative w-1/5 h-52 min-w-64 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:-translate-y-2">
                         <Link href="/food/foodTag">
-                            <Image src="/insulina.jpg" alt="Etiqueta" width={500} height={500}
+                            <Image src="/etiqueta.jpg" alt="Etiqueta" width={500} height={500}
                                    className="w-full h-full object-cover"/>
                             <div
                                 className="absolute top-0 h-full w-full p-6 bg-blue-primary bg-opacity-65 text-white text-center text-4xl font-bold flex justify-center items-center">

@@ -9,7 +9,7 @@ export const AIDataTagProvider = ({ children }) => {
     const router = useRouter();
 
     useEffect(() => {
-        if (!router.pathname.startsWith("/foodTag")) {
+        if (!router.pathname.startsWith("/food")) {
             clearData();
         }
     }, [router.pathname]);

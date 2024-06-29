@@ -10,13 +10,12 @@
   <component name="ChangeListManager">
     <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Application/UseCases/CalendarUseCase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Application/UseCases/CalendarUseCase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Domain/Entities/Events/PhysicalActivityEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Domain/Entities/Events/PhysicalActivityEvent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/EventRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/EventRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/components/chart/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/components/chart/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/constants/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/constants/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/reporting/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/reporting/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/services/reporting.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/services/reporting.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/context/useAIDataTag.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/context/useAIDataTag.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-3/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-3/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/step-1/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/step-1/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/step-3/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/step-3/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/step-4/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodTag/step-4/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +55,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.Diabetia.API">
+  <component name="RunManager">
     <configuration name="Diabetia.API" type="LaunchSettings" factoryName=".NET Launch Settings Profile" temporary="true">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Diabetia.API/Diabetia.API.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net6.0" />
@@ -151,7 +150,38 @@
           </properties>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Providers/TagRecognitionProvider.cs</url>
+          <line>28</line>
+          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Providers\TagRecognitionProvider.cs" initialLine="28" containingFunctionPresentation="Method 'GetChFromDocument'">
+            <startOffsets>
+              <option value="779" />
+            </startOffsets>
+            <endOffsets>
+              <option value="834" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Providers/TagRecognitionProvider.cs</url>
+          <line>73</line>
+          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Providers\TagRecognitionProvider.cs" initialLine="73" containingFunctionPresentation="Method 'CreateObjectS3Async'">
+            <startOffsets>
+              <option value="2862" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2911" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="LaunchSettings">
+        <watch expression="foodDish" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

@@ -51,7 +51,7 @@ const FoodTagPage = () => {
         saveFiles(newImage);
         setShowCameraPreview(false);
         apagarCamara();
-        router.push("/food/step-1");
+        router.push("/food/foodTag/step-1");
     };
 
     const handleCameraClick = () => {
@@ -70,7 +70,7 @@ const FoodTagPage = () => {
                 const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
                 const newImage = { id: uuidv4(), imageBase64: base64String };
                 saveFiles(newImage);
-                router.push("/food/step-1");
+                router.push("/food/foodTag/step-1");
             };
             reader.readAsDataURL(file);
         }

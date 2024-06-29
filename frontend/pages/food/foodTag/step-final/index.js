@@ -40,12 +40,12 @@ const StepFinal = () => {
                         <span>Ocurrió un error calculando los carbohidratos. Intentá recargar la página</span>
                     }
 
-                    {finalCalcCarbos && finalCalcCarbos.insulinToCorrect ?
+                    {finalCalcCarbos && finalCalcCarbos.insulinRecomended ?
                         <MetricCard
-                            key="insulineToCorrect"
+                            key="insulinRecomended"
                             textIndicator=""
                             unit="u"
-                            number={finalCalcCarbos.insulinToCorrect}
+                            number={finalCalcCarbos.insulinRecomended}
                             title="Insulina Recomendada"
                             description="Esta es la insulina recomendada en base a tu formulario inicial"
                             isWarning={null}

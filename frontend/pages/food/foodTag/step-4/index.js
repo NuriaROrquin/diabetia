@@ -57,7 +57,7 @@ const StepFour = () => {
 
         tagRegistration(requestData).then((response) => {
             updateCarbohydratesConsumed(response.data)
-            router.push("/food/step-final");
+            router.push("/food/foodTag/step-final");
         }).catch((error) => {
             error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
     };
@@ -102,7 +102,7 @@ const StepFour = () => {
                         </div>
                     ))}
                     <div className="flex justify-between">
-                        <OrangeLink href="/food/step-3" label="Atrás" width="w-1/4" background="bg-gray-400 hover:bg-gray-600"/>
+                        <OrangeLink href="/food/foodTag/step-3" label="Atrás" width="w-1/4" background="bg-gray-400 hover:bg-gray-600"/>
                         <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/4"/>
                     </div>
                     {error && <span className="text-red-500 mb-3">{error}</span>}
