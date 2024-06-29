@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Switch from '@mui/material/Switch';
 
-export const Input = ({type, placeholder, id, width, icon, withForgotPassword=false, defaultValue = null}) => {
+export const Input = ({type, placeholder, id, width, icon, withForgotPassword=false, defaultValue = null, onChange}) => {
   return (
       <>
           <div className={`${type !== "password" && "mb-4"} ${width} flex items-center relative`}>
@@ -15,6 +15,7 @@ export const Input = ({type, placeholder, id, width, icon, withForgotPassword=fa
                   id={id}
                   placeholder={placeholder}
                   defaultValue={defaultValue}
+                  onChange={onChange}
                   className={`border border-gray-400 rounded-lg p-3 ${icon ? "pl-14" : ""}  w-full focus:outline-none text-gray-primary`}/>
           </div>
 

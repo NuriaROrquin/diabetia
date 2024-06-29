@@ -1,10 +1,10 @@
 import {Section} from "@/components/section";
-import {useAIData} from "../../../context";
+import {useAIDataTag} from "../../../../context/useAIDataTag";
 import {MetricCard} from "@/components/card";
-import {OrangeLink} from "../../../components/link";
+import {OrangeLink} from "@/components/link";
 
 const StepFinal = () => {
-    const { finalCalcCarbos } = useAIData();
+    const { finalCalcCarbos } = useAIDataTag();
 
     console.log(finalCalcCarbos)
 

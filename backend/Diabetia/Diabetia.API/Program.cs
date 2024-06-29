@@ -16,6 +16,7 @@ using Diabetia.Application.UseCases.EventUseCases;
 using Diabetia.Application.UseCases.AuthUseCases;
 using Diabetia.Domain.Utilities.Validations;
 using Diabetia.Domain.Utilities.Interfaces;
+using Refit;
 using Amazon.S3;
 using Diabetia.Application.UseCases.ReportingUseCases;
 
@@ -24,27 +25,28 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
+{
+    var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = "http://localhost:7289", // CAMBIAR ACORDE AL PUERTO QUE SE LEVANTA, CAMBIAR EN EL APP SETTINGS
+        ValidAudience = "diabetia_users",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+    };
+}).AddCertificate();
 
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = "http://localhost:7289", // CAMBIAR ACORDE AL PUERTO QUE SE LEVANTA, CAMBIAR EN EL APP SETTINGS
-            ValidAudience = "diabetia_users",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
-        };
-    }).AddCertificate();
-
-// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddDbContext<diabetiaContext>();
 builder.Services.AddScoped<AuthLoginUseCase>();
@@ -65,6 +67,7 @@ builder.Services.AddScoped<MedicalExaminationUseCase>();
 builder.Services.AddScoped<EventUseCase>();
 builder.Services.AddScoped<MedicalVisitUseCase>();
 builder.Services.AddScoped<FreeNoteUseCase>();
+builder.Services.AddScoped<FoodDishDetectionUseCase>();
 builder.Services.AddScoped<InsulinReportUseCase>();
 builder.Services.AddScoped<PhysicalActivityReportUseCase>();
 builder.Services.AddScoped<GlucoseReportUseCase>();
@@ -86,6 +89,14 @@ builder.Services.AddScoped<IEmailDBValidator, EmailDBValidator>();
 builder.Services.AddScoped<IUsernameDBValidator, UsernameDBValidator>();
 builder.Services.AddScoped<IUserStatusValidator, UserStatusValidator>();
 builder.Services.AddScoped<IHashValidator, HashValidator>();
+builder.Services.AddScoped<IFoodDishProvider, FoodDishProvider>();
+
+builder.Services.AddRefitClient<IApiService>()
+    .ConfigureHttpClient(client =>
+    {
+        client.BaseAddress = new Uri("https://api.logmeal.com");
+    });
+
 builder.Services.AddScoped<IReportingRepository, ReportingRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IAmazonS3>(provider =>
@@ -97,9 +108,6 @@ builder.Services.AddScoped<IAmazonS3>(provider =>
     var regionEndpoint = Amazon.RegionEndpoint.GetBySystemName(region);
     return new AmazonS3Client(awsAccessKey, awsSecretKey, regionEndpoint);
 });
-
-
-
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
@@ -119,7 +127,6 @@ builder.Services.AddDefaultAWSOptions(awsOptions);
 
 builder.Services.AddAWSService<IAmazonCognitoIdentityProvider>();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckles
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
@@ -165,7 +172,6 @@ app.UseCors(options =>
            .AllowCredentials();
 });
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();

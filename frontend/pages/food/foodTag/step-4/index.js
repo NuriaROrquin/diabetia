@@ -3,19 +3,19 @@ import {Section} from "@/components/section";
 import {Input} from "@/components/input";
 import {ButtonOrange} from "@/components/button";
 import {useRouter} from "next/router";
-import {useAIData} from "../../../context";
-import {OrangeLink} from "../../../components/link";
-import {getEmailFromJwt} from "../../../helpers";
+import {useAIDataTag} from "../../../../context/useAIDataTag";
+import {OrangeLink} from "@/components/link";
+import {getEmailFromJwt} from "../../../../helpers";
 import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import {tagRegistration} from "../../../services/tag.service";
+import {tagRegistration} from "../../../../services/tag.service";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const StepFour = () => {
-    const { imagesUploaded, updateAIDataDetected, updateCarbohydratesConsumed } = useAIData();
+    const { imagesUploaded, updateAIDataDetected, updateCarbohydratesConsumed } = useAIDataTag();
     const [inputData, setInputData] = useState({});
     const router = useRouter();
     const [error, setError] = useState(null);

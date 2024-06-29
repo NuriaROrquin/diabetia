@@ -40,6 +40,9 @@ namespace Diabetia.Domain.Repositories
         public Task AddFoodByTagEvent(int patientId, DateTime eventDate, int carbohydrates);
 
         public Task DeleteFoodEven(int id);
+        // -------------------------------------------- ⬇⬇ Food Detection ⬇⬇ ---------------------------------------------------------
+        public Task AddFoodByDetectionEvent(int patientId, DateTime eventDate, float carbohydrates);
+
 
         // -------------------------------------------- ⬇⬇ Medical Examination ⬇⬇ -----------------------------------------------
         public Task AddMedicalExaminationEventAsync(int patientId, EventoEstudio medicalExamination, string fileSavedId);

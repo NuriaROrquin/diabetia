@@ -1,8 +1,6 @@
 ﻿using Diabetia.Domain.Entities;
-using Diabetia.Domain.Entities.Events;
 using Diabetia.Domain.Models;
 using Diabetia.Domain.Utilities;
-using System.Runtime.CompilerServices;
 
 namespace Diabetia.API.DTO.EventRequest.Food
 {
@@ -16,7 +14,6 @@ namespace Diabetia.API.DTO.EventRequest.Food
 
         public EventoComidum ToDomain()
         {
-
             var ingredientFoodList = Ingredients.Select(ingredient => new IngredienteComidum
             {
                 IdIngrediente = ingredient.IdIngredient,
