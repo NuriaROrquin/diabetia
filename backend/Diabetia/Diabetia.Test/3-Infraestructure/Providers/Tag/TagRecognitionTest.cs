@@ -4,7 +4,7 @@ using Diabetia.Infrastructure.Providers;
 using FakeItEasy;
 using Microsoft.Extensions.Configuration;
 
-namespace Diabetia.Test._3_Infraestructure.Providers.Tag
+namespace Diabetia_Infrastructure.Providers
 {
     public class TagRecognitionTest
     {

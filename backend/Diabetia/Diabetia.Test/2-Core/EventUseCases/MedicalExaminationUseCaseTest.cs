@@ -6,7 +6,7 @@ using Diabetia.Domain.Services;
 using Diabetia.Interfaces;
 using FakeItEasy;
 
-namespace Diabetia.Test._2_Core.EventUseCases
+namespace Diabetia_Core.Events
 {
     public class MedicalExaminationUseCaseTest
     {
