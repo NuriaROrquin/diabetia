@@ -74,9 +74,7 @@ const InitialFormStep3 = () => {
                 }
             })
             .catch((error) => {
-                console.error('Error in thirdStep:', error);
-                error.response ? setError(error.response) : setError("Hubo un error")
-            });
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
     }
 
     return(
@@ -143,7 +141,7 @@ const InitialFormStep3 = () => {
                         <OrangeLink href="/initialForm/step-2" label="Atrás" width="w-1/3" background="bg-gray-400 hover:bg-gray-600"/>
                         <ButtonOrange onClick={handleSubmit} label="Siguiente" width="w-1/3"/>
                     </div>
-
+                    {error && <span className="text-red-500 mb-3">{error}</span>}
                 </div>
             </div>
         </Section>

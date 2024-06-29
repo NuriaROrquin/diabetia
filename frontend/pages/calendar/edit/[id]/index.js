@@ -35,7 +35,7 @@ const EditEvent = () => {
     }, [router.query.id]);
 
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <div><span className="text-red-500 mb-3">{error}</span></div>;
 
 
     return (

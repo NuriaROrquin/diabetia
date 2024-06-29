@@ -21,6 +21,7 @@ const ReminderEvent = () => {
     const [date, setDate] = useState();
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef(null);
+    const [error, setError] = useState(null);
 
     const router = useRouter();
 
@@ -29,9 +30,8 @@ const ReminderEvent = () => {
     };
 
     const saveFiles = (file) => {
-        // Aquí implementa la lógica para guardar el archivo, por ejemplo enviarlo al servidor o almacenarlo localmente
-        console.log('Guardando archivo:', file);
-        setSelectedFile(file); // Actualizar el estado con el archivo seleccionado
+       console.log('Guardando archivo:', file);
+        setSelectedFile(file);
     };
 
     const handleFileChange = (event) => {
@@ -76,7 +76,8 @@ const ReminderEvent = () => {
 
         addMedicalExaminationEvent(data).then(() =>
             router.push("/calendar")
-        )
+        ).catch((error) => {
+            error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
     }
 
     return(
@@ -143,6 +144,7 @@ const ReminderEvent = () => {
 
                     </div>
 
+                    {error && <span className="text-red-500 mb-3">{error}</span>}
 
                     <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3"/>
 

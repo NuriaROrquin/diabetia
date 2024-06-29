@@ -41,8 +41,7 @@ const ProfileFormStep2 = () => {
                 setSelectedOptionFrecuenciaInsulina(InsulineFrequency)
             })
             .catch((error) => {
-                error.response ? setError(error.response) : setError("Hubo un error")
-            });
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
     }, []);
 
     const handleOptionClickTipoDiabetes = (option) => {
@@ -75,9 +74,7 @@ const ProfileFormStep2 = () => {
                 }
             })
             .catch((error) => {
-                console.error('Error in secondStep:', error);
-                error.response ? setError(error.response) : setError("Hubo un error")
-            });
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
     }
 
 

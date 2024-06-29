@@ -1,6 +1,6 @@
 import {Section} from "../../../components/section";
 import {TitleSection} from "../../../components/titles";
-import {GENDER, TYPE_EVENTS} from "../../../constants";
+import {GENDER} from "../../../constants";
 import {useState} from "react";
 import {InputWithLabel} from "../../../components/input";
 import dayjs from "dayjs";

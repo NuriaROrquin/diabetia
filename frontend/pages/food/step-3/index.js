@@ -119,6 +119,7 @@ const StepThree = () => {
                     <div className="flex justify-between">
                         <OrangeLink href="/food/step-1" label="Atrás" width="w-1/4" background="bg-gray-400 hover:bg-gray-600"/>
 
+                        {error && <span className="text-red-500 mb-3">{error}</span>}
                         <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/4" />
                     </div>
                 </div>

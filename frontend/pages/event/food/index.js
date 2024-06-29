@@ -18,13 +18,14 @@ const FoodEvent = () => {
     const eventSelected = TYPE_EVENTS.filter((event) => event.id === 2)[0].title;
     const [isOpenIngredients, setIsOpenIngredients] = useState([false]);
     const [selectedOptionIngredients, setSelectedOptionIngredients] = useState([null]);
-    const [isOpenUnit, setIsOpenUnit] = useState([false]);
-    const [selectedOptionUnit, setSelectedOptionUnit] = useState([null]);
+    const [setIsOpenUnit] = useState([false]);
+    const [setSelectedOptionUnit] = useState([null]);
     const [date, setDate] = useState(dayjs());
     const [hour, setHour] = useState(dayjs());
     const [ingredients, setIngredients] = useState([{ idIngredient: '', quantity: '', unit: '' }]);
     const [ingredientsQuantity, setIngredientsQuantity] = useState(1);
     const [ingredientsOptions, setIngredientsOptions] = useState([]);
+    const [error, setError] = useState(null);
 
     const router = useRouter();
 
@@ -89,7 +90,8 @@ const FoodEvent = () => {
                 pathname: "/event/food/final",
                 query: Object.fromEntries(queryParams.entries())
             });
-        });
+        }).catch((error) => {
+            error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
     };
 
 
@@ -176,7 +178,8 @@ const FoodEvent = () => {
                             <AddCircle className="text-blue-primary mt-8" fontSize="large" alt="Agregar ingrediente" />
                         </button>
                     </div>
-
+                    {error && <span className="text-red-500 mb-3">{error}</span>}
+                    
                     <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3" />
                 </div>
             </div>

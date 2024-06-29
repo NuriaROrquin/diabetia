@@ -15,6 +15,7 @@ const ExerciseEventForm = ({ existingData }) => {
     const [date, setDate] = useState(dayjs());
     const [selectedActivity, setSelectedActivity] = useState(null);
     const [notes, setNotes] = useState('');
+    const [error, setError] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -60,11 +61,13 @@ const ExerciseEventForm = ({ existingData }) => {
         if (router.query.id) {
             editPhysicalEvent({ ...data, idEvent: router.query.id }).then(() =>
                 router.push("/calendar")
-            );
+            ).catch((error) => {
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
         } else {
             addPhysicalEvent(data).then(() =>
                 router.push("/calendar")
-            );
+            ).catch((error) => {
+                error.response.data ? setError(error.response.data) : setError("Hubo un error")            });
         }
     };
 
@@ -105,6 +108,8 @@ const ExerciseEventForm = ({ existingData }) => {
                 defaultValue={notes && notes}
                 onChange={(e) => setNotes(e.target.value)}
             />
+
+            {error && <span className="text-red-500 mb-3">{error}</span>}
 
             <ButtonOrange onClick={handleSubmit} label="Enviar" width="w-1/3" />
         </div>
