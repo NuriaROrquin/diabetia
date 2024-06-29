@@ -10,7 +10,8 @@ namespace Diabetia.API.DTO.FoodDishResponse
             {
                 FoodItemPosition = i.FoodItemPosition,
                 CarbohydratesPerPortion = i.CarbohydratesPerPortion,
-                GrPerPortion = i.GrPerPortion
+                GrPerPortion = i.GrPerPortion,
+                Name = i.Name
             }).ToList();
         }
         public List<IngredientConfirmed> Ingredients { get; set; }
@@ -21,5 +22,6 @@ namespace Diabetia.API.DTO.FoodDishResponse
         public int FoodItemPosition { get; set; }
         public double CarbohydratesPerPortion { get; set; }
         public double GrPerPortion { get; set; }
+        public string[] Name { get; set; }
     }
 }

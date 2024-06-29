@@ -4,6 +4,9 @@ namespace Diabetia.Infrastructure.DTO;
 
 public class NutritionalInfoDTO
 {
+    [JsonPropertyName("foodName")]
+    public string[] FoodName { get; set; }
+    
     [JsonPropertyName("imageId")]
     public int ImageId { get; set; }
 

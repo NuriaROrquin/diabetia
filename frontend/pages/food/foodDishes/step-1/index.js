@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Section} from "@/components/section";
 import {ButtonGreen} from "@/components/button";
 import {useRouter} from "next/router";
@@ -17,17 +17,15 @@ const StepOne = () => {
             imageBase64: images[0] && images[0].imageBase64,
         }
 
-        /*foodDetection(data)
+        foodDetection(data)
             .then((res) => {
                 saveIngredientsDetected(res.data);
                 router.push("/food/foodDishes/step-2");
             })
             .catch((error) => {
                 console.log(error);
-                error.response?.data ? setError(error.response.data) : setError("Hubo un error");
-            });*/
-
-        router.push("/food/foodDishes/step-2");
+                error.response?.data ? setError(error.response.data.Message) : setError("Hubo un error");
+            });
     };
 
     return(

@@ -11,5 +11,6 @@ namespace Diabetia.Domain.Entities
         public double CarbohydratesPerPortion { get; set; }
         public double GrPerPortion { get; set; }
         public int FoodItemPosition { get; set; }
+        public string[] Name { get; set; }
     }
 }

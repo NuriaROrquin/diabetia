@@ -49,13 +49,15 @@ namespace Diabetia.Infrastructure.Providers
             
             if (nutrientsDetected.NutritionalInfoPerItem != null && nutrientsDetected.NutritionalInfoPerItem.Count > 0)
             {
+                var foodName = nutrientsDetected.FoodName;
                 foreach (var item in nutrientsDetected.NutritionalInfoPerItem)
                 {
                     var ingredient = new IngredientsRecognized()
                     {
                         CarbohydratesPerPortion = item.NutritionalInfo.TotalNutrients["CHOCDF"].Quantity,
                         GrPerPortion = item.ServingSize,
-                        FoodItemPosition = item.FoodItemPosition
+                        FoodItemPosition = item.FoodItemPosition,
+                        Name = foodName
                     };
 
                     ingredientsDetected.Ingredients.Add(ingredient);

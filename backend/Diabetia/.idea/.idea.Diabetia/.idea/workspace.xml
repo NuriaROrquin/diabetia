@@ -9,21 +9,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a9b2df3-a34a-4999-b908-ce57804d14ce" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/DTO/NutritionalInfoDTO.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Providers/ImageRequest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-3/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-final/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.API/DTO/FoodDishResponse/ConfirmIngredientsResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.API/DTO/FoodDishResponse/ConfirmIngredientsResponse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Domain/Entities/IngredientsDetected.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Domain/Entities/IngredientsDetected.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/DTO/NutritionalInfoDTO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/DTO/NutritionalInfoDTO.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/Providers/FoodDishProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Providers/FoodDishProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/Providers/IApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Providers/IApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/components/button/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/components/button/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/context/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/middleware.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/_app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/_app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/event/food/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/event/food/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/step-1/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/step-3/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/step-4/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/step-final/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/context/useAIDataDishes.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/context/useAIDataDishes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-1/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-1/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-2/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/pages/food/foodDishes/step-2/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/services/dishes.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/services/dishes.service.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +57,8 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/194ddabda802452090ef854e2f1cd606a24f10/_ec32c/IEnumerable.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/308584f6cad3144a32d4212f8fa3b9cc81d089da95abcf3e5e5e8a7d7c873/JsonPropertyNameAttribute.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3ea95343b9387b73062a9b61b7538f826c54ce3529632b4472ba4494044d23/AsyncTaskMethodBuilderT.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7d9a41d47547e1fe7fe548b21ab4de12cc2671170a023bc8c629017837eb5f4/ActionMethodExecutor.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -156,45 +154,6 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Providers/FoodDishProvider.cs</url>
-          <line>42</line>
-          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Providers\FoodDishProvider.cs" initialLine="42" containingFunctionPresentation="Method 'GetNutrientPerIngredient'">
-            <startOffsets>
-              <option value="1321" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1432" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Providers/FoodDishProvider.cs</url>
-          <line>65</line>
-          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Providers\FoodDishProvider.cs" initialLine="65" containingFunctionPresentation="Method 'GetNutrientPerIngredient'">
-            <startOffsets>
-              <option value="2350" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2351" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Diabetia.Infrastructure/Providers/FoodDishProvider.cs</url>
-          <line>44</line>
-          <properties documentPath="C:\Users\Nuri\Git\diabetia\backend\Diabetia\Diabetia.Infrastructure\Providers\FoodDishProvider.cs" initialLine="44" containingFunctionPresentation="Method 'GetNutrientPerIngredient'">
-            <startOffsets>
-              <option value="1460" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1604" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

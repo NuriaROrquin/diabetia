@@ -6,7 +6,11 @@ const AIDataDishesContext = createContext();
 export const AIDataDishesProvider = ({ children }) => {
     const [imagesUploaded, setImagesUploaded] = useState([]);
     const [resultsDetectionIngredients, setResultsDetectionIngredients] = useState([])
+    const [ingredientsData, setIngredientsData] = useState([])
+    const [finalResult, setFinalResult] = useState()
     const router = useRouter();
+
+    console.log(ingredientsData)
 
     useEffect(() => {
         if (!router.pathname.startsWith("/foodDishes")) {
@@ -18,16 +22,24 @@ export const AIDataDishesProvider = ({ children }) => {
         setResultsDetectionIngredients(data);
     };
 
+    const saveIngredientsData = (data) => {
+        setIngredientsData(data);
+    };
+
     const saveFile = (newImage) => {
         setImagesUploaded((prevImages) => [...prevImages, newImage]);
     };
+
+    const saveFinalResult = (data) => {
+        setFinalResult(data)
+    }
 
     const clearData = () => {
         setImagesUploaded([]);
     };
 
     return (
-        <AIDataDishesContext.Provider value={{ saveIngredientsDetected, imagesUploaded, saveFile, resultsDetectionIngredients }}>
+        <AIDataDishesContext.Provider value={{ saveIngredientsDetected, imagesUploaded, saveFile, resultsDetectionIngredients, saveIngredientsData, ingredientsData, saveFinalResult, finalResult }}>
             {children}
         </AIDataDishesContext.Provider>
     );
