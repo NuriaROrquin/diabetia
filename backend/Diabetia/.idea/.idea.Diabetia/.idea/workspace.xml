@@ -9,9 +9,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c97ba077-3ec4-4d30-835a-96d109555d10" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Diabetia.Test/2-Core/FoodDishDetectionUseCaseTest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diabetia.Test/2-Core/ReportingUseCases/FoodReportUseCaseTest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Diabetia.Test/2-Core/ReportingUseCases/GlucoseReportUseCaseTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/AuthRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Infrastructure/Repositories/AuthRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diabetia.Test/3-Infraestructure/Repositories/AuthTests/AuthTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Diabetia.Test/3-Infraestructure/Repositories/AuthTests/AuthTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,7 +21,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "git-widget-placeholder": "feature/Diab-141",
+    "git-widget-placeholder": "dev",
     "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
@@ -28,119 +29,12 @@
     <servers />
   </component>
   <component name="UnitTestsCoverage.Settings">
-    <option name="coveragePercentColumnWidth" value="84" />
+    <option name="coveragePercentColumnWidth" value="68" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="380" />
+    <option name="symbolColumnWidth" value="294" />
     <coverage-tree-state>
-      <expand>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 31% 3494/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 31% 3494/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="2-core 48% 1098/2108" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 31% 3494/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="3-infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 31% 3494/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="3-infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 31% 3494/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="3-infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 31% 3494/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="3-infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Repositories 31% 636/928" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 31% 3494/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="3-infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Repositories 31% 636/928" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="AuthRepository 99% 1/85" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 31% 3494/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="3-infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.Infrastructure 22% 1422/1831" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Repositories 31% 636/928" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="AuthRepository 99% 1/85" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="GetUsernameByEmailAsync(string) 86% 1/7" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 31% 3494/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="1-presentation 15% 974/1143" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 31% 3494/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="1-presentation 15% 974/1143" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.API 15% 974/1143" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 31% 3494/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="1-presentation 15% 974/1143" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.API 15% 974/1143" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.API 16% 874/1043" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 31% 3494/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="1-presentation 15% 974/1143" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.API 15% 974/1143" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.API 16% 874/1043" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controllers 13% 376/431" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 54% 3494/7675" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="src 31% 3494/5082" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="1-presentation 15% 974/1143" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.API 15% 974/1143" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Diabetia.API 16% 874/1043" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Controllers 13% 376/431" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Event 47% 62/117" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-      </expand>
+      <expand />
       <select />
     </coverage-tree-state>
   </component>
