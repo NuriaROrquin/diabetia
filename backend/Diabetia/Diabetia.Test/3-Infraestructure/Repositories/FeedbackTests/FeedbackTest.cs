@@ -81,57 +81,39 @@ namespace Diabetia_Infrastructure.Repositories.Feedback
         }
 
 
-        //[Fact]
-        //public async Task GetAllEventsWithoutFeedback_ReturnsCombinedEvents()
-        //{
-        //    // Arrange
-        //    int patientId = 1;
-        //    var fakeRepository = A.Fake<IFeedbackRepository>();
+        
 
-        //    A.CallTo(() => fakeRepository.GetFoodWithoutFeedback(patientId))
-        //        .Returns(Task.FromResult(new List<FoodSummary>
-        //        {
-        //        new FoodSummary
-        //        {
-        //            EventId = 1,
-        //            KindEventId = 1,
-        //            EventDate = DateTime.Now,
-        //            Carbohydrates = 30
-        //        }
-        //        }));
 
-        //    A.CallTo(() => fakeRepository.GetPhysicalActivityWithoutFeedback(patientId))
-        //        .Returns(Task.FromResult(new List<PhysicalActivitySummary>
-        //        {
-        //        new PhysicalActivitySummary
-        //        {
-        //            EventId = 2,
-        //            KindEventId = 2,
-        //            EventDate = DateTime.Now.AddDays(-1),
-        //            ActivityName = "Running"
-        //        }
-        //        }));
+        [Fact]
+        public async Task GetAllEventsWithoutFeedback_ReturnsCombinedEvents()
+        {
+            // Arrange
+            int patientId = 1;
+            var mockContext = CreateMockContextGetPhysicalActivitiesDos();
+            var fakeRepository = new FeedbackRepository(mockContext.Object);
 
-        //    var repository = new FeedbackRepository(fakeRepository);
+            //Act
+            var result = await fakeRepository.GetAllEventsWithoutFeedback(patientId);
 
-        //    // Act
-        //    var result = await repository.GetAllEventsWithoutFeedback(patientId);
+            Assert.NotNull(mockContext);
+        }
 
-        //    // Assert
-        //    Assert.NotNull(result);
-        //    Assert.Equal(2, result.Count);
+        private Mock<diabetiaContext> CreateMockContextGetPhysicalActivitiesDos()
+        {
+            var patient = new Paciente() { Id = 1 };
+            var @event = new CargaEvento() { Id = 1, IdPaciente = patient.Id, NotaLibre = "Test Nota", EsNotaLibre = true, FueRealizado = false };
+            var physicalActivityEvent = new EventoActividadFisica() { Id = 1, IdCargaEvento = @event.Id, IdActividadFisica = 1 };
+            var activity = new ActividadFisica() { Id = 1, Nombre = "TestActividad" };
+            var foodEvent = new EventoComidum() { Id = 1, IdCargaEvento = @event.Id, Carbohidratos = 80 };
 
-        //    var firstEvent = result.FirstOrDefault(e => e["Title"].ToString() == "Comida");
-        //    Assert.NotNull(firstEvent);
-        //    Assert.Equal(1, firstEvent["IdEvent"]);
-        //    Assert.Equal(1, firstEvent["KindEventId"]);
-        //    Assert.Equal(30, firstEvent["Carbohydrates"]);
+            var mockContext = new Mock<diabetiaContext>();
 
-        //    var secondEvent = result.FirstOrDefault(e => e["Title"].ToString() == "Actividad Física");
-        //    Assert.NotNull(secondEvent);
-        //    Assert.Equal(2, secondEvent["IdEvent"]);
-        //    Assert.Equal(2, secondEvent["KindEventId"]);
-        //    Assert.Equal("Running", secondEvent["ActivityName"]);
-        //}
+            mockContext.Setup(m => m.CargaEventos).ReturnsDbSet(new List<CargaEvento> { @event });
+            mockContext.Setup(m => m.EventoActividadFisicas).ReturnsDbSet(new List<EventoActividadFisica> { physicalActivityEvent });
+            mockContext.Setup(m => m.ActividadFisicas).ReturnsDbSet(new List<ActividadFisica> { activity });
+            mockContext.Setup(m => m.EventoComida).ReturnsDbSet(new List<EventoComidum> { foodEvent });
+
+            return mockContext;
+        }
     }
 }
