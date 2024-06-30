@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1a5c1c28-3a27-41b7-9209-8aed2bdf413c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../backend/Diabetia/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/Diabetia/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/Diabetia/Diabetia.API/Controllers/Event/PhysicalActivityController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/Diabetia/Diabetia.API/Controllers/Event/PhysicalActivityController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/Diabetia/Diabetia.Application/UseCases/EventUseCases/MedicalExaminationUseCase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/Diabetia/Diabetia.Application/UseCases/EventUseCases/MedicalExaminationUseCase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/Diabetia/Diabetia.Infrastructure/Middlewares/ErrorHandlerMiddleware.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/Diabetia/Diabetia.Infrastructure/Middlewares/ErrorHandlerMiddleware.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/context/useAIDataDishes.js" beforeDir="false" afterPath="$PROJECT_DIR$/context/useAIDataDishes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/middleware.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/calendar/edit/[id]/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/calendar/edit/[id]/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/event.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/event.service.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +46,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "hotfix/refactor-2",
     "last_opened_file_path": "C:/Users/Nuri/Git/diabetia/frontend/pages/food/foodDishes",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -182,7 +177,8 @@
       <workItem from="1719494803871" duration="31188000" />
       <workItem from="1719588632581" duration="37948000" />
       <workItem from="1719669800229" duration="3215000" />
-      <workItem from="1719750314360" duration="4252000" />
+      <workItem from="1719750314360" duration="4869000" />
+      <workItem from="1719781810923" duration="76000" />
     </task>
     <servers />
   </component>

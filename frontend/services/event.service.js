@@ -23,7 +23,7 @@ export const addInsulinEvent = (data) => {
 export const addPhysicalEvent = (data) => {
     return axios
         .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/PhysicalActivity/AddPhysicalEvent`,
+            `${process.env.NEXT_PUBLIC_API_URL}/events/PhysicalActivity`,
             data
         );
 }
@@ -102,8 +102,8 @@ export const editFreeNoteEvent = (data) => {
 
 export const editPhysicalEvent = (data) => {
     return axios
-        .post(
-            `${process.env.NEXT_PUBLIC_API_URL}/PhysicalActivity/EditPhysicalActivityEvent`,
+        .put(
+            `${process.env.NEXT_PUBLIC_API_URL}/events/PhysicalActivity`,
             data
         );
 }
