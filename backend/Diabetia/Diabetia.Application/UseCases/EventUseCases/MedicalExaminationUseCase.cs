@@ -24,8 +24,8 @@ namespace Diabetia.Application.UseCases.EventUseCases
         public async Task AddMedicalExaminationEventAsync(string email, EventoEstudio medicalExamination)
         {
             await _patientValidator.ValidatePatient(email);
-            var patient = await _userRepository.GetPatient(email);
-            string fileSavedId = await _tagRecognitionProvider.SaveMedicalExaminationOnBucket(medicalExamination.Archivo);
+            var patient = await _userRepository.GetPatient(email); //TODO: oport de mejora para retornar el paciente al mismo tiempo que se valida simil service
+            string fileSavedId = await _tagRecognitionProvider.SaveMedicalExamination(medicalExamination.Archivo);
             await _eventRepository.AddMedicalExaminationEventAsync(patient.Id, medicalExamination, fileSavedId);
         }
     }

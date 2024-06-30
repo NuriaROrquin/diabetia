@@ -10,8 +10,6 @@ export const AIDataDishesProvider = ({ children }) => {
     const [finalResult, setFinalResult] = useState()
     const router = useRouter();
 
-    console.log(ingredientsData)
-
     useEffect(() => {
         if (!router.pathname.startsWith("/foodDishes")) {
             clearData();

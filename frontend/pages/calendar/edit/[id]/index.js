@@ -58,7 +58,6 @@ const EditEvent = () => {
                         {eventData.typeEvent === TYPE_EVENTS.find((event) => event.title === "ACTIVIDAD FÍSICA")?.id && (
                         <ExerciseEventForm existingData={eventData.physicalActivityEvent } />
                     )}
-
                     {eventData.typeEvent === TYPE_EVENTS.find((event) => event.title === "VISITA MÉDICA")?.id && (
                         <MedicalVisitEventForm existingData={eventData.medicalVisitEvent } />
                     )}

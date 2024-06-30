@@ -25,7 +25,7 @@ namespace Diabetia.API.Controllers.Event
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
             var medicalExamination = request.ToDomain();
-            await _medicalExaminationUseCase.AddMedicalExaminationEventAsync(email,medicalExamination);
+            await _medicalExaminationUseCase.AddMedicalExaminationEventAsync(email, medicalExamination);
             return Ok("El estudio médico fue cargado exitosamente");
         }
     }

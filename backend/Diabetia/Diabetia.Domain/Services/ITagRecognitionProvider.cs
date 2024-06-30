@@ -6,6 +6,6 @@ namespace Diabetia.Domain.Services
     {
         public Task DeleteFileFromBucket(string idOnBucket);
         public Task<NutritionTag> GetChFromDocument(string ocrRequest);
-        public Task<string> SaveMedicalExaminationOnBucket(string file);
+        public Task<string> SaveMedicalExamination(string file);
     }
 }

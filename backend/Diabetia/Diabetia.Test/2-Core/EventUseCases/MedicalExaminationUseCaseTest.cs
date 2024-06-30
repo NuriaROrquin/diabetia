@@ -37,7 +37,7 @@ namespace Diabetia_Core.Events
             var fakeFileSavedId = "1";
 
             A.CallTo(() => _userRepository.GetPatient(email)).Returns(patient);
-            A.CallTo(() => _tagRecognitionProvider.SaveMedicalExaminationOnBucket(medicalExamination.Archivo)).Returns(fakeFileSavedId);
+            A.CallTo(() => _tagRecognitionProvider.SaveMedicalExamination(medicalExamination.Archivo)).Returns(fakeFileSavedId);
 
             // Act
             await _fakeMedicalExaminationUseCase.AddMedicalExaminationEventAsync(email, medicalExamination);
@@ -45,7 +45,7 @@ namespace Diabetia_Core.Events
             // Assert
             A.CallTo(() => _patientValidator.ValidatePatient(email)).MustHaveHappenedOnceExactly();
             A.CallTo(() => _userRepository.GetPatient(email)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => _tagRecognitionProvider.SaveMedicalExaminationOnBucket(medicalExamination.Archivo)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => _tagRecognitionProvider.SaveMedicalExamination(medicalExamination.Archivo)).MustHaveHappenedOnceExactly();
             A.CallTo(() => _eventRepository.AddMedicalExaminationEventAsync(patient.Id, medicalExamination, fakeFileSavedId)).MustHaveHappenedOnceExactly();
         }
 

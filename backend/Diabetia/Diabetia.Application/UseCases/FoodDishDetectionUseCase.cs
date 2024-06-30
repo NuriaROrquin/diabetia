@@ -21,7 +21,6 @@ namespace Diabetia.Application.UseCases
 
         public async Task<FoodDish> DetectFoodDish(FoodDish foodImageBase64)
         {
-            
             byte[] imageBytes = Convert.FromBase64String(foodImageBase64.ImageBase64);
         
             using var imageStream = new MemoryStream(imageBytes);
@@ -31,7 +30,6 @@ namespace Diabetia.Application.UseCases
             var foodDish = await _foodDishProvider.DetectFoodDish(streamPart);
 
             return foodDish;
-           
         }
 
         public async Task<IngredientsDetected> ConfirmDish(FoodDish foodDish)
@@ -39,7 +37,6 @@ namespace Diabetia.Application.UseCases
             var nutrientsDetected = await _foodDishProvider.GetNutrientPerIngredient(foodDish);
 
             return nutrientsDetected;
-
         }
 
         public async Task<FoodResultsEvent> SaveFoodEvent(string email, List<FoodInfo> ingredientsConfirmed)

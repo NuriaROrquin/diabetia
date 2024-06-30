@@ -7,7 +7,7 @@ using System.Security.Claims;
 namespace Diabetia.API.Controllers.Event
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("events/[controller]")]
     [Authorize]
     public class PhysicalActivityController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace Diabetia.API.Controllers.Event
             _eventPhysicalActivityUseCase = eventPhysicalActivityUseCase;
         }
 
-        [HttpPost("AddPhysicalEvent")] // VER LOS PROTOCOLOS
+        [HttpPost] // VER LOS PROTOCOLOS
         public async Task<IActionResult> AddPhysicalEvent([FromBody] AddPhysicalRequest request)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
@@ -28,7 +28,7 @@ namespace Diabetia.API.Controllers.Event
             return Ok("Evento creado correctamente");
         }
 
-        [HttpPost("EditPhysicalEvent")] // VER LOS PROTOCOLOS
+        [HttpPut] // VER LOS PROTOCOLOS
         public async Task<IActionResult> EditPhysicalEvent([FromBody] EditPhysicalRequest request)
         {
             var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;

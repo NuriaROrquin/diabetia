@@ -37,7 +37,7 @@ namespace Diabetia_Infrastructure.Providers
                 .Returns(Task.FromResult(new PutObjectResponse()));
 
             // Act
-            var result = await _tagRecognitionProvider.SaveMedicalExaminationOnBucket(base64File);
+            var result = await _tagRecognitionProvider.SaveMedicalExamination(base64File);
 
             // Assert
             Assert.NotNull(result);

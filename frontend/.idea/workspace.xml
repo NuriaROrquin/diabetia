@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1a5c1c28-3a27-41b7-9209-8aed2bdf413c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../backend/Diabetia/.idea/.idea.Diabetia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/Diabetia/.idea/.idea.Diabetia/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/Diabetia/Diabetia.API/Controllers/Event/PhysicalActivityController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/Diabetia/Diabetia.API/Controllers/Event/PhysicalActivityController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/Diabetia/Diabetia.Application/UseCases/EventUseCases/MedicalExaminationUseCase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/Diabetia/Diabetia.Application/UseCases/EventUseCases/MedicalExaminationUseCase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/Diabetia/Diabetia.Infrastructure/Middlewares/ErrorHandlerMiddleware.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/Diabetia/Diabetia.Infrastructure/Middlewares/ErrorHandlerMiddleware.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/context/useAIDataDishes.js" beforeDir="false" afterPath="$PROJECT_DIR$/context/useAIDataDishes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/middleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/calendar/edit/[id]/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pages/calendar/edit/[id]/index.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;NuriaROrquin&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/NuriaROrquin/diabetia.git&quot;,
+    &quot;accountId&quot;: &quot;f1d7757f-562a-4f79-b1c6-ee52600b62dc&quot;
+  }
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2iFspwOSlPgG8DIbxqML6Z07W41" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Jest.Helpers Tests (1).executor": "Coverage",
+    "Jest.Tests in __tests__/.executor": "Coverage",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "dev",
+    "last_opened_file_path": "C:/Users/Nuri/Git/diabetia/frontend/pages/food/foodDishes",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs.jest.jest_package": "C:/Users/Nuri/Git/diabetia/frontend/node_modules/jest",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Nuri\Git\diabetia\frontend\pages\food\foodDishes" />
+      <recent name="C:\Users\Nuri\Git\diabetia\frontend\context" />
+      <recent name="C:\Users\Nuri\Git\diabetia\frontend\__tests__\components" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Nuri\Git\diabetia\frontend\public" />
+      <recent name="C:\Users\Nuri\Git\diabetia\frontend\pages\food" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Jest.Tests in __tests__/">
+    <configuration name="DiabetIA Tests" type="JavaScriptTestRunnerJest">
+      <node-interpreter value="project" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="ALL" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Helpers Tests (1)" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/__tests__/helpers/helpers.test.js" />
+      <test-names>
+        <test-name value="Helpers Tests" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Helpers Tests" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/__tests__/helpers/index.test.js" />
+      <test-names>
+        <test-name value="Helpers Tests" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Home Component" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/__tests__/components/dashboard.test.js" />
+      <test-names>
+        <test-name value="Home Component" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="MetricCard Component" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/__tests__/components/card.test.js" />
+      <test-names>
+        <test-name value="MetricCard Component" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Tests in __tests__/" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="DIRECTORY" />
+      <test-directory value="$PROJECT_DIR$/__tests__" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Jest.DiabetIA Tests" />
+      <item itemvalue="Jest.Helpers Tests" />
+      <item itemvalue="Jest.Helpers Tests (1)" />
+      <item itemvalue="Jest.Home Component" />
+      <item itemvalue="Jest.MetricCard Component" />
+      <item itemvalue="Jest.Tests in __tests__/" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Jest.Tests in __tests__/" />
+        <item itemvalue="Jest.Helpers Tests (1)" />
+        <item itemvalue="Jest.Home Component" />
+        <item itemvalue="Jest.Helpers Tests" />
+        <item itemvalue="Jest.MetricCard Component" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.18034.50" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1a5c1c28-3a27-41b7-9209-8aed2bdf413c" name="Changes" comment="" />
+      <created>1719097845532</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719097845532</updated>
+      <workItem from="1719097848167" duration="12727000" />
+      <workItem from="1719366755625" duration="149000" />
+      <workItem from="1719375323479" duration="1754000" />
+      <workItem from="1719452624488" duration="880000" />
+      <workItem from="1719456253240" duration="8993000" />
+      <workItem from="1719494803871" duration="31188000" />
+      <workItem from="1719588632581" duration="37948000" />
+      <workItem from="1719669800229" duration="3215000" />
+      <workItem from="1719750314360" duration="4252000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/frontend$DiabetIA_Tests.info" NAME="DiabetIA Tests Coverage Results" MODIFIED="1719118245433" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="JestJavaScriptTestRunnerCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/frontend$Tests_in___tests___.info" NAME="Tests in __tests__/ Coverage Results" MODIFIED="1719756084730" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="JestJavaScriptTestRunnerCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/frontend$Helpers_Tests__1_.info" NAME="Helpers Tests (1) Coverage Results" MODIFIED="1719117814335" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="JestJavaScriptTestRunnerCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/frontend$Home_Component.info" NAME="Home Component Coverage Results" MODIFIED="1719120555308" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="JestJavaScriptTestRunnerCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>

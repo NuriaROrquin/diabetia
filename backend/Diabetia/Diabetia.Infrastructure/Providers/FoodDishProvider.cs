@@ -22,8 +22,11 @@ namespace Diabetia.Infrastructure.Providers
 
         public async Task<FoodDish> DetectFoodDish(StreamPart imageStream)
         {
+            //TODO: traer el create image stream acá
+            
             var logMealToken = _configuration["LogMealToken"];
             
+            //TODO: El api service deberia devolver el dto de logmeal, y acá mapear a entity de domain 
             var foodDish = await _apiService.DetectFoodDish($"Bearer {logMealToken}", imageStream);
 
             return foodDish;
@@ -38,7 +41,6 @@ namespace Diabetia.Infrastructure.Providers
             {
                 ImageId = foodDish.ImageId
             };
-            
 
             var nutrientsDetected = await _apiService.GetNutrientsPerIngredients($"Bearer {logMealToken}", imageIdRequest);  
             

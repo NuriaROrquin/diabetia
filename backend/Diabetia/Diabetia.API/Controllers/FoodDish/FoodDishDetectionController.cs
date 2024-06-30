@@ -27,10 +27,7 @@ namespace Diabetia.API.Controllers.FoodDetection
         [HttpPost("foodDetection")]
         public async Task<FoodDishDetectionResponse> GetFoodDetection([FromBody] FoodDishDetectionRequest foodDetectionRequest)
         {
-            var email = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
-
             FoodDish foodDish = new FoodDish();
-
             foodDish.ImageBase64 = foodDetectionRequest.ImageBase64;
 
             var detectedFoodDish = await _foodDishDetectionUseCase.DetectFoodDish(foodDish);
@@ -66,6 +63,7 @@ namespace Diabetia.API.Controllers.FoodDetection
             var mappedEvents = new ConfirmIngredientsResponse(nutrienstDetected); 
             return mappedEvents;
         }
+        
         
         [HttpPost("confirmQuantity")]
         public async Task<FoodResponse> ConfirmQuantity([FromBody] ConfirmQuantityRequest confirmIngredientsRequest)

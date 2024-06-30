@@ -55,7 +55,7 @@ namespace Diabetia.Infrastructure.Providers
         /// <param name="file">El archivo en formato base64 que se desea guardar en el bucket S3.</param>
         /// <returns>Un identificador único (uniqueId) del archivo guardado en el bucket.</returns>
         /// <exception cref="CantCreatObjectS3Async"></exception>
-        public async Task<string> SaveMedicalExaminationOnBucket(string file)
+        public async Task<string> SaveMedicalExamination(string file)
         {
             var uniqueId = getUniqueId();
             string idOnBucket = $"Textract/{uniqueId}.pdf";

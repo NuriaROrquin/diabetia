@@ -31,9 +31,6 @@ export function middleware(req){
             return NextResponse.next()
         }
     }
-
-
-
 }
 
 const protectedRoutes = ["/dashboard", "/foodTag", "/event", "/calendar", "/reports", "/profile"];
