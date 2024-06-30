@@ -132,7 +132,7 @@ namespace Diabetia.Infrastructure.Repositories
         public async Task CheckEmailOnDatabaseAsync(string email)
         {
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
-            if (user == null)
+            if (user != null)
             {
                 throw new EmailAlreadyExistsException();
             }
