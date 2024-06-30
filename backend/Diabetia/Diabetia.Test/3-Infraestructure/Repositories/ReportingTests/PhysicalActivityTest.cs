@@ -39,6 +39,26 @@ namespace Diabetia_Infrastructure.Repositories.Reporting
             mockContext.Setup(m => m.EventoActividadFisicas).ReturnsDbSet(new List<EventoActividadFisica> { eventPhysicalActivity });
 
             return mockContext;
-        }     
+        }
+
+        [Fact]
+
+        public async Task GetPhysicalActivityEventDurationsByPatientId_GivingData_ShouldGetActivitySuccessfully()
+        {
+            //Arrange
+            var mockContext = CreateMockContextForPhysicalReporting();
+            var fakeRepository = new ReportingRepository(mockContext.Object);
+            var patientId = 1;
+            var dateFrom = DateTime.Now.AddDays(1);
+            var dateTo = DateTime.Now.AddDays(3);
+
+            //Act
+            var result = await fakeRepository.GetPhysicalActivityEventDurationsByPatientId(patientId, dateFrom, dateTo);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.Single(result);
+
+        }
     }
 }
